@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Espace utilisateur - Housing Investment</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        Housing Investment
+    </div>
+
+    <nav class="navigation">
+
+        <a href="index.html">
+            Accueil
+        </a>
+
+        <a href="#" id="logoutButton" class="btn btn-primary">
+            Déconnexion
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+<section style="padding:60px 7%;">
+
+    <div style="margin-bottom:40px;">
+
+        <span class="section-label">
+            ESPACE UTILISATEUR
+        </span>
+
+        <h1 id="welcomeTitle">
+            Bienvenue
+        </h1>
+
+        <p style="color:#667085;">
+            Gérez votre compte et vos investissements.
+        </p>
+
+    </div>
+
+
+    <!-- SOLDE -->
+
+    <div style="
+        background:#123c69;
+        color:#fff;
+        padding:35px;
+        border-radius:16px;
+        margin-bottom:35px;
+    ">
+
+        <p style="color:#dceafa;">
+            Solde disponible
+        </p>
+
+        <h2 id="balanceDisplay" style="font-size:40px;">
+            0 FCFA
+        </h2>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="features">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                D
+            </div>
+
+            <h3>
+                Dépôt
+            </h3>
+
+            <p>
+                Ajoutez des fonds à votre compte.
+            </p>
+
+            <button
+                class="btn btn-primary"
+                style="margin-top:20px;"
+                onclick="showComingSoon('dépôt')"
+            >
+                Faire un dépôt
+            </button>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                R
+            </div>
+
+            <h3>
+                Retrait
+            </h3>
+
+            <p>
+                Gérez vos demandes de retrait.
+            </p>
+
+            <button
+                class="btn btn-primary"
+                style="margin-top:20px;"
+                onclick="showComingSoon('retrait')"
+            >
+                Faire un retrait
+            </button>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                H
+            </div>
+
+            <h3>
+                Historique
+            </h3>
+
+            <p>
+                Consultez vos opérations.
+            </p>
+
+            <button
+                class="btn btn-primary"
+                style="margin-top:20px;"
+                onclick="showComingSoon('historique')"
+            >
+                Voir l'historique
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- INVESTISSEMENT -->
+
+    <section style="margin-top:70px;">
+
+        <div class="section-title">
+
+            <span>
+                INVESTISSEMENT
+            </span>
+
+            <h2>
+                Choisissez votre pack
+            </h2>
+
+            <p>
+                Les différentes formules seront disponibles
+                ici pour votre investissement.
+            </p>
+
+        </div>
+
+
+        <div class="features">
+
+            <div class="feature-card">
+
+                <h3>
+                    Pack 3 000 FCFA
+                </h3>
+
+                <p>
+                    Investissement de départ.
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    style="margin-top:20px;"
+                    onclick="showComingSoon('pack 3 000 FCFA')"
+                >
+                    Investir
+                </button>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Pack 10 000 FCFA
+                </h3>
+
+                <p>
+                    Formule d'investissement.
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    style="margin-top:20px;"
+                    onclick="showComingSoon('pack 10 000 FCFA')"
+                >
+                    Investir
+                </button>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Pack 20 000 FCFA
+                </h3>
+
+                <p>
+                    Formule d'investissement.
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    style="margin-top:20px;"
+                    onclick="showComingSoon('pack 20 000 FCFA')"
+                >
+                    Investir
+                </button>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Pack 45 000 FCFA
+                </h3>
+
+                <p>
+                    Formule d'investissement.
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    style="margin-top:20px;"
+                    onclick="showComingSoon('pack 45 000 FCFA')"
+                >
+                    Investir
+                </button>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Pack 100 000 FCFA
+                </h3>
+
+                <p>
+                    Formule d'investissement.
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    style="margin-top:20px;"
+                    onclick="showComingSoon('pack 100 000 FCFA')"
+                >
+                    Investir
+                </button>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Pack 200 000 FCFA
+                </h3>
+
+                <p>
+                    Formule d'investissement.
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    style="margin-top:20px;"
+                    onclick="showComingSoon('pack 200 000 FCFA')"
+                >
+                    Investir
+                </button>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Pack 400 000 FCFA
+                </h3>
+
+                <p>
+                    Formule d'investissement.
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    style="margin-top:20px;"
+                    onclick="showComingSoon('pack 400 000 FCFA')"
+                >
+                    Investir
+                </button>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Pack 800 000 FCFA
+                </h3>
+
+                <p>
+                    Formule d'investissement.
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    style="margin-top:20px;"
+                    onclick="showComingSoon('pack 800 000 FCFA')"
+                >
+                    Investir
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROFIL -->
+
+    <section style="
+        margin-top:70px;
+        background:#fff;
+        padding:35px;
+        border-radius:15px;
+        border:1px solid #e7ebf0;
+    ">
+
+        <h2 style="margin-bottom:25px;">
+            Mon profil
+        </h2>
+
+        <p>
+            <strong>Nom :</strong>
+            <span id="profileName">—</span>
+        </p>
+
+        <p>
+            <strong>Téléphone :</strong>
+            <span id="profilePhone">—</span>
+        </p>
+
+        <p>
+            <strong>Code d'invitation :</strong>
+            <span id="profileInvitation">—</span>
+        </p>
+
+    </section>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 Housing Investment.
+            Tous droits réservés.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+/* =========================
+   VERIFICATION DE SESSION
+========================= */
+
+const loggedIn =
+    localStorage.getItem("housingLoggedIn");
+
+const savedUser =
+    localStorage.getItem("housingUser");
+
+
+if (loggedIn !== "true" || !savedUser) {
+
+    window.location.href = "login.html";
+
+}
+
+
+/* =========================
+   CHARGEMENT UTILISATEUR
+========================= */
+
+try {
+
+    const user =
+        JSON.parse(savedUser);
+
+
+    document.getElementById("welcomeTitle").textContent =
+        "Bienvenue, " + user.fullName;
+
+
+    document.getElementById("profileName").textContent =
+        user.fullName;
+
+
+    document.getElementById("profilePhone").textContent =
+        user.phone;
+
+
+    document.getElementById("profileInvitation").textContent =
+        user.invitationCode || "Aucun";
+
+
+    const balance =
+        Number(user.balance || 0);
+
+
+    document.getElementById("balanceDisplay").textContent =
+        balance.toLocaleString("fr-FR") + " FCFA";
+
+
+} catch (error) {
+
+    localStorage.removeItem("housingLoggedIn");
+
+    window.location.href = "login.html";
+
+}
+
+
+/* =========================
+   DECONNEXION
+========================= */
+
+document.getElementById("logoutButton").addEventListener("click", function(event) {
+
+    event.preventDefault();
+
+    localStorage.removeItem("housingLoggedIn");
+
+    window.location.href = "index.html";
+
+});
+
+
+/* =========================
+   FONCTIONS TEMPORAIRES
+========================= */
+
+function showComingSoon(action) {
+
+    alert(
+        action +
+        " sera activé dans la prochaine étape."
+    );
+
+}
+
+</script>
+
+</body>
+</html>
