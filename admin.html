@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administration - Housing Investment</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        Housing Investment
+    </div>
+
+    <nav class="navigation">
+
+        <a href="index.html">
+            Accueil
+        </a>
+
+        <a href="dashboard.html">
+            Espace utilisateur
+        </a>
+
+        <a href="#" id="adminLogout" class="btn btn-primary">
+            Déconnexion
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+<section style="padding:60px 7%;">
+
+    <div style="margin-bottom:40px;">
+
+        <span class="section-label">
+            ADMINISTRATION
+        </span>
+
+        <h1>
+            Tableau de bord administrateur
+        </h1>
+
+        <p style="color:#667085;">
+            Gestion générale de la plateforme Housing Investment.
+        </p>
+
+    </div>
+
+
+    <!-- STATISTIQUES -->
+
+    <div class="features">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                U
+            </div>
+
+            <h3>
+                Utilisateurs
+            </h3>
+
+            <p id="userCount">
+                0 utilisateur
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                D
+            </div>
+
+            <h3>
+                Dépôts
+            </h3>
+
+            <p>
+                Gestion des dépôts
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                R
+            </div>
+
+            <h3>
+                Retraits
+            </h3>
+
+            <p>
+                Gestion des retraits
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                I
+            </div>
+
+            <h3>
+                Investissements
+            </h3>
+
+            <p>
+                Gestion des investissements
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- UTILISATEURS -->
+
+    <section style="margin-top:60px;">
+
+        <h2 style="margin-bottom:25px;">
+            Utilisateurs enregistrés
+        </h2>
+
+        <div
+            id="usersContainer"
+            style="
+                background:#fff;
+                padding:30px;
+                border-radius:15px;
+                border:1px solid #e7ebf0;
+                overflow-x:auto;
+            "
+        >
+
+            <p style="color:#667085;">
+                Aucun utilisateur enregistré.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- INFORMATIONS -->
+
+    <section style="
+        margin-top:40px;
+        background:#fff;
+        padding:30px;
+        border-radius:15px;
+        border:1px solid #e7ebf0;
+    ">
+
+        <h2 style="margin-bottom:15px;">
+            Gestion de la plateforme
+        </h2>
+
+        <p style="color:#667085;">
+            Les fonctionnalités détaillées de gestion des
+            utilisateurs, dépôts, retraits et investissements
+            seront ajoutées progressivement.
+        </p>
+
+    </section>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 Housing Investment.
+            Tous droits réservés.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+/* =========================
+   UTILISATEUR ADMIN
+========================= */
+
+/*
+   Pour cette première version,
+   l'accès administrateur est protégé
+   par un code local temporaire.
+
+   Le système d'administration complet
+   sera sécurisé dans une étape ultérieure.
+*/
+
+const ADMIN_CODE = "ADMIN2026";
+
+
+/* =========================
+   PROTECTION ADMIN
+========================= */
+
+const adminSession =
+    sessionStorage.getItem("housingAdmin");
+
+
+if (adminSession !== "true") {
+
+    const enteredCode =
+        prompt("Entrez le code administrateur :");
+
+    if (enteredCode === ADMIN_CODE) {
+
+        sessionStorage.setItem(
+            "housingAdmin",
+            "true"
+        );
+
+    } else {
+
+        alert("Accès administrateur refusé.");
+
+        window.location.href = "index.html";
+
+    }
+
+}
+
+
+/* =========================
+   AFFICHAGE UTILISATEUR
+========================= */
+
+const usersContainer =
+    document.getElementById("usersContainer");
+
+
+const savedUser =
+    localStorage.getItem("housingUser");
+
+
+if (savedUser) {
+
+    try {
+
+        const user =
+            JSON.parse(savedUser);
+
+
+        document.getElementById("userCount").textContent =
+            "1 utilisateur";
+
+
+        usersContainer.innerHTML = `
+
+            <div style="min-width:600px;">
+
+                <p>
+                    <strong>Nom :</strong>
+                    ${escapeHtml(user.fullName)}
+                </p>
+
+                <p>
+                    <strong>Téléphone :</strong>
+                    ${escapeHtml(user.phone)}
+                </p>
+
+                <p>
+                    <strong>Solde :</strong>
+                    ${Number(user.balance || 0).toLocaleString("fr-FR")} FCFA
+                </p>
+
+                <p>
+                    <strong>Code d'invitation :</strong>
+                    ${escapeHtml(user.invitationCode || "Aucun")}
+                </p>
+
+                <p>
+                    <strong>Date d'inscription :</strong>
+                    ${formatDate(user.createdAt)}
+                </p>
+
+            </div>
+
+        `;
+
+    } catch (error) {
+
+        usersContainer.innerHTML =
+            "<p>Impossible de charger les données.</p>";
+
+    }
+
+}
+
+
+/* =========================
+   PROTECTION CONTRE HTML
+========================= */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+function formatDate(value) {
+
+    if (!value) {
+        return "Non disponible";
+    }
+
+    const date =
+        new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return "Non disponible";
+    }
+
+    return date.toLocaleDateString("fr-FR");
+
+}
+
+
+/* =========================
+   DECONNEXION ADMIN
+========================= */
+
+document.getElementById("adminLogout").addEventListener("click", function(event) {
+
+    event.preventDefault();
+
+    sessionStorage.removeItem("housingAdmin");
+
+    window.location.href = "index.html";
+
+});
+
+</script>
+
+</body>
+</html>
