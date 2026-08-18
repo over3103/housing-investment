@@ -1,3 +1,5 @@
+login.html
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -25,7 +27,6 @@
     </nav>
 
 </header>
-
 
 <main>
 
@@ -65,7 +66,6 @@
 
         </div>
 
-
         <form id="loginForm">
 
             <div style="margin-bottom:20px;">
@@ -84,8 +84,7 @@
                 <input
                     type="tel"
                     id="phone"
-                    placeholder="0700000000"
-                    maxlength="10"
+                    placeholder="0700000000 ou +2250700000000"
                     required
                     style="
                         width:100%;
@@ -93,11 +92,11 @@
                         border:1px solid #d0d5dd;
                         border-radius:8px;
                         font-size:16px;
+                        box-sizing:border-box;
                     "
                 >
 
             </div>
-
 
             <div style="margin-bottom:20px;">
 
@@ -123,11 +122,11 @@
                         border:1px solid #d0d5dd;
                         border-radius:8px;
                         font-size:16px;
+                        box-sizing:border-box;
                     "
                 >
 
             </div>
-
 
             <div
                 id="loginMessage"
@@ -137,7 +136,6 @@
                     font-weight:600;
                 "
             ></div>
-
 
             <button
                 type="submit"
@@ -152,7 +150,6 @@
             </button>
 
         </form>
-
 
         <p style="
             text-align:center;
@@ -180,7 +177,6 @@
 
 </main>
 
-
 <footer class="footer">
 
     <div class="footer-bottom">
@@ -203,7 +199,6 @@ document
 
     event.preventDefault();
 
-
     const phoneInput =
         document.getElementById("phone").value.trim();
 
@@ -215,17 +210,42 @@ document
 
 
     /* =========================
-       NORMALISATION DU NUMÉRO
+       NETTOYAGE DU NUMÉRO
     ========================= */
 
-    const phoneDigits =
+    let phoneDigits =
         phoneInput.replace(/\D/g, "");
 
 
-    if (phoneDigits.length !== 10) {
+    /*
+       Si l'utilisateur écrit :
+       +2250700000000
+
+       on retire le préfixe 225.
+    */
+
+    if (
+        phoneDigits.startsWith("225") &&
+        phoneDigits.length === 13
+    ) {
+
+        phoneDigits =
+            phoneDigits.substring(3);
+
+    }
+
+
+    /* =========================
+       VERIFICATION DU NUMÉRO
+    ========================= */
+
+    if (
+        phoneDigits.length !== 10 ||
+        !phoneDigits.startsWith("0")
+    ) {
 
         message.textContent =
-            "Veuillez entrer un numéro ivoirien à 10 chiffres.";
+            "Veuillez entrer un numéro ivoirien valide à 10 chiffres.";
 
         message.style.color =
             "#b42318";
@@ -273,15 +293,29 @@ document
 
 
         /*
-           Le compte est enregistré avec :
-           +225 + numéro
-
-           Nous reconstruisons exactement
-           le même format ici.
+           NORMALISATION DU NUMÉRO
+           ENREGISTRÉ DANS LE COMPTE
         */
 
-        const enteredPhone =
-            "+225" + phoneDigits;
+        let savedPhone =
+            String(user.phone || "")
+            .replace(/\D/g, "");
+
+
+        /*
+           Si le numéro enregistré commence
+           par 225, on retire ce préfixe.
+        */
+
+        if (
+            savedPhone.startsWith("225") &&
+            savedPhone.length === 13
+        ) {
+
+            savedPhone =
+                savedPhone.substring(3);
+
+        }
 
 
         /* =========================
@@ -289,13 +323,23 @@ document
         ========================= */
 
         if (
-            user.phone === enteredPhone &&
-            user.password === password
+            savedPhone === phoneDigits &&
+            String(user.password) === password
         ) {
 
             localStorage.setItem(
                 "housingLoggedIn",
                 "true"
+            );
+
+            /*
+               On conserve également
+               l'utilisateur connecté.
+            */
+
+            localStorage.setItem(
+                "currentUser",
+                JSON.stringify(user)
             );
 
 
