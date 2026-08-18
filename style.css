@@ -1,3 +1,8 @@
+/* =========================================
+   HOUSING INVESTMENT
+   DESIGN PREMIUM
+========================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -10,331 +15,740 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #f7f9fc;
-    color: #172033;
+    background:
+        radial-gradient(
+            circle at top right,
+            #193b68 0%,
+            #071426 35%,
+            #030914 75%
+        );
+    color: #ffffff;
+    min-height: 100vh;
     line-height: 1.6;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
 
-/* HEADER */
+/* =========================================
+   HEADER
+========================================= */
 
-.header {
-    width: 100%;
-    min-height: 75px;
-    padding: 15px 7%;
+.dashboard-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    background: #ffffff;
-    border-bottom: 1px solid #e8ecf2;
-    position: relative;
-    z-index: 10;
-}
-
-.logo {
-    font-size: 22px;
-    font-weight: 800;
-    color: #123c69;
-}
-
-.navigation {
-    display: flex;
     align-items: center;
-    gap: 25px;
+
+    padding: 18px 6%;
+
+    background: rgba(3, 9, 20, 0.88);
+    backdrop-filter: blur(15px);
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.35);
 }
 
-.navigation a {
-    font-weight: 600;
-    color: #344054;
-}
+.dashboard-header h1 {
+    font-size: 25px;
+    letter-spacing: 1px;
 
-.navigation a:hover {
-    color: #123c69;
-}
-
-/* BOUTONS */
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 13px 23px;
-    border-radius: 8px;
-    font-weight: 700;
-    border: 2px solid transparent;
-    transition: 0.25s ease;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background: #123c69;
-    color: #ffffff !important;
-}
-
-.btn-primary:hover {
-    background: #0d2d4f;
-    transform: translateY(-2px);
-}
-
-.btn-secondary {
-    background: #ffffff;
-    color: #123c69 !important;
-    border-color: #ffffff;
-}
-
-.btn-secondary:hover {
-    background: #eef4fa;
-}
-
-/* HERO */
-
-.hero {
-    min-height: 650px;
-    display: flex;
-    align-items: center;
-    padding: 80px 7%;
     background:
         linear-gradient(
             90deg,
-            rgba(8, 29, 50, 0.94),
-            rgba(8, 29, 50, 0.72),
-            rgba(8, 29, 50, 0.35)
-        ),
-        url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85")
-        center/cover no-repeat;
+            #ffffff,
+            #61d5ff
+        );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.hero-content {
-    max-width: 700px;
-    color: #ffffff;
-}
-
-.hero-badge,
-.section-label {
-    display: inline-block;
-    margin-bottom: 18px;
+.dashboard-header p {
+    color: #8fa8c4;
     font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: #9fd3ff;
 }
 
-.hero h1 {
-    font-size: clamp(40px, 6vw, 72px);
-    line-height: 1.08;
+
+/* =========================================
+   BOUTON DECONNEXION
+========================================= */
+
+.dashboard-header button {
+    border: 1px solid rgba(255,255,255,0.15);
+
+    background:
+        rgba(255,255,255,0.07);
+
+    color: white;
+
+    padding: 10px 17px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.dashboard-header button:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   CONTENEUR PRINCIPAL
+========================================= */
+
+.dashboard-container {
+    width: 92%;
+    max-width: 1200px;
+
+    margin: 35px auto 70px;
+}
+
+
+/* =========================================
+   CARTES GENERALES
+========================================= */
+
+.dashboard-card {
+
+    position: relative;
+
     margin-bottom: 25px;
+
+    padding: 28px;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(24,49,80,0.78),
+            rgba(7,17,31,0.88)
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.09);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.30);
+
+    overflow: hidden;
+
+    animation:
+        fadeUp 0.6s ease;
 }
 
-.hero p {
-    max-width: 620px;
-    font-size: 18px;
-    margin-bottom: 35px;
-    color: #edf4fb;
+.dashboard-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    top: -90px;
+    right: -90px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,210,255,0.16),
+            transparent 70%
+        );
+
+    pointer-events: none;
 }
 
-.hero-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
+.dashboard-card h2 {
 
-/* SECTIONS */
+    position: relative;
 
-.presentation,
-.trust {
-    padding: 90px 7%;
-}
-
-.section-title {
-    max-width: 760px;
-    margin: 0 auto 50px;
-    text-align: center;
-}
-
-.section-title > span {
-    color: #1769aa;
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 2px;
-}
-
-.section-title h2 {
-    margin: 12px 0 15px;
-    font-size: 38px;
-    line-height: 1.2;
-}
-
-.section-title p {
-    color: #667085;
-}
-
-/* CARTES */
-
-.features {
-    max-width: 1150px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-}
-
-.feature-card {
-    background: #ffffff;
-    padding: 35px 30px;
-    border-radius: 14px;
-    border: 1px solid #e7ebf0;
-    box-shadow: 0 10px 30px rgba(20, 40, 70, 0.06);
-}
-
-.feature-icon {
-    width: 50px;
-    height: 50px;
-    margin-bottom: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    background: #eaf3fb;
-    color: #123c69;
-    font-weight: 800;
-}
-
-.feature-card h3 {
     margin-bottom: 12px;
+
     font-size: 21px;
-}
 
-.feature-card p {
-    color: #667085;
-}
-
-/* INVESTISSEMENT */
-
-.investment-intro {
-    margin: 0 7% 90px;
-    padding: 60px;
-    border-radius: 18px;
-    background: #123c69;
     color: #ffffff;
+}
+
+.dashboard-card > p {
+
+    color: #91a8c0;
+
+    margin-bottom: 18px;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   SOLDE
+========================================= */
+
+.balance {
+
+    margin-top: 15px;
+
+    padding: 25px;
+
+    text-align: center;
+
+    border-radius: 20px;
+
+    font-size: 34px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f4c81,
+            #087ea4,
+            #13a8c7
+        );
+
+    box-shadow:
+        0 15px 35px
+        rgba(0,174,230,0.20);
+
+    color: white;
+}
+
+
+/* =========================================
+   FORMULAIRES
+========================================= */
+
+form {
+
     display: flex;
-    align-items: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+}
+
+input {
+
+    flex: 1;
+
+    min-width: 180px;
+
+    padding: 15px 17px;
+
+    border-radius: 14px;
+
+    border:
+        1px solid rgba(255,255,255,0.10);
+
+    outline: none;
+
+    background:
+        rgba(0,0,0,0.28);
+
+    color: white;
+
+    font-size: 15px;
+
+    transition: 0.3s;
+}
+
+input::placeholder {
+    color: #7890a9;
+}
+
+input:focus {
+
+    border-color:
+        rgba(48,210,255,0.7);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(48,210,255,0.10);
+}
+
+
+/* =========================================
+   BOUTONS
+========================================= */
+
+button {
+
+    border: none;
+
+    padding: 13px 21px;
+
+    border-radius: 13px;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0088cc,
+            #00b9d8
+        );
+
+    box-shadow:
+        0 8px 20px
+        rgba(0,170,220,0.20);
+
+    transition:
+        transform 0.25s,
+        box-shadow 0.25s,
+        filter 0.25s;
+}
+
+button:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 13px 27px
+        rgba(0,190,230,0.30);
+
+    filter:
+        brightness(1.08);
+}
+
+button:active {
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================
+   GRILLE DES PACKS
+========================================= */
+
+.packs-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                230px,
+                1fr
+            )
+        );
+
+    gap: 20px;
+
+    margin-top: 25px;
+}
+
+
+/* =========================================
+   PACK INVESTISSEMENT
+========================================= */
+
+.investment-pack {
+
+    position: relative;
+
+    padding: 24px;
+
+    min-height: 270px;
+
+    display: flex;
+
+    flex-direction: column;
+
     justify-content: space-between;
-    gap: 30px;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(28,62,96,0.90),
+            rgba(8,20,35,0.95)
+        );
+
+    border:
+        1px solid
+        rgba(76,205,255,0.12);
+
+    box-shadow:
+        0 16px 35px
+        rgba(0,0,0,0.30);
+
+    overflow: hidden;
+
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s,
+        border-color 0.3s;
 }
 
-.investment-intro h2 {
-    margin: 10px 0 15px;
-    font-size: 36px;
+.investment-pack::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    right: -60px;
+    top: -60px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,220,255,0.20),
+            transparent 70%
+        );
 }
 
-.investment-intro p {
-    max-width: 650px;
-    color: #dceafa;
+.investment-pack:hover {
+
+    transform:
+        translateY(-7px);
+
+    border-color:
+        rgba(70,214,255,0.45);
+
+    box-shadow:
+        0 24px 50px
+        rgba(0,0,0,0.42);
 }
 
-/* FOOTER */
+.investment-pack h3 {
 
-.footer {
-    background: #0b1d30;
+    font-size: 20px;
+
     color: #ffffff;
-    padding: 55px 7% 25px;
-}
 
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-    padding-bottom: 35px;
-}
-
-.footer h3 {
     margin-bottom: 10px;
 }
 
-.footer p {
-    color: #b8c5d3;
+.investment-pack p {
+
+    color: #a6bad0;
+
+    font-size: 14px;
+
+    margin: 7px 0;
 }
 
-.footer-links {
-    display: flex;
-    gap: 25px;
-    flex-wrap: wrap;
-}
+.investment-pack p strong {
 
-.footer-links a {
-    color: #dce6f0;
-}
-
-.footer-links a:hover {
     color: #ffffff;
 }
 
-.footer-bottom {
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.12);
-    text-align: center;
+.investment-pack button {
+
+    width: 100%;
+
+    margin-top: 16px;
+
+    position: relative;
+
+    z-index: 2;
 }
 
-/* MOBILE */
 
-@media (max-width: 800px) {
+/* =========================================
+   INVESTISSEMENTS ACTIFS
+========================================= */
 
-    .header {
-        padding: 15px 5%;
-        flex-direction: column;
-        gap: 15px;
+[data-investments] {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                240px,
+                1fr
+            )
+        );
+
+    gap: 18px;
+}
+
+.investment-item {
+
+    padding: 22px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(0,0,0,0.22);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 10px 25px
+        rgba(0,0,0,0.18);
+}
+
+.investment-item h3 {
+
+    color: #5cdbff;
+
+    margin-bottom: 13px;
+}
+
+.investment-item p {
+
+    color: #a6bad0;
+
+    font-size: 14px;
+
+    margin: 7px 0;
+}
+
+.investment-item strong {
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   HISTORIQUE
+========================================= */
+
+[data-transaction-history] {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.transaction-item {
+
+    padding: 17px 19px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(0,0,0,0.22);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    color: #a9bdd2;
+
+    transition: 0.25s;
+}
+
+.transaction-item:hover {
+
+    background:
+        rgba(255,255,255,0.05);
+
+    transform:
+        translateX(3px);
+}
+
+.transaction-item strong {
+
+    color: #ffffff;
+
+    display: block;
+
+    margin-bottom: 5px;
+}
+
+
+/* =========================================
+   ANIMATION
+========================================= */
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(18px);
     }
 
-    .navigation {
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #030914;
+}
+
+::-webkit-scrollbar-thumb {
+
+    background:
+        #1b5875;
+
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+    background:
+        #268aaa;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (
+    max-width: 650px
+) {
+
+    .dashboard-header {
+
+        padding:
+            15px 4%;
+
+        gap: 10px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 19px;
+    }
+
+    .dashboard-header p {
+        font-size: 11px;
+    }
+
+    .dashboard-header button {
+
+        padding:
+            9px 12px;
+
+        font-size: 12px;
+    }
+
+    .dashboard-container {
+
+        width: 94%;
+
+        margin-top: 22px;
+    }
+
+    .dashboard-card {
+
+        padding: 20px;
+
+        border-radius: 20px;
+    }
+
+    .dashboard-card h2 {
+        font-size: 19px;
+    }
+
+    .balance {
+
+        font-size: 26px;
+
+        padding: 21px 10px;
+    }
+
+    form {
+
+        flex-direction: column;
+    }
+
+    input {
+
         width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 12px;
+
+        min-width: 0;
     }
 
-    .navigation a {
-        font-size: 14px;
+    form button {
+        width: 100%;
     }
 
-    .hero {
-        min-height: 600px;
-        padding: 70px 5%;
+    .packs-grid {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 16px;
     }
 
-    .hero h1 {
-        font-size: 43px;
+    .investment-pack {
+
+        min-height:
+            250px;
+
+        padding:
+            21px;
     }
 
-    .features {
-        grid-template-columns: 1fr;
+}
+
+
+/* =========================================
+   TRES PETITS TELEPHONES
+========================================= */
+
+@media (
+    max-width: 380px
+) {
+
+    .dashboard-header {
+
+        align-items:
+            flex-start;
     }
 
-    .presentation,
-    .trust {
-        padding: 70px 5%;
+    .dashboard-header h1 {
+        font-size: 17px;
     }
 
-    .investment-intro {
-        margin: 0 5% 70px;
-        padding: 40px 25px;
-        flex-direction: column;
-        align-items: flex-start;
+    .dashboard-header button {
+        font-size: 11px;
+        padding: 8px 10px;
     }
 
-    .investment-intro h2 {
-        font-size: 30px;
-    }
-
-    .footer {
-        padding-left: 5%;
-        padding-right: 5%;
-    }
-
-    .footer-content {
-        flex-direction: column;
+    .balance {
+        font-size: 22px;
     }
 }
