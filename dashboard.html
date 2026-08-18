@@ -4,431 +4,494 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Housing Investment - Espace utilisateur</title>
+    <title>Housing Investment - Mon espace</title>
 
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #222;
-        }
-
-        header {
-            background: #0b5d3b;
-            color: white;
-            padding: 18px;
-            text-align: center;
-        }
-
-        .container {
-            width: 92%;
-            max-width: 1000px;
-            margin: 20px auto;
-        }
-
-        .welcome {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,.08);
-        }
-
-        .balance-card {
-            background: #0b5d3b;
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
-
-        .balance-card h2 {
-            margin-top: 0;
-        }
-
-        [data-user-balance] {
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .section {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,.07);
-        }
-
-        .section h2 {
-            margin-top: 0;
-            color: #0b5d3b;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 13px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-
-        button {
-            border: none;
-            padding: 13px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .deposit-btn {
-            background: #0b5d3b;
-            color: white;
-        }
-
-        .withdraw-btn {
-            background: #b42318;
-            color: white;
-        }
-
-        .logout-btn {
-            background: #222;
-            color: white;
-            margin-top: 10px;
-        }
-
-        .operations {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .transaction-item {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .transaction-item:last-child {
-            border-bottom: none;
-        }
-
-        .transaction-item small {
-            color: #777;
-        }
-
-        .info {
-            background: #eef7f2;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 12px;
-            font-size: 14px;
-        }
-
-        .packs {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-        }
-
-        .pack {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 18px;
-            background: #fafafa;
-        }
-
-        .pack h3 {
-            color: #0b5d3b;
-        }
-
-        @media (max-width: 600px) {
-
-            .container {
-                width: 94%;
-            }
-
-            .transaction-item {
-                flex-direction: column;
-            }
-
-            [data-user-balance] {
-                font-size: 23px;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Housing Investment</h1>
-    <p>Espace utilisateur</p>
-</header>
+    <!-- =========================================
+         EN-TÊTE
+    ========================================== -->
 
+    <header class="dashboard-header">
 
-<div class="container">
-
-    <!-- =====================================
-         BIENVENUE
-    ====================================== -->
-
-    <div class="welcome">
-
-        <h2>
-            Bienvenue dans votre espace
-        </h2>
-
-        <p>
-            Gérez votre investissement,
-            vos dépôts, vos retraits et votre historique.
-        </p>
-
-    </div>
-
-
-    <!-- =====================================
-         SOLDE
-    ====================================== -->
-
-    <div class="balance-card">
-
-        <h2>Mon solde disponible</h2>
-
-        <div data-user-balance>
-            0 FCFA
+        <div>
+            <h1>Housing Investment</h1>
+            <p>Mon espace utilisateur</p>
         </div>
 
-    </div>
+        <button
+            type="button"
+            onclick="logoutUser()"
+        >
+            Déconnexion
+        </button>
+
+    </header>
 
 
-    <!-- =====================================
-         DEPOT ET RETRAIT
-    ====================================== -->
+    <main class="dashboard-container">
 
-    <div class="operations">
 
-        <!-- DEPOT -->
+        <!-- =========================================
+             SOLDE
+        ========================================== -->
 
-        <div class="section">
+        <section class="dashboard-card">
 
-            <h2>💰 Dépôt</h2>
+            <h2>Mon solde disponible</h2>
+
+            <div
+                class="balance"
+                data-user-balance
+            >
+                0 FCFA
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             DEPÔT
+        ========================================== -->
+
+        <section class="dashboard-card">
+
+            <h2>Effectuer un dépôt</h2>
 
             <p>
-                Faites une demande de dépôt sur votre compte.
+                Des frais de 1 % sont appliqués
+                au montant du dépôt.
             </p>
 
             <form data-deposit-form>
 
-                <div class="form-group">
-
-                    <label for="depositAmount">
-                        Montant du dépôt
-                    </label>
-
-                    <input
-                        type="number"
-                        id="depositAmount"
-                        name="amount"
-                        min="1"
-                        placeholder="Exemple : 10000"
-                        required
-                    >
-
-                </div>
-
-                <button
-                    type="submit"
-                    class="deposit-btn"
+                <input
+                    type="number"
+                    name="amount"
+                    min="1"
+                    placeholder="Montant du dépôt"
+                    required
                 >
-                    Demander un dépôt
+
+                <button type="submit">
+                    Déposer
                 </button>
 
             </form>
 
-            <div class="info">
-                Votre demande sera enregistrée
-                avec le statut « En attente ».
-            </div>
-
-        </div>
+        </section>
 
 
-        <!-- RETRAIT -->
+        <!-- =========================================
+             RETRAIT
+        ========================================== -->
 
-        <div class="section">
+        <section class="dashboard-card">
 
-            <h2>💸 Retrait</h2>
+            <h2>Effectuer un retrait</h2>
 
             <p>
-                Faites une demande de retrait.
+                Des frais de 25 % sont appliqués
+                au montant du retrait.
             </p>
 
             <form data-withdrawal-form>
 
-                <div class="form-group">
-
-                    <label for="withdrawAmount">
-                        Montant du retrait
-                    </label>
-
-                    <input
-                        type="number"
-                        id="withdrawAmount"
-                        name="amount"
-                        min="1"
-                        placeholder="Exemple : 5000"
-                        required
-                    >
-
-                </div>
-
-                <button
-                    type="submit"
-                    class="withdraw-btn"
+                <input
+                    type="number"
+                    name="amount"
+                    min="1"
+                    placeholder="Montant du retrait"
+                    required
                 >
-                    Demander un retrait
+
+                <button type="submit">
+                    Retirer
                 </button>
 
             </form>
 
-            <div class="info">
-                Le retrait doit être validé
-                avant d'être exécuté.
-            </div>
-
-        </div>
-
-    </div>
+        </section>
 
 
-    <!-- =====================================
-         HISTORIQUE
-    ====================================== -->
+        <!-- =========================================
+             INVESTISSEMENTS
+        ========================================== -->
 
-    <div class="section">
+        <section class="dashboard-card">
 
-        <h2>📋 Historique des opérations</h2>
-
-        <div data-transaction-history>
+            <h2>Nos packs d'investissement</h2>
 
             <p>
-                Aucune opération pour le moment.
+                Choisissez le pack correspondant
+                à votre solde disponible.
             </p>
 
-        </div>
 
-    </div>
+            <div class="packs-grid">
 
 
-    <!-- =====================================
-         INVESTISSEMENTS
-    ====================================== -->
+                <!-- PACK 3 000 -->
 
-    <div class="section">
+                <article class="investment-pack">
 
-        <h2>🏠 Packs d'investissement</h2>
+                    <h3>
+                        Pack 3 000 FCFA
+                    </h3>
 
-        <p>
-            Choisissez le pack qui correspond
-            à votre capacité d'investissement.
-        </p>
+                    <p>
+                        <strong>
+                            3 000 FCFA
+                        </strong>
+                    </p>
 
-        <div class="packs">
+                    <p>
+                        Gain quotidien :
+                        <strong>
+                            800 FCFA
+                        </strong>
+                    </p>
 
-            <div class="pack">
-                <h3>Pack 3 000 FCFA</h3>
-                <p>Investissement : 3 000 FCFA</p>
-                <p>Durée : 180 jours</p>
+                    <p>
+                        Durée :
+                        <strong>
+                            180 jours
+                        </strong>
+                    </p>
+
+                    <button
+                        type="button"
+                        data-investment-pack="pack3000"
+                    >
+                        Investir
+                    </button>
+
+                </article>
+
+
+                <!-- PACK 10 000 -->
+
+                <article class="investment-pack">
+
+                    <h3>
+                        Pack 10 000 FCFA
+                    </h3>
+
+                    <p>
+                        <strong>
+                            10 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Gain quotidien :
+                        <strong>
+                            3 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Durée :
+                        <strong>
+                            180 jours
+                        </strong>
+                    </p>
+
+                    <button
+                        type="button"
+                        data-investment-pack="pack10000"
+                    >
+                        Investir
+                    </button>
+
+                </article>
+
+
+                <!-- PACK 20 000 -->
+
+                <article class="investment-pack">
+
+                    <h3>
+                        Pack 20 000 FCFA
+                    </h3>
+
+                    <p>
+                        <strong>
+                            20 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Gain quotidien :
+                        <strong>
+                            6 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Durée :
+                        <strong>
+                            180 jours
+                        </strong>
+                    </p>
+
+                    <button
+                        type="button"
+                        data-investment-pack="pack20000"
+                    >
+                        Investir
+                    </button>
+
+                </article>
+
+
+                <!-- PACK 45 000 -->
+
+                <article class="investment-pack">
+
+                    <h3>
+                        Pack 45 000 FCFA
+                    </h3>
+
+                    <p>
+                        <strong>
+                            45 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Gain quotidien :
+                        <strong>
+                            14 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Durée :
+                        <strong>
+                            180 jours
+                        </strong>
+                    </p>
+
+                    <button
+                        type="button"
+                        data-investment-pack="pack45000"
+                    >
+                        Investir
+                    </button>
+
+                </article>
+
+
+                <!-- PACK 100 000 -->
+
+                <article class="investment-pack">
+
+                    <h3>
+                        Pack 100 000 FCFA
+                    </h3>
+
+                    <p>
+                        <strong>
+                            100 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Gain quotidien :
+                        <strong>
+                            30 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Durée :
+                        <strong>
+                            180 jours
+                        </strong>
+                    </p>
+
+                    <button
+                        type="button"
+                        data-investment-pack="pack100000"
+                    >
+                        Investir
+                    </button>
+
+                </article>
+
+
+                <!-- PACK 200 000 -->
+
+                <article class="investment-pack">
+
+                    <h3>
+                        Pack 200 000 FCFA
+                    </h3>
+
+                    <p>
+                        <strong>
+                            200 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Gain quotidien :
+                        <strong>
+                            65 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Durée :
+                        <strong>
+                            180 jours
+                        </strong>
+                    </p>
+
+                    <button
+                        type="button"
+                        data-investment-pack="pack200000"
+                    >
+                        Investir
+                    </button>
+
+                </article>
+
+
+                <!-- PACK 400 000 -->
+
+                <article class="investment-pack">
+
+                    <h3>
+                        Pack 400 000 FCFA
+                    </h3>
+
+                    <p>
+                        <strong>
+                            400 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Gain quotidien :
+                        <strong>
+                            140 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Durée :
+                        <strong>
+                            180 jours
+                        </strong>
+                    </p>
+
+                    <button
+                        type="button"
+                        data-investment-pack="pack400000"
+                    >
+                        Investir
+                    </button>
+
+                </article>
+
+
+                <!-- PACK 800 000 -->
+
+                <article class="investment-pack">
+
+                    <h3>
+                        Pack 800 000 FCFA
+                    </h3>
+
+                    <p>
+                        <strong>
+                            800 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Gain quotidien :
+                        <strong>
+                            290 000 FCFA
+                        </strong>
+                    </p>
+
+                    <p>
+                        Durée :
+                        <strong>
+                            180 jours
+                        </strong>
+                    </p>
+
+                    <button
+                        type="button"
+                        data-investment-pack="pack800000"
+                    >
+                        Investir
+                    </button>
+
+                </article>
+
             </div>
 
-            <div class="pack">
-                <h3>Pack 10 000 FCFA</h3>
-                <p>Investissement : 10 000 FCFA</p>
-                <p>Durée : 180 jours</p>
+        </section>
+
+
+        <!-- =========================================
+             INVESTISSEMENTS ACTIFS
+        ========================================== -->
+
+        <section class="dashboard-card">
+
+            <h2>
+                Mes investissements
+            </h2>
+
+            <div
+                data-investments
+            >
+                <p>
+                    Aucun investissement.
+                </p>
             </div>
 
-            <div class="pack">
-                <h3>Pack 20 000 FCFA</h3>
-                <p>Investissement : 20 000 FCFA</p>
-                <p>Durée : 180 jours</p>
+        </section>
+
+
+        <!-- =========================================
+             HISTORIQUE
+        ========================================== -->
+
+        <section class="dashboard-card">
+
+            <h2>
+                Mon historique
+            </h2>
+
+            <div
+                data-transaction-history
+            >
+                <p>
+                    Aucune opération pour le moment.
+                </p>
             </div>
 
-            <div class="pack">
-                <h3>Pack 45 000 FCFA</h3>
-                <p>Investissement : 45 000 FCFA</p>
-                <p>Durée : 180 jours</p>
-            </div>
-
-            <div class="pack">
-                <h3>Pack 100 000 FCFA</h3>
-                <p>Investissement : 100 000 FCFA</p>
-                <p>Durée : 180 jours</p>
-            </div>
-
-            <div class="pack">
-                <h3>Pack 200 000 FCFA</h3>
-                <p>Investissement : 200 000 FCFA</p>
-                <p>Durée : 180 jours</p>
-            </div>
-
-            <div class="pack">
-                <h3>Pack 400 000 FCFA</h3>
-                <p>Investissement : 400 000 FCFA</p>
-                <p>Durée : 180 jours</p>
-            </div>
-
-            <div class="pack">
-                <h3>Pack 800 000 FCFA</h3>
-                <p>Investissement : 800 000 FCFA</p>
-                <p>Durée : 180 jours</p>
-            </div>
-
-        </div>
-
-    </div>
+        </section>
 
 
-    <!-- =====================================
-         DECONNEXION
-    ====================================== -->
-
-    <div class="section">
-
-        <button
-            type="button"
-            class="logout-btn"
-            onclick="logoutUser()"
-        >
-            Se déconnecter
-        </button>
-
-    </div>
-
-</div>
+    </main>
 
 
-<!-- =========================================
-     SCRIPT PRINCIPAL
-========================================= -->
+    <!-- =========================================
+         SCRIPT
+    ========================================== -->
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
