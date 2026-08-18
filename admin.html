@@ -31,7 +31,7 @@
 
         .menu {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 12px;
             margin-bottom: 20px;
         }
@@ -68,7 +68,7 @@
             border: 1px solid #ddd;
             border-radius: 10px;
             padding: 16px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .operation-header {
@@ -81,6 +81,14 @@
         .amount {
             font-size: 20px;
             font-weight: bold;
+        }
+
+        .details {
+            background: #f7f7f7;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            line-height: 1.7;
         }
 
         .status {
@@ -131,11 +139,6 @@
             color: white;
         }
 
-        .delete {
-            background: #555;
-            color: white;
-        }
-
         .user {
             border-bottom: 1px solid #eee;
             padding: 14px 0;
@@ -159,12 +162,6 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
-        @media (max-width: 600px) {
-            .container {
-                width: 92%;
-            }
-        }
     </style>
 </head>
 
@@ -175,31 +172,24 @@
     <p>Espace Administrateur</p>
 </header>
 
-
 <div class="container">
-
-    <!-- MENU -->
 
     <div class="menu">
 
-        <button
-            class="active"
-            onclick="showSection('users', this)">
+        <button class="active"
+                onclick="showSection('users', this)">
             Utilisateurs
         </button>
 
-        <button
-            onclick="showSection('deposits', this)">
+        <button onclick="showSection('deposits', this)">
             Dépôts
         </button>
 
-        <button
-            onclick="showSection('withdrawals', this)">
+        <button onclick="showSection('withdrawals', this)">
             Retraits
         </button>
 
-        <button
-            onclick="showSection('history', this)">
+        <button onclick="showSection('history', this)">
             Historique
         </button>
 
@@ -208,9 +198,7 @@
 
     <!-- UTILISATEURS -->
 
-    <div
-        id="users"
-        class="section">
+    <div id="users" class="section">
 
         <h2>👥 Utilisateurs enregistrés</h2>
 
@@ -221,10 +209,9 @@
 
     <!-- DEPOTS -->
 
-    <div
-        id="deposits"
-        class="section"
-        style="display:none;">
+    <div id="deposits"
+         class="section"
+         style="display:none;">
 
         <h2>💰 Demandes de dépôt</h2>
 
@@ -235,10 +222,9 @@
 
     <!-- RETRAITS -->
 
-    <div
-        id="withdrawals"
-        class="section"
-        style="display:none;">
+    <div id="withdrawals"
+         class="section"
+         style="display:none;">
 
         <h2>💸 Demandes de retrait</h2>
 
@@ -249,10 +235,9 @@
 
     <!-- HISTORIQUE -->
 
-    <div
-        id="history"
-        class="section"
-        style="display:none;">
+    <div id="history"
+         class="section"
+         style="display:none;">
 
         <h2>📋 Historique des opérations</h2>
 
@@ -261,9 +246,8 @@
     </div>
 
 
-    <button
-        class="logout"
-        onclick="logoutAdmin()">
+    <button class="logout"
+            onclick="logoutAdmin()">
         Se déconnecter
     </button>
 
@@ -273,17 +257,20 @@
 <script>
 
 /* =========================================
-   UTILITAIRES
+   FORMATAGE
 ========================================= */
 
 function formatFCFA(amount) {
 
     return (
         Number(amount) || 0
-    ).toLocaleString("fr-FR")
-    + " FCFA";
+    ).toLocaleString("fr-FR") + " FCFA";
 }
 
+
+/* =========================================
+   TRANSACTIONS
+========================================= */
 
 function getTransactions() {
 
@@ -327,48 +314,30 @@ function saveTransactions(transactions) {
    MENU
 ========================================= */
 
-function showSection(
-    sectionId,
-    button
-) {
+function showSection(sectionId, button) {
 
-    const sections =
-        document.querySelectorAll(
-            ".section"
-        );
+    document
+        .querySelectorAll(".section")
+        .forEach(function(section) {
 
-    sections.forEach(
-        function(section) {
+            section.style.display = "none";
 
-            section.style.display =
-                "none";
-
-        }
-    );
+        });
 
     document.getElementById(
         sectionId
     ).style.display = "block";
 
 
-    const buttons =
-        document.querySelectorAll(
-            ".menu button"
-        );
+    document
+        .querySelectorAll(".menu button")
+        .forEach(function(btn) {
 
-    buttons.forEach(
-        function(btn) {
+            btn.classList.remove("active");
 
-            btn.classList.remove(
-                "active"
-            );
+        });
 
-        }
-    );
-
-    button.classList.add(
-        "active"
-    );
+    button.classList.add("active");
 }
 
 
@@ -439,43 +408,38 @@ function displayUsers() {
 
     container.innerHTML = "";
 
-    users.forEach(
-        function(user, index) {
+    users.forEach(function(user) {
 
-            const name =
-                user.name ||
-                user.fullName ||
-                user.nom ||
-                "Utilisateur";
+        const name =
+            user.name ||
+            user.fullName ||
+            user.nom ||
+            "Utilisateur";
 
-            const phone =
-                user.phone ||
-                user.telephone ||
-                "Non renseigné";
+        const phone =
+            user.phone ||
+            user.telephone ||
+            "Non renseigné";
 
-            const div =
-                document.createElement(
-                    "div"
-                );
+        const div =
+            document.createElement("div");
 
-            div.className = "user";
+        div.className = "user";
 
-            div.innerHTML = `
-                <strong>${name}</strong>
-                <br>
-                Téléphone : ${phone}
-            `;
+        div.innerHTML = `
+            <strong>${name}</strong>
+            <br>
+            Téléphone : ${phone}
+        `;
 
-            container.appendChild(
-                div
-            );
-        }
-    );
+        container.appendChild(div);
+
+    });
 }
 
 
 /* =========================================
-   TEXTE
+   TEXTES
 ========================================= */
 
 function typeText(type) {
@@ -524,26 +488,32 @@ function statusClass(status) {
    AFFICHAGE OPERATION
 ========================================= */
 
-function operationHTML(
-    transaction
-) {
+function operationHTML(transaction) {
+
+    const amount =
+        Number(transaction.amount) || 0;
+
+    const fee =
+        Number(transaction.fee) || 0;
+
+    const netAmount =
+        transaction.netAmount !== undefined
+            ? Number(transaction.netAmount)
+            : amount - fee;
 
     const date =
         new Date(
             transaction.date
-        ).toLocaleString(
-            "fr-FR"
-        );
+        ).toLocaleString("fr-FR");
+
 
     let buttons = "";
 
     if (
-        transaction.status ===
-        "pending"
+        transaction.status === "pending"
     ) {
 
         buttons = `
-
             <div class="buttons">
 
                 <button
@@ -565,9 +535,9 @@ function operationHTML(
                 </button>
 
             </div>
-
         `;
     }
+
 
     return `
 
@@ -588,35 +558,62 @@ function operationHTML(
 
                 </div>
 
-                <span
-                    class="status ${statusClass(
-                        transaction.status
-                    )}">
+                <span class="status ${statusClass(
+                    transaction.status
+                )}">
+
                     ${statusText(
                         transaction.status
                     )}
+
                 </span>
 
             </div>
 
+
             <p>
                 Type :
                 <strong>
-                    ${typeText(
-                        transaction.type
-                    )}
+                    ${typeText(transaction.type)}
                 </strong>
             </p>
 
-            <p class="amount">
-                ${formatFCFA(
-                    transaction.amount
-                )}
+
+            <div class="details">
+
+                <div>
+                    Montant demandé :
+                    <strong>
+                        ${formatFCFA(amount)}
+                    </strong>
+                </div>
+
+                <div>
+                    Frais :
+                    <strong>
+                        ${formatFCFA(fee)}
+                    </strong>
+                </div>
+
+                <div>
+                    ${
+                        transaction.type === "deposit"
+                            ? "Montant crédité"
+                            : "Montant reçu"
+                    } :
+                    <strong>
+                        ${formatFCFA(netAmount)}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <p>
+                Date :
+                ${date}
             </p>
 
-            <small>
-                Date : ${date}
-            </small>
 
             ${buttons}
 
@@ -638,26 +635,23 @@ function displayDeposits() {
 
     const transactions =
         getTransactions()
-        .filter(
-            function(transaction) {
+        .filter(function(transaction) {
 
-                return (
-                    transaction.type ===
-                    "deposit"
-                );
+            return (
+                transaction.type ===
+                "deposit"
+            );
 
-            }
-        )
-        .sort(
-            function(a, b) {
+        })
+        .sort(function(a, b) {
 
-                return (
-                    new Date(b.date) -
-                    new Date(a.date)
-                );
+            return (
+                new Date(b.date) -
+                new Date(a.date)
+            );
 
-            }
-        );
+        });
+
 
     if (transactions.length === 0) {
 
@@ -666,6 +660,7 @@ function displayDeposits() {
 
         return;
     }
+
 
     container.innerHTML =
         transactions
@@ -687,26 +682,23 @@ function displayWithdrawals() {
 
     const transactions =
         getTransactions()
-        .filter(
-            function(transaction) {
+        .filter(function(transaction) {
 
-                return (
-                    transaction.type ===
-                    "withdrawal"
-                );
+            return (
+                transaction.type ===
+                "withdrawal"
+            );
 
-            }
-        )
-        .sort(
-            function(a, b) {
+        })
+        .sort(function(a, b) {
 
-                return (
-                    new Date(b.date) -
-                    new Date(a.date)
-                );
+            return (
+                new Date(b.date) -
+                new Date(a.date)
+            );
 
-            }
-        );
+        });
+
 
     if (transactions.length === 0) {
 
@@ -715,6 +707,7 @@ function displayWithdrawals() {
 
         return;
     }
+
 
     container.innerHTML =
         transactions
@@ -736,16 +729,15 @@ function displayHistory() {
 
     const transactions =
         getTransactions()
-        .sort(
-            function(a, b) {
+        .sort(function(a, b) {
 
-                return (
-                    new Date(b.date) -
-                    new Date(a.date)
-                );
+            return (
+                new Date(b.date) -
+                new Date(a.date)
+            );
 
-            }
-        );
+        });
+
 
     if (transactions.length === 0) {
 
@@ -754,6 +746,7 @@ function displayHistory() {
 
         return;
     }
+
 
     container.innerHTML =
         transactions
@@ -774,17 +767,17 @@ function updateTransaction(
     const transactions =
         getTransactions();
 
+
     const transaction =
-        transactions.find(
-            function(item) {
+        transactions.find(function(item) {
 
-                return (
-                    item.id ===
-                    transactionId
-                );
+            return (
+                item.id ===
+                transactionId
+            );
 
-            }
-        );
+        });
+
 
     if (!transaction) {
 
@@ -846,7 +839,7 @@ function refreshAdmin() {
 
 
 /* =========================================
-   DECONNEXION ADMIN
+   DECONNEXION
 ========================================= */
 
 function logoutAdmin() {
