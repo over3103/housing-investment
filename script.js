@@ -7,6 +7,14 @@
 
 
 /* =========================================
+   FRAIS
+========================================= */
+
+const DEPOSIT_FEE_RATE = 0.01;   // 1 %
+const WITHDRAWAL_FEE_RATE = 0.25; // 25 %
+
+
+/* =========================================
    OUTILS UTILISATEUR
 ========================================= */
 
@@ -80,7 +88,7 @@ function saveCurrentUser(user) {
 
 
 /* =========================================
-   SESSION UTILISATEUR
+   SESSION
 ========================================= */
 
 function isUserLoggedIn() {
@@ -117,7 +125,8 @@ function logoutUser() {
 
 function getUserIdentifier() {
 
-    const user = getCurrentUser();
+    const user =
+        getCurrentUser();
 
     if (!user) {
         return null;
@@ -135,7 +144,7 @@ function getUserIdentifier() {
 
 
 /* =========================================
-   RECUPERATION DES OPERATIONS
+   TRANSACTIONS
 ========================================= */
 
 function getTransactions() {
@@ -170,11 +179,9 @@ function getTransactions() {
 }
 
 
-/* =========================================
-   SAUVEGARDE DES OPERATIONS
-========================================= */
-
-function saveTransactions(transactions) {
+function saveTransactions(
+    transactions
+) {
 
     try {
 
@@ -198,17 +205,21 @@ function saveTransactions(transactions) {
 
 
 /* =========================================
-   CREATION D'UNE TRANSACTION
+   CREATION TRANSACTION
 ========================================= */
 
-function createTransaction(type, amount) {
+function createTransaction(
+    type,
+    amount
+) {
 
-    const user = getCurrentUser();
+    const user =
+        getCurrentUser();
 
     if (!user) {
 
         alert(
-            "Vous devez être connecté pour effectuer cette opération."
+            "Vous devez être connecté."
         );
 
         return false;
@@ -229,8 +240,49 @@ function createTransaction(type, amount) {
         return false;
     }
 
+
+    let fee = 0;
+    let netAmount = numericAmount;
+
+
+    /* DEPOT */
+
+    if (type === "deposit") {
+
+        fee =
+            numericAmount *
+            DEPOSIT_FEE_RATE;
+
+        netAmount =
+            numericAmount -
+            fee;
+    }
+
+
+    /* RETRAIT */
+
+    if (type === "withdrawal") {
+
+        fee =
+            numericAmount *
+            WITHDRAWAL_FEE_RATE;
+
+        netAmount =
+            numericAmount -
+            fee;
+    }
+
+
+    fee =
+        Math.round(fee);
+
+    netAmount =
+        Math.round(netAmount);
+
+
     const transactions =
         getTransactions();
+
 
     const transaction = {
 
@@ -262,6 +314,12 @@ function createTransaction(type, amount) {
         amount:
             numericAmount,
 
+        fee:
+            fee,
+
+        netAmount:
+            netAmount,
+
         status:
             "pending",
 
@@ -269,9 +327,17 @@ function createTransaction(type, amount) {
             new Date().toISOString()
     };
 
-    transactions.push(transaction);
 
-    if (!saveTransactions(transactions)) {
+    transactions.push(
+        transaction
+    );
+
+
+    if (
+        !saveTransactions(
+            transactions
+        )
+    ) {
 
         alert(
             "Impossible d'enregistrer l'opération."
@@ -280,54 +346,16 @@ function createTransaction(type, amount) {
         return false;
     }
 
+
     return true;
 }
 
 
 /* =========================================
-   DEMANDE DE DEPOT
+   DEPOT
 ========================================= */
 
 function requestDeposit(amount) {
-
-    const success =
-        createTransaction(
-            "deposit",
-            amount
-        );
-
-    if (success) {
-
-        alert(
-            "Votre demande de dépôt a été enregistrée. Elle est en attente de validation."
-        );
-
-        updateDashboardData();
-
-        return true;
-    }
-
-    return false;
-}
-
-
-/* =========================================
-   DEMANDE DE RETRAIT
-========================================= */
-
-function requestWithdrawal(amount) {
-
-    const user =
-        getCurrentUser();
-
-    if (!user) {
-
-        alert(
-            "Vous devez être connecté."
-        );
-
-        return false;
-    }
 
     const numericAmount =
         Number(amount);
@@ -344,10 +372,93 @@ function requestWithdrawal(amount) {
         return false;
     }
 
+
+    const fee =
+        Math.round(
+            numericAmount *
+            DEPOSIT_FEE_RATE
+        );
+
+
+    const creditedAmount =
+        numericAmount -
+        fee;
+
+
+    const success =
+        createTransaction(
+            "deposit",
+            numericAmount
+        );
+
+
+    if (success) {
+
+        alert(
+            "Dépôt enregistré.\n\n" +
+            "Montant : " +
+            formatFCFA(numericAmount) +
+            "\nFrais (1 %) : " +
+            formatFCFA(fee) +
+            "\nMontant crédité après validation : " +
+            formatFCFA(creditedAmount)
+        );
+
+
+        updateDashboardData();
+
+        return true;
+    }
+
+
+    return false;
+}
+
+
+/* =========================================
+   RETRAIT
+========================================= */
+
+function requestWithdrawal(amount) {
+
+    const user =
+        getCurrentUser();
+
+    if (!user) {
+
+        alert(
+            "Vous devez être connecté."
+        );
+
+        return false;
+    }
+
+
+    const numericAmount =
+        Number(amount);
+
+
+    if (
+        !Number.isFinite(numericAmount) ||
+        numericAmount <= 0
+    ) {
+
+        alert(
+            "Veuillez saisir un montant valide."
+        );
+
+        return false;
+    }
+
+
     const balance =
         getUserBalance();
 
-    if (numericAmount > balance) {
+
+    if (
+        numericAmount >
+        balance
+    ) {
 
         alert(
             "Votre solde disponible est insuffisant."
@@ -356,29 +467,51 @@ function requestWithdrawal(amount) {
         return false;
     }
 
+
+    const fee =
+        Math.round(
+            numericAmount *
+            WITHDRAWAL_FEE_RATE
+        );
+
+
+    const receivedAmount =
+        numericAmount -
+        fee;
+
+
     const success =
         createTransaction(
             "withdrawal",
             numericAmount
         );
 
+
     if (success) {
 
         alert(
-            "Votre demande de retrait a été enregistrée. Elle est en attente de validation."
+            "Retrait enregistré.\n\n" +
+            "Montant demandé : " +
+            formatFCFA(numericAmount) +
+            "\nFrais (25 %) : " +
+            formatFCFA(fee) +
+            "\nMontant reçu après validation : " +
+            formatFCFA(receivedAmount)
         );
+
 
         updateDashboardData();
 
         return true;
     }
 
+
     return false;
 }
 
 
 /* =========================================
-   TRANSACTIONS DE L'UTILISATEUR
+   TRANSACTIONS UTILISATEUR
 ========================================= */
 
 function getCurrentUserTransactions() {
@@ -390,14 +523,17 @@ function getCurrentUserTransactions() {
         return [];
     }
 
+
     const transactions =
         getTransactions();
 
+
     return transactions.filter(
-        function (transaction) {
+        function(transaction) {
 
             return (
-                transaction.userId === userId
+                transaction.userId ===
+                userId
             );
 
         }
@@ -418,6 +554,7 @@ function getUserBalance() {
         return 0;
     }
 
+
     let balance =
         Number(
             user.balance ||
@@ -425,53 +562,90 @@ function getUserBalance() {
             0
         );
 
-    if (!Number.isFinite(balance)) {
+
+    if (
+        !Number.isFinite(balance)
+    ) {
+
         balance = 0;
     }
+
 
     const transactions =
         getCurrentUserTransactions();
 
+
     transactions.forEach(
-        function (transaction) {
+        function(transaction) {
 
             if (
                 transaction.status !==
                 "approved"
             ) {
+
                 return;
             }
 
+
             const amount =
-                Number(transaction.amount) || 0;
+                Number(
+                    transaction.amount
+                ) || 0;
+
+
+            /*
+               DEPOT
+
+               Seul le montant après
+               frais est crédité.
+            */
 
             if (
                 transaction.type ===
                 "deposit"
             ) {
 
-                balance += amount;
+                const netAmount =
+                    transaction.netAmount !== undefined
+                        ? Number(
+                            transaction.netAmount
+                        )
+                        : amount;
+
+                balance +=
+                    netAmount;
             }
+
+
+            /*
+               RETRAIT
+
+               Le montant demandé est
+               débité du solde.
+            */
 
             if (
                 transaction.type ===
                 "withdrawal"
             ) {
 
-                balance -= amount;
+                balance -=
+                    amount;
             }
+
         }
     );
 
+
     return Math.max(
         0,
-        balance
+        Math.round(balance)
     );
 }
 
 
 /* =========================================
-   TEXTE DU STATUT
+   STATUT
 ========================================= */
 
 function getTransactionStatusText(
@@ -491,7 +665,7 @@ function getTransactionStatusText(
 
 
 /* =========================================
-   TYPE DE TRANSACTION
+   TYPE
 ========================================= */
 
 function getTransactionTypeText(
@@ -511,7 +685,7 @@ function getTransactionTypeText(
 
 
 /* =========================================
-   AFFICHAGE DU SOLDE
+   AFFICHAGE SOLDE
 ========================================= */
 
 function updateBalanceDisplay() {
@@ -519,13 +693,15 @@ function updateBalanceDisplay() {
     const balance =
         getUserBalance();
 
+
     const elements =
         document.querySelectorAll(
             "[data-user-balance]"
         );
 
+
     elements.forEach(
-        function (element) {
+        function(element) {
 
             element.textContent =
                 formatFCFA(balance);
@@ -536,7 +712,7 @@ function updateBalanceDisplay() {
 
 
 /* =========================================
-   AFFICHAGE DE L'HISTORIQUE
+   HISTORIQUE
 ========================================= */
 
 function displayTransactionHistory() {
@@ -546,14 +722,20 @@ function displayTransactionHistory() {
             "[data-transaction-history]"
         );
 
+
     if (!container) {
         return;
     }
 
+
     const transactions =
         getCurrentUserTransactions();
 
-    if (transactions.length === 0) {
+
+    if (
+        transactions.length ===
+        0
+    ) {
 
         container.innerHTML =
             "<p>Aucune opération pour le moment.</p>";
@@ -561,9 +743,10 @@ function displayTransactionHistory() {
         return;
     }
 
+
     const sortedTransactions =
         [...transactions].sort(
-            function (a, b) {
+            function(a, b) {
 
                 return (
                     new Date(b.date) -
@@ -573,18 +756,22 @@ function displayTransactionHistory() {
             }
         );
 
+
     container.innerHTML = "";
 
+
     sortedTransactions.forEach(
-        function (transaction) {
+        function(transaction) {
 
             const row =
                 document.createElement(
                     "div"
                 );
 
+
             row.className =
                 "transaction-item";
+
 
             const date =
                 new Date(
@@ -593,9 +780,31 @@ function displayTransactionHistory() {
                     "fr-FR"
                 );
 
+
+            const amount =
+                Number(
+                    transaction.amount
+                ) || 0;
+
+
+            const fee =
+                Number(
+                    transaction.fee
+                ) || 0;
+
+
+            const netAmount =
+                transaction.netAmount !== undefined
+                    ? Number(
+                        transaction.netAmount
+                    )
+                    : amount;
+
+
             row.innerHTML = `
 
                 <div>
+
                     <strong>
                         ${getTransactionTypeText(
                             transaction.type
@@ -603,36 +812,50 @@ function displayTransactionHistory() {
                     </strong>
 
                     <div>
-                        ${formatFCFA(
-                            transaction.amount
-                        )}
+                        Montant :
+                        ${formatFCFA(amount)}
+                    </div>
+
+                    <div>
+                        Frais :
+                        ${formatFCFA(fee)}
+                    </div>
+
+                    <div>
+                        Net :
+                        ${formatFCFA(netAmount)}
                     </div>
 
                     <small>
                         ${date}
                     </small>
+
                 </div>
 
                 <div>
+
                     <span>
                         ${getTransactionStatusText(
                             transaction.status
                         )}
                     </span>
+
                 </div>
 
             `;
 
+
             container.appendChild(
                 row
             );
+
         }
     );
 }
 
 
 /* =========================================
-   MISE A JOUR DU DASHBOARD
+   MISE A JOUR DASHBOARD
 ========================================= */
 
 function updateDashboardData() {
@@ -654,33 +877,41 @@ function initializeDepositForm() {
             "[data-deposit-form]"
         );
 
+
     if (!form) {
         return;
     }
 
+
     form.addEventListener(
         "submit",
-        function (event) {
+        function(event) {
 
             event.preventDefault();
+
 
             const input =
                 form.querySelector(
                     "[name='amount']"
                 );
 
+
             if (!input) {
                 return;
             }
+
 
             const success =
                 requestDeposit(
                     input.value
                 );
 
+
             if (success) {
+
                 form.reset();
             }
+
         }
     );
 }
@@ -697,33 +928,41 @@ function initializeWithdrawalForm() {
             "[data-withdrawal-form]"
         );
 
+
     if (!form) {
         return;
     }
 
+
     form.addEventListener(
         "submit",
-        function (event) {
+        function(event) {
 
             event.preventDefault();
+
 
             const input =
                 form.querySelector(
                     "[name='amount']"
                 );
 
+
             if (!input) {
                 return;
             }
+
 
             const success =
                 requestWithdrawal(
                     input.value
                 );
 
+
             if (success) {
+
                 form.reset();
             }
+
         }
     );
 }
@@ -735,11 +974,12 @@ function initializeWithdrawalForm() {
 
 document.addEventListener(
     "DOMContentLoaded",
-    function () {
+    function() {
 
         console.log(
             "Housing Investment chargé correctement."
         );
+
 
         initializeDepositForm();
 
