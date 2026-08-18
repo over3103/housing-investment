@@ -4,19 +4,90 @@
 ========================================= */
 
 "use strict";
-alert("NOUVEAU SCRIPT CHARGÉ");
 
 
 /* =========================================
    FRAIS
 ========================================= */
 
-const DEPOSIT_FEE_RATE = 0.01;   // 1 %
-const WITHDRAWAL_FEE_RATE = 0.25; // 25 %
+const DEPOSIT_FEE_RATE = 0.01;
+const WITHDRAWAL_FEE_RATE = 0.25;
 
 
 /* =========================================
-   OUTILS UTILISATEUR
+   PARAMETRES INVESTISSEMENT
+========================================= */
+
+const INVESTMENT_DURATION_DAYS = 180;
+
+
+/* =========================================
+   8 PACKS
+========================================= */
+
+const INVESTMENT_PACKS = [
+
+    {
+        id: "pack3000",
+        name: "Pack 3 000 FCFA",
+        amount: 3000,
+        dailyGain: 800
+    },
+
+    {
+        id: "pack10000",
+        name: "Pack 10 000 FCFA",
+        amount: 10000,
+        dailyGain: 3000
+    },
+
+    {
+        id: "pack20000",
+        name: "Pack 20 000 FCFA",
+        amount: 20000,
+        dailyGain: 6000
+    },
+
+    {
+        id: "pack45000",
+        name: "Pack 45 000 FCFA",
+        amount: 45000,
+        dailyGain: 14000
+    },
+
+    {
+        id: "pack100000",
+        name: "Pack 100 000 FCFA",
+        amount: 100000,
+        dailyGain: 30000
+    },
+
+    {
+        id: "pack200000",
+        name: "Pack 200 000 FCFA",
+        amount: 200000,
+        dailyGain: 65000
+    },
+
+    {
+        id: "pack400000",
+        name: "Pack 400 000 FCFA",
+        amount: 400000,
+        dailyGain: 140000
+    },
+
+    {
+        id: "pack800000",
+        name: "Pack 800 000 FCFA",
+        amount: 800000,
+        dailyGain: 290000
+    }
+
+];
+
+
+/* =========================================
+   UTILISATEUR ACTUEL
 ========================================= */
 
 function getCurrentUser() {
@@ -206,6 +277,67 @@ function saveTransactions(
 
 
 /* =========================================
+   INVESTISSEMENTS
+========================================= */
+
+function getInvestments() {
+
+    try {
+
+        const data =
+            localStorage.getItem(
+                "housingInvestments"
+            );
+
+        if (!data) {
+            return [];
+        }
+
+        const investments =
+            JSON.parse(data);
+
+        return Array.isArray(investments)
+            ? investments
+            : [];
+
+    } catch (error) {
+
+        console.error(
+            "Erreur de lecture des investissements.",
+            error
+        );
+
+        return [];
+    }
+}
+
+
+function saveInvestments(
+    investments
+) {
+
+    try {
+
+        localStorage.setItem(
+            "housingInvestments",
+            JSON.stringify(investments)
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Erreur de sauvegarde des investissements.",
+            error
+        );
+
+        return false;
+    }
+}
+
+
+/* =========================================
    CREATION TRANSACTION
 ========================================= */
 
@@ -226,8 +358,10 @@ function createTransaction(
         return false;
     }
 
+
     const numericAmount =
         Number(amount);
+
 
     if (
         !Number.isFinite(numericAmount) ||
@@ -243,42 +377,36 @@ function createTransaction(
 
 
     let fee = 0;
-    let netAmount = numericAmount;
+    let netAmount =
+        numericAmount;
 
-
-    /* DEPOT */
 
     if (type === "deposit") {
 
         fee =
-            numericAmount *
-            DEPOSIT_FEE_RATE;
+            Math.round(
+                numericAmount *
+                DEPOSIT_FEE_RATE
+            );
 
         netAmount =
             numericAmount -
             fee;
     }
 
-
-    /* RETRAIT */
 
     if (type === "withdrawal") {
 
         fee =
-            numericAmount *
-            WITHDRAWAL_FEE_RATE;
+            Math.round(
+                numericAmount *
+                WITHDRAWAL_FEE_RATE
+            );
 
         netAmount =
             numericAmount -
             fee;
     }
-
-
-    fee =
-        Math.round(fee);
-
-    netAmount =
-        Math.round(netAmount);
 
 
     const transactions =
@@ -334,21 +462,9 @@ function createTransaction(
     );
 
 
-    if (
-        !saveTransactions(
-            transactions
-        )
-    ) {
-
-        alert(
-            "Impossible d'enregistrer l'opération."
-        );
-
-        return false;
-    }
-
-
-    return true;
+    return saveTransactions(
+        transactions
+    );
 }
 
 
@@ -360,6 +476,7 @@ function requestDeposit(amount) {
 
     const numericAmount =
         Number(amount);
+
 
     if (
         !Number.isFinite(numericAmount) ||
@@ -424,6 +541,7 @@ function requestWithdrawal(amount) {
 
     const user =
         getCurrentUser();
+
 
     if (!user) {
 
@@ -512,28 +630,25 @@ function requestWithdrawal(amount) {
 
 
 /* =========================================
-   TRANSACTIONS UTILISATEUR
+   INVESTISSEMENTS DE L'UTILISATEUR
 ========================================= */
 
-function getCurrentUserTransactions() {
+function getCurrentUserInvestments() {
 
     const userId =
         getUserIdentifier();
+
 
     if (!userId) {
         return [];
     }
 
 
-    const transactions =
-        getTransactions();
-
-
-    return transactions.filter(
-        function(transaction) {
+    return getInvestments().filter(
+        function(investment) {
 
             return (
-                transaction.userId ===
+                investment.userId ===
                 userId
             );
 
@@ -543,13 +658,14 @@ function getCurrentUserTransactions() {
 
 
 /* =========================================
-   CALCUL DU SOLDE
+   SOLDE
 ========================================= */
 
 function getUserBalance() {
 
     const user =
         getCurrentUser();
+
 
     if (!user) {
         return 0;
@@ -594,13 +710,6 @@ function getUserBalance() {
                 ) || 0;
 
 
-            /*
-               DEPOT
-
-               Seul le montant après
-               frais est crédité.
-            */
-
             if (
                 transaction.type ===
                 "deposit"
@@ -613,17 +722,11 @@ function getUserBalance() {
                         )
                         : amount;
 
+
                 balance +=
                     netAmount;
             }
 
-
-            /*
-               RETRAIT
-
-               Le montant demandé est
-               débité du solde.
-            */
 
             if (
                 transaction.type ===
@@ -634,6 +737,56 @@ function getUserBalance() {
                     amount;
             }
 
+
+            /*
+               INVESTISSEMENT
+
+               Le montant du pack est
+               retiré du solde.
+            */
+
+            if (
+                transaction.type ===
+                "investment"
+            ) {
+
+                balance -=
+                    amount;
+            }
+
+        }
+    );
+
+
+    /*
+       Gains journaliers déjà calculés
+       par les investissements actifs.
+    */
+
+    const investments =
+        getCurrentUserInvestments();
+
+
+    investments.forEach(
+        function(investment) {
+
+            if (
+                investment.status !==
+                "active"
+            ) {
+
+                return;
+            }
+
+
+            const earned =
+                getInvestmentEarnedAmount(
+                    investment
+                );
+
+
+            balance +=
+                earned;
         }
     );
 
@@ -646,7 +799,472 @@ function getUserBalance() {
 
 
 /* =========================================
-   STATUT
+   ACHAT D'UN PACK
+========================================= */
+
+function investInPack(
+    packId
+) {
+
+    const user =
+        getCurrentUser();
+
+
+    if (!user) {
+
+        alert(
+            "Vous devez être connecté."
+        );
+
+        return false;
+    }
+
+
+    const pack =
+        INVESTMENT_PACKS.find(
+            function(item) {
+
+                return (
+                    item.id ===
+                    packId
+                );
+
+            }
+        );
+
+
+    if (!pack) {
+
+        alert(
+            "Pack d'investissement introuvable."
+        );
+
+        return false;
+    }
+
+
+    const balance =
+        getUserBalance();
+
+
+    if (
+        balance <
+        pack.amount
+    ) {
+
+        alert(
+            "Votre solde est insuffisant pour ce pack."
+        );
+
+        return false;
+    }
+
+
+    const investments =
+        getInvestments();
+
+
+    const startDate =
+        new Date();
+
+
+    const endDate =
+        new Date(
+            startDate.getTime() +
+            INVESTMENT_DURATION_DAYS *
+            24 *
+            60 *
+            60 *
+            1000
+        );
+
+
+    const investment = {
+
+        id:
+            "INV-" +
+            Date.now() +
+            "-" +
+            Math.floor(
+                Math.random() * 10000
+            ),
+
+        userId:
+            getUserIdentifier(),
+
+        userName:
+            user.name ||
+            user.fullName ||
+            user.nom ||
+            "Utilisateur",
+
+        phone:
+            user.phone ||
+            user.telephone ||
+            "",
+
+        packId:
+            pack.id,
+
+        packName:
+            pack.name,
+
+        amount:
+            pack.amount,
+
+        dailyGain:
+            pack.dailyGain,
+
+        duration:
+            INVESTMENT_DURATION_DAYS,
+
+        startDate:
+            startDate.toISOString(),
+
+        endDate:
+            endDate.toISOString(),
+
+        status:
+            "active"
+
+    };
+
+
+    investments.push(
+        investment
+    );
+
+
+    if (
+        !saveInvestments(
+            investments
+        )
+    ) {
+
+        alert(
+            "Impossible d'enregistrer l'investissement."
+        );
+
+        return false;
+    }
+
+
+    /*
+       Transaction interne permettant
+       de déduire le capital investi.
+    */
+
+    const transactions =
+        getTransactions();
+
+
+    transactions.push({
+
+        id:
+            "TX-INV-" +
+            Date.now() +
+            "-" +
+            Math.floor(
+                Math.random() * 10000
+            ),
+
+        userId:
+            getUserIdentifier(),
+
+        userName:
+            user.name ||
+            user.fullName ||
+            user.nom ||
+            "Utilisateur",
+
+        phone:
+            user.phone ||
+            user.telephone ||
+            "",
+
+        type:
+            "investment",
+
+        amount:
+            pack.amount,
+
+        fee:
+            0,
+
+        netAmount:
+            pack.amount,
+
+        packId:
+            pack.id,
+
+        packName:
+            pack.name,
+
+        status:
+            "approved",
+
+        date:
+            new Date().toISOString()
+
+    });
+
+
+    if (
+        !saveTransactions(
+            transactions
+        )
+    ) {
+
+        /*
+           Annulation si la transaction
+           ne peut pas être sauvegardée.
+        */
+
+        investments.pop();
+
+        saveInvestments(
+            investments
+        );
+
+        alert(
+            "Impossible d'enregistrer le paiement de l'investissement."
+        );
+
+        return false;
+    }
+
+
+    alert(
+        "Investissement activé.\n\n" +
+        pack.name +
+        "\nMontant : " +
+        formatFCFA(pack.amount) +
+        "\nGain quotidien : " +
+        formatFCFA(pack.dailyGain) +
+        "\nDurée : 180 jours"
+    );
+
+
+    updateDashboardData();
+
+
+    if (
+        typeof displayInvestments ===
+        "function"
+    ) {
+
+        displayInvestments();
+    }
+
+
+    return true;
+}
+
+
+/* =========================================
+   GAINS D'UN INVESTISSEMENT
+========================================= */
+
+function getInvestmentEarnedAmount(
+    investment
+) {
+
+    if (!investment) {
+        return 0;
+    }
+
+
+    const start =
+        new Date(
+            investment.startDate
+        );
+
+
+    const end =
+        new Date(
+            investment.endDate
+        );
+
+
+    const now =
+        new Date();
+
+
+    if (
+        Number.isNaN(
+            start.getTime()
+        )
+    ) {
+
+        return 0;
+    }
+
+
+    const effectiveDate =
+        now < end
+            ? now
+            : end;
+
+
+    const elapsedMilliseconds =
+        effectiveDate.getTime() -
+        start.getTime();
+
+
+    if (
+        elapsedMilliseconds <=
+        0
+    ) {
+
+        return 0;
+    }
+
+
+    const elapsedDays =
+        Math.floor(
+            elapsedMilliseconds /
+            (
+                24 *
+                60 *
+                60 *
+                1000
+            )
+        );
+
+
+    const days =
+        Math.min(
+            INVESTMENT_DURATION_DAYS,
+            elapsedDays
+        );
+
+
+    return (
+        days *
+        Number(
+            investment.dailyGain
+        )
+    );
+}
+
+
+/* =========================================
+   JOUR SUIVANT
+========================================= */
+
+function getInvestmentDaysElapsed(
+    investment
+) {
+
+    if (!investment) {
+        return 0;
+    }
+
+
+    const start =
+        new Date(
+            investment.startDate
+        );
+
+
+    const now =
+        new Date();
+
+
+    const milliseconds =
+        now.getTime() -
+        start.getTime();
+
+
+    if (
+        milliseconds <=
+        0
+    ) {
+
+        return 0;
+    }
+
+
+    return Math.min(
+        INVESTMENT_DURATION_DAYS,
+        Math.floor(
+            milliseconds /
+            (
+                24 *
+                60 *
+                60 *
+                1000
+            )
+        )
+    );
+}
+
+
+/* =========================================
+   STATUT INVESTISSEMENT
+========================================= */
+
+function getInvestmentStatus(
+    investment
+) {
+
+    if (!investment) {
+        return "unknown";
+    }
+
+
+    const now =
+        new Date();
+
+
+    const end =
+        new Date(
+            investment.endDate
+        );
+
+
+    if (
+        now >= end
+    ) {
+
+        return "completed";
+    }
+
+
+    return "active";
+}
+
+
+/* =========================================
+   TRANSACTIONS UTILISATEUR
+========================================= */
+
+function getCurrentUserTransactions() {
+
+    const userId =
+        getUserIdentifier();
+
+
+    if (!userId) {
+        return [];
+    }
+
+
+    return getTransactions().filter(
+        function(transaction) {
+
+            return (
+                transaction.userId ===
+                userId
+            );
+
+        }
+    );
+}
+
+
+/* =========================================
+   STATUT TRANSACTION
 ========================================= */
 
 function getTransactionStatusText(
@@ -657,16 +1275,18 @@ function getTransactionStatusText(
         return "Validé";
     }
 
+
     if (status === "rejected") {
         return "Refusé";
     }
+
 
     return "En attente";
 }
 
 
 /* =========================================
-   TYPE
+   TYPE TRANSACTION
 ========================================= */
 
 function getTransactionTypeText(
@@ -677,16 +1297,23 @@ function getTransactionTypeText(
         return "Dépôt";
     }
 
+
     if (type === "withdrawal") {
         return "Retrait";
     }
+
+
+    if (type === "investment") {
+        return "Investissement";
+    }
+
 
     return "Opération";
 }
 
 
 /* =========================================
-   AFFICHAGE SOLDE
+   AFFICHAGE DU SOLDE
 ========================================= */
 
 function updateBalanceDisplay() {
@@ -695,20 +1322,18 @@ function updateBalanceDisplay() {
         getUserBalance();
 
 
-    const elements =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             "[data-user-balance]"
+        )
+        .forEach(
+            function(element) {
+
+                element.textContent =
+                    formatFCFA(balance);
+
+            }
         );
-
-
-    elements.forEach(
-        function(element) {
-
-            element.textContent =
-                formatFCFA(balance);
-
-        }
-    );
 }
 
 
@@ -745,7 +1370,7 @@ function displayTransactionHistory() {
     }
 
 
-    const sortedTransactions =
+    const sorted =
         [...transactions].sort(
             function(a, b) {
 
@@ -761,7 +1386,7 @@ function displayTransactionHistory() {
     container.innerHTML = "";
 
 
-    sortedTransactions.forEach(
+    sorted.forEach(
         function(transaction) {
 
             const row =
@@ -794,7 +1419,7 @@ function displayTransactionHistory() {
                 ) || 0;
 
 
-            const netAmount =
+            const net =
                 transaction.netAmount !== undefined
                     ? Number(
                         transaction.netAmount
@@ -817,15 +1442,24 @@ function displayTransactionHistory() {
                         ${formatFCFA(amount)}
                     </div>
 
-                    <div>
-                        Frais :
-                        ${formatFCFA(fee)}
-                    </div>
+                    ${
+                        transaction.type ===
+                        "deposit" ||
+                        transaction.type ===
+                        "withdrawal"
+                            ? `
+                                <div>
+                                    Frais :
+                                    ${formatFCFA(fee)}
+                                </div>
 
-                    <div>
-                        Net :
-                        ${formatFCFA(netAmount)}
-                    </div>
+                                <div>
+                                    Net :
+                                    ${formatFCFA(net)}
+                                </div>
+                              `
+                            : ""
+                    }
 
                     <small>
                         ${date}
@@ -834,13 +1468,9 @@ function displayTransactionHistory() {
                 </div>
 
                 <div>
-
-                    <span>
-                        ${getTransactionStatusText(
-                            transaction.status
-                        )}
-                    </span>
-
+                    ${getTransactionStatusText(
+                        transaction.status
+                    )}
                 </div>
 
             `;
@@ -856,7 +1486,140 @@ function displayTransactionHistory() {
 
 
 /* =========================================
-   MISE A JOUR DASHBOARD
+   AFFICHAGE DES INVESTISSEMENTS
+========================================= */
+
+function displayInvestments() {
+
+    const container =
+        document.querySelector(
+            "[data-investments]"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    const investments =
+        getCurrentUserInvestments();
+
+
+    if (
+        investments.length ===
+        0
+    ) {
+
+        container.innerHTML =
+            "<p>Aucun investissement actif.</p>";
+
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    investments.forEach(
+        function(investment) {
+
+            const days =
+                getInvestmentDaysElapsed(
+                    investment
+                );
+
+
+            const earned =
+                getInvestmentEarnedAmount(
+                    investment
+                );
+
+
+            const status =
+                getInvestmentStatus(
+                    investment
+                );
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "investment-item";
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${investment.packName}
+                </h3>
+
+                <p>
+                    Capital :
+                    <strong>
+                        ${formatFCFA(
+                            investment.amount
+                        )}
+                    </strong>
+                </p>
+
+                <p>
+                    Gain quotidien :
+                    <strong>
+                        ${formatFCFA(
+                            investment.dailyGain
+                        )}
+                    </strong>
+                </p>
+
+                <p>
+                    Durée :
+                    180 jours
+                </p>
+
+                <p>
+                    Jours écoulés :
+                    ${days} / 180
+                </p>
+
+                <p>
+                    Gains calculés :
+                    <strong>
+                        ${formatFCFA(
+                            earned
+                        )}
+                    </strong>
+                </p>
+
+                <p>
+                    Statut :
+                    <strong>
+                        ${
+                            status === "active"
+                                ? "Actif"
+                                : "Terminé"
+                        }
+                    </strong>
+                </p>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+}
+
+
+/* =========================================
+   MISE A JOUR GENERALE
 ========================================= */
 
 function updateDashboardData() {
@@ -864,6 +1627,8 @@ function updateDashboardData() {
     updateBalanceDisplay();
 
     displayTransactionHistory();
+
+    displayInvestments();
 }
 
 
@@ -909,7 +1674,6 @@ function initializeDepositForm() {
 
 
             if (success) {
-
                 form.reset();
             }
 
@@ -960,12 +1724,46 @@ function initializeWithdrawalForm() {
 
 
             if (success) {
-
                 form.reset();
             }
 
         }
     );
+}
+
+
+/* =========================================
+   BOUTONS D'INVESTISSEMENT
+========================================= */
+
+function initializeInvestmentButtons() {
+
+    document
+        .querySelectorAll(
+            "[data-investment-pack]"
+        )
+        .forEach(
+            function(button) {
+
+                button.addEventListener(
+                    "click",
+                    function() {
+
+                        const packId =
+                            button.getAttribute(
+                                "data-investment-pack"
+                            );
+
+
+                        investInPack(
+                            packId
+                        );
+
+                    }
+                );
+
+            }
+        );
 }
 
 
@@ -985,6 +1783,8 @@ document.addEventListener(
         initializeDepositForm();
 
         initializeWithdrawalForm();
+
+        initializeInvestmentButtons();
 
         updateDashboardData();
 
