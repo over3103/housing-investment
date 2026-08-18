@@ -1,15 +1,29 @@
+admin.html
+
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Administration - Housing Investment</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
 
+
 <body>
+
 
 <header class="header">
 
@@ -27,163 +41,318 @@
             Espace utilisateur
         </a>
 
-        <a href="#" id="adminLogout" class="btn btn-primary">
+        <button
+            id="logoutAdmin"
+            class="btn btn-primary"
+            style="border:none; cursor:pointer;"
+        >
             Déconnexion
-        </a>
+        </button>
 
     </nav>
 
 </header>
 
 
+
 <main>
 
-<section style="padding:60px 7%;">
+<section style="
+    padding:60px 20px;
+    min-height:80vh;
+">
 
-    <div style="margin-bottom:40px;">
-
-        <span class="section-label">
-            ADMINISTRATION
-        </span>
-
-        <h1>
-            Tableau de bord administrateur
-        </h1>
-
-        <p style="color:#667085;">
-            Gestion générale de la plateforme Housing Investment.
-        </p>
-
-    </div>
-
-
-    <!-- STATISTIQUES -->
-
-    <div class="features">
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                U
-            </div>
-
-            <h3>
-                Utilisateurs
-            </h3>
-
-            <p id="userCount">
-                0 utilisateur
-            </p>
-
-        </div>
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                D
-            </div>
-
-            <h3>
-                Dépôts
-            </h3>
-
-            <p>
-                Gestion des dépôts
-            </p>
-
-        </div>
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                R
-            </div>
-
-            <h3>
-                Retraits
-            </h3>
-
-            <p>
-                Gestion des retraits
-            </p>
-
-        </div>
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                I
-            </div>
-
-            <h3>
-                Investissements
-            </h3>
-
-            <p>
-                Gestion des investissements
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- UTILISATEURS -->
-
-    <section style="margin-top:60px;">
-
-        <h2 style="margin-bottom:25px;">
-            Utilisateurs enregistrés
-        </h2>
-
-        <div
-            id="usersContainer"
-            style="
-                background:#fff;
-                padding:30px;
-                border-radius:15px;
-                border:1px solid #e7ebf0;
-                overflow-x:auto;
-            "
-        >
-
-            <p style="color:#667085;">
-                Aucun utilisateur enregistré.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- INFORMATIONS -->
-
-    <section style="
-        margin-top:40px;
-        background:#fff;
-        padding:30px;
-        border-radius:15px;
-        border:1px solid #e7ebf0;
+    <div style="
+        max-width:1200px;
+        margin:auto;
     ">
 
-        <h2 style="margin-bottom:15px;">
-            Gestion de la plateforme
-        </h2>
 
-        <p style="color:#667085;">
-            Les fonctionnalités détaillées de gestion des
-            utilisateurs, dépôts, retraits et investissements
-            seront ajoutées progressivement.
-        </p>
+        <!-- TITRE -->
 
-    </section>
+        <div style="
+            text-align:center;
+            margin-bottom:40px;
+        ">
+
+            <span class="section-label">
+                ADMINISTRATION
+            </span>
+
+            <h1>
+                Espace Administrateur
+            </h1>
+
+            <p style="color:#667085;">
+                Gestion et consultation de la plateforme.
+            </p>
+
+        </div>
+
+
+
+        <!-- STATISTIQUES -->
+
+        <div style="
+            display:grid;
+            grid-template-columns:
+            repeat(auto-fit,minmax(200px,1fr));
+            gap:20px;
+            margin-bottom:40px;
+        ">
+
+
+            <div style="
+                background:#fff;
+                padding:25px;
+                border-radius:15px;
+                box-shadow:0 8px 25px rgba(20,40,70,.08);
+            ">
+
+                <p style="
+                    color:#667085;
+                    margin-bottom:8px;
+                ">
+                    Utilisateurs
+                </p>
+
+                <h2
+                    id="totalUsers"
+                    style="margin:0;"
+                >
+                    0
+                </h2>
+
+            </div>
+
+
+
+            <div style="
+                background:#fff;
+                padding:25px;
+                border-radius:15px;
+                box-shadow:0 8px 25px rgba(20,40,70,.08);
+            ">
+
+                <p style="
+                    color:#667085;
+                    margin-bottom:8px;
+                ">
+                    Investissements
+                </p>
+
+                <h2
+                    id="totalInvestments"
+                    style="margin:0;"
+                >
+                    0 FCFA
+                </h2>
+
+            </div>
+
+
+
+            <div style="
+                background:#fff;
+                padding:25px;
+                border-radius:15px;
+                box-shadow:0 8px 25px rgba(20,40,70,.08);
+            ">
+
+                <p style="
+                    color:#667085;
+                    margin-bottom:8px;
+                ">
+                    Dépôts
+                </p>
+
+                <h2
+                    id="totalDeposits"
+                    style="margin:0;"
+                >
+                    0 FCFA
+                </h2>
+
+            </div>
+
+
+
+            <div style="
+                background:#fff;
+                padding:25px;
+                border-radius:15px;
+                box-shadow:0 8px 25px rgba(20,40,70,.08);
+            ">
+
+                <p style="
+                    color:#667085;
+                    margin-bottom:8px;
+                ">
+                    Retraits
+                </p>
+
+                <h2
+                    id="totalWithdrawals"
+                    style="margin:0;"
+                >
+                    0 FCFA
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- UTILISATEURS -->
+
+        <div style="
+            background:#fff;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 8px 25px rgba(20,40,70,.08);
+            margin-bottom:30px;
+        ">
+
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:15px;
+                flex-wrap:wrap;
+                margin-bottom:25px;
+            ">
+
+                <div>
+
+                    <span class="section-label">
+                        UTILISATEURS
+                    </span>
+
+                    <h2 style="margin-top:8px;">
+                        Utilisateurs enregistrés
+                    </h2>
+
+                </div>
+
+
+                <button
+                    id="refreshUsers"
+                    class="btn btn-primary"
+                    style="border:none; cursor:pointer;"
+                >
+                    Actualiser
+                </button>
+
+            </div>
+
+
+
+            <!-- CONTENEUR DES UTILISATEURS -->
+
+            <div
+                id="usersContainer"
+                style="
+                    width:100%;
+                    overflow-x:auto;
+                "
+            >
+            </div>
+
+
+        </div>
+
+
+
+        <!-- INVESTISSEMENTS -->
+
+        <div style="
+            background:#fff;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 8px 25px rgba(20,40,70,.08);
+            margin-bottom:30px;
+        ">
+
+            <span class="section-label">
+                INVESTISSEMENTS
+            </span>
+
+            <h2 style="margin-top:8px;">
+                Investissements
+            </h2>
+
+            <div
+                id="investmentsContainer"
+                style="margin-top:20px;"
+            >
+            </div>
+
+        </div>
+
+
+
+        <!-- DEPOTS -->
+
+        <div style="
+            background:#fff;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 8px 25px rgba(20,40,70,.08);
+            margin-bottom:30px;
+        ">
+
+            <span class="section-label">
+                DEPOTS
+            </span>
+
+            <h2 style="margin-top:8px;">
+                Dépôts
+            </h2>
+
+            <div
+                id="depositsContainer"
+                style="margin-top:20px;"
+            >
+            </div>
+
+        </div>
+
+
+
+        <!-- RETRAITS -->
+
+        <div style="
+            background:#fff;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 8px 25px rgba(20,40,70,.08);
+        ">
+
+            <span class="section-label">
+                RETRAITS
+            </span>
+
+            <h2 style="margin-top:8px;">
+                Retraits
+            </h2>
+
+            <div
+                id="withdrawalsContainer"
+                style="margin-top:20px;"
+            >
+            </div>
+
+        </div>
+
+
+    </div>
 
 </section>
 
 </main>
+
 
 
 <footer class="footer">
@@ -200,125 +369,698 @@
 </footer>
 
 
+
 <script>
 
-/* =========================
-   UTILISATEUR ADMIN
-========================= */
-
-/*
-   Pour cette première version,
-   l'accès administrateur est protégé
-   par un code local temporaire.
-
-   Le système d'administration complet
-   sera sécurisé dans une étape ultérieure.
-*/
-
-const ADMIN_CODE = "ADMIN2026";
+/* ==================================================
+   PROTECTION ADMINISTRATEUR
+================================================== */
 
 
-/* =========================
-   PROTECTION ADMIN
-========================= */
-
-const adminSession =
-    sessionStorage.getItem("housingAdmin");
+const ADMIN_CODE =
+    "ADMIN2026";
 
 
-if (adminSession !== "true") {
+const adminAccess =
+    sessionStorage.getItem("housingAdminAccess");
 
-    const enteredCode =
-        prompt("Entrez le code administrateur :");
 
-    if (enteredCode === ADMIN_CODE) {
+if (adminAccess !== "true") {
 
-        sessionStorage.setItem(
-            "housingAdmin",
-            "true"
+    const code =
+        prompt(
+            "Entrez le code administrateur :"
         );
+
+
+    if (code !== ADMIN_CODE) {
+
+        alert(
+            "Code administrateur incorrect."
+        );
+
+        window.location.href =
+            "index.html";
 
     } else {
 
-        alert("Accès administrateur refusé.");
-
-        window.location.href = "index.html";
+        sessionStorage.setItem(
+            "housingAdminAccess",
+            "true"
+        );
 
     }
 
 }
 
 
-/* =========================
-   AFFICHAGE UTILISATEUR
-========================= */
 
-const usersContainer =
-    document.getElementById("usersContainer");
+/* ==================================================
+   RECUPERATION DES UTILISATEURS
+================================================== */
 
 
-const savedUser =
-    localStorage.getItem("housingUser");
+function getUsers() {
+
+    let users = [];
 
 
-if (savedUser) {
+    /*
+       Nouveau système :
+       housingUsers = tableau de plusieurs comptes
+    */
 
-    try {
-
-        const user =
-            JSON.parse(savedUser);
-
-
-        document.getElementById("userCount").textContent =
-            "1 utilisateur";
+    const savedUsers =
+        localStorage.getItem(
+            "housingUsers"
+        );
 
 
-        usersContainer.innerHTML = `
+    if (savedUsers) {
 
-            <div style="min-width:600px;">
+        try {
 
-                <p>
-                    <strong>Nom :</strong>
-                    ${escapeHtml(user.fullName)}
-                </p>
+            const parsedUsers =
+                JSON.parse(savedUsers);
 
-                <p>
-                    <strong>Téléphone :</strong>
-                    ${escapeHtml(user.phone)}
-                </p>
 
-                <p>
-                    <strong>Solde :</strong>
-                    ${Number(user.balance || 0).toLocaleString("fr-FR")} FCFA
-                </p>
+            if (Array.isArray(parsedUsers)) {
 
-                <p>
-                    <strong>Code d'invitation :</strong>
-                    ${escapeHtml(user.invitationCode || "Aucun")}
-                </p>
+                users =
+                    parsedUsers;
 
-                <p>
-                    <strong>Date d'inscription :</strong>
-                    ${formatDate(user.createdAt)}
-                </p>
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Erreur housingUsers :",
+                error
+            );
+
+        }
+
+    }
+
+
+
+    /*
+       Compatibilité avec l'ancien système
+    */
+
+    const oldUser =
+        localStorage.getItem(
+            "housingUser"
+        );
+
+
+    if (oldUser) {
+
+        try {
+
+            const parsedOldUser =
+                JSON.parse(oldUser);
+
+
+            if (parsedOldUser) {
+
+                const oldPhone =
+                    normalizePhone(
+                        parsedOldUser.phone
+                    );
+
+
+                const alreadyExists =
+                    users.some(
+                        function(user) {
+
+                            return (
+                                normalizePhone(
+                                    user.phone
+                                ) === oldPhone
+                            );
+
+                        }
+                    );
+
+
+                if (!alreadyExists) {
+
+                    users.push(
+                        parsedOldUser
+                    );
+
+                }
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Erreur ancien utilisateur :",
+                error
+            );
+
+        }
+
+    }
+
+
+    return users;
+
+}
+
+
+
+/* ==================================================
+   NORMALISATION TELEPHONE
+================================================== */
+
+
+function normalizePhone(phone) {
+
+    let digits =
+        String(phone || "")
+        .replace(/\D/g, "");
+
+
+    if (
+        digits.startsWith("225") &&
+        digits.length === 13
+    ) {
+
+        digits =
+            digits.substring(3);
+
+    }
+
+
+    return digits;
+
+}
+
+
+
+/* ==================================================
+   AFFICHAGE DES UTILISATEURS
+================================================== */
+
+
+function displayUsers() {
+
+    const users =
+        getUsers();
+
+
+    const container =
+        document.getElementById(
+            "usersContainer"
+        );
+
+
+    const totalUsers =
+        document.getElementById(
+            "totalUsers"
+        );
+
+
+    totalUsers.textContent =
+        users.length;
+
+
+
+    if (users.length === 0) {
+
+        container.innerHTML = `
+
+            <div style="
+                padding:25px;
+                text-align:center;
+                color:#667085;
+                background:#f9fafb;
+                border-radius:10px;
+            ">
+
+                Aucun utilisateur enregistré.
 
             </div>
 
         `;
 
-    } catch (error) {
-
-        usersContainer.innerHTML =
-            "<p>Impossible de charger les données.</p>";
+        return;
 
     }
+
+
+
+    let html = `
+
+        <div style="
+            overflow-x:auto;
+        ">
+
+            <table style="
+                width:100%;
+                border-collapse:collapse;
+                min-width:700px;
+            ">
+
+                <thead>
+
+                    <tr>
+
+                        <th style="
+                            padding:14px;
+                            text-align:left;
+                            border-bottom:1px solid #eaecf0;
+                        ">
+                            #
+                        </th>
+
+                        <th style="
+                            padding:14px;
+                            text-align:left;
+                            border-bottom:1px solid #eaecf0;
+                        ">
+                            Nom complet
+                        </th>
+
+                        <th style="
+                            padding:14px;
+                            text-align:left;
+                            border-bottom:1px solid #eaecf0;
+                        ">
+                            Téléphone
+                        </th>
+
+                        <th style="
+                            padding:14px;
+                            text-align:left;
+                            border-bottom:1px solid #eaecf0;
+                        ">
+                            Solde
+                        </th>
+
+                        <th style="
+                            padding:14px;
+                            text-align:left;
+                            border-bottom:1px solid #eaecf0;
+                        ">
+                            Investissement
+                        </th>
+
+                        <th style="
+                            padding:14px;
+                            text-align:left;
+                            border-bottom:1px solid #eaecf0;
+                        ">
+                            Inscription
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+    `;
+
+
+
+    users.forEach(
+        function(user, index) {
+
+
+            const name =
+                user.fullName ||
+                user.name ||
+                "Utilisateur";
+
+
+            const phone =
+                user.phone ||
+                "Non renseigné";
+
+
+            const balance =
+                Number(
+                    user.balance || 0
+                );
+
+
+            const investment =
+                Number(
+                    user.investment || 0
+                );
+
+
+            let createdAt =
+                "Non renseignée";
+
+
+            if (user.createdAt) {
+
+                try {
+
+                    createdAt =
+                        new Date(
+                            user.createdAt
+                        ).toLocaleDateString(
+                            "fr-FR"
+                        );
+
+                } catch (error) {
+
+                    createdAt =
+                        "Non renseignée";
+
+                }
+
+            }
+
+
+
+            html += `
+
+                <tr>
+
+                    <td style="
+                        padding:14px;
+                        border-bottom:1px solid #f2f4f7;
+                    ">
+                        ${index + 1}
+                    </td>
+
+                    <td style="
+                        padding:14px;
+                        border-bottom:1px solid #f2f4f7;
+                        font-weight:600;
+                    ">
+                        ${escapeHtml(name)}
+                    </td>
+
+                    <td style="
+                        padding:14px;
+                        border-bottom:1px solid #f2f4f7;
+                    ">
+                        ${escapeHtml(phone)}
+                    </td>
+
+                    <td style="
+                        padding:14px;
+                        border-bottom:1px solid #f2f4f7;
+                    ">
+                        ${formatMoney(balance)}
+                    </td>
+
+                    <td style="
+                        padding:14px;
+                        border-bottom:1px solid #f2f4f7;
+                    ">
+                        ${formatMoney(investment)}
+                    </td>
+
+                    <td style="
+                        padding:14px;
+                        border-bottom:1px solid #f2f4f7;
+                    ">
+                        ${createdAt}
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+
+    container.innerHTML =
+        html;
 
 }
 
 
-/* =========================
-   PROTECTION CONTRE HTML
-========================= */
+
+/* ==================================================
+   AFFICHAGE INVESTISSEMENTS
+================================================== */
+
+
+function displayInvestments() {
+
+    const users =
+        getUsers();
+
+
+    const container =
+        document.getElementById(
+            "investmentsContainer"
+        );
+
+
+    let total = 0;
+
+
+    users.forEach(
+        function(user) {
+
+            total += Number(
+                user.investment || 0
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalInvestments"
+    ).textContent =
+        formatMoney(total);
+
+
+
+    if (total === 0) {
+
+        container.innerHTML = `
+
+            <p style="
+                color:#667085;
+            ">
+                Aucun investissement enregistré.
+            </p>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+        <p>
+            Total des investissements :
+            <strong>
+                ${formatMoney(total)}
+            </strong>
+        </p>
+
+    `;
+
+}
+
+
+
+/* ==================================================
+   DEPOTS
+================================================== */
+
+
+function displayDeposits() {
+
+    const deposits =
+        JSON.parse(
+            localStorage.getItem(
+                "housingDeposits"
+            ) || "[]"
+        );
+
+
+    const container =
+        document.getElementById(
+            "depositsContainer"
+        );
+
+
+    let total = 0;
+
+
+    if (!Array.isArray(deposits)) {
+
+        container.innerHTML =
+            "<p>Aucun dépôt enregistré.</p>";
+
+        return;
+
+    }
+
+
+    deposits.forEach(
+        function(deposit) {
+
+            total += Number(
+                deposit.amount || 0
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalDeposits"
+    ).textContent =
+        formatMoney(total);
+
+
+    if (deposits.length === 0) {
+
+        container.innerHTML = `
+
+            <p style="color:#667085;">
+                Aucun dépôt enregistré.
+            </p>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+        <p>
+            ${deposits.length}
+            dépôt(s) enregistré(s).
+        </p>
+
+    `;
+
+}
+
+
+
+/* ==================================================
+   RETRAITS
+================================================== */
+
+
+function displayWithdrawals() {
+
+    const withdrawals =
+        JSON.parse(
+            localStorage.getItem(
+                "housingWithdrawals"
+            ) || "[]"
+        );
+
+
+    const container =
+        document.getElementById(
+            "withdrawalsContainer"
+        );
+
+
+    let total = 0;
+
+
+    if (!Array.isArray(withdrawals)) {
+
+        container.innerHTML =
+            "<p>Aucun retrait enregistré.</p>";
+
+        return;
+
+    }
+
+
+    withdrawals.forEach(
+        function(withdrawal) {
+
+            total += Number(
+                withdrawal.amount || 0
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalWithdrawals"
+    ).textContent =
+        formatMoney(total);
+
+
+    if (withdrawals.length === 0) {
+
+        container.innerHTML = `
+
+            <p style="color:#667085;">
+                Aucun retrait enregistré.
+            </p>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+        <p>
+            ${withdrawals.length}
+            retrait(s) enregistré(s).
+        </p>
+
+    `;
+
+}
+
+
+
+/* ==================================================
+   FORMAT MONETAIRE
+================================================== */
+
+
+function formatMoney(amount) {
+
+    return Number(
+        amount || 0
+    ).toLocaleString(
+        "fr-FR"
+    ) + " FCFA";
+
+}
+
+
+
+/* ==================================================
+   SECURITE AFFICHAGE TEXTE
+================================================== */
+
 
 function escapeHtml(value) {
 
@@ -332,43 +1074,70 @@ function escapeHtml(value) {
 }
 
 
-/* =========================
-   DATE
-========================= */
 
-function formatDate(value) {
+/* ==================================================
+   ACTUALISER
+================================================== */
 
-    if (!value) {
-        return "Non disponible";
+
+document
+.getElementById("refreshUsers")
+.addEventListener(
+    "click",
+    function() {
+
+        displayUsers();
+
+        displayInvestments();
+
+        displayDeposits();
+
+        displayWithdrawals();
+
     }
-
-    const date =
-        new Date(value);
-
-    if (isNaN(date.getTime())) {
-        return "Non disponible";
-    }
-
-    return date.toLocaleDateString("fr-FR");
-
-}
+);
 
 
-/* =========================
+
+/* ==================================================
    DECONNEXION ADMIN
-========================= */
+================================================== */
 
-document.getElementById("adminLogout").addEventListener("click", function(event) {
 
-    event.preventDefault();
+document
+.getElementById("logoutAdmin")
+.addEventListener(
+    "click",
+    function() {
 
-    sessionStorage.removeItem("housingAdmin");
+        sessionStorage.removeItem(
+            "housingAdminAccess"
+        );
 
-    window.location.href = "index.html";
+        window.location.href =
+            "index.html";
 
-});
+    }
+);
+
+
+
+/* ==================================================
+   CHARGEMENT INITIAL
+================================================== */
+
+
+displayUsers();
+
+displayInvestments();
+
+displayDeposits();
+
+displayWithdrawals();
 
 </script>
 
+
 </body>
+
 </html>
