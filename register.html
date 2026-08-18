@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un compte - Housing Investment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">Housing Investment</div>
+
+    <nav class="navigation">
+        <a href="index.html">Accueil</a>
+        <a href="login.html">Se connecter</a>
+    </nav>
+</header>
+
+<main>
+
+<section style="padding:70px 20px; min-height:75vh; display:flex; justify-content:center; align-items:center;">
+
+    <div style="width:100%; max-width:480px; background:#fff; padding:40px; border-radius:15px; box-shadow:0 10px 35px rgba(20,40,70,.08);">
+
+        <div style="text-align:center; margin-bottom:30px;">
+            <span class="section-label">NOUVEAU MEMBRE</span>
+
+            <h1 style="margin-bottom:10px;">
+                Créer un compte
+            </h1>
+
+            <p style="color:#667085;">
+                Créez votre compte Housing Investment.
+            </p>
+        </div>
+
+        <form id="registerForm">
+
+            <div style="margin-bottom:18px;">
+                <label for="fullName" style="display:block; margin-bottom:8px; font-weight:700;">
+                    Nom complet
+                </label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    placeholder="Votre nom complet"
+                    required
+                    style="width:100%; padding:14px; border:1px solid #d0d5dd; border-radius:8px; font-size:16px;"
+                >
+            </div>
+
+
+            <div style="margin-bottom:18px;">
+                <label for="phone" style="display:block; margin-bottom:8px; font-weight:700;">
+                    Numéro de téléphone
+                </label>
+
+                <div style="display:flex; gap:8px;">
+
+                    <div style="display:flex; align-items:center; padding:0 14px; background:#f2f4f7; border:1px solid #d0d5dd; border-radius:8px; font-weight:700;">
+                        +225
+                    </div>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="0700000000"
+                        maxlength="10"
+                        required
+                        style="flex:1; min-width:0; padding:14px; border:1px solid #d0d5dd; border-radius:8px; font-size:16px;"
+                    >
+
+                </div>
+            </div>
+
+
+            <div style="margin-bottom:18px;">
+                <label for="password" style="display:block; margin-bottom:8px; font-weight:700;">
+                    Mot de passe
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Choisissez un mot de passe"
+                    minlength="6"
+                    required
+                    style="width:100%; padding:14px; border:1px solid #d0d5dd; border-radius:8px; font-size:16px;"
+                >
+            </div>
+
+
+            <div style="margin-bottom:18px;">
+                <label for="confirmPassword" style="display:block; margin-bottom:8px; font-weight:700;">
+                    Confirmer le mot de passe
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirmez votre mot de passe"
+                    minlength="6"
+                    required
+                    style="width:100%; padding:14px; border:1px solid #d0d5dd; border-radius:8px; font-size:16px;"
+                >
+            </div>
+
+
+            <div style="margin-bottom:18px;">
+                <label for="invitationCode" style="display:block; margin-bottom:8px; font-weight:700;">
+                    Code d'invitation
+                    <span style="font-weight:400; color:#667085;">
+                        (facultatif)
+                    </span>
+                </label>
+
+                <input
+                    type="text"
+                    id="invitationCode"
+                    placeholder="Code d'invitation"
+                    style="width:100%; padding:14px; border:1px solid #d0d5dd; border-radius:8px; font-size:16px;"
+                >
+            </div>
+
+
+            <div
+                id="registerMessage"
+                style="margin-bottom:20px; text-align:center; font-weight:600;"
+            ></div>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+                style="width:100%; border:none; font-size:16px;"
+            >
+                Créer mon compte
+            </button>
+
+        </form>
+
+
+        <p style="text-align:center; margin-top:25px; color:#667085;">
+
+            Vous avez déjà un compte ?
+
+            <a
+                href="login.html"
+                style="color:#123c69; font-weight:700;"
+            >
+                Se connecter
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="footer-bottom">
+        <p>
+            © 2026 Housing Investment.
+            Tous droits réservés.
+        </p>
+    </div>
+
+</footer>
+
+
+<script>
+
+document.getElementById("registerForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const fullName =
+        document.getElementById("fullName").value.trim();
+
+    const phoneInput =
+        document.getElementById("phone").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+    const invitationCode =
+        document.getElementById("invitationCode").value.trim();
+
+    const message =
+        document.getElementById("registerMessage");
+
+
+    /* Vérification du nom */
+
+    if (fullName.length < 2) {
+
+        message.textContent =
+            "Veuillez entrer votre nom complet.";
+
+        message.style.color = "#b42318";
+
+        return;
+    }
+
+
+    /* Vérification du téléphone */
+
+    const phoneDigits =
+        phoneInput.replace(/\D/g, "");
+
+    if (phoneDigits.length !== 10) {
+
+        message.textContent =
+            "Entrez un numéro ivoirien à 10 chiffres.";
+
+        message.style.color = "#b42318";
+
+        return;
+    }
+
+
+    /* Vérification du mot de passe */
+
+    if (password.length < 6) {
+
+        message.textContent =
+            "Le mot de passe doit contenir au moins 6 caractères.";
+
+        message.style.color = "#b42318";
+
+        return;
+    }
+
+
+    /* Confirmation */
+
+    if (password !== confirmPassword) {
+
+        message.textContent =
+            "Les mots de passe ne correspondent pas.";
+
+        message.style.color = "#b42318";
+
+        return;
+    }
+
+
+    /*
+       On conserve le +225 dans les données.
+       Cela permet d'utiliser exactement le même numéro
+       lors de la connexion.
+    */
+
+    const fullPhone =
+        "+225" + phoneDigits;
+
+
+    const user = {
+
+        fullName: fullName,
+
+        phone: fullPhone,
+
+        password: password,
+
+        invitationCode: invitationCode,
+
+        balance: 0,
+
+        investments: [],
+
+        deposits: [],
+
+        withdrawals: [],
+
+        history: [],
+
+        createdAt: new Date().toISOString()
+
+    };
+
+
+    /*
+       Sauvegarde locale du compte.
+    */
+
+    localStorage.setItem(
+        "housingUser",
+        JSON.stringify(user)
+    );
+
+
+    /*
+       Suppression d'une éventuelle ancienne session.
+    */
+
+    localStorage.removeItem("housingLoggedIn");
+
+
+    message.textContent =
+        "Compte créé avec succès. Redirection vers la connexion...";
+
+    message.style.color = "#027a48";
+
+
+    /*
+       Petite pause pour permettre à l'utilisateur
+       de voir le message de succès.
+    */
+
+    setTimeout(function() {
+
+        window.location.href = "login.html";
+
+    }, 1200);
+
+});
+
+</script>
+
+</body>
+</html>
