@@ -1,5 +1,3 @@
-register.html
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,129 +6,206 @@ register.html
 
     <title>Créer un compte - Housing Investment</title>
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #087f45, #0aa65b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .logo {
+            text-align: center;
+            color: white;
+            font-size: 27px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 28px 24px;
+            box-shadow: 0 15px 40px rgba(0,0,0,.20);
+        }
+
+        h1 {
+            text-align: center;
+            color: #087f45;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d7ddd9;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #087f45;
+        }
+
+        .phone-box {
+            display: flex;
+            gap: 7px;
+        }
+
+        .prefix {
+            width: 75px;
+            background: #f2f5f3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9px;
+            font-weight: bold;
+            color: #087f45;
+        }
+
+        .phone-box input {
+            flex: 1;
+        }
+
+        .optional {
+            color: #888;
+            font-weight: normal;
+            font-size: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #087f45;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .btn:hover {
+            background: #066b3a;
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .error {
+            background: #fdecec;
+            color: #b42318;
+        }
+
+        .success {
+            background: #e9f8ef;
+            color: #087f45;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #087f45;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
 
-<header class="header">
+<div class="container">
 
     <div class="logo">
-        Housing Investment
+        🏠 Housing Investment
     </div>
 
-    <nav class="navigation">
-        <a href="index.html">Accueil</a>
-        <a href="login.html" class="btn btn-primary">
-            Se connecter
-        </a>
-    </nav>
+    <div class="card">
 
-</header>
+        <h1>Créer un compte</h1>
 
+        <p class="subtitle">
+            Rejoignez Housing Investment
+        </p>
 
-<main>
-
-<section style="
-    padding:80px 20px;
-    min-height:70vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-">
-
-    <div style="
-        width:100%;
-        max-width:500px;
-        background:#fff;
-        padding:40px;
-        border-radius:15px;
-        box-shadow:0 10px 35px rgba(20,40,70,.08);
-    ">
-
-        <div style="
-            text-align:center;
-            margin-bottom:30px;
-        ">
-
-            <span class="section-label">
-                ESPACE MEMBRE
-            </span>
-
-            <h1 style="margin-bottom:10px;">
-                Créer un compte
-            </h1>
-
-            <p style="color:#667085;">
-                Créez votre compte Housing Investment.
-            </p>
-
+        <div
+            id="message"
+            class="message">
         </div>
-
 
         <form id="registerForm">
 
+            <div class="form-group">
 
-            <!-- NOM COMPLET -->
-
-            <div style="margin-bottom:20px;">
-
-                <label
-                    for="fullName"
-                    style="
-                        display:block;
-                        margin-bottom:8px;
-                        font-weight:700;
-                    "
-                >
+                <label for="name">
                     Nom complet
                 </label>
 
                 <input
                     type="text"
-                    id="fullName"
-                    placeholder="Votre nom complet"
+                    id="name"
+                    placeholder="Ex : TEKI Olivier"
                     required
-                    style="
-                        width:100%;
-                        padding:14px;
-                        border:1px solid #d0d5dd;
-                        border-radius:8px;
-                        font-size:16px;
-                        box-sizing:border-box;
-                    "
                 >
 
             </div>
 
 
-            <!-- TELEPHONE -->
+            <div class="form-group">
 
-            <div style="margin-bottom:20px;">
-
-                <label
-                    for="phone"
-                    style="
-                        display:block;
-                        margin-bottom:8px;
-                        font-weight:700;
-                    "
-                >
+                <label for="phone">
                     Numéro de téléphone
                 </label>
 
-                <div style="
-                    display:flex;
-                    gap:8px;
-                ">
+                <div class="phone-box">
 
-                    <div style="
-                        padding:14px 12px;
-                        background:#f2f4f7;
-                        border:1px solid #d0d5dd;
-                        border-radius:8px;
-                        font-weight:700;
-                    ">
+                    <div class="prefix">
                         +225
                     </div>
 
@@ -139,16 +214,8 @@ register.html
                         id="phone"
                         placeholder="0700000000"
                         maxlength="10"
+                        inputmode="numeric"
                         required
-                        style="
-                            flex:1;
-                            width:100%;
-                            padding:14px;
-                            border:1px solid #d0d5dd;
-                            border-radius:8px;
-                            font-size:16px;
-                            box-sizing:border-box;
-                        "
                     >
 
                 </div>
@@ -156,452 +223,186 @@ register.html
             </div>
 
 
-            <!-- MOT DE PASSE -->
+            <div class="form-group">
 
-            <div style="margin-bottom:20px;">
-
-                <label
-                    for="password"
-                    style="
-                        display:block;
-                        margin-bottom:8px;
-                        font-weight:700;
-                    "
-                >
+                <label for="password">
                     Mot de passe
                 </label>
 
                 <input
                     type="password"
                     id="password"
-                    placeholder="Votre mot de passe"
+                    placeholder="Créer un mot de passe"
+                    minlength="4"
                     required
-                    style="
-                        width:100%;
-                        padding:14px;
-                        border:1px solid #d0d5dd;
-                        border-radius:8px;
-                        font-size:16px;
-                        box-sizing:border-box;
-                    "
                 >
 
             </div>
 
 
-            <!-- CONFIRMATION -->
+            <div class="form-group">
 
-            <div style="margin-bottom:20px;">
-
-                <label
-                    for="confirmPassword"
-                    style="
-                        display:block;
-                        margin-bottom:8px;
-                        font-weight:700;
-                    "
-                >
-                    Confirmer le mot de passe
-                </label>
-
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    placeholder="Confirmez votre mot de passe"
-                    required
-                    style="
-                        width:100%;
-                        padding:14px;
-                        border:1px solid #d0d5dd;
-                        border-radius:8px;
-                        font-size:16px;
-                        box-sizing:border-box;
-                    "
-                >
-
-            </div>
-
-
-            <!-- CODE INVITATION -->
-
-            <div style="margin-bottom:20px;">
-
-                <label
-                    for="invitationCode"
-                    style="
-                        display:block;
-                        margin-bottom:8px;
-                        font-weight:700;
-                    "
-                >
+                <label for="invitation">
                     Code d'invitation
-                    <span style="
-                        font-weight:400;
-                        color:#667085;
-                    ">
+                    <span class="optional">
                         (facultatif)
                     </span>
                 </label>
 
                 <input
                     type="text"
-                    id="invitationCode"
+                    id="invitation"
                     placeholder="Code d'invitation"
-                    style="
-                        width:100%;
-                        padding:14px;
-                        border:1px solid #d0d5dd;
-                        border-radius:8px;
-                        font-size:16px;
-                        box-sizing:border-box;
-                    "
                 >
 
             </div>
 
 
-            <!-- MESSAGE -->
-
-            <div
-                id="registerMessage"
-                style="
-                    margin-bottom:20px;
-                    text-align:center;
-                    font-weight:600;
-                "
-            ></div>
-
-
-            <!-- BOUTON -->
-
             <button
                 type="submit"
-                class="btn btn-primary"
-                style="
-                    width:100%;
-                    border:none;
-                    font-size:16px;
-                "
-            >
+                class="btn">
                 Créer mon compte
             </button>
 
         </form>
 
 
-        <p style="
-            text-align:center;
-            margin-top:25px;
-            color:#667085;
-        ">
+        <div class="login-link">
 
             Vous avez déjà un compte ?
 
-            <a
-                href="login.html"
-                style="
-                    color:#123c69;
-                    font-weight:700;
-                "
-            >
+            <a href="login.html">
                 Se connecter
             </a>
 
-        </p>
+        </div>
 
     </div>
 
-</section>
-
-</main>
+</div>
 
 
-<footer class="footer">
-
-    <div class="footer-bottom">
-
-        <p>
-            © 2026 Housing Investment.
-            Tous droits réservés.
-        </p>
-    </div>
-
-</footer>
-
+<script src="script.js"></script>
 
 <script>
 
-document
-.getElementById("registerForm")
-.addEventListener("submit", function(event) {
+const form =
+    document.getElementById("registerForm");
 
-    event.preventDefault();
-
-
-    const fullName =
-        document.getElementById("fullName")
-        .value
-        .trim();
-
-    const phoneInput =
-        document.getElementById("phone")
-        .value
-        .trim();
-
-    const password =
-        document.getElementById("password")
-        .value;
-
-    const confirmPassword =
-        document.getElementById("confirmPassword")
-        .value;
-
-    const invitationCode =
-        document.getElementById("invitationCode")
-        .value
-        .trim();
-
-    const message =
-        document.getElementById("registerMessage");
+const message =
+    document.getElementById("message");
 
 
-    /* =========================
-       NETTOYAGE DU NUMÉRO
-    ========================= */
+function showMessage(text, type) {
 
-    const phoneDigits =
-        phoneInput.replace(/\D/g, "");
+    message.textContent = text;
 
+    message.className =
+        "message " + type;
 
-    if (
-        phoneDigits.length !== 10 ||
-        !phoneDigits.startsWith("0")
-    ) {
+    message.style.display =
+        "block";
 
-        message.textContent =
-            "Veuillez entrer un numéro ivoirien valide à 10 chiffres.";
-
-        message.style.color =
-            "#b42318";
-
-        return;
-    }
+}
 
 
-    /* =========================
-       VERIFICATION MOT DE PASSE
-    ========================= */
+form.addEventListener(
+    "submit",
+    function(event) {
 
-    if (password.length < 4) {
-
-        message.textContent =
-            "Le mot de passe doit contenir au moins 4 caractères.";
-
-        message.style.color =
-            "#b42318";
-
-        return;
-    }
+        event.preventDefault();
 
 
-    if (password !== confirmPassword) {
-
-        message.textContent =
-            "Les mots de passe ne correspondent pas.";
-
-        message.style.color =
-            "#b42318";
-
-        return;
-    }
+        const name =
+            document.getElementById(
+                "name"
+            ).value.trim();
 
 
-    /* =========================
-       NUMÉRO COMPLET
-    ========================= */
-
-    const fullPhone =
-        "+225" + phoneDigits;
+        let phone =
+            document.getElementById(
+                "phone"
+            ).value.trim();
 
 
-    /* =========================
-       RECUPERATION DES UTILISATEURS
-    ========================= */
-
-    let users = [];
-
-    const savedUsers =
-        localStorage.getItem("housingUsers");
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
 
 
-    if (savedUsers) {
-
-        try {
-
-            users =
-                JSON.parse(savedUsers);
-
-            if (!Array.isArray(users)) {
-                users = [];
-            }
-
-        } catch (error) {
-
-            users = [];
-
-        }
-    }
+        const invitation =
+            document.getElementById(
+                "invitation"
+            ).value.trim();
 
 
-    /*
-       COMPATIBILITE AVEC L'ANCIEN
-       SYSTEME A UN SEUL UTILISATEUR
-    */
+        /* Nettoyage du numéro */
 
-    const oldUser =
-        localStorage.getItem("housingUser");
+        phone =
+            phone.replace(/\D/g, "");
 
 
-    if (
-        oldUser &&
-        users.length === 0
-    ) {
+        if (phone.length !== 10) {
 
-        try {
-
-            const previousUser =
-                JSON.parse(oldUser);
-
-            if (previousUser) {
-                users.push(previousUser);
-            }
-
-        } catch (error) {
-
-            console.log(
-                "Ancien compte non récupéré."
+            showMessage(
+                "Veuillez entrer un numéro ivoirien valide à 10 chiffres.",
+                "error"
             );
 
+            return;
+
         }
+
+
+        const fullPhone =
+            "+225" + phone;
+
+
+        const result =
+            window.HousingInvestment.registerUser({
+
+                name: name,
+
+                phone: fullPhone,
+
+                password: password,
+
+                invitationCode: invitation
+
+            });
+
+
+        if (!result.success) {
+
+            showMessage(
+                result.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        showMessage(
+            "Compte créé avec succès ! Redirection...",
+            "success"
+        );
+
+
+        setTimeout(
+            function() {
+
+                window.location.href =
+                    "login.html";
+
+            },
+            1200
+        );
+
     }
-
-
-    /* =========================
-       VERIFICATION DOUBLON
-    ========================= */
-
-    const alreadyExists =
-        users.some(function(user) {
-
-            let existingPhone =
-                String(user.phone || "")
-                .replace(/\D/g, "");
-
-            if (
-                existingPhone.startsWith("225") &&
-                existingPhone.length === 13
-            ) {
-
-                existingPhone =
-                    existingPhone.substring(3);
-
-            }
-
-            return existingPhone === phoneDigits;
-
-        });
-
-
-    if (alreadyExists) {
-
-        message.textContent =
-            "Un compte existe déjà avec ce numéro.";
-
-        message.style.color =
-            "#b42318";
-
-        return;
-    }
-
-
-    /* =========================
-       CREATION DU COMPTE
-    ========================= */
-
-    const newUser = {
-
-        id:
-            Date.now().toString(),
-
-        fullName:
-            fullName,
-
-        phone:
-            fullPhone,
-
-        password:
-            password,
-
-        invitationCode:
-            invitationCode,
-
-        balance:
-            0,
-
-        investment:
-            0,
-
-        createdAt:
-            new Date().toISOString()
-
-    };
-
-
-    /* =========================
-       AJOUT DU NOUVEL UTILISATEUR
-    ========================= */
-
-    users.push(newUser);
-
-
-    localStorage.setItem(
-        "housingUsers",
-        JSON.stringify(users)
-    );
-
-
-    /*
-       On conserve également le dernier
-       compte dans housingUser pour
-       assurer la compatibilité avec
-       les anciennes parties du site.
-    */
-
-    localStorage.setItem(
-        "housingUser",
-        JSON.stringify(newUser)
-    );
-
-
-    /* =========================
-       SUCCÈS
-    ========================= */
-
-    message.textContent =
-        "Compte créé avec succès !";
-
-    message.style.color =
-        "#027a48";
-
-
-    setTimeout(function() {
-
-        window.location.href =
-            "login.html";
-
-    }, 1000);
-
-});
+);
 
 </script>
 
