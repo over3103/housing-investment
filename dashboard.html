@@ -3,495 +3,794 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Housing Investment - Espace utilisateur</title>
 
-    <title>Housing Investment - Mon espace</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    <link rel="stylesheet" href="style.css">
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0b6b3a, #159957);
+            color: white;
+            padding: 18px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #fff;
+            color: #0b6b3a;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px 15px 50px;
+        }
+
+        .welcome {
+            background: white;
+            border-radius: 15px;
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        .welcome h2 {
+            color: #0b6b3a;
+            margin-bottom: 8px;
+        }
+
+        .user-phone {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .balances {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .balance-card {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        .balance-card h3 {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .balance-card strong {
+            font-size: 23px;
+            color: #0b6b3a;
+        }
+
+        .section-title {
+            margin: 25px 0 15px;
+            color: #0b6b3a;
+            font-size: 23px;
+        }
+
+        .packs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .pack {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.09);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .pack:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+        }
+
+        .pack-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .pack-content {
+            padding: 15px;
+        }
+
+        .pack h3 {
+            color: #0b6b3a;
+            margin-bottom: 8px;
+        }
+
+        .pack-price {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .pack-info {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        .pack-info strong {
+            color: #222;
+        }
+
+        .invest-btn {
+            width: 100%;
+            border: none;
+            background: #0b6b3a;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 14px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .invest-btn:hover {
+            background: #07542d;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-card {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        .action-card h3 {
+            color: #0b6b3a;
+            margin-bottom: 8px;
+        }
+
+        .action-card button {
+            width: 100%;
+            border: none;
+            padding: 11px;
+            margin-top: 10px;
+            border-radius: 8px;
+            background: #0b6b3a;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .history {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        th {
+            color: #0b6b3a;
+        }
+
+        .empty {
+            color: #777;
+            padding: 15px 0;
+        }
+
+        .message {
+            display: none;
+            padding: 13px;
+            border-radius: 8px;
+            margin-top: 15px;
+            background: #eaf8f0;
+            color: #0b6b3a;
+        }
+
+        @media (max-width: 900px) {
+            .packs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .balances {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-content {
+                align-items: flex-start;
+            }
+
+            .packs {
+                grid-template-columns: 1fr;
+            }
+
+            .balances {
+                grid-template-columns: 1fr;
+            }
+
+            .pack-image {
+                height: 210px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- =========================================
-         EN-TÊTE
-    ========================================== -->
+<header>
+    <div class="header-content">
+        <div class="logo">🏠 Housing Investment</div>
+        <button class="logout-btn" onclick="logout()">Déconnexion</button>
+    </div>
+</header>
 
-    <header class="dashboard-header">
+<main>
 
-        <div>
-            <h1>Housing Investment</h1>
-            <p>Mon espace utilisateur</p>
+    <section class="welcome">
+        <h2>Bienvenue, <span id="userName">Utilisateur</span> 👋</h2>
+        <p class="user-phone" id="userPhone"></p>
+    </section>
+
+    <section class="balances">
+
+        <div class="balance-card">
+            <h3>Solde disponible</h3>
+            <strong id="balance">0 FCFA</strong>
         </div>
 
-        <button
-            type="button"
-            onclick="logoutUser()"
-        >
-            Déconnexion
-        </button>
+        <div class="balance-card">
+            <h3>Total investi</h3>
+            <strong id="totalInvested">0 FCFA</strong>
+        </div>
 
-    </header>
+        <div class="balance-card">
+            <h3>Gains cumulés</h3>
+            <strong id="totalGains">0 FCFA</strong>
+        </div>
 
+    </section>
 
-    <main class="dashboard-container">
+    <h2 class="section-title">🏠 Nos packs d'investissement</h2>
 
+    <section class="packs">
 
-        <!-- =========================================
-             SOLDE
-        ========================================== -->
+        <!-- PACK 3 000 -->
+        <div class="pack">
+            <img class="pack-image"
+                 src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80"
+                 alt="Petite maison moderne">
 
-        <section class="dashboard-card">
+            <div class="pack-content">
+                <h3>Pack Starter</h3>
+                <div class="pack-price">3 000 FCFA</div>
 
-            <h2>Mon solde disponible</h2>
+                <div class="pack-info">
+                    Gain quotidien : <strong>800 FCFA</strong><br>
+                    Durée : <strong>180 jours</strong><br>
+                    Gain total : <strong>144 000 FCFA</strong>
+                </div>
 
-            <div
-                class="balance"
-                data-user-balance
-            >
-                0 FCFA
-            </div>
-
-        </section>
-
-
-        <!-- =========================================
-             DEPÔT
-        ========================================== -->
-
-        <section class="dashboard-card">
-
-            <h2>Effectuer un dépôt</h2>
-
-            <p>
-                Des frais de 1 % sont appliqués
-                au montant du dépôt.
-            </p>
-
-            <form data-deposit-form>
-
-                <input
-                    type="number"
-                    name="amount"
-                    min="1"
-                    placeholder="Montant du dépôt"
-                    required
-                >
-
-                <button type="submit">
-                    Déposer
+                <button class="invest-btn" onclick="investir(3000, 800)">
+                    Investir
                 </button>
+            </div>
+        </div>
 
-            </form>
+        <!-- PACK 10 000 -->
+        <div class="pack">
+            <img class="pack-image"
+                 src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
+                 alt="Maison familiale">
 
-        </section>
+            <div class="pack-content">
+                <h3>Pack Familial</h3>
+                <div class="pack-price">10 000 FCFA</div>
 
+                <div class="pack-info">
+                    Gain quotidien : <strong>3 000 FCFA</strong><br>
+                    Durée : <strong>180 jours</strong><br>
+                    Gain total : <strong>540 000 FCFA</strong>
+                </div>
 
-        <!-- =========================================
-             RETRAIT
-        ========================================== -->
-
-        <section class="dashboard-card">
-
-            <h2>Effectuer un retrait</h2>
-
-            <p>
-                Des frais de 25 % sont appliqués
-                au montant du retrait.
-            </p>
-
-            <form data-withdrawal-form>
-
-                <input
-                    type="number"
-                    name="amount"
-                    min="1"
-                    placeholder="Montant du retrait"
-                    required
-                >
-
-                <button type="submit">
-                    Retirer
+                <button class="invest-btn" onclick="investir(10000, 3000)">
+                    Investir
                 </button>
-
-            </form>
-
-        </section>
-
-
-        <!-- =========================================
-             INVESTISSEMENTS
-        ========================================== -->
-
-        <section class="dashboard-card">
-
-            <h2>Nos packs d'investissement</h2>
-
-            <p>
-                Choisissez le pack correspondant
-                à votre solde disponible.
-            </p>
-
-
-            <div class="packs-grid">
-
-
-                <!-- PACK 3 000 -->
-
-                <article class="investment-pack">
-
-                    <h3>
-                        Pack 3 000 FCFA
-                    </h3>
-
-                    <p>
-                        <strong>
-                            3 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Gain quotidien :
-                        <strong>
-                            800 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Durée :
-                        <strong>
-                            180 jours
-                        </strong>
-                    </p>
-
-                    <button
-                        type="button"
-                        data-investment-pack="pack3000"
-                    >
-                        Investir
-                    </button>
-
-                </article>
-
-
-                <!-- PACK 10 000 -->
-
-                <article class="investment-pack">
-
-                    <h3>
-                        Pack 10 000 FCFA
-                    </h3>
-
-                    <p>
-                        <strong>
-                            10 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Gain quotidien :
-                        <strong>
-                            3 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Durée :
-                        <strong>
-                            180 jours
-                        </strong>
-                    </p>
-
-                    <button
-                        type="button"
-                        data-investment-pack="pack10000"
-                    >
-                        Investir
-                    </button>
-
-                </article>
-
-
-                <!-- PACK 20 000 -->
-
-                <article class="investment-pack">
-
-                    <h3>
-                        Pack 20 000 FCFA
-                    </h3>
-
-                    <p>
-                        <strong>
-                            20 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Gain quotidien :
-                        <strong>
-                            6 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Durée :
-                        <strong>
-                            180 jours
-                        </strong>
-                    </p>
-
-                    <button
-                        type="button"
-                        data-investment-pack="pack20000"
-                    >
-                        Investir
-                    </button>
-
-                </article>
-
-
-                <!-- PACK 45 000 -->
-
-                <article class="investment-pack">
-
-                    <h3>
-                        Pack 45 000 FCFA
-                    </h3>
-
-                    <p>
-                        <strong>
-                            45 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Gain quotidien :
-                        <strong>
-                            14 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Durée :
-                        <strong>
-                            180 jours
-                        </strong>
-                    </p>
-
-                    <button
-                        type="button"
-                        data-investment-pack="pack45000"
-                    >
-                        Investir
-                    </button>
-
-                </article>
-
-
-                <!-- PACK 100 000 -->
-
-                <article class="investment-pack">
-
-                    <h3>
-                        Pack 100 000 FCFA
-                    </h3>
-
-                    <p>
-                        <strong>
-                            100 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Gain quotidien :
-                        <strong>
-                            30 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Durée :
-                        <strong>
-                            180 jours
-                        </strong>
-                    </p>
-
-                    <button
-                        type="button"
-                        data-investment-pack="pack100000"
-                    >
-                        Investir
-                    </button>
-
-                </article>
-
-
-                <!-- PACK 200 000 -->
-
-                <article class="investment-pack">
-
-                    <h3>
-                        Pack 200 000 FCFA
-                    </h3>
-
-                    <p>
-                        <strong>
-                            200 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Gain quotidien :
-                        <strong>
-                            65 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Durée :
-                        <strong>
-                            180 jours
-                        </strong>
-                    </p>
-
-                    <button
-                        type="button"
-                        data-investment-pack="pack200000"
-                    >
-                        Investir
-                    </button>
-
-                </article>
-
-
-                <!-- PACK 400 000 -->
-
-                <article class="investment-pack">
-
-                    <h3>
-                        Pack 400 000 FCFA
-                    </h3>
-
-                    <p>
-                        <strong>
-                            400 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Gain quotidien :
-                        <strong>
-                            140 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Durée :
-                        <strong>
-                            180 jours
-                        </strong>
-                    </p>
-
-                    <button
-                        type="button"
-                        data-investment-pack="pack400000"
-                    >
-                        Investir
-                    </button>
-
-                </article>
-
-
-                <!-- PACK 800 000 -->
-
-                <article class="investment-pack">
-
-                    <h3>
-                        Pack 800 000 FCFA
-                    </h3>
-
-                    <p>
-                        <strong>
-                            800 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Gain quotidien :
-                        <strong>
-                            290 000 FCFA
-                        </strong>
-                    </p>
-
-                    <p>
-                        Durée :
-                        <strong>
-                            180 jours
-                        </strong>
-                    </p>
-
-                    <button
-                        type="button"
-                        data-investment-pack="pack800000"
-                    >
-                        Investir
-                    </button>
-
-                </article>
-
             </div>
+        </div>
 
-        </section>
+        <!-- PACK 20 000 -->
+        <div class="pack">
+            <img class="pack-image"
+                 src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=900&q=80"
+                 alt="Grande maison moderne">
 
+            <div class="pack-content">
+                <h3>Pack Confort</h3>
+                <div class="pack-price">20 000 FCFA</div>
 
-        <!-- =========================================
-             INVESTISSEMENTS ACTIFS
-        ========================================== -->
+                <div class="pack-info">
+                    Gain quotidien : <strong>6 000 FCFA</strong><br>
+                    Durée : <strong>180 jours</strong><br>
+                    Gain total : <strong>1 080 000 FCFA</strong>
+                </div>
 
-        <section class="dashboard-card">
-
-            <h2>
-                Mes investissements
-            </h2>
-
-            <div
-                data-investments
-            >
-                <p>
-                    Aucun investissement.
-                </p>
+                <button class="invest-btn" onclick="investir(20000, 6000)">
+                    Investir
+                </button>
             </div>
+        </div>
 
-        </section>
+        <!-- PACK 45 000 -->
+        <div class="pack">
+            <img class="pack-image"
+                 src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80"
+                 alt="Villa moderne">
 
+            <div class="pack-content">
+                <h3>Pack Villa</h3>
+                <div class="pack-price">45 000 FCFA</div>
 
-        <!-- =========================================
-             HISTORIQUE
-        ========================================== -->
+                <div class="pack-info">
+                    Gain quotidien : <strong>14 000 FCFA</strong><br>
+                    Durée : <strong>180 jours</strong><br>
+                    Gain total : <strong>2 520 000 FCFA</strong>
+                </div>
 
-        <section class="dashboard-card">
-
-            <h2>
-                Mon historique
-            </h2>
-
-            <div
-                data-transaction-history
-            >
-                <p>
-                    Aucune opération pour le moment.
-                </p>
+                <button class="invest-btn" onclick="investir(45000, 14000)">
+                    Investir
+                </button>
             </div>
+        </div>
 
-        </section>
+        <!-- PACK 100 000 -->
+        <div class="pack">
+            <img class="pack-image"
+                 src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=900&q=80"
+                 alt="Grande villa">
 
+            <div class="pack-content">
+                <h3>Pack Premium</h3>
+                <div class="pack-price">100 000 FCFA</div>
 
-    </main>
+                <div class="pack-info">
+                    Gain quotidien : <strong>30 000 FCFA</strong><br>
+                    Durée : <strong>180 jours</strong><br>
+                    Gain total : <strong>5 400 000 FCFA</strong>
+                </div>
 
+                <button class="invest-btn" onclick="investir(100000, 30000)">
+                    Investir
+                </button>
+            </div>
+        </div>
 
-    <!-- =========================================
-         SCRIPT
-    ========================================== -->
+        <!-- PACK 200 000 -->
+        <div class="pack">
+            <img class="pack-image"
+                 src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"
+                 alt="Villa premium">
 
-    <script src="script.js"></script>
+            <div class="pack-content">
+                <h3>Pack Prestige</h3>
+                <div class="pack-price">200 000 FCFA</div>
+
+                <div class="pack-info">
+                    Gain quotidien : <strong>65 000 FCFA</strong><br>
+                    Durée : <strong>180 jours</strong><br>
+                    Gain total : <strong>11 700 000 FCFA</strong>
+                </div>
+
+                <button class="invest-btn" onclick="investir(200000, 65000)">
+                    Investir
+                </button>
+            </div>
+        </div>
+
+        <!-- PACK 400 000 -->
+        <div class="pack">
+            <img class="pack-image"
+                 src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80"
+                 alt="Résidence haut de gamme">
+
+            <div class="pack-content">
+                <h3>Pack Excellence</h3>
+                <div class="pack-price">400 000 FCFA</div>
+
+                <div class="pack-info">
+                    Gain quotidien : <strong>140 000 FCFA</strong><br>
+                    Durée : <strong>180 jours</strong><br>
+                    Gain total : <strong>25 200 000 FCFA</strong>
+                </div>
+
+                <button class="invest-btn" onclick="investir(400000, 140000)">
+                    Investir
+                </button>
+            </div>
+        </div>
+
+        <!-- PACK 800 000 -->
+        <div class="pack">
+            <img class="pack-image"
+                 src="https://images.unsplash.com/photo-1600047508788-786b4f9c3e1f?auto=format&fit=crop&w=900&q=80"
+                 alt="Villa de luxe avec piscine">
+
+            <div class="pack-content">
+                <h3>Pack Luxe</h3>
+                <div class="pack-price">800 000 FCFA</div>
+
+                <div class="pack-info">
+                    Gain quotidien : <strong>290 000 FCFA</strong><br>
+                    Durée : <strong>180 jours</strong><br>
+                    Gain total : <strong>52 200 000 FCFA</strong>
+                </div>
+
+                <button class="invest-btn" onclick="investir(800000, 290000)">
+                    Investir
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <div id="message" class="message"></div>
+
+    <h2 class="section-title">💰 Gestion de votre compte</h2>
+
+    <section class="actions">
+
+        <div class="action-card">
+            <h3>💳 Dépôt</h3>
+            <p>Ajoutez de l'argent à votre solde pour investir.</p>
+            <button onclick="alert('Fonction dépôt disponible prochainement.')">
+                Effectuer un dépôt
+            </button>
+        </div>
+
+        <div class="action-card">
+            <h3>💸 Retrait</h3>
+            <p>Demandez le retrait de vos gains disponibles.</p>
+            <button onclick="alert('Fonction retrait disponible prochainement.')">
+                Demander un retrait
+            </button>
+        </div>
+
+        <div class="action-card">
+            <h3>📊 Historique</h3>
+            <p>Consultez vos opérations et investissements.</p>
+            <button onclick="document.getElementById('historique').scrollIntoView({behavior:'smooth'})">
+                Voir l'historique
+            </button>
+        </div>
+
+    </section>
+
+    <section class="history" id="historique">
+
+        <h2>📋 Historique des investissements</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Pack</th>
+                    <th>Montant</th>
+                    <th>Gain quotidien</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody id="historyBody">
+                <tr>
+                    <td colspan="4" class="empty">
+                        Aucun investissement pour le moment.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </section>
+
+</main>
+
+<script>
+    /*
+     * Récupération des informations de l'utilisateur.
+     * Le système essaie plusieurs noms utilisés par les anciennes versions
+     * du site afin d'éviter de perdre les informations existantes.
+     */
+
+    const user =
+        JSON.parse(localStorage.getItem("currentUser")) ||
+        JSON.parse(localStorage.getItem("loggedInUser")) ||
+        JSON.parse(localStorage.getItem("user")) ||
+        null;
+
+    if (!user) {
+        window.location.href = "login.html";
+    }
+
+    function getUserName() {
+        if (!user) return "Utilisateur";
+
+        return user.name ||
+               user.fullName ||
+               user.nom ||
+               user.username ||
+               "Utilisateur";
+    }
+
+    function getUserPhone() {
+        if (!user) return "";
+
+        return user.phone ||
+               user.telephone ||
+               user.phoneNumber ||
+               "";
+    }
+
+    document.getElementById("userName").textContent = getUserName();
+
+    if (getUserPhone()) {
+        document.getElementById("userPhone").textContent =
+            "Téléphone : " + getUserPhone();
+    }
+
+    function formatFCFA(number) {
+        return Number(number || 0).toLocaleString("fr-FR") + " FCFA";
+    }
+
+    function getBalance() {
+        return Number(
+            user.balance ||
+            user.solde ||
+            0
+        );
+    }
+
+    function setBalance(value) {
+        user.balance = Number(value);
+
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        localStorage.setItem("loggedInUser", JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
+    }
+
+    function updateDashboard() {
+
+        const balance = getBalance();
+
+        document.getElementById("balance").textContent =
+            formatFCFA(balance);
+
+        const investments =
+            JSON.parse(localStorage.getItem("investments")) || [];
+
+        const myPhone = getUserPhone();
+
+        const myInvestments = investments.filter(item => {
+
+            if (!item.userPhone && !item.phone) {
+                return true;
+            }
+
+            return (
+                item.userPhone === myPhone ||
+                item.phone === myPhone
+            );
+        });
+
+        let totalInvested = 0;
+        let totalGains = 0;
+
+        myInvestments.forEach(item => {
+            totalInvested += Number(item.amount || 0);
+            totalGains += Number(item.gain || 0);
+        });
+
+        document.getElementById("totalInvested").textContent =
+            formatFCFA(totalInvested);
+
+        document.getElementById("totalGains").textContent =
+            formatFCFA(totalGains);
+
+        afficherHistorique(myInvestments);
+    }
+
+    function afficherHistorique(investments) {
+
+        const body = document.getElementById("historyBody");
+
+        if (!investments.length) {
+
+            body.innerHTML = `
+                <tr>
+                    <td colspan="4" class="empty">
+                        Aucun investissement pour le moment.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        body.innerHTML = "";
+
+        investments.forEach(item => {
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${item.pack || "Investissement"}</td>
+                <td>${formatFCFA(item.amount)}</td>
+                <td>${formatFCFA(item.dailyGain || item.gain)}</td>
+                <td>${item.date || "—"}</td>
+            `;
+
+            body.appendChild(row);
+        });
+    }
+
+    function investir(amount, dailyGain) {
+
+        const balance = getBalance();
+
+        if (balance < amount) {
+
+            showMessage(
+                "Solde insuffisant. Veuillez effectuer un dépôt avant d'investir.",
+                true
+            );
+
+            return;
+        }
+
+        const confirmation = confirm(
+            "Confirmez-vous votre investissement de " +
+            formatFCFA(amount) +
+            " ?"
+        );
+
+        if (!confirmation) {
+            return;
+        }
+
+        const newBalance = balance - amount;
+
+        setBalance(newBalance);
+
+        let investments =
+            JSON.parse(localStorage.getItem("investments")) || [];
+
+        const investment = {
+
+            id: Date.now(),
+
+            userPhone: getUserPhone(),
+
+            userName: getUserName(),
+
+            pack: "Pack " + formatFCFA(amount),
+
+            amount: amount,
+
+            dailyGain: dailyGain,
+
+            gain: 0,
+
+            duration: 180,
+
+            date: new Date().toLocaleDateString("fr-FR")
+        };
+
+        investments.push(investment);
+
+        localStorage.setItem(
+            "investments",
+            JSON.stringify(investments)
+        );
+
+        showMessage(
+            "Investissement effectué avec succès : " +
+            formatFCFA(amount)
+        );
+
+        updateDashboard();
+    }
+
+    function showMessage(text, error = false) {
+
+        const message = document.getElementById("message");
+
+        message.textContent = text;
+
+        message.style.display = "block";
+
+        if (error) {
+            message.style.background = "#fdecec";
+            message.style.color = "#b42318";
+        } else {
+            message.style.background = "#eaf8f0";
+            message.style.color = "#0b6b3a";
+        }
+
+        setTimeout(() => {
+            message.style.display = "none";
+        }, 5000);
+    }
+
+    function logout() {
+
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("loggedInUser");
+
+        window.location.href = "login.html";
+    }
+
+    updateDashboard();
+</script>
 
 </body>
 </html>
