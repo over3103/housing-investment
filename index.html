@@ -1,614 +1,754 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Housing Investment</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f5f8f6;
-            color: #1f2933;
-            line-height: 1.6;
-        }
-
-        /* ================= HEADER ================= */
-
-        header {
-            background: #ffffff;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 12px rgba(0,0,0,.08);
-        }
-
-        .navbar {
-            max-width: 1200px;
-            margin: auto;
-            min-height: 70px;
-            padding: 10px 20px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .logo {
-            color: #087f45;
-            font-size: 22px;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 600;
-            padding: 10px 13px;
-            border-radius: 8px;
-        }
-
-        .nav-links a:hover {
-            background: #eaf7ef;
-            color: #087f45;
-        }
-
-        .btn {
-            display: inline-block;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            border-radius: 9px;
-            padding: 12px 18px;
-            transition: .2s;
-        }
-
-        .btn-primary {
-            background: #087f45;
-            color: #fff !important;
-        }
-
-        .btn-primary:hover {
-            background: #056638;
-            transform: translateY(-1px);
-        }
-
-        .btn-outline {
-            border: 1px solid #087f45;
-            color: #087f45 !important;
-            background: #fff;
-        }
-
-        .btn-outline:hover {
-            background: #eaf7ef;
-        }
-
-        /* ================= HERO ================= */
-
-        .hero {
-            min-height: 520px;
-
-            background:
-                linear-gradient(
-                    rgba(0, 65, 35, .72),
-                    rgba(0, 65, 35, .72)
-                ),
-                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85");
-
-            background-size: cover;
-            background-position: center;
-
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-content {
-            max-width: 1150px;
-            width: 100%;
-            margin: auto;
-            padding: 70px 20px;
-            color: white;
-        }
-
-        .hero-content h1 {
-            max-width: 750px;
-            font-size: clamp(35px, 6vw, 65px);
-            line-height: 1.08;
-            margin-bottom: 20px;
-        }
-
-        .hero-content p {
-            max-width: 700px;
-            font-size: 19px;
-            margin-bottom: 30px;
-            color: #f1f8f4;
-        }
-
-        .hero-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .hero-buttons .btn-outline {
-            background: white;
-        }
-
-        /* ================= INTRO ================= */
-
-        .section {
-            max-width: 1150px;
-            margin: auto;
-            padding: 65px 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .section-title h2 {
-            font-size: 32px;
-            color: #087f45;
-            margin-bottom: 10px;
-        }
-
-        .section-title p {
-            color: #667085;
-            max-width: 700px;
-            margin: auto;
-        }
-
-        /* ================= FEATURES ================= */
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .feature {
-            background: white;
-            padding: 28px 22px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 18px rgba(0,0,0,.06);
-        }
-
-        .feature-icon {
-            font-size: 38px;
-            margin-bottom: 12px;
-        }
-
-        .feature h3 {
-            color: #087f45;
-            margin-bottom: 8px;
-        }
-
-        .feature p {
-            color: #667085;
-            font-size: 14px;
-        }
-
-        /* ================= PACKS ================= */
-
-        .packs-section {
-            background: #eef6f1;
-        }
-
-        .packs {
-            max-width: 1150px;
-            margin: auto;
-            padding: 65px 20px;
-
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .pack {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,.08);
-            transition: .25s;
-        }
-
-        .pack:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 28px rgba(0,0,0,.13);
-        }
-
-        .pack-image-container {
-            position: relative;
-            height: 190px;
-            overflow: hidden;
-            background: linear-gradient(135deg, #dcefe4, #b9ddc8);
-        }
-
-        .pack-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .image-fallback {
-            position: absolute;
-            inset: 0;
-
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-
-            background: linear-gradient(135deg, #0b6b3a, #2e9d67);
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .image-fallback .house-icon {
-            font-size: 52px;
-            margin-bottom: 8px;
-        }
-
-        .image-fallback strong {
-            font-size: 15px;
-        }
-
-        .pack-body {
-            padding: 18px;
-        }
-
-        .pack-name {
-            font-size: 18px;
-            color: #087f45;
-            font-weight: 800;
-            margin-bottom: 5px;
-        }
-
-        .pack-price {
-            font-size: 23px;
-            font-weight: 800;
-            color: #222;
-            margin-bottom: 13px;
-        }
-
-        .pack-info {
-            font-size: 14px;
-            color: #5f6b66;
-            line-height: 1.8;
-        }
-
-        .pack-info strong {
-            color: #222;
-        }
-
-        .pack-total {
-            margin-top: 12px;
-            padding: 10px;
-            border-radius: 8px;
-            background: #eaf7ef;
-            color: #087f45;
-            font-weight: 800;
-            font-size: 14px;
-        }
-
-        .pack-button {
-            display: block;
-            width: 100%;
-            margin-top: 14px;
-            padding: 12px;
-
-            text-align: center;
-            text-decoration: none;
-
-            background: #087f45;
-            color: white;
-
-            border-radius: 8px;
-            font-weight: 700;
-        }
-
-        .pack-button:hover {
-            background: #056638;
-        }
-
-        /* ================= CALCULATOR ================= */
-
-        .calculator {
-            max-width: 700px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.08);
-        }
-
-        .calculator label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: 700;
-        }
-
-        .calculator select {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #d5d9d6;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 15px;
-        }
-
-        .calculator-result {
-            background: #eaf7ef;
-            color: #087f45;
-            padding: 18px;
-            border-radius: 10px;
-            font-weight: 700;
-        }
-
-        /* ================= ROADMAP ================= */
-
-        .roadmap {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-        }
-
-        .roadmap-card {
-            background: white;
-            border-radius: 14px;
-            padding: 25px 18px;
-            box-shadow: 0 5px 18px rgba(0,0,0,.06);
-            text-align: center;
-        }
-
-        .roadmap-year {
-            display: inline-block;
-            background: #087f45;
-            color: white;
-            border-radius: 50px;
-            padding: 6px 14px;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-
-        .roadmap-card h3 {
-            color: #087f45;
-            margin-bottom: 8px;
-        }
-
-        .roadmap-card p {
-            font-size: 14px;
-            color: #667085;
-        }
-
-        /* ================= PARTNERS ================= */
-
-        .partners-section {
-            background: white;
-        }
-
-        .partners {
-            max-width: 1100px;
-            margin: auto;
-            padding: 20px;
-
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        .partner {
-            min-height: 110px;
-            border: 1px solid #e4e9e5;
-            border-radius: 12px;
-            background: white;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            padding: 15px;
-        }
-
-        .partner img {
-            max-width: 180px;
-            max-height: 70px;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-        }
-
-        .partner-name {
-            color: #087f45;
-            font-weight: 800;
-            text-align: center;
-        }
-
-        /* ================= CTA ================= */
-
-        .cta {
-            max-width: 1100px;
-            margin: 65px auto;
-            padding: 55px 25px;
-
-            border-radius: 20px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #087f45,
-                    #159957
-                );
-
-            color: white;
-            text-align: center;
-        }
-
-        .cta h2 {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .cta p {
-            max-width: 650px;
-            margin: 0 auto 25px;
-            color: #effaf3;
-        }
-
-        /* ================= FOOTER ================= */
-
-        footer {
-            background: #10251a;
-            color: #d8e3dc;
-            padding: 35px 20px;
-            text-align: center;
-        }
-
-        footer strong {
-            color: white;
-        }
-
-        footer p {
-            font-size: 13px;
-            margin-top: 7px;
-        }
-
-        /* ================= MOBILE ================= */
-
-        @media (max-width: 950px) {
-
-            .packs {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
-
-            .roadmap {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .partners {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 650px) {
-
-            .navbar {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .logo {
-                width: 100%;
-                text-align: center;
-            }
-
-            .nav-links {
-                width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            .hero {
-                min-height: 500px;
-            }
-
-            .hero-content {
-                text-align: center;
-            }
-
-            .hero-buttons {
-                justify-content: center;
-            }
-
-            .packs {
-                grid-template-columns: 1fr;
-            }
-
-            .roadmap {
-                grid-template-columns: 1fr;
-            }
-
-            .partners {
-                grid-template-columns: 1fr;
-            }
-
-            .section {
-                padding: 45px 15px;
-            }
-
-            .packs {
-                padding: 45px 15px;
-            }
-
-            .section-title h2 {
-                font-size: 27px;
-            }
-
-            .cta {
-                margin: 40px 15px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Housing Investment — Investissement immobilier</title>
+
+<meta name="description"
+      content="Housing Investment — une plateforme dédiée à l'investissement immobilier.">
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f7fb;
+    color:#172033;
+    line-height:1.5;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+img{
+    max-width:100%;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(8,28,60,.97);
+    color:white;
+    box-shadow:0 4px 20px rgba(0,0,0,.15);
+}
+
+.navbar{
+    max-width:1200px;
+    width:94%;
+    margin:auto;
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    font-size:21px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.logo span{
+    color:#38bdf8;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:22px;
+    font-size:14px;
+}
+
+.nav-links a{
+    opacity:.9;
+    transition:.2s;
+}
+
+.nav-links a:hover{
+    opacity:1;
+    color:#38bdf8;
+}
+
+.nav-buttons{
+    display:flex;
+    gap:8px;
+}
+
+.btn{
+    display:inline-block;
+    border:none;
+    cursor:pointer;
+    border-radius:10px;
+    padding:11px 17px;
+    font-weight:700;
+    font-size:14px;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    opacity:.92;
+}
+
+.btn-primary{
+    background:#0b5ed7;
+    color:white;
+}
+
+.btn-outline{
+    background:transparent;
+    color:white;
+    border:1px solid rgba(255,255,255,.45);
+}
+
+.btn-light{
+    background:white;
+    color:#0b5ed7;
+}
+
+.btn-dark{
+    background:#172033;
+    color:white;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:650px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    background:
+        linear-gradient(
+            rgba(5,25,55,.72),
+            rgba(5,25,55,.78)
+        ),
+        url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+    color:white;
+}
+
+.hero-content{
+    width:94%;
+    max-width:1200px;
+    margin:auto;
+    padding:80px 0;
+}
+
+.hero-badge{
+    display:inline-block;
+    background:rgba(56,189,248,.15);
+    border:1px solid rgba(56,189,248,.45);
+    padding:8px 13px;
+    border-radius:30px;
+    font-size:13px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    max-width:760px;
+    font-size:52px;
+    line-height:1.08;
+    margin-bottom:20px;
+}
+
+.hero h1 span{
+    color:#38bdf8;
+}
+
+.hero p{
+    max-width:680px;
+    font-size:18px;
+    color:#e5edf8;
+    margin-bottom:28px;
+}
+
+.hero-actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.hero-note{
+    margin-top:25px;
+    font-size:13px;
+    color:#d8e2ef;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    width:94%;
+    max-width:1100px;
+    margin:-45px auto 50px;
+    position:relative;
+    z-index:5;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    background:white;
+    border-radius:18px;
+    box-shadow:0 10px 35px rgba(0,0,0,.1);
+    overflow:hidden;
+}
+
+.stat{
+    padding:25px 18px;
+    text-align:center;
+    border-right:1px solid #e9edf2;
+}
+
+.stat:last-child{
+    border-right:none;
+}
+
+.stat strong{
+    display:block;
+    font-size:25px;
+    color:#0b5ed7;
+    margin-bottom:4px;
+}
+
+.stat span{
+    color:#697586;
+    font-size:13px;
+}
+
+
+/* =========================
+   GENERAL
+========================= */
+
+.container{
+    width:94%;
+    max-width:1200px;
+    margin:auto;
+}
+
+.section{
+    padding:65px 0;
+}
+
+.section-header{
+    text-align:center;
+    max-width:750px;
+    margin:0 auto 35px;
+}
+
+.section-header .tag{
+    display:inline-block;
+    color:#0b5ed7;
+    background:#e9f2ff;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.section-header h2{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.section-header p{
+    color:#697586;
+}
+
+
+/* =========================
+   PACKS
+========================= */
+
+.packs{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.pack{
+    background:white;
+    border-radius:17px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.06);
+    border:1px solid #e7ebf0;
+    transition:.25s;
+}
+
+.pack:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 30px rgba(0,0,0,.1);
+}
+
+.pack-image{
+    width:100%;
+    height:185px;
+    object-fit:cover;
+    display:block;
+}
+
+.pack-content{
+    padding:17px;
+}
+
+.pack-name{
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:12px;
+}
+
+.pack-row{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    padding:7px 0;
+    border-bottom:1px solid #eef1f5;
+    font-size:13px;
+}
+
+.pack-row span:last-child{
+    font-weight:bold;
+    text-align:right;
+}
+
+.pack-total{
+    color:#198754;
+}
+
+.pack .btn{
+    width:100%;
+    margin-top:13px;
+}
+
+
+/* =========================
+   HOW IT WORKS
+========================= */
+
+.steps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.step{
+    background:white;
+    border-radius:17px;
+    padding:25px 20px;
+    text-align:center;
+    box-shadow:0 5px 18px rgba(0,0,0,.05);
+}
+
+.step-number{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 15px;
+    border-radius:50%;
+    background:#0b5ed7;
+    color:white;
+    font-weight:bold;
+    font-size:19px;
+}
+
+.step h3{
+    margin-bottom:7px;
+}
+
+.step p{
+    color:#697586;
+    font-size:13px;
+}
+
+
+/* =========================
+   WHY US
+========================= */
+
+.advantages{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.advantage{
+    background:white;
+    padding:25px;
+    border-radius:17px;
+    border:1px solid #e7ebf0;
+}
+
+.advantage-icon{
+    font-size:30px;
+    margin-bottom:12px;
+}
+
+.advantage h3{
+    margin-bottom:7px;
+}
+
+.advantage p{
+    color:#697586;
+    font-size:14px;
+}
+
+
+/* =========================
+   ROADMAP
+========================= */
+
+.roadmap{
+    background:#081c3c;
+    color:white;
+    border-radius:24px;
+    padding:40px;
+}
+
+.roadmap-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.roadmap-item{
+    border-left:3px solid #38bdf8;
+    padding-left:15px;
+}
+
+.roadmap-item strong{
+    color:#38bdf8;
+    display:block;
+    margin-bottom:5px;
+}
+
+.roadmap-item p{
+    color:#d5deea;
+    font-size:13px;
+}
+
+
+/* =========================
+   PARTNERS
+========================= */
+
+.partners{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:14px;
+    align-items:center;
+}
+
+.partner{
+    height:95px;
+    background:white;
+    border-radius:14px;
+    padding:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 15px rgba(0,0,0,.05);
+}
+
+.partner img{
+    max-height:65px;
+    max-width:100%;
+    object-fit:contain;
+}
+
+
+/* =========================
+   CTA
+========================= */
+
+.cta{
+    background:
+        linear-gradient(
+            135deg,
+            #0b5ed7,
+            #063b8f
+        );
+    color:white;
+    border-radius:24px;
+    padding:55px 30px;
+    text-align:center;
+}
+
+.cta h2{
+    font-size:35px;
+    margin-bottom:12px;
+}
+
+.cta p{
+    max-width:650px;
+    margin:0 auto 23px;
+    color:#e7effb;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#07152e;
+    color:#bdc9d8;
+    margin-top:65px;
+    padding:40px 0 20px;
+}
+
+.footer-grid{
+    width:94%;
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:35px;
+}
+
+.footer-title{
+    color:white;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.footer-text{
+    font-size:13px;
+    max-width:450px;
+}
+
+.footer-links{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    font-size:13px;
+}
+
+.footer-bottom{
+    width:94%;
+    max-width:1200px;
+    margin:30px auto 0;
+    padding-top:18px;
+    border-top:1px solid rgba(255,255,255,.1);
+    font-size:12px;
+    text-align:center;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:950px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .packs{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .steps{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .advantages{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .roadmap-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .partners{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .navbar{
+        min-height:62px;
+    }
+
+    .logo{
+        font-size:17px;
+    }
+
+    .nav-buttons .btn{
+        padding:9px 11px;
+        font-size:12px;
+    }
+
+    .hero{
+        min-height:570px;
+    }
+
+    .hero-content{
+        padding:60px 0;
+    }
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    .stats{
+        margin-top:-25px;
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stat{
+        padding:18px 10px;
+    }
+
+    .stat:nth-child(2){
+        border-right:none;
+    }
+
+    .stat:nth-child(-n+2){
+        border-bottom:1px solid #e9edf2;
+    }
+
+    .section{
+        padding:45px 0;
+    }
+
+    .section-header h2{
+        font-size:27px;
+    }
+
+    .packs{
+        grid-template-columns:1fr;
+    }
+
+    .steps{
+        grid-template-columns:1fr;
+    }
+
+    .advantages{
+        grid-template-columns:1fr;
+    }
+
+    .roadmap{
+        padding:28px 20px;
+    }
+
+    .roadmap-grid{
+        grid-template-columns:1fr;
+    }
+
+    .partners{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .cta{
+        padding:40px 20px;
+    }
+
+    .cta h2{
+        font-size:28px;
+    }
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-<!-- ================= HEADER ================= -->
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <header>
 
     <nav class="navbar">
 
-        <div class="logo">
-            🏠 Housing Investment
-        </div>
+        <a
+            href="index.html"
+            class="logo"
+        >
+            🏠 Housing <span>Investment</span>
+        </a>
+
 
         <div class="nav-links">
 
-            <a href="#accueil">Accueil</a>
+            <a href="#packs">
+                Packs
+            </a>
 
-            <a href="#packs">Investissements</a>
+            <a href="#fonctionnement">
+                Fonctionnement
+            </a>
 
-            <a href="#partenaires">Partenaires</a>
+            <a href="#avantages">
+                Pourquoi nous
+            </a>
 
-            <a href="login.html">
+            <a href="#partenaires">
+                Partenaires
+            </a>
+
+        </div>
+
+
+        <div class="nav-buttons">
+
+            <a
+                href="login.html"
+                class="btn btn-outline"
+            >
                 Se connecter
             </a>
 
-            <a href="register.html" class="btn btn-primary">
+            <a
+                href="register.html"
+                class="btn btn-primary"
+            >
                 Créer un compte
-            </a>
-
-            <a href="admin.html" class="btn btn-outline">
-                Admin
             </a>
 
         </div>
@@ -618,32 +758,55 @@
 </header>
 
 
-<!-- ================= HERO ================= -->
+<!-- =========================
+     HERO
+========================= -->
 
-<section class="hero" id="accueil">
+<section class="hero">
 
     <div class="hero-content">
 
+        <div class="hero-badge">
+            🏠 Investissement immobilier
+        </div>
+
+
         <h1>
-            Investissez aujourd'hui dans l'avenir immobilier.
+            Construisez votre avenir
+            avec <span>l'immobilier</span>
         </h1>
 
+
         <p>
-            Housing Investment vous permet d'accéder à différents
-            niveaux d'investissement immobilier à partir de
-            <strong>3 000 FCFA</strong>.
+            Découvrez une nouvelle manière de participer
+            à des projets immobiliers avec des formules
+            accessibles à partir de 3 000 FCFA.
         </p>
 
-        <div class="hero-buttons">
 
-            <a href="register.html" class="btn btn-primary">
-                Commencer maintenant
+        <div class="hero-actions">
+
+            <a
+                href="register.html"
+                class="btn btn-primary"
+            >
+                🚀 Commencer maintenant
             </a>
 
-            <a href="#packs" class="btn btn-outline">
-                Découvrir les packs
+
+            <a
+                href="#fonctionnement"
+                class="btn btn-outline"
+            >
+                Découvrir le fonctionnement
             </a>
 
+        </div>
+
+
+        <div class="hero-note">
+            🔐 Espace personnel • 📊 Suivi des investissements
+            • 🎧 Assistance utilisateur
         </div>
 
     </div>
@@ -651,663 +814,838 @@
 </section>
 
 
-<!-- ================= AVANTAGES ================= -->
+<!-- =========================
+     STATS
+========================= -->
 
-<section class="section">
+<div class="stats">
 
-    <div class="section-title">
+    <div class="stat">
 
-        <h2>Pourquoi Housing Investment ?</h2>
+        <strong>
+            3 000 FCFA
+        </strong>
 
-        <p>
-            Une plateforme pensée pour rendre l'investissement
-            immobilier plus accessible.
-        </p>
-
-    </div>
-
-    <div class="features">
-
-        <div class="feature">
-
-            <div class="feature-icon">🏠</div>
-
-            <h3>Immobilier</h3>
-
-            <p>
-                Une orientation vers le secteur du logement
-                et de l'immobilier.
-            </p>
-
-        </div>
-
-        <div class="feature">
-
-            <div class="feature-icon">💰</div>
-
-            <h3>Accessible</h3>
-
-            <p>
-                Des niveaux d'investissement commençant
-                à seulement 3 000 FCFA.
-            </p>
-
-        </div>
-
-        <div class="feature">
-
-            <div class="feature-icon">📊</div>
-
-            <h3>Suivi</h3>
-
-            <p>
-                Consultez vos investissements depuis
-                votre espace personnel.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= PACKS ================= -->
-
-<section class="packs-section" id="packs">
-
-    <div class="section-title" style="padding:60px 20px 0;">
-
-        <h2>Nos 8 niveaux d'investissement</h2>
-
-        <p>
-            Choisissez le niveau qui correspond à votre capacité
-            d'investissement.
-        </p>
+        <span>
+            Investissement minimum
+        </span>
 
     </div>
 
 
-    <div class="packs">
+    <div class="stat">
+
+        <strong>
+            8
+        </strong>
+
+        <span>
+            Formules disponibles
+        </span>
+
+    </div>
 
 
-        <!-- 3 000 -->
+    <div class="stat">
 
-        <article class="pack">
+        <strong>
+            180 jours
+        </strong>
 
-            <div class="pack-image-container">
+        <span>
+            Durée indiquée des contrats
+        </span>
+
+    </div>
+
+
+    <div class="stat">
+
+        <strong>
+            24/7
+        </strong>
+
+        <span>
+            Accès à votre espace
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PACKS
+========================= -->
+
+<section
+    class="section"
+    id="packs"
+>
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <span class="tag">
+                NOS FORMULES
+            </span>
+
+            <h2>
+                Choisissez votre niveau d'investissement
+            </h2>
+
+            <p>
+                Huit niveaux sont disponibles afin de permettre
+                à chacun de choisir une formule correspondant
+                à son budget.
+            </p>
+
+        </div>
+
+
+        <div class="packs">
+
+
+            <!-- 3 000 -->
+
+            <div class="pack">
 
                 <img
                     class="pack-image"
-                    src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=85"
+                    src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80"
                     alt="Petite maison moderne"
-                    onerror="imageError(this)"
                 >
 
-                <div class="image-fallback">
+                <div class="pack-content">
 
-                    <div class="house-icon">🏠</div>
+                    <div class="pack-name">
+                        🌱 Starter
+                    </div>
 
-                    <strong>Petite maison moderne</strong>
+                    <div class="pack-row">
+                        <span>Investissement</span>
+                        <span>3 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Gain quotidien</span>
+                        <span>800 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Durée</span>
+                        <span>180 jours</span>
+                    </div>
+
+                    <div class="pack-row pack-total">
+                        <span>Total prévu</span>
+                        <span>144 000 FCFA</span>
+                    </div>
+
+                    <a
+                        href="register.html"
+                        class="btn btn-primary"
+                    >
+                        Choisir ce pack
+                    </a>
 
                 </div>
 
             </div>
 
-            <div class="pack-body">
 
-                <div class="pack-name">
-                    Pack Starter
-                </div>
+            <!-- 10 000 -->
 
-                <div class="pack-price">
-                    3 000 FCFA
-                </div>
-
-                <div class="pack-info">
-                    Gain quotidien :
-                    <strong>800 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong>
-                </div>
-
-                <div class="pack-total">
-                    Total : 144 000 FCFA
-                </div>
-
-                <a href="register.html" class="pack-button">
-                    Investir
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 10 000 -->
-
-        <article class="pack">
-
-            <div class="pack-image-container">
+            <div class="pack">
 
                 <img
                     class="pack-image"
-                    src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=85"
+                    src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80"
                     alt="Maison familiale"
-                    onerror="imageError(this)"
                 >
 
-                <div class="image-fallback">
+                <div class="pack-content">
 
-                    <div class="house-icon">🏡</div>
+                    <div class="pack-name">
+                        🏠 Familial
+                    </div>
 
-                    <strong>Maison familiale</strong>
+                    <div class="pack-row">
+                        <span>Investissement</span>
+                        <span>10 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Gain quotidien</span>
+                        <span>3 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Durée</span>
+                        <span>180 jours</span>
+                    </div>
+
+                    <div class="pack-row pack-total">
+                        <span>Total prévu</span>
+                        <span>540 000 FCFA</span>
+                    </div>
+
+                    <a
+                        href="register.html"
+                        class="btn btn-primary"
+                    >
+                        Choisir ce pack
+                    </a>
 
                 </div>
 
             </div>
 
-            <div class="pack-body">
 
-                <div class="pack-name">
-                    Pack Familial
-                </div>
+            <!-- 20 000 -->
 
-                <div class="pack-price">
-                    10 000 FCFA
-                </div>
-
-                <div class="pack-info">
-                    Gain quotidien :
-                    <strong>3 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong>
-                </div>
-
-                <div class="pack-total">
-                    Total : 540 000 FCFA
-                </div>
-
-                <a href="register.html" class="pack-button">
-                    Investir
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 20 000 -->
-
-        <article class="pack">
-
-            <div class="pack-image-container">
+            <div class="pack">
 
                 <img
                     class="pack-image"
-                    src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=900&q=85"
-                    alt="Grande maison moderne"
-                    onerror="imageError(this)"
+                    src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
+                    alt="Maison confortable"
                 >
 
-                <div class="image-fallback">
+                <div class="pack-content">
 
-                    <div class="house-icon">🏠</div>
+                    <div class="pack-name">
+                        🏡 Confort
+                    </div>
 
-                    <strong>Grande maison moderne</strong>
+                    <div class="pack-row">
+                        <span>Investissement</span>
+                        <span>20 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Gain quotidien</span>
+                        <span>6 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Durée</span>
+                        <span>180 jours</span>
+                    </div>
+
+                    <div class="pack-row pack-total">
+                        <span>Total prévu</span>
+                        <span>1 080 000 FCFA</span>
+                    </div>
+
+                    <a
+                        href="register.html"
+                        class="btn btn-primary"
+                    >
+                        Choisir ce pack
+                    </a>
 
                 </div>
 
             </div>
 
-            <div class="pack-body">
 
-                <div class="pack-name">
-                    Pack Confort
-                </div>
+            <!-- 45 000 -->
 
-                <div class="pack-price">
-                    20 000 FCFA
-                </div>
-
-                <div class="pack-info">
-                    Gain quotidien :
-                    <strong>6 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong>
-                </div>
-
-                <div class="pack-total">
-                    Total : 1 080 000 FCFA
-                </div>
-
-                <a href="register.html" class="pack-button">
-                    Investir
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 45 000 -->
-
-        <article class="pack">
-
-            <div class="pack-image-container">
+            <div class="pack">
 
                 <img
                     class="pack-image"
-                    src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=85"
+                    src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=900&q=80"
                     alt="Villa moderne"
-                    onerror="imageError(this)"
                 >
 
-                <div class="image-fallback">
+                <div class="pack-content">
 
-                    <div class="house-icon">🏘️</div>
+                    <div class="pack-name">
+                        🏘️ Villa
+                    </div>
 
-                    <strong>Villa moderne</strong>
+                    <div class="pack-row">
+                        <span>Investissement</span>
+                        <span>45 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Gain quotidien</span>
+                        <span>14 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Durée</span>
+                        <span>180 jours</span>
+                    </div>
+
+                    <div class="pack-row pack-total">
+                        <span>Total prévu</span>
+                        <span>2 520 000 FCFA</span>
+                    </div>
+
+                    <a
+                        href="register.html"
+                        class="btn btn-primary"
+                    >
+                        Choisir ce pack
+                    </a>
 
                 </div>
 
             </div>
 
-            <div class="pack-body">
 
-                <div class="pack-name">
-                    Pack Villa
-                </div>
+            <!-- 100 000 -->
 
-                <div class="pack-price">
-                    45 000 FCFA
-                </div>
-
-                <div class="pack-info">
-                    Gain quotidien :
-                    <strong>14 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong>
-                </div>
-
-                <div class="pack-total">
-                    Total : 2 520 000 FCFA
-                </div>
-
-                <a href="register.html" class="pack-button">
-                    Investir
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 100 000 -->
-
-        <article class="pack">
-
-            <div class="pack-image-container">
+            <div class="pack">
 
                 <img
                     class="pack-image"
-                    src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=900&q=85"
+                    src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"
                     alt="Grande villa"
-                    onerror="imageError(this)"
                 >
 
-                <div class="image-fallback">
+                <div class="pack-content">
 
-                    <div class="house-icon">🏡</div>
+                    <div class="pack-name">
+                        ⭐ Premium
+                    </div>
 
-                    <strong>Grande villa</strong>
+                    <div class="pack-row">
+                        <span>Investissement</span>
+                        <span>100 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Gain quotidien</span>
+                        <span>30 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Durée</span>
+                        <span>180 jours</span>
+                    </div>
+
+                    <div class="pack-row pack-total">
+                        <span>Total prévu</span>
+                        <span>5 400 000 FCFA</span>
+                    </div>
+
+                    <a
+                        href="register.html"
+                        class="btn btn-primary"
+                    >
+                        Choisir ce pack
+                    </a>
 
                 </div>
 
             </div>
 
-            <div class="pack-body">
 
-                <div class="pack-name">
-                    Pack Premium
-                </div>
+            <!-- 200 000 -->
 
-                <div class="pack-price">
-                    100 000 FCFA
-                </div>
-
-                <div class="pack-info">
-                    Gain quotidien :
-                    <strong>30 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong>
-                </div>
-
-                <div class="pack-total">
-                    Total : 5 400 000 FCFA
-                </div>
-
-                <a href="register.html" class="pack-button">
-                    Investir
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 200 000 -->
-
-        <article class="pack">
-
-            <div class="pack-image-container">
+            <div class="pack">
 
                 <img
                     class="pack-image"
-                    src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=85"
+                    src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80"
                     alt="Villa premium"
-                    onerror="imageError(this)"
                 >
 
-                <div class="image-fallback">
+                <div class="pack-content">
 
-                    <div class="house-icon">🏰</div>
+                    <div class="pack-name">
+                        💎 Prestige
+                    </div>
 
-                    <strong>Villa premium</strong>
+                    <div class="pack-row">
+                        <span>Investissement</span>
+                        <span>200 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Gain quotidien</span>
+                        <span>65 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Durée</span>
+                        <span>180 jours</span>
+                    </div>
+
+                    <div class="pack-row pack-total">
+                        <span>Total prévu</span>
+                        <span>11 700 000 FCFA</span>
+                    </div>
+
+                    <a
+                        href="register.html"
+                        class="btn btn-primary"
+                    >
+                        Choisir ce pack
+                    </a>
 
                 </div>
 
             </div>
 
-            <div class="pack-body">
 
-                <div class="pack-name">
-                    Pack Prestige
-                </div>
+            <!-- 400 000 -->
 
-                <div class="pack-price">
-                    200 000 FCFA
-                </div>
-
-                <div class="pack-info">
-                    Gain quotidien :
-                    <strong>65 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong>
-                </div>
-
-                <div class="pack-total">
-                    Total : 11 700 000 FCFA
-                </div>
-
-                <a href="register.html" class="pack-button">
-                    Investir
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 400 000 -->
-
-        <article class="pack">
-
-            <div class="pack-image-container">
+            <div class="pack">
 
                 <img
                     class="pack-image"
-                    src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=85"
+                    src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
                     alt="Résidence haut de gamme"
-                    onerror="imageError(this)"
                 >
 
-                <div class="image-fallback">
+                <div class="pack-content">
 
-                    <div class="house-icon">🏢</div>
+                    <div class="pack-name">
+                        👑 Excellence
+                    </div>
 
-                    <strong>Résidence haut de gamme</strong>
+                    <div class="pack-row">
+                        <span>Investissement</span>
+                        <span>400 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Gain quotidien</span>
+                        <span>140 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Durée</span>
+                        <span>180 jours</span>
+                    </div>
+
+                    <div class="pack-row pack-total">
+                        <span>Total prévu</span>
+                        <span>25 200 000 FCFA</span>
+                    </div>
+
+                    <a
+                        href="register.html"
+                        class="btn btn-primary"
+                    >
+                        Choisir ce pack
+                    </a>
 
                 </div>
 
             </div>
 
-            <div class="pack-body">
 
-                <div class="pack-name">
-                    Pack Excellence
-                </div>
+            <!-- 800 000 -->
 
-                <div class="pack-price">
-                    400 000 FCFA
-                </div>
-
-                <div class="pack-info">
-                    Gain quotidien :
-                    <strong>140 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong>
-                </div>
-
-                <div class="pack-total">
-                    Total : 25 200 000 FCFA
-                </div>
-
-                <a href="register.html" class="pack-button">
-                    Investir
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 800 000 -->
-
-        <article class="pack">
-
-            <div class="pack-image-container">
+            <div class="pack">
 
                 <img
                     class="pack-image"
-                    src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=85"
-    alt="Villa de luxe avec piscine"
-    onerror="imageError(this)"
+                    src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=900&q=80"
+                    alt="Villa de luxe avec piscine"
                 >
 
-                <div class="image-fallback">
+                <div class="pack-content">
 
-                    <div class="house-icon">🏊</div>
+                    <div class="pack-name">
+                        🏆 Luxe
+                    </div>
 
-                    <strong>Villa de luxe avec piscine</strong>
+                    <div class="pack-row">
+                        <span>Investissement</span>
+                        <span>800 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Gain quotidien</span>
+                        <span>290 000 FCFA</span>
+                    </div>
+
+                    <div class="pack-row">
+                        <span>Durée</span>
+                        <span>180 jours</span>
+                    </div>
+
+                    <div class="pack-row pack-total">
+                        <span>Total prévu</span>
+                        <span>52 200 000 FCFA</span>
+                    </div>
+
+                    <a
+                        href="register.html"
+                        class="btn btn-primary"
+                    >
+                        Choisir ce pack
+                    </a>
 
                 </div>
 
             </div>
 
-            <div class="pack-body">
+        </div>
 
-                <div class="pack-name">
-                    Pack Luxe
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FONCTIONNEMENT
+========================= -->
+
+<section
+    class="section"
+    id="fonctionnement"
+>
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <span class="tag">
+                COMMENT ÇA MARCHE ?
+            </span>
+
+            <h2>
+                Investir en quelques étapes
+            </h2>
+
+            <p>
+                Un parcours simple pour accéder à votre espace
+                et suivre vos opérations.
+            </p>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+
+                <div class="step-number">
+                    1
                 </div>
 
-                <div class="pack-price">
-                    800 000 FCFA
-                </div>
+                <h3>
+                    Créez votre compte
+                </h3>
 
-                <div class="pack-info">
-                    Gain quotidien :
-                    <strong>290 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong>
-                </div>
-
-                <div class="pack-total">
-                    Total : 52 200 000 FCFA
-                </div>
-
-                <a href="register.html" class="pack-button">
-                    Investir
-                </a>
+                <p>
+                    Inscrivez-vous avec vos informations
+                    et sécurisez votre espace personnel.
+                </p>
 
             </div>
 
-        </article>
+
+            <div class="step">
+
+                <div class="step-number">
+                    2
+                </div>
+
+                <h3>
+                    Alimentez votre solde
+                </h3>
+
+                <p>
+                    Effectuez un dépôt depuis votre espace
+                    utilisateur.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    3
+                </div>
+
+                <h3>
+                    Choisissez un pack
+                </h3>
+
+                <p>
+                    Sélectionnez la formule qui correspond
+                    à votre budget.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    4
+                </div>
+
+                <h3>
+                    Suivez votre investissement
+                </h3>
+
+                <p>
+                    Consultez votre tableau de bord,
+                    vos gains et votre historique.
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
 
 </section>
 
 
-<!-- ================= CALCULATEUR ================= -->
+<!-- =========================
+     AVANTAGES
+========================= -->
+
+<section
+    class="section"
+    id="avantages"
+>
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <span class="tag">
+                POURQUOI HOUSING INVESTMENT ?
+            </span>
+
+            <h2>
+                Un espace pensé pour l'utilisateur
+            </h2>
+
+        </div>
+
+
+        <div class="advantages">
+
+            <div class="advantage">
+
+                <div class="advantage-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Suivi personnalisé
+                </h3>
+
+                <p>
+                    Retrouvez vos investissements,
+                    vos opérations et vos gains
+                    depuis votre espace personnel.
+                </p>
+
+            </div>
+
+
+            <div class="advantage">
+
+                <div class="advantage-icon">
+                    🔐
+                </div>
+
+                <h3>
+                    Espace sécurisé
+                </h3>
+
+                <p>
+                    Chaque utilisateur dispose
+                    d'un espace personnel pour
+                    gérer ses opérations.
+                </p>
+
+            </div>
+
+
+            <div class="advantage">
+
+                <div class="advantage-icon">
+                    🎧
+                </div>
+
+                <h3>
+                    Assistance
+                </h3>
+
+                <p>
+                    Un système de tickets permet
+                    de contacter l'administration
+                    directement depuis le dashboard.
+                </p>
+
+            </div>
+
+
+            <div class="advantage">
+
+                <div class="advantage-icon">
+                    📱
+                </div>
+
+                <h3>
+                    Compatible mobile
+                </h3>
+
+                <p>
+                    L'interface est conçue pour
+                    fonctionner sur téléphone,
+                    tablette et ordinateur.
+                </p>
+
+            </div>
+
+
+            <div class="advantage">
+
+                <div class="advantage-icon">
+                    🏠
+                </div>
+
+                <h3>
+                    Orientation immobilière
+                </h3>
+
+                <p>
+                    Chaque formule est présentée
+                    avec une image de maison pour
+                    renforcer l'identité immobilière.
+                </p>
+
+            </div>
+
+
+            <div class="advantage">
+
+                <div class="advantage-icon">
+                    🚀
+                </div>
+
+                <h3>
+                    Vision à long terme
+                </h3>
+
+                <p>
+                    Le projet vise à développer
+                    progressivement une communauté
+                    d'investisseurs.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ROADMAP
+========================= -->
 
 <section class="section">
 
-    <div class="section-title">
+    <div class="container">
 
-        <h2>Calculer son investissement</h2>
+        <div class="roadmap">
 
-        <p>
-            Sélectionnez un pack pour voir les informations
-            correspondantes.
-        </p>
+            <div class="section-header"
+                 style="color:white;">
 
-    </div>
+                <span
+                    class="tag"
+                    style="
+                        background:rgba(56,189,248,.12);
+                        color:#38bdf8;
+                    "
+                >
+                    NOTRE VISION
+                </span>
 
-    <div class="calculator">
+                <h2>
+                    Une ambition qui se construit étape par étape
+                </h2>
 
-        <label for="packSelect">
-            Choisissez un pack
-        </label>
+                <p style="color:#d5deea;">
+                    Le développement de la plateforme
+                    s'effectue progressivement.
+                </p>
 
-        <select id="packSelect" onchange="calculateInvestment()">
-
-            <option value="3000|800|144000">
-                3 000 FCFA
-            </option>
-
-            <option value="10000|3000|540000">
-                10 000 FCFA
-            </option>
-
-            <option value="20000|6000|1080000">
-                20 000 FCFA
-            </option>
-
-            <option value="45000|14000|2520000">
-                45 000 FCFA
-            </option>
-
-            <option value="100000|30000|5400000">
-                100 000 FCFA
-            </option>
-
-            <option value="200000|65000|11700000">
-                200 000 FCFA
-            </option>
-
-            <option value="400000|140000|25200000">
-                400 000 FCFA
-            </option>
-
-            <option value="800000|290000|52200000">
-                800 000 FCFA
-            </option>
-
-        </select>
-
-        <div class="calculator-result" id="calculatorResult">
-            Gain quotidien : 800 FCFA |
-            Total après 180 jours : 144 000 FCFA
-        </div>
-
-    </div>
-
-</section>
+            </div>
 
 
-<!-- ================= ROADMAP ================= -->
+            <div class="roadmap-grid">
 
-<section class="section">
+                <div class="roadmap-item">
 
-    <div class="section-title">
+                    <strong>
+                        2026
+                    </strong>
 
-        <h2>Notre vision</h2>
+                    <p>
+                        Mise en place de la plateforme
+                        et de l'espace utilisateur.
+                    </p>
 
-        <p>
-            Construire progressivement une plateforme immobilière
-            accessible à un grand nombre d'investisseurs.
-        </p>
+                </div>
 
-    </div>
 
-    <div class="roadmap">
+                <div class="roadmap-item">
 
-        <div class="roadmap-card">
+                    <strong>
+                        2027
+                    </strong>
 
-            <span class="roadmap-year">
-                2026
-            </span>
+                    <p>
+                        Développement de nouveaux
+                        services et amélioration
+                        de l'expérience utilisateur.
+                    </p>
 
-            <h3>Lancement</h3>
+                </div>
 
-            <p>
-                Mise en place de la plateforme et développement
-                de la communauté.
-            </p>
 
-        </div>
+                <div class="roadmap-item">
 
-        <div class="roadmap-card">
+                    <strong>
+                        2030
+                    </strong>
 
-            <span class="roadmap-year">
-                2027
-            </span>
+                    <p>
+                        Extension progressive
+                        des activités et des projets.
+                    </p>
 
-            <h3>Expansion</h3>
+                </div>
 
-            <p>
-                Développement de nouveaux projets et
-                amélioration des services.
-            </p>
 
-        </div>
+                <div class="roadmap-item">
 
-        <div class="roadmap-card">
+                    <strong>
+                        2032
+                    </strong>
 
-            <span class="roadmap-year">
-                2030
-            </span>
+                    <p>
+                        Ambition de bâtir une importante
+                        communauté d'investisseurs.
+                    </p>
 
-            <h3>Croissance</h3>
+                </div>
 
-            <p>
-                Accroître la présence de Housing Investment
-                dans plusieurs marchés africains.
-            </p>
-
-        </div>
-
-        <div class="roadmap-card">
-
-            <span class="roadmap-year">
-                2032
-            </span>
-
-            <h3>Grande communauté</h3>
-
-            <p>
-                Notre ambition est de construire une très grande
-                communauté d'investisseurs.
-            </p>
+            </div>
 
         </div>
 
@@ -1316,100 +1654,100 @@
 </section>
 
 
-<!-- ================= PARTENAIRES ================= -->
+<!-- =========================
+     PARTENAIRES
+========================= -->
 
-<section class="partners-section" id="partenaires">
+<section
+    class="section"
+    id="partenaires"
+>
 
-    <div class="section">
+    <div class="container">
 
-        <div class="section-title">
+        <div class="section-header">
 
-            <h2>Nos partenaires</h2>
+            <span class="tag">
+                PARTENAIRES
+            </span>
+
+            <h2>
+                Ils font partie de notre environnement
+            </h2>
 
             <p>
-                Des acteurs associés à notre environnement
-                de présentation et de développement.
+                Les logos présentés correspondent aux partenaires
+                que vous avez configurés sur votre plateforme.
             </p>
 
         </div>
+
 
         <div class="partners">
+
 
             <div class="partner">
 
                 <img
                     src="images/groupe-africa-immo.jpg"
                     alt="Groupe Africa Immo"
-                    onerror="partnerError(this, 'Groupe Africa Immo')"
+                    onerror="this.style.display='none'"
                 >
 
-                <span class="partner-name" style="display:none;">
-                    Groupe Africa Immo
-                </span>
-
             </div>
+
 
             <div class="partner">
 
                 <img
                     src="images/reliance-west-africa.png"
                     alt="Reliance West Africa"
-                    onerror="partnerError(this, 'Reliance West Africa')"
+                    onerror="this.style.display='none'"
                 >
 
-                <span class="partner-name" style="display:none;">
-                    Reliance West Africa
-                </span>
-
             </div>
+
 
             <div class="partner">
 
                 <img
-                    src="images/brokers-africa.jpeg"
+                    src="images/brokers-africa.jpg"
                     alt="Brokers Afrika"
-                    onerror="partnerError(this, 'Brokers Afrika')"
+                    onerror="this.style.display='none'"
                 >
 
-                <span class="partner-name" style="display:none;">
-                    Brokers Afrika
-                </span>
-
             </div>
+
 
             <div class="partner">
 
                 <img
                     src="images/binance.png"
                     alt="Binance"
-                    onerror="partnerError(this, 'Binance')"
+                    onerror="this.style.display='none'"
                 >
 
-                <span class="partner-name" style="display:none;">
-                    Binance
-                </span>
-
             </div>
+
 
             <div class="partner">
 
                 <img
                     src="images/orangina.png"
                     alt="Orangina"
-                    onerror="partnerError(this, 'Orangina')"
+                    onerror="this.style.display='none'"
                 >
-
-                <span class="partner-name" style="display:none;">
-                    Orangina
-                </span>
 
             </div>
 
+
             <div class="partner">
 
-                <div class="partner-name">
-                    Housing Investment
-                </div>
+                <img
+                    src="images/diaspora-africa-investment.jpg"
+                    alt="Diaspora Africa Investment"
+                    onerror="this.style.display='none'"
+                >
 
             </div>
 
@@ -1420,109 +1758,127 @@
 </section>
 
 
-<!-- ================= CTA ================= -->
+<!-- =========================
+     CTA
+========================= -->
 
-<section class="cta">
+<section class="section">
 
-    <h2>
-        Prêt à commencer ?
-    </h2>
+    <div class="container">
 
-    <p>
-        Créez votre compte et découvrez les différents
-        niveaux d'investissement disponibles.
-    </p>
+        <div class="cta">
 
-    <a href="register.html" class="btn btn-outline">
-        Créer mon compte
-    </a>
+            <h2>
+                Prêt à commencer ?
+            </h2>
+
+            <p>
+                Créez votre compte et découvrez votre
+                espace personnel Housing Investment.
+            </p>
+
+            <a
+                href="register.html"
+                class="btn btn-light"
+            >
+                🚀 Créer mon compte
+            </a>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-<!-- ================= FOOTER ================= -->
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
-    <strong>
-        🏠 Housing Investment
-    </strong>
+    <div class="footer-grid">
 
-    <p>
-        Plateforme de présentation et de gestion de projets
-        d'investissement immobilier.
-    </p>
+        <div>
 
-    <p>
-        © 2026 Housing Investment — Tous droits réservés.
-    </p>
+            <div class="footer-title">
+                🏠 Housing Investment
+            </div>
+
+            <p class="footer-text">
+                Plateforme dédiée à la présentation
+                et au suivi de solutions d'investissement
+                immobilier.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <div class="footer-title">
+                Navigation
+            </div>
+
+            <div class="footer-links">
+
+                <a href="#packs">
+                    Nos packs
+                </a>
+
+                <a href="#fonctionnement">
+                    Fonctionnement
+                </a>
+
+                <a href="#avantages">
+                    Pourquoi nous
+                </a>
+
+                <a href="#partenaires">
+                    Partenaires
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="footer-title">
+                Mon espace
+            </div>
+
+            <div class="footer-links">
+
+                <a href="login.html">
+                    Se connecter
+                </a>
+
+                <a href="register.html">
+                    Créer un compte
+                </a>
+
+                <a href="dashboard.html">
+                    Mon dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        © 2026 Housing Investment —
+        Tous droits réservés.
+
+    </div>
 
 </footer>
 
-
-<script>
-
-    /* ================= IMAGES MAISONS ================= */
-
-    function imageError(image) {
-
-        image.style.display = "none";
-
-        const fallback =
-            image.parentElement.querySelector(".image-fallback");
-
-        if (fallback) {
-            fallback.style.display = "flex";
-        }
-    }
-
-
-    /* ================= PARTENAIRES ================= */
-
-    function partnerError(image, name) {
-
-        image.style.display = "none";
-
-        const text =
-            image.parentElement.querySelector(".partner-name");
-
-        if (text) {
-            text.textContent = name;
-            text.style.display = "block";
-        }
-    }
-
-
-    /* ================= CALCULATEUR ================= */
-
-    function calculateInvestment() {
-
-        const value =
-            document.getElementById("packSelect").value;
-
-        const data = value.split("|");
-
-        const amount = Number(data[0]);
-        const daily = Number(data[1]);
-        const total = Number(data[2]);
-
-        document.getElementById("calculatorResult").innerHTML =
-            "Investissement : <strong>" +
-            amount.toLocaleString("fr-FR") +
-            " FCFA</strong><br>" +
-
-            "Gain quotidien : <strong>" +
-            daily.toLocaleString("fr-FR") +
-            " FCFA</strong><br>" +
-
-            "Durée : <strong>180 jours</strong><br>" +
-
-            "Total : <strong>" +
-            total.toLocaleString("fr-FR") +
-            " FCFA</strong>";
-    }
-
-</script>
 
 </body>
 </html>
