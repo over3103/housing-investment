@@ -4,13 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Housing Investment — Investissement immobilier</title>
-
-<meta name="description"
-content="Housing Investment — plateforme dédiée à l'investissement immobilier.">
+<title>Housing Investment</title>
 
 <style>
-
 *{
     box-sizing:border-box;
     margin:0;
@@ -33,38 +29,29 @@ a{
     color:inherit;
 }
 
-img{
-    max-width:100%;
-}
-
-/* =========================
-   HEADER
-========================= */
-
 header{
     position:sticky;
     top:0;
     z-index:1000;
-    background:rgba(8,28,60,.97);
+    background:#081c3c;
     color:white;
-    box-shadow:0 4px 20px rgba(0,0,0,.15);
+    box-shadow:0 4px 18px rgba(0,0,0,.15);
 }
 
 .navbar{
-    max-width:1200px;
     width:94%;
+    max-width:1200px;
     min-height:70px;
     margin:auto;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:20px;
+    gap:15px;
 }
 
 .logo{
-    font-size:21px;
+    font-size:20px;
     font-weight:800;
-    white-space:nowrap;
 }
 
 .logo span{
@@ -73,14 +60,8 @@ header{
 
 .nav-links{
     display:flex;
-    align-items:center;
     gap:20px;
     font-size:14px;
-}
-
-.nav-links a{
-    opacity:.9;
-    transition:.2s;
 }
 
 .nav-links a:hover{
@@ -94,17 +75,12 @@ header{
 
 .btn{
     display:inline-block;
-    border:none;
-    cursor:pointer;
-    border-radius:10px;
     padding:11px 17px;
-    font-weight:700;
+    border-radius:10px;
+    border:none;
     font-size:14px;
-    transition:.2s;
-}
-
-.btn:hover{
-    transform:translateY(-2px);
+    font-weight:bold;
+    cursor:pointer;
 }
 
 .btn-primary{
@@ -113,9 +89,9 @@ header{
 }
 
 .btn-outline{
-    background:transparent;
+    border:1px solid rgba(255,255,255,.5);
     color:white;
-    border:1px solid rgba(255,255,255,.45);
+    background:transparent;
 }
 
 .btn-light{
@@ -123,47 +99,40 @@ header{
     color:#0b5ed7;
 }
 
-
-/* =========================
-   HERO
-========================= */
+/* HERO */
 
 .hero{
-    min-height:650px;
+    min-height:620px;
     display:flex;
     align-items:center;
-    position:relative;
-    background:
-        linear-gradient(
-            rgba(5,25,55,.72),
-            rgba(5,25,55,.80)
-        ),
-        url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85")
-        center/cover;
     color:white;
+    background:
+    linear-gradient(rgba(5,25,55,.72),rgba(5,25,55,.82)),
+    url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
 }
 
 .hero-content{
     width:94%;
     max-width:1200px;
     margin:auto;
-    padding:80px 0;
+    padding:70px 0;
 }
 
 .hero-badge{
     display:inline-block;
-    background:rgba(56,189,248,.15);
-    border:1px solid rgba(56,189,248,.45);
     padding:8px 13px;
     border-radius:30px;
-    font-size:13px;
+    background:rgba(56,189,248,.15);
+    border:1px solid rgba(56,189,248,.45);
     margin-bottom:18px;
+    font-size:13px;
 }
 
 .hero h1{
     max-width:760px;
-    font-size:52px;
-    line-height:1.08;
+    font-size:50px;
+    line-height:1.1;
     margin-bottom:20px;
 }
 
@@ -184,35 +153,25 @@ header{
     flex-wrap:wrap;
 }
 
-.hero-note{
-    margin-top:25px;
-    font-size:13px;
-    color:#d8e2ef;
-}
-
-
-/* =========================
-   STATISTIQUES
-========================= */
+/* STATS */
 
 .stats{
     width:94%;
     max-width:1100px;
-    margin:-45px auto 50px;
+    margin:-40px auto 50px;
     position:relative;
-    z-index:5;
     display:grid;
     grid-template-columns:repeat(4,1fr);
     background:white;
     border-radius:18px;
-    box-shadow:0 10px 35px rgba(0,0,0,.1);
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
     overflow:hidden;
 }
 
 .stat{
-    padding:25px 18px;
     text-align:center;
-    border-right:1px solid #e9edf2;
+    padding:23px 12px;
+    border-right:1px solid #e8edf3;
 }
 
 .stat:last-child{
@@ -221,20 +180,20 @@ header{
 
 .stat strong{
     display:block;
-    font-size:25px;
     color:#0b5ed7;
-    margin-bottom:4px;
+    font-size:23px;
 }
 
 .stat span{
     color:#697586;
-    font-size:13px;
+    font-size:12px;
 }
 
+/* SECTIONS */
 
-/* =========================
-   SECTIONS
-========================= */
+.section{
+    padding:60px 0;
+}
 
 .container{
     width:94%;
@@ -242,20 +201,16 @@ header{
     margin:auto;
 }
 
-.section{
-    padding:65px 0;
-}
-
 .section-header{
-    text-align:center;
     max-width:750px;
     margin:0 auto 35px;
+    text-align:center;
 }
 
 .section-header .tag{
     display:inline-block;
-    color:#0b5ed7;
     background:#e9f2ff;
+    color:#0b5ed7;
     padding:7px 12px;
     border-radius:20px;
     font-size:12px;
@@ -272,10 +227,7 @@ header{
     color:#697586;
 }
 
-
-/* =========================
-   PACKS
-========================= */
+/* PACKS */
 
 .packs{
     display:grid;
@@ -287,22 +239,20 @@ header{
     background:white;
     border-radius:17px;
     overflow:hidden;
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
     border:1px solid #e7ebf0;
-    transition:.25s;
+    box-shadow:0 5px 20px rgba(0,0,0,.06);
+    transition:.2s;
 }
 
 .pack:hover{
-    transform:translateY(-6px);
-    box-shadow:0 15px 30px rgba(0,0,0,.1);
+    transform:translateY(-5px);
 }
 
 .pack-image{
     width:100%;
-    height:185px;
+    height:180px;
     object-fit:cover;
     display:block;
-    background:#e9edf2;
 }
 
 .pack-content{
@@ -311,7 +261,7 @@ header{
 
 .pack-name{
     font-size:18px;
-    font-weight:800;
+    font-weight:bold;
     margin-bottom:12px;
 }
 
@@ -338,10 +288,7 @@ header{
     margin-top:13px;
 }
 
-
-/* =========================
-   FONCTIONNEMENT
-========================= */
+/* STEPS */
 
 .steps{
     display:grid;
@@ -351,9 +298,9 @@ header{
 
 .step{
     background:white;
-    border-radius:17px;
     padding:25px 20px;
     text-align:center;
+    border-radius:17px;
     box-shadow:0 5px 18px rgba(0,0,0,.05);
 }
 
@@ -368,11 +315,6 @@ header{
     background:#0b5ed7;
     color:white;
     font-weight:bold;
-    font-size:19px;
-}
-
-.step h3{
-    margin-bottom:7px;
 }
 
 .step p{
@@ -380,10 +322,7 @@ header{
     font-size:13px;
 }
 
-
-/* =========================
-   AVANTAGES
-========================= */
+/* AVANTAGES */
 
 .advantages{
     display:grid;
@@ -400,11 +339,7 @@ header{
 
 .advantage-icon{
     font-size:30px;
-    margin-bottom:12px;
-}
-
-.advantage h3{
-    margin-bottom:7px;
+    margin-bottom:10px;
 }
 
 .advantage p{
@@ -412,10 +347,7 @@ header{
     font-size:14px;
 }
 
-
-/* =========================
-   ROADMAP
-========================= */
+/* ROADMAP */
 
 .roadmap{
     background:#081c3c;
@@ -436,8 +368,8 @@ header{
 }
 
 .roadmap-item strong{
-    color:#38bdf8;
     display:block;
+    color:#38bdf8;
     margin-bottom:5px;
 }
 
@@ -446,90 +378,71 @@ header{
     font-size:13px;
 }
 
-
-/* =========================
-   PARTENAIRES
-========================= */
+/* PARTENAIRES */
 
 .partners{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:18px;
-    align-items:stretch;
 }
 
 .partner{
-    min-height:145px;
+    min-height:125px;
     background:white;
-    border-radius:15px;
-    padding:16px;
+    border:1px solid #e7ebf0;
+    border-radius:17px;
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:10px;
     text-align:center;
+    padding:20px;
     box-shadow:0 5px 18px rgba(0,0,0,.06);
-    border:1px solid #e7ebf0;
     transition:.2s;
 }
 
 .partner:hover{
-    transform:translateY(-4px);
-    box-shadow:0 10px 25px rgba(0,0,0,.09);
+    transform:translateY(-5px);
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
 }
 
-.partner img{
-    width:auto;
-    max-width:100%;
-    height:65px;
-    object-fit:contain;
+.partner-icon{
+    font-size:28px;
+    margin-bottom:8px;
 }
 
-.partner strong{
-    display:block;
+.partner-name{
+    font-weight:800;
     color:#172033;
-    font-size:13px;
-    line-height:1.3;
+    font-size:15px;
 }
 
-
-/* =========================
-   CTA
-========================= */
+/* CTA */
 
 .cta{
-    background:linear-gradient(
-        135deg,
-        #0b5ed7,
-        #063b8f
-    );
+    background:linear-gradient(135deg,#0b5ed7,#063b8f);
     color:white;
     border-radius:24px;
-    padding:55px 30px;
+    padding:50px 25px;
     text-align:center;
 }
 
 .cta h2{
-    font-size:35px;
+    font-size:34px;
     margin-bottom:12px;
 }
 
 .cta p{
     max-width:650px;
-    margin:0 auto 23px;
+    margin:0 auto 22px;
     color:#e7effb;
 }
 
-
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 
 footer{
     background:#07152e;
     color:#bdc9d8;
-    margin-top:65px;
+    margin-top:60px;
     padding:40px 0 20px;
 }
 
@@ -539,7 +452,7 @@ footer{
     margin:auto;
     display:grid;
     grid-template-columns:2fr 1fr 1fr;
-    gap:35px;
+    gap:30px;
 }
 
 .footer-title{
@@ -548,16 +461,15 @@ footer{
     margin-bottom:10px;
 }
 
-.footer-text{
+.footer-text,
+.footer-links{
     font-size:13px;
-    max-width:450px;
 }
 
 .footer-links{
     display:flex;
     flex-direction:column;
     gap:8px;
-    font-size:13px;
 }
 
 .footer-links a:hover{
@@ -570,14 +482,11 @@ footer{
     margin:30px auto 0;
     padding-top:18px;
     border-top:1px solid rgba(255,255,255,.1);
-    font-size:12px;
     text-align:center;
+    font-size:12px;
 }
 
-
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
 @media(max-width:950px){
 
@@ -605,12 +514,7 @@ footer{
         grid-template-columns:repeat(2,1fr);
     }
 
-    .partners{
-        grid-template-columns:repeat(2,1fr);
-    }
-
 }
-
 
 @media(max-width:600px){
 
@@ -631,10 +535,6 @@ footer{
         min-height:570px;
     }
 
-    .hero-content{
-        padding:60px 0;
-    }
-
     .hero h1{
         font-size:34px;
     }
@@ -644,44 +544,17 @@ footer{
     }
 
     .stats{
-        margin-top:-25px;
         grid-template-columns:repeat(2,1fr);
     }
 
     .stat{
-        padding:18px 10px;
+        border-bottom:1px solid #e8edf3;
     }
 
-    .stat:nth-child(2){
-        border-right:none;
-    }
-
-    .stat:nth-child(-n+2){
-        border-bottom:1px solid #e9edf2;
-    }
-
-    .section{
-        padding:45px 0;
-    }
-
-    .section-header h2{
-        font-size:27px;
-    }
-
-    .packs{
-        grid-template-columns:1fr;
-    }
-
-    .steps{
-        grid-template-columns:1fr;
-    }
-
+    .packs,
+    .steps,
     .advantages{
         grid-template-columns:1fr;
-    }
-
-    .roadmap{
-        padding:28px 20px;
     }
 
     .roadmap-grid{
@@ -694,175 +567,117 @@ footer{
     }
 
     .partner{
-        min-height:125px;
-        padding:10px;
+        min-height:110px;
+        padding:12px;
     }
 
-    .partner img{
-        height:50px;
-    }
-
-    .partner strong{
-        font-size:11px;
+    .partner-name{
+        font-size:12px;
     }
 
     .footer-grid{
         grid-template-columns:1fr;
     }
 
-    .cta{
-        padding:40px 20px;
-    }
-
     .cta h2{
         font-size:28px;
     }
-
 }
-
 </style>
 </head>
 
-
 <body>
-
-
-<!-- =========================
-     HEADER
-========================= -->
 
 <header>
 
 <nav class="navbar">
 
-    <a href="index.html" class="logo">
-        🏠 Housing <span>Investment</span>
-    </a>
+<a href="index.html" class="logo">
+🏠 Housing <span>Investment</span>
+</a>
 
+<div class="nav-links">
+<a href="#packs">Packs</a>
+<a href="#fonctionnement">Fonctionnement</a>
+<a href="#avantages">Pourquoi nous</a>
+<a href="#partenaires">Partenaires</a>
+</div>
 
-    <div class="nav-links">
+<div class="nav-buttons">
+<a href="login.html" class="btn btn-outline">
+Se connecter
+</a>
 
-        <a href="#packs">
-            Packs
-        </a>
-
-        <a href="#fonctionnement">
-            Fonctionnement
-        </a>
-
-        <a href="#avantages">
-            Pourquoi nous
-        </a>
-
-        <a href="#partenaires">
-            Partenaires
-        </a>
-
-    </div>
-
-
-    <div class="nav-buttons">
-
-        <a href="login.html"
-           class="btn btn-outline">
-            Se connecter
-        </a>
-
-        <a href="register.html"
-           class="btn btn-primary">
-            Créer un compte
-        </a>
-
-    </div>
+<a href="register.html" class="btn btn-primary">
+Créer un compte
+</a>
+</div>
 
 </nav>
 
 </header>
 
 
-<!-- =========================
-     HERO
-========================= -->
-
 <section class="hero">
 
 <div class="hero-content">
 
-    <div class="hero-badge">
-        🏠 Investissement immobilier
-    </div>
+<div class="hero-badge">
+🏠 Investissement immobilier
+</div>
 
+<h1>
+Construisez votre avenir avec
+<span>l'immobilier</span>
+</h1>
 
-    <h1>
-        Construisez votre avenir
-        avec <span>l'immobilier</span>
-    </h1>
+<p>
+Découvrez une nouvelle manière de participer
+à des projets immobiliers avec des formules
+accessibles à partir de 3 000 FCFA.
+</p>
 
+<div class="hero-actions">
 
-    <p>
-        Découvrez une nouvelle manière de participer
-        à des projets immobiliers avec des formules
-        accessibles à partir de 3 000 FCFA.
-    </p>
+<a href="register.html" class="btn btn-primary">
+🚀 Commencer maintenant
+</a>
 
+<a href="#fonctionnement" class="btn btn-outline">
+Découvrir le fonctionnement
+</a>
 
-    <div class="hero-actions">
-
-        <a href="register.html"
-           class="btn btn-primary">
-            🚀 Commencer maintenant
-        </a>
-
-        <a href="#fonctionnement"
-           class="btn btn-outline">
-            Découvrir le fonctionnement
-        </a>
-
-    </div>
-
-
-    <div class="hero-note">
-        🔐 Espace personnel • 📊 Suivi des investissements
-        • 🎧 Assistance utilisateur
-    </div>
+</div>
 
 </div>
 
 </section>
 
 
-<!-- =========================
-     STATISTIQUES
-========================= -->
-
 <div class="stats">
 
-    <div class="stat">
-        <strong>3 000 FCFA</strong>
-        <span>Investissement minimum</span>
-    </div>
+<div class="stat">
+<strong>3 000 FCFA</strong>
+<span>Investissement minimum</span>
+</div>
 
-    <div class="stat">
-        <strong>8</strong>
-        <span>Formules disponibles</span>
-    </div>
+<div class="stat">
+<strong>8</strong>
+<span>Formules disponibles</span>
+</div>
 
-    <div class="stat">
-        <strong>180 jours</strong>
-        <span>Durée indiquée des contrats</span>
-    </div>
+<div class="stat">
+<strong>180 jours</strong>
+<span>Durée indiquée</span>
+</div>
 
-    <div class="stat">
-        <strong>24/7</strong>
-        <span>Accès à votre espace</span>
-    </div>
+<div class="stat">
+<strong>24/7</strong>
+<span>Accès à votre espace</span>
+</div>
 
 </div>
 
-
-<!-- =========================
-     PACKS
-========================= -->
 
 <section class="section" id="packs">
 
@@ -870,19 +685,15 @@ footer{
 
 <div class="section-header">
 
-    <span class="tag">
-        NOS FORMULES
-    </span>
+<span class="tag">NOS FORMULES</span>
 
-    <h2>
-        Choisissez votre niveau d'investissement
-    </h2>
+<h2>
+Choisissez votre niveau d'investissement
+</h2>
 
-    <p>
-        Huit niveaux sont disponibles afin de permettre
-        à chacun de choisir une formule correspondant
-        à son budget.
-    </p>
+<p>
+Huit niveaux sont disponibles.
+</p>
 
 </div>
 
@@ -890,20 +701,15 @@ footer{
 <div class="packs">
 
 
-<!-- 3 000 -->
-
 <div class="pack">
 
-<img
-class="pack-image"
+<img class="pack-image"
 src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80"
 alt="Petite maison moderne">
 
 <div class="pack-content">
 
-<div class="pack-name">
-🌱 Starter
-</div>
+<div class="pack-name">🌱 Starter</div>
 
 <div class="pack-row">
 <span>Investissement</span>
@@ -925,8 +731,7 @@ alt="Petite maison moderne">
 <span>144 000 FCFA</span>
 </div>
 
-<a href="register.html"
-class="btn btn-primary">
+<a href="register.html" class="btn btn-primary">
 Choisir ce pack
 </a>
 
@@ -934,20 +739,15 @@ Choisir ce pack
 </div>
 
 
-<!-- 10 000 -->
-
 <div class="pack">
 
-<img
-class="pack-image"
+<img class="pack-image"
 src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80"
 alt="Maison familiale">
 
 <div class="pack-content">
 
-<div class="pack-name">
-🏠 Familial
-</div>
+<div class="pack-name">🏠 Familial</div>
 
 <div class="pack-row">
 <span>Investissement</span>
@@ -969,8 +769,7 @@ alt="Maison familiale">
 <span>540 000 FCFA</span>
 </div>
 
-<a href="register.html"
-class="btn btn-primary">
+<a href="register.html" class="btn btn-primary">
 Choisir ce pack
 </a>
 
@@ -978,20 +777,15 @@ Choisir ce pack
 </div>
 
 
-<!-- 20 000 -->
-
 <div class="pack">
 
-<img
-class="pack-image"
+<img class="pack-image"
 src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
 alt="Maison confortable">
 
 <div class="pack-content">
 
-<div class="pack-name">
-🏡 Confort
-</div>
+<div class="pack-name">🏡 Confort</div>
 
 <div class="pack-row">
 <span>Investissement</span>
@@ -1013,8 +807,7 @@ alt="Maison confortable">
 <span>1 080 000 FCFA</span>
 </div>
 
-<a href="register.html"
-class="btn btn-primary">
+<a href="register.html" class="btn btn-primary">
 Choisir ce pack
 </a>
 
@@ -1022,20 +815,15 @@ Choisir ce pack
 </div>
 
 
-<!-- 45 000 -->
-
 <div class="pack">
 
-<img
-class="pack-image"
+<img class="pack-image"
 src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=900&q=80"
 alt="Villa moderne">
 
 <div class="pack-content">
 
-<div class="pack-name">
-🏘️ Villa
-</div>
+<div class="pack-name">🏘️ Villa</div>
 
 <div class="pack-row">
 <span>Investissement</span>
@@ -1057,8 +845,7 @@ alt="Villa moderne">
 <span>2 520 000 FCFA</span>
 </div>
 
-<a href="register.html"
-class="btn btn-primary">
+<a href="register.html" class="btn btn-primary">
 Choisir ce pack
 </a>
 
@@ -1066,20 +853,15 @@ Choisir ce pack
 </div>
 
 
-<!-- 100 000 -->
-
 <div class="pack">
 
-<img
-class="pack-image"
+<img class="pack-image"
 src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"
 alt="Grande villa">
 
 <div class="pack-content">
 
-<div class="pack-name">
-⭐ Premium
-</div>
+<div class="pack-name">⭐ Premium</div>
 
 <div class="pack-row">
 <span>Investissement</span>
@@ -1101,8 +883,7 @@ alt="Grande villa">
 <span>5 400 000 FCFA</span>
 </div>
 
-<a href="register.html"
-class="btn btn-primary">
+<a href="register.html" class="btn btn-primary">
 Choisir ce pack
 </a>
 
@@ -1110,20 +891,15 @@ Choisir ce pack
 </div>
 
 
-<!-- 200 000 -->
-
 <div class="pack">
 
-<img
-class="pack-image"
+<img class="pack-image"
 src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80"
 alt="Villa premium">
 
 <div class="pack-content">
 
-<div class="pack-name">
-💎 Prestige
-</div>
+<div class="pack-name">💎 Prestige</div>
 
 <div class="pack-row">
 <span>Investissement</span>
@@ -1145,8 +921,7 @@ alt="Villa premium">
 <span>11 700 000 FCFA</span>
 </div>
 
-<a href="register.html"
-class="btn btn-primary">
+<a href="register.html" class="btn btn-primary">
 Choisir ce pack
 </a>
 
@@ -1154,20 +929,15 @@ Choisir ce pack
 </div>
 
 
-<!-- 400 000 -->
-
 <div class="pack">
 
-<img
-class="pack-image"
+<img class="pack-image"
 src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
 alt="Résidence haut de gamme">
 
 <div class="pack-content">
 
-<div class="pack-name">
-👑 Excellence
-</div>
+<div class="pack-name">👑 Excellence</div>
 
 <div class="pack-row">
 <span>Investissement</span>
@@ -1189,8 +959,7 @@ alt="Résidence haut de gamme">
 <span>25 200 000 FCFA</span>
 </div>
 
-<a href="register.html"
-class="btn btn-primary">
+<a href="register.html" class="btn btn-primary">
 Choisir ce pack
 </a>
 
@@ -1198,20 +967,15 @@ Choisir ce pack
 </div>
 
 
-<!-- 800 000 -->
-
 <div class="pack">
 
-<img
-class="pack-image"
+<img class="pack-image"
 src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=900&q=80"
-alt="Villa de luxe avec piscine">
+alt="Villa de luxe">
 
 <div class="pack-content">
 
-<div class="pack-name">
-🏆 Luxe
-</div>
+<div class="pack-name">🏆 Luxe</div>
 
 <div class="pack-row">
 <span>Investissement</span>
@@ -1233,8 +997,7 @@ alt="Villa de luxe avec piscine">
 <span>52 200 000 FCFA</span>
 </div>
 
-<a href="register.html"
-class="btn btn-primary">
+<a href="register.html" class="btn btn-primary">
 Choisir ce pack
 </a>
 
@@ -1243,15 +1006,10 @@ Choisir ce pack
 
 
 </div>
-
 </div>
 
 </section>
 
-
-<!-- =========================
-     FONCTIONNEMENT
-========================= -->
 
 <section class="section" id="fonctionnement">
 
@@ -1267,77 +1025,32 @@ COMMENT ÇA MARCHE ?
 Investir en quelques étapes
 </h2>
 
-<p>
-Un parcours simple pour accéder à votre espace
-et suivre vos opérations.
-</p>
-
 </div>
-
 
 <div class="steps">
 
 <div class="step">
-
 <div class="step-number">1</div>
-
-<h3>
-Créez votre compte
-</h3>
-
-<p>
-Inscrivez-vous avec vos informations
-et sécurisez votre espace personnel.
-</p>
-
+<h3>Créez votre compte</h3>
+<p>Inscrivez-vous et sécurisez votre espace personnel.</p>
 </div>
 
-
 <div class="step">
-
 <div class="step-number">2</div>
-
-<h3>
-Alimentez votre solde
-</h3>
-
-<p>
-Effectuez un dépôt depuis votre espace
-utilisateur.
-</p>
-
+<h3>Alimentez votre solde</h3>
+<p>Effectuez un dépôt depuis votre espace.</p>
 </div>
 
-
 <div class="step">
-
 <div class="step-number">3</div>
-
-<h3>
-Choisissez un pack
-</h3>
-
-<p>
-Sélectionnez la formule qui correspond
-à votre budget.
-</p>
-
+<h3>Choisissez un pack</h3>
+<p>Sélectionnez la formule correspondant à votre budget.</p>
 </div>
 
-
 <div class="step">
-
 <div class="step-number">4</div>
-
-<h3>
-Suivez votre investissement
-</h3>
-
-<p>
-Consultez votre tableau de bord,
-vos gains et votre historique.
-</p>
-
+<h3>Suivez votre investissement</h3>
+<p>Consultez votre tableau de bord et votre historique.</p>
 </div>
 
 </div>
@@ -1346,10 +1059,6 @@ vos gains et votre historique.
 
 </section>
 
-
-<!-- =========================
-     AVANTAGES
-========================= -->
 
 <section class="section" id="avantages">
 
@@ -1358,7 +1067,7 @@ vos gains et votre historique.
 <div class="section-header">
 
 <span class="tag">
-POURQUOI HOUSING INVESTMENT ?
+POURQUOI NOUS ?
 </span>
 
 <h2>
@@ -1367,111 +1076,43 @@ Un espace pensé pour l'utilisateur
 
 </div>
 
-
 <div class="advantages">
 
-
 <div class="advantage">
-
 <div class="advantage-icon">📊</div>
-
-<h3>
-Suivi personnalisé
-</h3>
-
-<p>
-Retrouvez vos investissements,
-vos opérations et vos gains
-depuis votre espace personnel.
-</p>
-
+<h3>Suivi personnalisé</h3>
+<p>Retrouvez vos investissements et vos opérations depuis votre espace.</p>
 </div>
 
-
 <div class="advantage">
-
 <div class="advantage-icon">🔐</div>
-
-<h3>
-Espace sécurisé
-</h3>
-
-<p>
-Chaque utilisateur dispose
-d'un espace personnel pour
-gérer ses opérations.
-</p>
-
+<h3>Espace sécurisé</h3>
+<p>Chaque utilisateur dispose de son espace personnel.</p>
 </div>
 
-
 <div class="advantage">
-
 <div class="advantage-icon">🎧</div>
-
-<h3>
-Assistance
-</h3>
-
-<p>
-Un système de tickets permet
-de contacter l'administration
-directement depuis le dashboard.
-</p>
-
+<h3>Assistance</h3>
+<p>Un système d'assistance pourra être utilisé directement depuis le dashboard.</p>
 </div>
 
-
 <div class="advantage">
-
 <div class="advantage-icon">📱</div>
-
-<h3>
-Compatible mobile
-</h3>
-
-<p>
-L'interface est conçue pour
-fonctionner sur téléphone,
-tablette et ordinateur.
-</p>
-
+<h3>Compatible mobile</h3>
+<p>La plateforme est adaptée aux téléphones et ordinateurs.</p>
 </div>
 
-
 <div class="advantage">
-
 <div class="advantage-icon">🏠</div>
-
-<h3>
-Orientation immobilière
-</h3>
-
-<p>
-Chaque formule est présentée
-avec une image de maison pour
-renforcer l'identité immobilière.
-</p>
-
+<h3>Orientation immobilière</h3>
+<p>Les formules sont présentées avec des visuels immobiliers.</p>
 </div>
-
 
 <div class="advantage">
-
 <div class="advantage-icon">🚀</div>
-
-<h3>
-Vision à long terme
-</h3>
-
-<p>
-Le projet vise à développer
-progressivement une communauté
-d'investisseurs.
-</p>
-
+<h3>Vision à long terme</h3>
+<p>Le projet est conçu pour évoluer progressivement.</p>
 </div>
-
 
 </div>
 
@@ -1479,10 +1120,6 @@ d'investisseurs.
 
 </section>
 
-
-<!-- =========================
-     ROADMAP
-========================= -->
 
 <section class="section">
 
@@ -1492,12 +1129,8 @@ d'investisseurs.
 
 <div class="section-header">
 
-<span
-class="tag"
-style="
-background:rgba(56,189,248,.12);
-color:#38bdf8;
-">
+<span class="tag"
+style="background:rgba(56,189,248,.12);color:#38bdf8;">
 NOTRE VISION
 </span>
 
@@ -1505,65 +1138,29 @@ NOTRE VISION
 Une ambition qui se construit étape par étape
 </h2>
 
-<p style="color:#d5deea;">
-Le développement de la plateforme
-s'effectue progressivement.
-</p>
-
 </div>
-
 
 <div class="roadmap-grid">
 
-
 <div class="roadmap-item">
-
 <strong>2026</strong>
-
-<p>
-Mise en place de la plateforme
-et de l'espace utilisateur.
-</p>
-
+<p>Mise en place de la plateforme et de l'espace utilisateur.</p>
 </div>
 
-
 <div class="roadmap-item">
-
 <strong>2027</strong>
-
-<p>
-Développement de nouveaux
-services et amélioration
-de l'expérience utilisateur.
-</p>
-
+<p>Développement de nouveaux services.</p>
 </div>
 
-
 <div class="roadmap-item">
-
 <strong>2030</strong>
-
-<p>
-Extension progressive
-des activités et des projets.
-</p>
-
+<p>Extension progressive des activités.</p>
 </div>
-
 
 <div class="roadmap-item">
-
 <strong>2032</strong>
-
-<p>
-Ambition de bâtir une importante
-communauté d'investisseurs.
-</p>
-
+<p>Ambition de bâtir une importante communauté.</p>
 </div>
-
 
 </div>
 
@@ -1573,10 +1170,6 @@ communauté d'investisseurs.
 
 </section>
 
-
-<!-- =========================
-     PARTENAIRES
-========================= -->
 
 <section class="section" id="partenaires">
 
@@ -1593,8 +1186,7 @@ Nos partenaires
 </h2>
 
 <p>
-Découvrez les entreprises et marques
-présentées dans l'environnement du projet.
+Les partenaires présentés dans l'environnement du projet.
 </p>
 
 </div>
@@ -1602,84 +1194,59 @@ présentées dans l'environnement du projet.
 
 <div class="partners">
 
-
 <div class="partner">
-
-<img
-src="images/groupe-africa-immo.jpg"
-alt="Groupe Africa Immo">
-
-<strong>
+<div>
+<div class="partner-icon">🏢</div>
+<div class="partner-name">
 Groupe Africa Immo
-</strong>
-
+</div>
+</div>
 </div>
 
-
 <div class="partner">
-
-<img
-src="images/reliance-west-africa.png"
-alt="Reliance West Africa">
-
-<strong>
+<div>
+<div class="partner-icon">🏢</div>
+<div class="partner-name">
 Reliance West Africa
-</strong>
-
+</div>
+</div>
 </div>
 
-
 <div class="partner">
-
-<img
-src="images/brokers-africa.jpg"
-alt="Brokers Afrika">
-
-<strong>
+<div>
+<div class="partner-icon">🤝</div>
+<div class="partner-name">
 Brokers Afrika
-</strong>
-
+</div>
+</div>
 </div>
 
-
 <div class="partner">
-
-<img
-src="images/binance.png"
-alt="Binance">
-
-<strong>
+<div>
+<div class="partner-icon">💱</div>
+<div class="partner-name">
 Binance
-</strong>
-
+</div>
+</div>
 </div>
 
-
 <div class="partner">
-
-<img
-src="images/orangina.png"
-alt="Orangina">
-
-<strong>
+<div>
+<div class="partner-icon">🥤</div>
+<div class="partner-name">
 Orangina
-</strong>
-
 </div>
-
+</div>
+</div>
 
 <div class="partner">
-
-<img
-src="images/diaspora-africa-investment.jpg"
-alt="Diaspora Africa Investment">
-
-<strong>
+<div>
+<div class="partner-icon">🌍</div>
+<div class="partner-name">
 Diaspora Africa Investment
-</strong>
-
 </div>
-
+</div>
+</div>
 
 </div>
 
@@ -1687,10 +1254,6 @@ Diaspora Africa Investment
 
 </section>
 
-
-<!-- =========================
-     CTA
-========================= -->
 
 <section class="section">
 
@@ -1703,13 +1266,10 @@ Prêt à commencer ?
 </h2>
 
 <p>
-Créez votre compte et découvrez votre
-espace personnel Housing Investment.
+Créez votre compte et découvrez votre espace personnel Housing Investment.
 </p>
 
-<a
-href="register.html"
-class="btn btn-light">
+<a href="register.html" class="btn btn-light">
 🚀 Créer mon compte
 </a>
 
@@ -1720,27 +1280,18 @@ class="btn btn-light">
 </section>
 
 
-<!-- =========================
-     FOOTER
-========================= -->
-
 <footer>
 
 <div class="footer-grid">
 
-
 <div>
-
 <div class="footer-title">
 🏠 Housing Investment
 </div>
 
 <p class="footer-text">
-Plateforme dédiée à la présentation
-et au suivi de solutions d'investissement
-immobilier.
+Plateforme dédiée à la présentation et au suivi des solutions d'investissement immobilier.
 </p>
-
 </div>
 
 
@@ -1751,23 +1302,10 @@ Navigation
 </div>
 
 <div class="footer-links">
-
-<a href="#packs">
-Nos packs
-</a>
-
-<a href="#fonctionnement">
-Fonctionnement
-</a>
-
-<a href="#avantages">
-Pourquoi nous
-</a>
-
-<a href="#partenaires">
-Partenaires
-</a>
-
+<a href="#packs">Nos packs</a>
+<a href="#fonctionnement">Fonctionnement</a>
+<a href="#avantages">Pourquoi nous</a>
+<a href="#partenaires">Partenaires</a>
 </div>
 
 </div>
@@ -1780,36 +1318,21 @@ Mon espace
 </div>
 
 <div class="footer-links">
-
-<a href="login.html">
-Se connecter
-</a>
-
-<a href="register.html">
-Créer un compte
-</a>
-
-<a href="dashboard.html">
-Mon dashboard
-</a>
-
+<a href="login.html">Se connecter</a>
+<a href="register.html">Créer un compte</a>
+<a href="dashboard.html">Mon dashboard</a>
 </div>
 
 </div>
-
 
 </div>
 
 
 <div class="footer-bottom">
-
-© 2026 Housing Investment —
-Tous droits réservés.
-
+© 2026 Housing Investment — Tous droits réservés.
 </div>
 
 </footer>
-
 
 </body>
 </html>
