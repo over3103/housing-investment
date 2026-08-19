@@ -1,1573 +1,2303 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Mon espace — Housing Investment</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #172033;
-        }
-
-        header {
-            background: linear-gradient(135deg, #0b5ed7, #063b8f);
-            color: white;
-            padding: 18px;
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            box-shadow: 0 4px 15px rgba(0,0,0,.15);
-        }
-
-        .header-content {
-            max-width: 1100px;
-            margin: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .brand {
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .header-user {
-            font-size: 14px;
-            opacity: .95;
-        }
-
-        .container {
-            width: 94%;
-            max-width: 1100px;
-            margin: 25px auto 50px;
-        }
-
-        .welcome {
-            background: white;
-            border-radius: 18px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.07);
-        }
-
-        .welcome h1 {
-            font-size: 26px;
-            margin-bottom: 8px;
-        }
-
-        .welcome p {
-            color: #687386;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 5px 18px rgba(0,0,0,.06);
-        }
-
-        .stat-icon {
-            font-size: 27px;
-            margin-bottom: 10px;
-        }
-
-        .stat-title {
-            font-size: 13px;
-            color: #758094;
-            margin-bottom: 8px;
-        }
-
-        .stat-value {
-            font-size: 21px;
-            font-weight: bold;
-        }
-
-        .section {
-            background: white;
-            border-radius: 18px;
-            padding: 22px;
-            margin-bottom: 22px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.06);
-        }
-
-        .section-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .section-title h2 {
-            font-size: 21px;
-        }
-
-        .packs {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-        }
-
-        .pack {
-            border: 1px solid #e4e9f0;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #fff;
-            transition: .25s;
-        }
-
-        .pack:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0,0,0,.1);
-        }
-
-        .pack-image {
-            width: 100%;
-            height: 155px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .pack-content {
-            padding: 15px;
-        }
-
-        .pack h3 {
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-
-        .pack-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            padding: 6px 0;
-            border-bottom: 1px solid #f0f2f5;
-            font-size: 13px;
-        }
-
-        .pack-row:last-of-type {
-            border-bottom: none;
-        }
-
-        .pack-row span:last-child {
-            font-weight: bold;
-            text-align: right;
-        }
-
-        .btn {
-            border: none;
-            border-radius: 10px;
-            padding: 12px 15px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: .2s;
-        }
-
-        .btn:hover {
-            opacity: .88;
-            transform: translateY(-1px);
-        }
-
-        .btn-primary {
-            background: #0b5ed7;
-            color: white;
-        }
-
-        .btn-success {
-            background: #198754;
-            color: white;
-        }
-
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-        }
-
-        .btn-dark {
-            background: #172033;
-            color: white;
-        }
-
-        .btn-light {
-            background: #eef3f8;
-            color: #172033;
-        }
-
-        .actions {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        .action-card {
-            padding: 18px;
-            border-radius: 15px;
-            background: #f7f9fc;
-            border: 1px solid #e8edf3;
-        }
-
-        .action-card h3 {
-            margin-bottom: 7px;
-        }
-
-        .action-card p {
-            font-size: 13px;
-            color: #6d7888;
-            margin-bottom: 12px;
-        }
-
-        .investment-item,
-        .history-item,
-        .ticket-item {
-            border: 1px solid #e5e9ef;
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 12px;
-            background: #fff;
-        }
-
-        .item-top {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .item-title {
-            font-weight: bold;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .status-active {
-            background: #e6f7ed;
-            color: #198754;
-        }
-
-        .status-pending {
-            background: #fff4d6;
-            color: #9a6b00;
-        }
-
-        .status-answered {
-            background: #e5f0ff;
-            color: #0b5ed7;
-        }
-
-        .status-closed {
-            background: #eceff3;
-            color: #687386;
-        }
-
-        .progress {
-            width: 100%;
-            height: 9px;
-            background: #e9edf2;
-            border-radius: 20px;
-            overflow: hidden;
-            margin: 12px 0;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #0b5ed7, #22a6f2);
-            border-radius: 20px;
-        }
-
-        .investment-details {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            font-size: 13px;
-        }
-
-        .investment-details div {
-            background: #f7f9fc;
-            padding: 10px;
-            border-radius: 9px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        input,
-        textarea,
-        select {
-            width: 100%;
-            border: 1px solid #dce2ea;
-            border-radius: 10px;
-            padding: 12px;
-            font-family: inherit;
-            font-size: 14px;
-            outline: none;
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #0b5ed7;
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,.55);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-        }
-
-        .modal-box {
-            width: 100%;
-            max-width: 520px;
-            max-height: 90vh;
-            overflow-y: auto;
-            background: white;
-            border-radius: 18px;
-            padding: 22px;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-        }
-
-        .close {
-            border: none;
-            background: #f0f2f5;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .notification {
-            border-left: 4px solid #0b5ed7;
-            background: #f5f9ff;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .notification.unread {
-            font-weight: bold;
-        }
-
-        .empty {
-            text-align: center;
-            padding: 25px;
-            color: #7b8492;
-        }
-
-        .logout {
-            margin-top: 10px;
-        }
-
-        footer {
-            text-align: center;
-            color: #7b8492;
-            font-size: 12px;
-            padding: 20px;
-        }
-
-        @media (max-width: 900px) {
-
-            .cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .packs {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .investment-details {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-        }
-
-        @media (max-width: 600px) {
-
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .container {
-                width: 92%;
-            }
-
-            .welcome h1 {
-                font-size: 22px;
-            }
-
-            .cards {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .packs {
-                grid-template-columns: 1fr;
-            }
-
-            .actions {
-                grid-template-columns: 1fr;
-            }
-
-            .investment-details {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .section {
-                padding: 16px;
-            }
-
-        }
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mon espace — Housing Investment</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fb;
+    color:#172033;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    height:70px;
+    background:#081c3c;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 3px 15px rgba(0,0,0,.15);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:800;
+}
+
+.logo span{
+    color:#38bdf8;
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+/* ================= NOTIFICATION ================= */
+
+.notification{
+    position:relative;
+}
+
+.notification-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.10);
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.notification-btn:hover{
+    background:rgba(255,255,255,.18);
+}
+
+.notification-count{
+    position:absolute;
+    top:-2px;
+    right:-2px;
+    min-width:19px;
+    height:19px;
+    padding:0 5px;
+    border-radius:20px;
+    background:#dc3545;
+    color:white;
+    font-size:10px;
+    font-weight:bold;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    border:2px solid #081c3c;
+}
+
+.notification-panel{
+    position:absolute;
+    right:0;
+    top:52px;
+    width:330px;
+    max-height:420px;
+    overflow-y:auto;
+    background:white;
+    color:#172033;
+    border-radius:15px;
+    box-shadow:0 15px 40px rgba(0,0,0,.22);
+    display:none;
+    border:1px solid #e5eaf0;
+}
+
+.notification-panel.open{
+    display:block;
+}
+
+.notification-header{
+    padding:15px;
+    border-bottom:1px solid #edf0f4;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.notification-header strong{
+    font-size:15px;
+}
+
+.clear-notifications{
+    border:none;
+    background:none;
+    color:#0b5ed7;
+    font-size:11px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.notification-item{
+    padding:13px 15px;
+    border-bottom:1px solid #edf0f4;
+    font-size:12px;
+}
+
+.notification-item.unread{
+    background:#f1f7ff;
+}
+
+.notification-item strong{
+    display:block;
+    margin-bottom:4px;
+}
+
+.notification-item small{
+    color:#7b8797;
+}
+
+.no-notification{
+    padding:30px 15px;
+    text-align:center;
+    color:#7b8797;
+    font-size:13px;
+}
+
+/* ================= USER ================= */
+
+.user-menu{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:white;
+    font-size:12px;
+}
+
+.user-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#0b5ed7;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.logout{
+    border:none;
+    background:#dc3545;
+    color:white;
+    padding:9px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:bold;
+}
+
+/* ================= LAYOUT ================= */
+
+.layout{
+    display:flex;
+    min-height:calc(100vh - 70px);
+}
+
+.sidebar{
+    width:225px;
+    background:#0b2145;
+    color:white;
+    padding:18px 12px;
+}
+
+.menu{
+    width:100%;
+    border:none;
+    background:transparent;
+    color:#dce6f4;
+    text-align:left;
+    padding:13px 12px;
+    border-radius:9px;
+    margin-bottom:5px;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.menu:hover,
+.menu.active{
+    background:#0b5ed7;
+    color:white;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    flex:1;
+    padding:25px;
+    max-width:1400px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.title{
+    margin-bottom:20px;
+}
+
+.title h1{
+    font-size:28px;
+    margin-bottom:5px;
+}
+
+.title p{
+    color:#697586;
+    font-size:13px;
+}
+
+/* ================= CARDS ================= */
+
+.balance-card{
+    background:linear-gradient(135deg,#0b5ed7,#073b8f);
+    color:white;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:20px;
+    box-shadow:0 10px 30px rgba(11,94,215,.22);
+}
+
+.balance-label{
+    font-size:12px;
+    opacity:.8;
+    margin-bottom:8px;
+}
+
+.balance{
+    font-size:34px;
+    font-weight:800;
+    margin-bottom:18px;
+}
+
+.balance-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.balance-actions button{
+    border:none;
+    border-radius:9px;
+    padding:10px 14px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.deposit-btn{
+    background:white;
+    color:#0b5ed7;
+}
+
+.withdraw-btn{
+    background:rgba(255,255,255,.15);
+    color:white;
+    border:1px solid rgba(255,255,255,.35)!important;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    border:1px solid #e5eaf0;
+    border-radius:15px;
+    padding:18px;
+}
+
+.stat-icon{
+    font-size:24px;
+    margin-bottom:9px;
+}
+
+.stat strong{
+    display:block;
+    font-size:22px;
+    margin-bottom:5px;
+}
+
+.stat span{
+    color:#697586;
+    font-size:12px;
+}
+
+/* ================= PACKS ================= */
+
+.section-title{
+    margin:25px 0 15px;
+    font-size:21px;
+}
+
+.packs{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.pack{
+    background:white;
+    border:1px solid #e5eaf0;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 5px 18px rgba(0,0,0,.04);
+}
+
+.pack-image{
+    width:100%;
+    height:155px;
+    object-fit:cover;
+    display:block;
+}
+
+.pack-content{
+    padding:16px;
+}
+
+.pack h3{
+    font-size:17px;
+    margin-bottom:8px;
+}
+
+.pack-price{
+    color:#0b5ed7;
+    font-weight:800;
+    font-size:19px;
+    margin-bottom:12px;
+}
+
+.pack-info{
+    font-size:12px;
+    color:#697586;
+    line-height:1.8;
+}
+
+.pack-info strong{
+    color:#172033;
+}
+
+.invest-btn{
+    width:100%;
+    height:43px;
+    margin-top:14px;
+    border:none;
+    border-radius:9px;
+    background:#0b5ed7;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.invest-btn:hover{
+    background:#084da8;
+}
+
+/* ================= TABLES ================= */
+
+.card{
+    background:white;
+    border:1px solid #e5eaf0;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.card h2{
+    font-size:19px;
+    margin-bottom:15px;
+}
+
+.table-container{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+th{
+    background:#f4f7fb;
+    color:#526174;
+    font-size:12px;
+    text-align:left;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-top:1px solid #edf0f4;
+    font-size:12px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.green{
+    background:#e7f7ee;
+    color:#198754;
+}
+
+.orange{
+    background:#fff2dc;
+    color:#b56b00;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+    text-align:center;
+    padding:35px;
+    color:#7b8797;
+}
+
+.empty-icon{
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:200;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:420px;
+    background:white;
+    border-radius:18px;
+    padding:25px;
+}
+
+.modal-box h2{
+    margin-bottom:15px;
+}
+
+.modal-box input,
+.modal-box select{
+    width:100%;
+    height:47px;
+    border:1px solid #d8dee8;
+    border-radius:9px;
+    padding:0 12px;
+    margin-bottom:13px;
+    outline:none;
+}
+
+.modal-actions{
+    display:flex;
+    gap:8px;
+}
+
+.modal-actions button{
+    flex:1;
+    height:45px;
+    border:none;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.cancel{
+    background:#edf0f4;
+}
+
+.confirm{
+    background:#0b5ed7;
+    color:white;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:1100px){
+
+    .packs{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:800px){
+
+    header{
+        padding:0 12px;
+    }
+
+    .user-menu span{
+        display:none;
+    }
+
+    .layout{
+        display:block;
+    }
+
+    .sidebar{
+        width:100%;
+        display:flex;
+        overflow-x:auto;
+        padding:8px;
+        gap:5px;
+    }
+
+    .menu{
+        width:auto;
+        white-space:nowrap;
+        margin:0;
+    }
+
+    .main{
+        padding:15px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .logo{
+        font-size:16px;
+    }
+
+    .logout{
+        display:none;
+    }
+
+    .notification-panel{
+        position:fixed;
+        top:70px;
+        right:10px;
+        left:10px;
+        width:auto;
+    }
+
+    .packs{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .title h1{
+        font-size:23px;
+    }
+
+    .balance{
+        font-size:28px;
+    }
+
+}
+</style>
 </head>
 
 <body>
 
 <header>
 
-    <div class="header-content">
+    <div class="logo">
+        🏠 Housing <span>Investment</span>
+    </div>
 
-        <div class="brand">
-            🏠 Housing Investment
+    <div class="header-actions">
+
+        <div class="notification">
+
+            <button
+                class="notification-btn"
+                onclick="toggleNotifications()">
+
+                🔔
+
+            </button>
+
+            <div
+                id="notificationCount"
+                class="notification-count">
+
+                0
+
+            </div>
+
+
+            <div
+                id="notificationPanel"
+                class="notification-panel">
+
+                <div class="notification-header">
+
+                    <strong>
+                        Notifications
+                    </strong>
+
+                    <button
+                        class="clear-notifications"
+                        onclick="clearNotifications()">
+
+                        Tout lire
+
+                    </button>
+
+                </div>
+
+                <div id="notificationList">
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="header-user">
-            Bonjour, <strong id="headerName">Utilisateur</strong>
+
+        <div class="user-menu">
+
+            <div
+                id="avatar"
+                class="user-avatar">
+
+                U
+
+            </div>
+
+            <span id="userName">
+                Utilisateur
+            </span>
+
         </div>
+
+        <button
+            class="logout"
+            onclick="logout()">
+
+            Déconnexion
+
+        </button>
 
     </div>
 
 </header>
 
 
-<main class="container">
+<div class="layout">
 
-    <!-- BIENVENUE -->
 
-    <section class="welcome">
+<aside class="sidebar">
+
+    <button
+        class="menu active"
+        onclick="showPage('home',this)">
+
+        🏠 Accueil
+
+    </button>
+
+    <button
+        class="menu"
+        onclick="showPage('packs',this)">
+
+        💰 Investir
+
+    </button>
+
+    <button
+        class="menu"
+        onclick="showPage('investments',this)">
+
+        📊 Mes investissements
+
+    </button>
+
+    <button
+        class="menu"
+        onclick="showPage('transactions',this)">
+
+        📋 Historique
+
+    </button>
+
+    <button
+        class="menu"
+        onclick="showPage('profile',this)">
+
+        👤 Mon profil
+
+    </button>
+
+    <button
+        class="menu"
+        onclick="window.location.href='contact.html'">
+
+        🎧 Assistance
+
+    </button>
+
+</aside>
+
+
+<main class="main">
+
+
+<!-- ================= HOME ================= -->
+
+<section
+    id="home"
+    class="page active">
+
+    <div class="title">
 
         <h1>
-            Bienvenue dans votre espace 👋
+            Bonjour <span id="welcomeName">!</span> 👋
         </h1>
 
         <p>
-            Suivez vos investissements, vos gains,
-            vos opérations et contactez notre assistance.
+            Bienvenue dans votre espace Housing Investment.
         </p>
 
-    </section>
+    </div>
 
 
-    <!-- STATISTIQUES -->
+    <div class="balance-card">
 
-    <section class="cards">
+        <div class="balance-label">
+            SOLDE DISPONIBLE
+        </div>
 
-        <div class="stat-card">
+        <div
+            id="balance"
+            class="balance">
 
-            <div class="stat-icon">💰</div>
+            0 FCFA
 
-            <div class="stat-title">
-                Solde disponible
+        </div>
+
+        <div class="balance-actions">
+
+            <button
+                class="deposit-btn"
+                onclick="openDeposit()">
+
+                📥 Déposer
+
+            </button>
+
+            <button
+                class="withdraw-btn"
+                onclick="openWithdraw()">
+
+                📤 Retirer
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                💰
             </div>
 
-            <div
-                class="stat-value"
-                id="balance"
-            >
+            <strong id="totalInvested">
                 0 FCFA
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-icon">📈</div>
-
-            <div class="stat-title">
-                Total investi
-            </div>
-
-            <div
-                class="stat-value"
-                id="totalInvested"
-            >
-                0 FCFA
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-icon">🎁</div>
-
-            <div class="stat-title">
-                Gains cumulés
-            </div>
-
-            <div
-                class="stat-value"
-                id="totalGains"
-            >
-                0 FCFA
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-icon">🔔</div>
-
-            <div class="stat-title">
-                Notifications
-            </div>
-
-            <div
-                class="stat-value"
-                id="notificationCount"
-            >
-                0
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ACTIONS -->
-
-    <section class="section">
-
-        <div class="section-title">
-
-            <h2>
-                ⚡ Actions rapides
-            </h2>
-
-        </div>
-
-
-        <div class="actions">
-
-            <div class="action-card">
-
-                <h3>💳 Dépôt</h3>
-
-                <p>
-                    Ajouter des fonds à votre solde.
-                </p>
-
-                <button
-                    class="btn btn-primary"
-                    onclick="openModal('depositModal')"
-                >
-                    Effectuer un dépôt
-                </button>
-
-            </div>
-
-
-            <div class="action-card">
-
-                <h3>💸 Retrait</h3>
-
-                <p>
-                    Demander un retrait de votre solde.
-                </p>
-
-                <button
-                    class="btn btn-success"
-                    onclick="openModal('withdrawModal')"
-                >
-                    Demander un retrait
-                </button>
-
-            </div>
-
-
-            <div class="action-card">
-
-                <h3>🎧 Assistance</h3>
-
-                <p>
-                    Besoin d'aide ? Créez un ticket.
-                </p>
-
-                <button
-                    class="btn btn-dark"
-                    onclick="openModal('supportModal')"
-                >
-                    Contacter l'assistance
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- PACKS -->
-
-    <section class="section">
-
-        <div class="section-title">
-
-            <h2>
-                🏠 Nos opportunités
-            </h2>
+            </strong>
 
             <span>
-                8 niveaux disponibles
+                Total investi
             </span>
 
         </div>
 
 
-        <div class="packs">
+        <div class="stat">
 
-
-            <!-- 3000 -->
-
-            <div class="pack">
-
-                <img
-                    class="pack-image"
-                    src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80"
-                    alt="Maison moderne"
-                >
-
-                <div class="pack-content">
-
-                    <h3>Starter</h3>
-
-                    <div class="pack-row">
-                        <span>Investissement</span>
-                        <span>3 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Gain quotidien</span>
-                        <span>800 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Durée</span>
-                        <span>180 jours</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Total prévu</span>
-                        <span>144 000 FCFA</span>
-                    </div>
-
-                    <br>
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="invest(3000)"
-                    >
-                        Investir
-                    </button>
-
-                </div>
-
+            <div class="stat-icon">
+                📈
             </div>
 
+            <strong id="dailyGain">
+                0 FCFA
+            </strong>
 
-            <!-- 10000 -->
+            <span>
+                Gain quotidien
+            </span>
 
-            <div class="pack">
+        </div>
 
-                <img
-                    class="pack-image"
-                    src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80"
-                    alt="Maison familiale"
-                >
 
-                <div class="pack-content">
+        <div class="stat">
 
-                    <h3>Familial</h3>
-
-                    <div class="pack-row">
-                        <span>Investissement</span>
-                        <span>10 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Gain quotidien</span>
-                        <span>3 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Durée</span>
-                        <span>180 jours</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Total prévu</span>
-                        <span>540 000 FCFA</span>
-                    </div>
-
-                    <br>
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="invest(10000)"
-                    >
-                        Investir
-                    </button>
-
-                </div>
-
+            <div class="stat-icon">
+                📦
             </div>
 
+            <strong id="activeInvestments">
+                0
+            </strong>
 
-            <!-- 20000 -->
+            <span>
+                Investissements actifs
+            </span>
 
-            <div class="pack">
+        </div>
 
-                <img
-                    class="pack-image"
-                    src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
-                    alt="Maison confortable"
-                >
+    </div>
 
-                <div class="pack-content">
 
-                    <h3>Confort</h3>
+    <h2 class="section-title">
+        🚀 Nos opportunités
+    </h2>
 
-                    <div class="pack-row">
-                        <span>Investissement</span>
-                        <span>20 000 FCFA</span>
-                    </div>
 
-                    <div class="pack-row">
-                        <span>Gain quotidien</span>
-                        <span>6 000 FCFA</span>
-                    </div>
+    <div class="packs">
 
-                    <div class="pack-row">
-                        <span>Durée</span>
-                        <span>180 jours</span>
-                    </div>
+        <div class="pack">
 
-                    <div class="pack-row">
-                        <span>Total prévu</span>
-                        <span>1 080 000 FCFA</span>
-                    </div>
+            <img
+                class="pack-image"
+                src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=900&q=80"
+                alt="Petite maison moderne">
 
-                    <br>
+            <div class="pack-content">
 
-                    <button
-                        class="btn btn-primary"
-                        onclick="invest(20000)"
-                    >
-                        Investir
-                    </button>
+                <h3>
+                    Pack Starter
+                </h3>
+
+                <div class="pack-price">
+                    3 000 FCFA
+                </div>
+
+                <div class="pack-info">
+
+                    Gain quotidien :
+                    <strong>800 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>144 000 FCFA</strong>
 
                 </div>
 
-            </div>
+                <button
+                    class="invest-btn"
+                    onclick="invest('Pack Starter',3000,800)">
 
+                    Investir
 
-            <!-- 45000 -->
-
-            <div class="pack">
-
-                <img
-                    class="pack-image"
-                    src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=900&q=80"
-                    alt="Villa moderne"
-                >
-
-                <div class="pack-content">
-
-                    <h3>Villa</h3>
-
-                    <div class="pack-row">
-                        <span>Investissement</span>
-                        <span>45 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Gain quotidien</span>
-                        <span>14 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Durée</span>
-                        <span>180 jours</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Total prévu</span>
-                        <span>2 520 000 FCFA</span>
-                    </div>
-
-                    <br>
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="invest(45000)"
-                    >
-                        Investir
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- 100000 -->
-
-            <div class="pack">
-
-                <img
-                    class="pack-image"
-                    src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"
-                    alt="Grande villa"
-                >
-
-                <div class="pack-content">
-
-                    <h3>Premium</h3>
-
-                    <div class="pack-row">
-                        <span>Investissement</span>
-                        <span>100 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Gain quotidien</span>
-                        <span>30 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Durée</span>
-                        <span>180 jours</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Total prévu</span>
-                        <span>5 400 000 FCFA</span>
-                    </div>
-
-                    <br>
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="invest(100000)"
-                    >
-                        Investir
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- 200000 -->
-
-            <div class="pack">
-
-                <img
-                    class="pack-image"
-                    src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80"
-                    alt="Villa premium"
-                >
-
-                <div class="pack-content">
-
-                    <h3>Prestige</h3>
-
-                    <div class="pack-row">
-                        <span>Investissement</span>
-                        <span>200 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Gain quotidien</span>
-                        <span>65 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Durée</span>
-                        <span>180 jours</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Total prévu</span>
-                        <span>11 700 000 FCFA</span>
-                    </div>
-
-                    <br>
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="invest(200000)"
-                    >
-                        Investir
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- 400000 -->
-
-            <div class="pack">
-
-                <img
-                    class="pack-image"
-                    src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
-                    alt="Résidence haut de gamme"
-                >
-
-                <div class="pack-content">
-
-                    <h3>Excellence</h3>
-
-                    <div class="pack-row">
-                        <span>Investissement</span>
-                        <span>400 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Gain quotidien</span>
-                        <span>140 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Durée</span>
-                        <span>180 jours</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Total prévu</span>
-                        <span>25 200 000 FCFA</span>
-                    </div>
-
-                    <br>
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="invest(400000)"
-                    >
-                        Investir
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- 800000 -->
-
-            <div class="pack">
-
-                <img
-                    class="pack-image"
-                    src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=900&q=80"
-                    alt="Villa de luxe avec piscine"
-                >
-
-                <div class="pack-content">
-
-                    <h3>Luxe</h3>
-
-                    <div class="pack-row">
-                        <span>Investissement</span>
-                        <span>800 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Gain quotidien</span>
-                        <span>290 000 FCFA</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Durée</span>
-                        <span>180 jours</span>
-                    </div>
-
-                    <div class="pack-row">
-                        <span>Total prévu</span>
-                        <span>52 200 000 FCFA</span>
-                    </div>
-
-                    <br>
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="invest(800000)"
-                    >
-                        Investir
-                    </button>
-
-                </div>
+                </button>
 
             </div>
 
         </div>
 
-    </section>
 
+        <div class="pack">
 
-    <!-- MES INVESTISSEMENTS -->
+            <img
+                class="pack-image"
+                src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80"
+                alt="Maison familiale">
 
-    <section class="section">
+            <div class="pack-content">
 
-        <div class="section-title">
+                <h3>
+                    Pack Familial
+                </h3>
 
-            <h2>
-                📈 Mes investissements
-            </h2>
+                <div class="pack-price">
+                    10 000 FCFA
+                </div>
 
-        </div>
+                <div class="pack-info">
 
-        <div id="investmentsList">
+                    Gain quotidien :
+                    <strong>3 000 FCFA</strong><br>
 
-            <div class="empty">
-                Aucun investissement pour le moment.
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>540 000 FCFA</strong>
+
+                </div>
+
+                <button
+                    class="invest-btn"
+                    onclick="invest('Pack Familial',10000,3000)">
+
+                    Investir
+
+                </button>
+
             </div>
 
         </div>
 
-    </section>
 
+        <div class="pack">
 
-    <!-- NOTIFICATIONS -->
+            <img
+                class="pack-image"
+                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80"
+                alt="Maison moderne">
 
-    <section class="section">
+            <div class="pack-content">
 
-        <div class="section-title">
+                <h3>
+                    Pack Confort
+                </h3>
 
-            <h2>
-                🔔 Notifications
-            </h2>
+                <div class="pack-price">
+                    20 000 FCFA
+                </div>
 
-        </div>
+                <div class="pack-info">
 
-        <div id="notificationsList">
+                    Gain quotidien :
+                    <strong>6 000 FCFA</strong><br>
 
-            <div class="empty">
-                Aucune notification.
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>1 080 000 FCFA</strong>
+
+                </div>
+
+                <button
+                    class="invest-btn"
+                    onclick="invest('Pack Confort',20000,6000)">
+
+                    Investir
+
+                </button>
+
             </div>
 
         </div>
 
-    </section>
 
+        <div class="pack">
 
-    <!-- ASSISTANCE -->
+            <img
+                class="pack-image"
+                src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"
+                alt="Villa moderne">
 
-    <section class="section">
+            <div class="pack-content">
 
-        <div class="section-title">
+                <h3>
+                    Pack Premium
+                </h3>
 
-            <h2>
-                🎧 Centre d'assistance
-            </h2>
+                <div class="pack-price">
+                    45 000 FCFA
+                </div>
 
-            <button
-                class="btn btn-dark"
-                onclick="openModal('supportModal')"
-            >
-                Nouvelle demande
-            </button>
+                <div class="pack-info">
 
-        </div>
+                    Gain quotidien :
+                    <strong>14 000 FCFA</strong><br>
 
+                    Durée :
+                    <strong>180 jours</strong><br>
 
-        <div id="ticketsList">
+                    Total :
+                    <strong>2 520 000 FCFA</strong>
 
-            <div class="empty">
-                Vous n'avez aucune demande d'assistance.
+                </div>
+
+                <button
+                    class="invest-btn"
+                    onclick="invest('Pack Premium',45000,14000)">
+
+                    Investir
+
+                </button>
+
             </div>
 
         </div>
 
-    </section>
+
+        <div class="pack">
+
+            <img
+                class="pack-image"
+                src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
+                alt="Grande villa">
+
+            <div class="pack-content">
+
+                <h3>
+                    Pack Prestige
+                </h3>
+
+                <div class="pack-price">
+                    100 000 FCFA
+                </div>
+
+                <div class="pack-info">
+
+                    Gain quotidien :
+                    <strong>30 000 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>5 400 000 FCFA</strong>
+
+                </div>
+
+                <button
+                    class="invest-btn"
+                    onclick="invest('Pack Prestige',100000,30000)">
+
+                    Investir
+
+                </button>
+
+            </div>
+
+        </div>
 
 
-    <!-- DÉCONNEXION -->
+        <div class="pack">
 
-    <section class="section">
+            <img
+                class="pack-image"
+                src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80"
+                alt="Villa premium">
+
+            <div class="pack-content">
+
+                <h3>
+                    Pack Premium Plus
+                </h3>
+
+                <div class="pack-price">
+                    200 000 FCFA
+                </div>
+
+                <div class="pack-info">
+
+                    Gain quotidien :
+                    <strong>65 000 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>11 700 000 FCFA</strong>
+
+                </div>
+
+                <button
+                    class="invest-btn"
+                    onclick="invest('Pack Premium Plus',200000,65000)">
+
+                    Investir
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="pack">
+
+            <img
+                class="pack-image"
+                src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
+                alt="Résidence haut de gamme">
+
+            <div class="pack-content">
+
+                <h3>
+                    Pack Elite
+                </h3>
+
+                <div class="pack-price">
+                    400 000 FCFA
+                </div>
+
+                <div class="pack-info">
+
+                    Gain quotidien :
+                    <strong>140 000 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>25 200 000 FCFA</strong>
+
+                </div>
+
+                <button
+                    class="invest-btn"
+                    onclick="invest('Pack Elite',400000,140000)">
+
+                    Investir
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="pack">
+
+            <img
+                class="pack-image"
+                src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80"
+                alt="Villa de luxe avec piscine">
+
+            <div class="pack-content">
+
+                <h3>
+                    Pack Luxe
+                </h3>
+
+                <div class="pack-price">
+                    800 000 FCFA
+                </div>
+
+                <div class="pack-info">
+
+                    Gain quotidien :
+                    <strong>290 000 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>52 200 000 FCFA</strong>
+
+                </div>
+
+                <button
+                    class="invest-btn"
+                    onclick="invest('Pack Luxe',800000,290000)">
+
+                    Investir
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PACKS ================= -->
+
+<section
+    id="packs"
+    class="page">
+
+    <div class="title">
+
+        <h1>
+            💰 Investir
+        </h1>
+
+        <p>
+            Choisissez l'opportunité qui vous convient.
+        </p>
+
+    </div>
+
+    <div id="packsPage"></div>
+
+</section>
+
+
+<!-- ================= INVESTMENTS ================= -->
+
+<section
+    id="investments"
+    class="page">
+
+    <div class="title">
+
+        <h1>
+            📊 Mes investissements
+        </h1>
+
+        <p>
+            Retrouvez ici vos investissements actifs.
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <div
+            id="investmentTable"
+            class="table-container">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TRANSACTIONS ================= -->
+
+<section
+    id="transactions"
+    class="page">
+
+    <div class="title">
+
+        <h1>
+            📋 Historique
+        </h1>
+
+        <p>
+            Vos dépôts et retraits.
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <div
+            id="transactionTable"
+            class="table-container">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PROFILE ================= -->
+
+<section
+    id="profile"
+    class="page">
+
+    <div class="title">
+
+        <h1>
+            👤 Mon profil
+        </h1>
+
+        <p>
+            Informations de votre compte.
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+            Informations personnelles
+        </h2>
+
+        <p style="margin:10px 0;font-size:14px;">
+            <strong>Nom :</strong>
+            <span id="profileName">—</span>
+        </p>
+
+        <p style="margin:10px 0;font-size:14px;">
+            <strong>Téléphone :</strong>
+            <span id="profilePhone">—</span>
+        </p>
+
+        <p style="margin:10px 0;font-size:14px;">
+            <strong>Statut :</strong>
+            <span class="badge green">
+                Compte actif
+            </span>
+        </p>
 
         <button
-            class="btn btn-danger"
-            style="width:100%;"
-            onclick="logoutUser()"
-        >
-            🚪 Se déconnecter
+            class="invest-btn"
+            style="max-width:250px;"
+            onclick="window.location.href='contact.html'">
+
+            🎧 Contacter l'assistance
+
         </button>
 
-    </section>
+    </div>
+
+</section>
+
 
 </main>
 
-
-<footer>
-    © 2026 Housing Investment — Tous droits réservés.
-</footer>
+</div>
 
 
-<!-- =====================================================
-     MODAL DÉPÔT
-     ===================================================== -->
+<!-- ================= DEPOSIT MODAL ================= -->
 
 <div
-    class="modal"
     id="depositModal"
->
+    class="modal">
 
     <div class="modal-box">
 
-        <div class="modal-header">
+        <h2>
+            📥 Effectuer un dépôt
+        </h2>
 
-            <h2>
-                💳 Effectuer un dépôt
-            </h2>
+        <input
+            type="number"
+            id="depositAmount"
+            placeholder="Montant en FCFA"
+            min="1">
+
+        <select id="depositMethod">
+
+            <option value="">
+                Choisir le moyen de paiement
+            </option>
+
+            <option>
+                Mobile Money
+            </option>
+
+            <option>
+                Orange Money
+            </option>
+
+            <option>
+                MTN Money
+            </option>
+
+            <option>
+                Wave
+            </option>
+
+        </select>
+
+        <div class="modal-actions">
 
             <button
-                class="close"
-                onclick="closeModal('depositModal')"
-            >
-                ×
+                class="cancel"
+                onclick="closeDeposit()">
+
+                Annuler
+
+            </button>
+
+            <button
+                class="confirm"
+                onclick="confirmDeposit()">
+
+                Confirmer
+
             </button>
 
         </div>
-
-
-        <form
-            onsubmit="submitDeposit(event)"
-        >
-
-            <div class="form-group">
-
-                <label>
-                    Montant
-                </label>
-
-                <input
-                    type="number"
-                    id="depositAmount"
-                    min="1"
-                    placeholder="Ex : 10000"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Méthode
-                </label>
-
-                <select id="depositMethod">
-
-                    <option>
-                        Mobile Money
-                    </option>
-
-                    <option>
-                        Orange Money
-                    </option>
-
-                    <option>
-                        MTN Money
-                    </option>
-
-                    <option>
-                        Moov Money
-                    </option>
-
-                    <option>
-                        Wave
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <button
-                class="btn btn-primary"
-                style="width:100%;"
-                type="submit"
-            >
-                Envoyer la demande
-            </button>
-
-        </form>
 
     </div>
 
 </div>
 
 
-<!-- =====================================================
-     MODAL RETRAIT
-     ===================================================== -->
+<!-- ================= WITHDRAW MODAL ================= -->
 
 <div
-    class="modal"
     id="withdrawModal"
->
+    class="modal">
 
     <div class="modal-box">
 
-        <div class="modal-header">
+        <h2>
+            📤 Demander un retrait
+        </h2>
 
-            <h2>
-                💸 Demander un retrait
-            </h2>
+        <input
+            type="number"
+            id="withdrawAmount"
+            placeholder="Montant en FCFA"
+            min="1">
+
+        <input
+            type="tel"
+            id="withdrawPhone"
+            placeholder="Numéro de réception">
+
+        <div class="modal-actions">
 
             <button
-                class="close"
-                onclick="closeModal('withdrawModal')"
-            >
-                ×
+                class="cancel"
+                onclick="closeWithdraw()">
+
+                Annuler
+
+            </button>
+
+            <button
+                class="confirm"
+                onclick="confirmWithdraw()">
+
+                Demander
+
             </button>
 
         </div>
 
-
-        <form
-            onsubmit="submitWithdrawal(event)"
-        >
-
-            <div class="form-group">
-
-                <label>
-                    Montant
-                </label>
-
-                <input
-                    type="number"
-                    id="withdrawAmount"
-                    min="1"
-                    placeholder="Ex : 5000"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Méthode de réception
-                </label>
-
-                <select id="withdrawMethod">
-
-                    <option>
-                        Mobile Money
-                    </option>
-
-                    <option>
-                        Orange Money
-                    </option>
-
-                    <option>
-                        MTN Money
-                    </option>
-
-                    <option>
-                        Moov Money
-                    </option>
-
-                    <option>
-                        Wave
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <button
-                class="btn btn-success"
-                style="width:100%;"
-                type="submit"
-            >
-                Envoyer la demande
-            </button>
-
-        </form>
-
     </div>
 
 </div>
-
-
-<!-- =====================================================
-     MODAL ASSISTANCE
-     ===================================================== -->
-
-<div
-    class="modal"
-    id="supportModal"
->
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h2>
-                🎧 Contacter l'assistance
-            </h2>
-
-            <button
-                class="close"
-                onclick="closeModal('supportModal')"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <form
-            onsubmit="submitSupport(event)"
-        >
-
-            <div class="form-group">
-
-                <label>
-                    Objet de la demande
-                </label>
-
-                <input
-                    type="text"
-                    id="supportSubject"
-                    maxlength="100"
-                    placeholder="Ex : Problème avec mon dépôt"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Votre message
-                </label>
-
-                <textarea
-                    id="supportMessage"
-                    maxlength="2000"
-                    placeholder="Expliquez-nous votre problème..."
-                    required
-                ></textarea>
-
-            </div>
-
-
-            <button
-                class="btn btn-dark"
-                style="width:100%;"
-                type="submit"
-            >
-                🎧 Envoyer ma demande
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<script src="script.js"></script>
 
 
 <script>
 
-/* =========================================================
-   OUTILS
-   ========================================================= */
+/* =====================================================
+   DONNÉES UTILISATEUR
+===================================================== */
 
-function getApp() {
-
-    return window.HousingInvestment;
-
-}
+let currentUser = null;
 
 
-/* =========================================================
-   MODALES
-   ========================================================= */
+function getArray(key){
 
-function openModal(id) {
+    try{
 
-    const modal =
-        document.getElementById(id);
+        return JSON.parse(
+            localStorage.getItem(key)
+        ) || [];
 
-    if (modal) {
+    }catch(error){
 
-        modal.style.display =
-            "flex";
+        return [];
 
     }
 
 }
 
 
-function closeModal(id) {
+function loadCurrentUser(){
 
-    const modal =
-        document.getElementById(id);
+    try{
 
-    if (modal) {
+        currentUser =
+            JSON.parse(
+                localStorage.getItem("currentUser")
+            );
 
-        modal.style.display =
-            "none";
+    }catch(error){
+
+        currentUser = null;
 
     }
+
+
+    if(!currentUser){
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    const name =
+        currentUser.name ||
+        currentUser.fullName ||
+        currentUser.nom ||
+        "Utilisateur";
+
+
+    const phone =
+        currentUser.phone ||
+        currentUser.telephone ||
+        "—";
+
+
+    document.getElementById(
+        "userName"
+    ).textContent = name;
+
+
+    document.getElementById(
+        "welcomeName"
+    ).textContent = name;
+
+
+    document.getElementById(
+        "profileName"
+    ).textContent = name;
+
+
+    document.getElementById(
+        "profilePhone"
+    ).textContent = phone;
+
+
+    document.getElementById(
+        "avatar"
+    ).textContent =
+        name.charAt(0).toUpperCase();
 
 }
 
 
-/* Fermer en cliquant en dehors */
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
-document.querySelectorAll(".modal")
-    .forEach(modal => {
+function showPage(pageId,button){
 
-        modal.addEventListener(
-            "click",
-            function(event) {
+    document
+    .querySelectorAll(".page")
+    .forEach(function(page){
 
-                if (
-                    event.target === modal
-                ) {
-
-                    modal.style.display =
-                        "none";
-
-                }
-
-            }
-        );
+        page.classList.remove("active");
 
     });
 
 
-/* =========================================================
-   INVESTIR
-   ========================================================= */
+    document
+    .querySelectorAll(".menu")
+    .forEach(function(btn){
 
-function invest(amount) {
+        btn.classList.remove("active");
 
-    const app =
-        getApp();
+    });
 
 
-    if (!app) {
+    const page =
+        document.getElementById(pageId);
 
-        alert(
-            "Le système n'est pas chargé."
-        );
+    if(page){
 
-        return;
+        page.classList.add("active");
 
     }
 
 
-    const result =
-        app.createInvestment(
-            amount
-        );
+    if(button){
 
-
-    if (!result.success) {
-
-        alert(
-            result.message
-        );
-
-        return;
+        button.classList.add("active");
 
     }
 
 
-    alert(
-        "Investissement enregistré avec succès !"
-    );
+    if(pageId === "investments"){
+        displayInvestments();
+    }
 
-
-    refreshDashboard();
+    if(pageId === "transactions"){
+        displayTransactions();
+    }
 
 }
 
 
-/* =========================================================
-   DÉPÔT
-   ========================================================= */
+/* =====================================================
+   NOTIFICATIONS
+===================================================== */
 
-function submitDeposit(event) {
+function getNotifications(){
 
-    event.preventDefault();
+    return getArray(
+        "userNotifications"
+    );
 
+}
+
+
+function saveNotifications(list){
+
+    localStorage.setItem(
+        "userNotifications",
+        JSON.stringify(list)
+    );
+
+}
+
+
+function addNotification(title,text){
+
+    const list =
+        getNotifications();
+
+
+    list.push({
+
+        id:Date.now(),
+
+        title:title,
+
+        text:text,
+
+        date:new Date().toLocaleString(
+            "fr-FR"
+        ),
+
+        read:false
+
+    });
+
+
+    saveNotifications(list);
+
+    updateNotifications();
+
+}
+
+
+function updateNotifications(){
+
+    const list =
+        getNotifications();
+
+
+    const unread =
+        list.filter(function(item){
+
+            return !item.read;
+
+        }).length;
+
+
+    const count =
+        document.getElementById(
+            "notificationCount"
+        );
+
+
+    if(unread > 0){
+
+        count.textContent =
+            unread > 99 ? "99+" : unread;
+
+        count.style.display =
+            "flex";
+
+    }else{
+
+        count.style.display =
+            "none";
+
+    }
+
+
+    const container =
+        document.getElementById(
+            "notificationList"
+        );
+
+
+    if(list.length === 0){
+
+        container.innerHTML = `
+
+            <div class="no-notification">
+
+                🔔<br><br>
+
+                Aucune notification.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    [...list]
+    .reverse()
+    .forEach(function(item){
+
+        html += `
+
+            <div class="notification-item
+                ${item.read ? "" : "unread"}"
+                onclick="readNotification(${item.id})">
+
+                <strong>
+                    ${escapeHtml(item.title)}
+                </strong>
+
+                <div>
+                    ${escapeHtml(item.text)}
+                </div>
+
+                <small>
+                    ${escapeHtml(item.date)}
+                </small>
+
+            </div>
+
+        `;
+
+    });
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+function toggleNotifications(){
+
+    const panel =
+        document.getElementById(
+            "notificationPanel"
+        );
+
+
+    panel.classList.toggle(
+        "open"
+    );
+
+}
+
+
+function readNotification(id){
+
+    const list =
+        getNotifications();
+
+
+    const item =
+        list.find(function(notification){
+
+            return String(notification.id)
+                === String(id);
+
+        });
+
+
+    if(item){
+
+        item.read = true;
+
+        saveNotifications(list);
+
+        updateNotifications();
+
+    }
+
+}
+
+
+function clearNotifications(){
+
+    const list =
+        getNotifications();
+
+
+    list.forEach(function(item){
+
+        item.read = true;
+
+    });
+
+
+    saveNotifications(list);
+
+    updateNotifications();
+
+}
+
+
+/* =====================================================
+   INVESTISSEMENT
+===================================================== */
+
+function invest(pack,amount,daily){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    const balance =
+        Number(
+            currentUser.balance ||
+            currentUser.solde ||
+            0
+        );
+
+
+    if(balance < amount){
+
+        alert(
+            "Votre solde est insuffisant. Veuillez effectuer un dépôt."
+        );
+
+        openDeposit();
+
+        return;
+
+    }
+
+
+    if(
+        !confirm(
+            "Confirmer votre investissement de "
+            + amount.toLocaleString("fr-FR")
+            + " FCFA dans "
+            + pack
+            + " ?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const users =
+        getArray("users");
+
+
+    const phone =
+        String(
+            currentUser.phone ||
+            currentUser.telephone ||
+            ""
+        ).replace(/\s+/g,"");
+
+
+    const userIndex =
+        users.findIndex(function(user){
+
+            const savedPhone =
+                String(
+                    user.phone ||
+                    user.telephone ||
+                    ""
+                ).replace(/\s+/g,"");
+
+
+            return (
+                savedPhone === phone ||
+                savedPhone.replace(
+                    "+225",
+                    ""
+                ) === phone.replace(
+                    "+225",
+                    ""
+                )
+            );
+
+        });
+
+
+    if(userIndex !== -1){
+
+        const oldBalance =
+            Number(
+                users[userIndex].balance ||
+                users[userIndex].solde ||
+                0
+            );
+
+
+        users[userIndex].balance =
+            oldBalance - amount;
+
+
+        currentUser.balance =
+            oldBalance - amount;
+
+
+        localStorage.setItem(
+            "users",
+            JSON.stringify(users)
+        );
+
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(currentUser)
+        );
+
+    }
+
+
+    const investments =
+        getArray("investments");
+
+
+    investments.push({
+
+        id:Date.now(),
+
+        name:
+            currentUser.name ||
+            currentUser.fullName ||
+            currentUser.nom ||
+            "Utilisateur",
+
+        phone:
+            currentUser.phone ||
+            currentUser.telephone ||
+            "",
+
+        pack:pack,
+
+        amount:amount,
+
+        daily:daily,
+
+        duration:180,
+
+        total:daily * 180,
+
+        date:new Date().toLocaleString(
+            "fr-FR"
+        ),
+
+        status:"Actif"
+
+    });
+
+
+    localStorage.setItem(
+        "investments",
+        JSON.stringify(investments)
+    );
+
+
+    addNotification(
+        "Investissement confirmé",
+        "Votre investissement "
+        + pack
+        + " de "
+        + amount.toLocaleString("fr-FR")
+        + " FCFA a été enregistré."
+    );
+
+
+    updateDashboard();
+
+
+    alert(
+        "Investissement enregistré avec succès."
+    );
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function updateDashboard(){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    const balance =
+        Number(
+            currentUser.balance ||
+            currentUser.solde ||
+            0
+        );
+
+
+    document.getElementById(
+        "balance"
+    ).textContent =
+        balance.toLocaleString(
+            "fr-FR"
+        ) + " FCFA";
+
+
+    const investments =
+        getArray("investments");
+
+
+    const phone =
+        String(
+            currentUser.phone ||
+            currentUser.telephone ||
+            ""
+        ).replace(/\s+/g,"");
+
+
+    const myInvestments =
+        investments.filter(function(item){
+
+            const itemPhone =
+                String(
+                    item.phone ||
+                    ""
+                ).replace(/\s+/g,"");
+
+
+            return (
+                itemPhone === phone ||
+                itemPhone.replace("+225","")
+                === phone.replace("+225","")
+            );
+
+        });
+
+
+    let totalInvested = 0;
+    let dailyGain = 0;
+
+
+    myInvestments.forEach(function(item){
+
+        totalInvested +=
+            Number(item.amount || 0);
+
+        dailyGain +=
+            Number(item.daily || 0);
+
+    });
+
+
+    document.getElementById(
+        "totalInvested"
+    ).textContent =
+        totalInvested.toLocaleString(
+            "fr-FR"
+        ) + " FCFA";
+
+
+    document.getElementById(
+        "dailyGain"
+    ).textContent =
+        dailyGain.toLocaleString(
+            "fr-FR"
+        ) + " FCFA";
+
+
+    document.getElementById(
+        "activeInvestments"
+    ).textContent =
+        myInvestments.length;
+
+}
+
+
+/* =====================================================
+   INVESTISSEMENTS
+===================================================== */
+
+function displayInvestments(){
+
+    const container =
+        document.getElementById(
+            "investmentTable"
+        );
+
+
+    const investments =
+        getArray("investments");
+
+
+    const phone =
+        String(
+            currentUser.phone ||
+            currentUser.telephone ||
+            ""
+        ).replace(/\s+/g,"");
+
+
+    const mine =
+        investments.filter(function(item){
+
+            const itemPhone =
+                String(
+                    item.phone ||
+                    ""
+                ).replace(/\s+/g,"");
+
+
+            return (
+                itemPhone === phone ||
+                itemPhone.replace("+225","")
+                === phone.replace("+225","")
+            );
+
+        });
+
+
+    if(mine.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📊
+                </div>
+
+                Aucun investissement actif.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Pack</th>
+                    <th>Montant</th>
+                    <th>Gain/jour</th>
+                    <th>Durée</th>
+                    <th>Total</th>
+                    <th>Statut</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+    `;
+
+
+    mine.forEach(function(item){
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${escapeHtml(
+                        item.pack || "—"
+                    )}
+                </td>
+
+                <td>
+                    ${Number(
+                        item.amount || 0
+                    ).toLocaleString("fr-FR")}
+                    FCFA
+                </td>
+
+                <td>
+                    ${Number(
+                        item.daily || 0
+                    ).toLocaleString("fr-FR")}
+                    FCFA
+                </td>
+
+                <td>
+                    ${item.duration || 180} jours
+                </td>
+
+                <td>
+                    ${Number(
+                        item.total || 0
+                    ).toLocaleString("fr-FR")}
+                    FCFA
+                </td>
+
+                <td>
+                    <span class="badge green">
+                        Actif
+                    </span>
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   DEPOTS
+===================================================== */
+
+function openDeposit(){
+
+    document
+    .getElementById("depositModal")
+    .classList.add("show");
+
+}
+
+
+function closeDeposit(){
+
+    document
+    .getElementById("depositModal")
+    .classList.remove("show");
+
+}
+
+
+function confirmDeposit(){
 
     const amount =
         Number(
@@ -1583,48 +2313,116 @@ function submitDeposit(event) {
         ).value;
 
 
-    const result =
-        getApp().createDeposit(
-            amount,
-            method
+    if(!amount || amount <= 0){
+
+        alert(
+            "Veuillez entrer un montant valide."
         );
 
+        return;
 
-    alert(
-        result.message ||
-        (
-            result.success
-                ? "Demande envoyée."
-                : "Une erreur est survenue."
-        )
+    }
+
+
+    if(!method){
+
+        alert(
+            "Veuillez choisir un moyen de paiement."
+        );
+
+        return;
+
+    }
+
+
+    const deposits =
+        getArray("deposits");
+
+
+    deposits.push({
+
+        id:Date.now(),
+
+        name:
+            currentUser.name ||
+            currentUser.fullName ||
+            "Utilisateur",
+
+        phone:
+            currentUser.phone ||
+            currentUser.telephone ||
+            "",
+
+        amount:amount,
+
+        method:method,
+
+        date:new Date().toLocaleString(
+            "fr-FR"
+        ),
+
+        status:"En attente"
+
+    });
+
+
+    localStorage.setItem(
+        "deposits",
+        JSON.stringify(deposits)
     );
 
 
-    if (result.success) {
+    addNotification(
+        "Dépôt enregistré",
+        "Votre demande de dépôt de "
+        + amount.toLocaleString("fr-FR")
+        + " FCFA est en attente de validation."
+    );
 
-        document.getElementById(
-            "depositAmount"
-        ).value = "";
 
-        closeModal(
-            "depositModal"
-        );
+    document.getElementById(
+        "depositAmount"
+    ).value = "";
 
-        refreshDashboard();
 
-    }
+    document.getElementById(
+        "depositMethod"
+    ).value = "";
+
+
+    closeDeposit();
+
+
+    alert(
+        "Votre demande de dépôt a été enregistrée."
+    );
 
 }
 
 
-/* =========================================================
-   RETRAIT
-   ========================================================= */
+/* =====================================================
+   RETRAITS
+===================================================== */
 
-function submitWithdrawal(event) {
+function openWithdraw(){
 
-    event.preventDefault();
+    document
+    .getElementById("withdrawModal")
+    .classList.add("show");
 
+}
+
+
+function closeWithdraw(){
+
+    document
+    .getElementById("withdrawModal")
+    .classList.remove("show");
+
+}
+
+
+function confirmWithdraw(){
 
     const amount =
         Number(
@@ -1634,588 +2432,375 @@ function submitWithdrawal(event) {
         );
 
 
-    const method =
+    const phone =
         document.getElementById(
-            "withdrawMethod"
-        ).value;
+            "withdrawPhone"
+        ).value.trim();
 
 
-    const result =
-        getApp().createWithdrawal(
-            amount,
-            method
-        );
-
-
-    alert(
-        result.message ||
-        (
-            result.success
-                ? "Demande envoyée."
-                : "Une erreur est survenue."
-        )
-    );
-
-
-    if (result.success) {
-
-        document.getElementById(
-            "withdrawAmount"
-        ).value = "";
-
-        closeModal(
-            "withdrawModal"
-        );
-
-        refreshDashboard();
-
-    }
-
-}
-
-
-/* =========================================================
-   ASSISTANCE
-   ========================================================= */
-
-function submitSupport(event) {
-
-    event.preventDefault();
-
-
-    const subject =
-        document.getElementById(
-            "supportSubject"
-        ).value;
-
-
-    const message =
-        document.getElementById(
-            "supportMessage"
-        ).value;
-
-
-    const result =
-        getApp().createSupportTicket(
-            subject,
-            message
-        );
-
-
-    if (!result.success) {
+    if(!amount || amount <= 0){
 
         alert(
-            result.message
+            "Veuillez entrer un montant valide."
         );
 
         return;
 
     }
+
+
+    const balance =
+        Number(
+            currentUser.balance ||
+            currentUser.solde ||
+            0
+        );
+
+
+    if(amount > balance){
+
+        alert(
+            "Votre solde disponible est insuffisant."
+        );
+
+        return;
+
+    }
+
+
+    if(!phone){
+
+        alert(
+            "Veuillez entrer le numéro de réception."
+        );
+
+        return;
+
+    }
+
+
+    const withdrawals =
+        getArray("withdrawals");
+
+
+    withdrawals.push({
+
+        id:Date.now(),
+
+        name:
+            currentUser.name ||
+            currentUser.fullName ||
+            "Utilisateur",
+
+        phone:
+            currentUser.phone ||
+            currentUser.telephone ||
+            "",
+
+        amount:amount,
+
+        destination:phone,
+
+        date:new Date().toLocaleString(
+            "fr-FR"
+        ),
+
+        status:"En attente"
+
+    });
+
+
+    localStorage.setItem(
+        "withdrawals",
+        JSON.stringify(withdrawals)
+    );
+
+
+    addNotification(
+        "Retrait demandé",
+        "Votre demande de retrait de "
+        + amount.toLocaleString("fr-FR")
+        + " FCFA a été enregistrée."
+    );
+
+
+    document.getElementById(
+        "withdrawAmount"
+    ).value = "";
+
+
+    document.getElementById(
+        "withdrawPhone"
+    ).value = "";
+
+
+    closeWithdraw();
 
 
     alert(
-        "Votre demande a été envoyée.\n\n" +
-        "Numéro du ticket : " +
-        result.ticket.ticketNumber
+        "Votre demande de retrait a été enregistrée."
     );
 
-
-    document.getElementById(
-        "supportSubject"
-    ).value = "";
+}
 
 
-    document.getElementById(
-        "supportMessage"
-    ).value = "";
+/* =====================================================
+   HISTORIQUE
+===================================================== */
+
+function displayTransactions(){
+
+    const deposits =
+        getArray("deposits");
+
+    const withdrawals =
+        getArray("withdrawals");
 
 
-    closeModal(
-        "supportModal"
+    const phone =
+        String(
+            currentUser.phone ||
+            currentUser.telephone ||
+            ""
+        ).replace(/\s+/g,"");
+
+
+    const transactions = [];
+
+
+    deposits.forEach(function(item){
+
+        const itemPhone =
+            String(
+                item.phone || ""
+            ).replace(/\s+/g,"");
+
+
+        if(
+            itemPhone.replace("+225","")
+            === phone.replace("+225","")
+        ){
+
+            transactions.push({
+
+                type:"Dépôt",
+
+                amount:item.amount,
+
+                method:item.method || "—",
+
+                date:item.date,
+
+                status:item.status
+
+            });
+
+        }
+
+    });
+
+
+    withdrawals.forEach(function(item){
+
+        const itemPhone =
+            String(
+                item.phone || ""
+            ).replace(/\s+/g,"");
+
+
+        if(
+            itemPhone.replace("+225","")
+            === phone.replace("+225","")
+        ){
+
+            transactions.push({
+
+                type:"Retrait",
+
+                amount:item.amount,
+
+                method:item.destination || "—",
+
+                date:item.date,
+
+                status:item.status
+
+            });
+
+        }
+
+    });
+
+
+    const container =
+        document.getElementById(
+            "transactionTable"
+        );
+
+
+    if(transactions.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📋
+                </div>
+
+                Aucun historique disponible.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Type</th>
+                    <th>Montant</th>
+                    <th>Détails</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+    `;
+
+
+    transactions
+    .slice()
+    .reverse()
+    .forEach(function(item){
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${item.type === "Dépôt"
+                        ? "📥 Dépôt"
+                        : "📤 Retrait"}
+                </td>
+
+                <td>
+                    ${Number(
+                        item.amount || 0
+                    ).toLocaleString("fr-FR")}
+                    FCFA
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.method || "—"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.date || "—"
+                    )}
+                </td>
+
+                <td>
+                    <span class="badge orange">
+                        ${escapeHtml(
+                            item.status ||
+                            "En attente"
+                        )}
+                    </span>
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   DÉCONNEXION
+===================================================== */
+
+function logout(){
+
+    localStorage.removeItem(
+        "currentUser"
     );
 
+    localStorage.removeItem(
+        "loggedIn"
+    );
 
-    refreshDashboard();
-
-}
-
-
-/* =========================================================
-   AFFICHAGE UTILISATEUR
-   ========================================================= */
-
-function displayUser() {
-
-    const app =
-        getApp();
-
-    const user =
-        app.getCurrentUser();
-
-
-    if (!user) {
-
-        window.location.href =
-            "login.html";
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "headerName"
-    ).textContent =
-        user.name ||
-        user.fullName ||
-        "Utilisateur";
-
-
-    document.getElementById(
-        "balance"
-    ).textContent =
-        app.formatFCFA(
-            user.balance
-        );
-
-
-    document.getElementById(
-        "totalInvested"
-    ).textContent =
-        app.formatFCFA(
-            user.totalInvested
-        );
-
-
-    document.getElementById(
-        "totalGains"
-    ).textContent =
-        app.formatFCFA(
-            app.calculateTotalGains()
-        );
+    window.location.href =
+        "login.html";
 
 }
 
 
-/* =========================================================
-   INVESTISSEMENTS
-   ========================================================= */
+/* =====================================================
+   PROTECTION HTML
+===================================================== */
 
-function displayInvestments() {
+function escapeHtml(value){
 
-    const app =
-        getApp();
-
-    const list =
-        document.getElementById(
-            "investmentsList"
-        );
-
-
-    const investments =
-        app.getMyInvestments();
-
-
-    if (!investments.length) {
-
-        list.innerHTML = `
-            <div class="empty">
-                Aucun investissement pour le moment.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-        investments.map(item => {
-
-            const progress =
-                Number(
-                    item.progress || 0
-                );
-
-
-            return `
-
-                <div class="investment-item">
-
-                    <div class="item-top">
-
-                        <div>
-
-                            <div class="item-title">
-                                🏠 ${item.pack}
-                            </div>
-
-                            <small>
-                                ${item.date || ""}
-                            </small>
-
-                        </div>
-
-                        <span class="status ${
-                            item.status === "active"
-                                ? "status-active"
-                                : "status-closed"
-                        }">
-
-                            ${
-                                item.status === "active"
-                                    ? "Actif"
-                                    : "Terminé"
-                            }
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="progress">
-
-                        <div
-                            class="progress-bar"
-                            style="width:${progress}%"
-                        ></div>
-
-                    </div>
-
-
-                    <div class="investment-details">
-
-                        <div>
-                            <small>Investi</small><br>
-                            <strong>
-                                ${app.formatFCFA(item.amount)}
-                            </strong>
-                        </div>
-
-                        <div>
-                            <small>Gain quotidien</small><br>
-                            <strong>
-                                ${app.formatFCFA(item.dailyGain)}
-                            </strong>
-                        </div>
-
-                        <div>
-                            <small>Gains cumulés</small><br>
-                            <strong>
-                                ${app.formatFCFA(item.gain)}
-                            </strong>
-                        </div>
-
-                        <div>
-                            <small>Jours restants</small><br>
-                            <strong>
-                                ${item.daysRemaining}
-                            </strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }).join("");
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================================================
-   NOTIFICATIONS
-   ========================================================= */
+/* =====================================================
+   INITIALISATION
+===================================================== */
 
-function displayNotifications() {
+loadCurrentUser();
 
-    const app =
-        getApp();
+updateDashboard();
 
-    const list =
-        document.getElementById(
-            "notificationsList"
-        );
+displayInvestments();
 
+displayTransactions();
 
-    const notifications =
-        app.getMyNotifications();
+updateNotifications();
 
 
-    const unread =
-        notifications.filter(
-            item => !item.read
-        ).length;
+/* Actualisation périodique */
 
+setInterval(function(){
 
-    document.getElementById(
-        "notificationCount"
-    ).textContent =
-        unread;
+    updateDashboard();
 
+    updateNotifications();
 
-    if (!notifications.length) {
-
-        list.innerHTML = `
-            <div class="empty">
-                Aucune notification.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-        notifications
-            .slice(0, 10)
-            .map(item => {
-
-                return `
-
-                    <div class="notification ${
-                        item.read
-                            ? ""
-                            : "unread"
-                    }">
-
-                        🔔 ${item.message}
-
-                        <br>
-
-                        <small>
-                            ${new Date(
-                                item.date
-                            ).toLocaleString("fr-FR")}
-                        </small>
-
-                    </div>
-
-                `;
-
-            })
-            .join("");
-
-}
-
-
-/* =========================================================
-   TICKETS
-   ========================================================= */
-
-function displayTickets() {
-
-    const app =
-        getApp();
-
-    const list =
-        document.getElementById(
-            "ticketsList"
-        );
-
-
-    const tickets =
-        app.getMySupportTickets();
-
-
-    if (!tickets.length) {
-
-        list.innerHTML = `
-            <div class="empty">
-                Vous n'avez aucune demande d'assistance.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-        tickets.map(ticket => {
-
-            let statusText =
-                "En attente";
-
-            let statusClass =
-                "status-pending";
-
-
-            if (
-                ticket.status ===
-                "in_progress"
-            ) {
-
-                statusText =
-                    "En cours";
-
-                statusClass =
-                    "status-answered";
-
-            }
-
-
-            if (
-                ticket.status ===
-                "answered"
-            ) {
-
-                statusText =
-                    "Répondue";
-
-                statusClass =
-                    "status-answered";
-
-            }
-
-
-            if (
-                ticket.status ===
-                "closed"
-            ) {
-
-                statusText =
-                    "Fermée";
-
-                statusClass =
-                    "status-closed";
-
-            }
-
-
-            return `
-
-                <div class="ticket-item">
-
-                    <div class="item-top">
-
-                        <div>
-
-                            <div class="item-title">
-                                🎧 ${ticket.subject}
-                            </div>
-
-                            <small>
-                                Ticket :
-                                ${ticket.ticketNumber}
-                            </small>
-
-                        </div>
-
-
-                        <span class="status ${statusClass}">
-                            ${statusText}
-                        </span>
-
-                    </div>
-
-
-                    <p style="
-                        margin:10px 0;
-                        color:#5f6978;
-                        font-size:14px;
-                    ">
-                        ${ticket.message}
-                    </p>
-
-
-                    ${
-                        ticket.reply
-                        ? `
-
-                            <div style="
-                                background:#eef6ff;
-                                border-radius:10px;
-                                padding:12px;
-                                margin-top:10px;
-                            ">
-
-                                <strong>
-                                    💬 Réponse de l'administration
-                                </strong>
-
-                                <p style="
-                                    margin-top:7px;
-                                    font-size:14px;
-                                ">
-                                    ${ticket.reply}
-                                </p>
-
-                            </div>
-
-                        `
-                        : ""
-                    }
-
-
-                    <small style="
-                        display:block;
-                        margin-top:10px;
-                        color:#8a94a3;
-                    ">
-                        Dernière mise à jour :
-                        ${new Date(
-                            ticket.updatedAt ||
-                            ticket.createdAt
-                        ).toLocaleString("fr-FR")}
-                    </small>
-
-                </div>
-
-            `;
-
-        }).join("");
-
-}
-
-
-/* =========================================================
-   ACTUALISATION
-   ========================================================= */
-
-function refreshDashboard() {
-
-    try {
-
-        displayUser();
-
-        displayInvestments();
-
-        displayNotifications();
-
-        displayTickets();
-
-    } catch (error) {
-
-        console.error(
-            "Erreur dashboard :",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   DÉMARRAGE
-   ========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        refreshDashboard();
-
-        setInterval(
-            refreshDashboard,
-            60000
-        );
-
-    }
-);
+},5000);
 
 </script>
 
