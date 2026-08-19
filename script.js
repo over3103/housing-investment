@@ -1,771 +1,464 @@
-/* =========================================
+/* =========================================================
    HOUSING INVESTMENT
-   SCRIPT PRINCIPAL
-   VERSION PROTOTYPE
-========================================= */
-
-"use strict";
+   SCRIPT CENTRAL
+   Version : 2026
+   ========================================================= */
 
 
-/* =========================================
-   CONFIGURATION
-========================================= */
+/* =========================================================
+   OUTILS GENERAUX
+   ========================================================= */
 
-const DEPOSIT_FEE_RATE = 0.01;       // 1 %
-const WITHDRAWAL_FEE_RATE = 0.25;    // 25 %
-const INVESTMENT_DURATION_DAYS = 180;
-
-
-/* =========================================
-   PACKS
-========================================= */
-
-const INVESTMENT_PACKS = [
-    {
-        id: "pack3000",
-        name: "Pack 3 000 FCFA",
-        amount: 3000,
-        dailyGain: 800
-    },
-    {
-        id: "pack10000",
-        name: "Pack 10 000 FCFA",
-        amount: 10000,
-        dailyGain: 3000
-    },
-    {
-        id: "pack20000",
-        name: "Pack 20 000 FCFA",
-        amount: 20000,
-        dailyGain: 6000
-    },
-    {
-        id: "pack45000",
-        name: "Pack 45 000 FCFA",
-        amount: 45000,
-        dailyGain: 14000
-    },
-    {
-        id: "pack100000",
-        name: "Pack 100 000 FCFA",
-        amount: 100000,
-        dailyGain: 30000
-    },
-    {
-        id: "pack200000",
-        name: "Pack 200 000 FCFA",
-        amount: 200000,
-        dailyGain: 65000
-    },
-    {
-        id: "pack400000",
-        name: "Pack 400 000 FCFA",
-        amount: 400000,
-        dailyGain: 140000
-    },
-    {
-        id: "pack800000",
-        name: "Pack 800 000 FCFA",
-        amount: 800000,
-        dailyGain: 290000
+function getJSON(key, fallback = []) {
+    try {
+        const data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : fallback;
+    } catch (error) {
+        console.error("Erreur lecture :", key, error);
+        return fallback;
     }
-];
+}
 
 
-/* =========================================
-   UTILISATEUR
-========================================= */
+function saveJSON(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
+
+function formatFCFA(amount) {
+    return Number(amount || 0).toLocaleString("fr-FR") + " FCFA";
+}
+
+
+function today() {
+    return new Date().toLocaleDateString("fr-FR");
+}
+
+
+/* =========================================================
+   UTILISATEUR CONNECTÉ
+   ========================================================= */
 
 function getCurrentUser() {
 
-    const savedUser =
-        localStorage.getItem("housingUser");
-
-    if (!savedUser) {
-        return null;
-    }
-
-    try {
-        return JSON.parse(savedUser);
-    } catch (error) {
-        console.error(
-            "Erreur lecture utilisateur :",
-            error
-        );
-        return null;
-    }
+    return (
+        getJSON("currentUser", null) ||
+        getJSON("loggedInUser", null) ||
+        getJSON("user", null)
+    );
 }
 
 
 function saveCurrentUser(user) {
 
-    if (!user) {
-        return false;
-    }
+    if (!user) return;
 
-    try {
-        localStorage.setItem(
-            "housingUser",
-            JSON.stringify(user)
-        );
-
-        return true;
-    } catch (error) {
-        console.error(
-            "Erreur sauvegarde utilisateur :",
-            error
-        );
-        return false;
-    }
+    saveJSON("currentUser", user);
+    saveJSON("loggedInUser", user);
+    saveJSON("user", user);
 }
 
 
-function getUserIdentifier() {
+/* =========================================================
+   UTILISATEURS
+   ========================================================= */
 
-    const user =
-        getCurrentUser();
+function getUsers() {
+    return getJSON("users", []);
+}
 
-    if (!user) {
-        return null;
-    }
 
-    return (
+function saveUsers(users) {
+    saveJSON("users", users);
+}
+
+
+function getUserPhone(user) {
+
+    if (!user) return "";
+
+    return String(
         user.phone ||
         user.telephone ||
-        user.email ||
+        user.phoneNumber ||
+        ""
+    );
+}
+
+
+function getUserName(user) {
+
+    if (!user) return "Utilisateur";
+
+    return (
         user.name ||
         user.fullName ||
-        null
+        user.nom ||
+        user.username ||
+        "Utilisateur"
     );
 }
 
 
-/* =========================================
-   FORMATAGE
-========================================= */
+/* =========================================================
+   RECHERCHE UTILISATEUR
+   ========================================================= */
 
-function formatFCFA(amount) {
+function findUserByPhone(phone) {
 
-    return (
-        Math.round(
-            Number(amount) || 0
-        )
-    ).toLocaleString("fr-FR") +
-    " FCFA";
-}
+    const users = getUsers();
 
+    const normalized = String(phone || "").trim();
 
-/* =========================================
-   SESSION
-========================================= */
+    return users.find(user => {
 
-function isUserLoggedIn() {
-
-    return (
-        localStorage.getItem(
-            "housingLoggedIn"
-        ) === "true"
-    );
-}
-
-
-function logoutUser() {
-
-    localStorage.removeItem(
-        "housingLoggedIn"
-    );
-
-    localStorage.removeItem(
-        "housingUser"
-    );
-
-    window.location.href =
-        "index.html";
-}
-
-
-/* =========================================
-   TRANSACTIONS
-========================================= */
-
-function getTransactions() {
-
-    try {
-
-        const data =
-            localStorage.getItem(
-                "housingTransactions"
-            );
-
-        if (!data) {
-            return [];
-        }
-
-        const result =
-            JSON.parse(data);
-
-        return Array.isArray(result)
-            ? result
-            : [];
-
-    } catch (error) {
-
-        console.error(error);
-
-        return [];
-    }
-}
-
-
-function saveTransactions(
-    transactions
-) {
-
-    try {
-
-        localStorage.setItem(
-            "housingTransactions",
-            JSON.stringify(
-                transactions
-            )
-        );
-
-        return true;
-
-    } catch (error) {
-
-        console.error(error);
-
-        return false;
-    }
-}
-
-
-/* =========================================
-   INVESTISSEMENTS
-========================================= */
-
-function getInvestments() {
-
-    try {
-
-        const data =
-            localStorage.getItem(
-                "housingInvestments"
-            );
-
-        if (!data) {
-            return [];
-        }
-
-        const result =
-            JSON.parse(data);
-
-        return Array.isArray(result)
-            ? result
-            : [];
-
-    } catch (error) {
-
-        console.error(error);
-
-        return [];
-    }
-}
-
-
-function saveInvestments(
-    investments
-) {
-
-    try {
-
-        localStorage.setItem(
-            "housingInvestments",
-            JSON.stringify(
-                investments
-            )
-        );
-
-        return true;
-
-    } catch (error) {
-
-        console.error(error);
-
-        return false;
-    }
-}
-
-
-/* =========================================
-   TRANSACTIONS UTILISATEUR
-========================================= */
-
-function getCurrentUserTransactions() {
-
-    const userId =
-        getUserIdentifier();
-
-    if (!userId) {
-        return [];
-    }
-
-    return getTransactions().filter(
-        function(transaction) {
-
-            return (
-                transaction.userId ===
-                userId
-            );
-        }
-    );
-}
-
-
-/* =========================================
-   INVESTISSEMENTS UTILISATEUR
-========================================= */
-
-function getCurrentUserInvestments() {
-
-    const userId =
-        getUserIdentifier();
-
-    if (!userId) {
-        return [];
-    }
-
-    return getInvestments().filter(
-        function(investment) {
-
-            return (
-                investment.userId ===
-                userId
-            );
-        }
-    );
-}
-
-
-/* =========================================
-   CREATION TRANSACTION
-========================================= */
-
-function createTransaction(
-    type,
-    amount
-) {
-
-    const user =
-        getCurrentUser();
-
-    if (!user) {
-
-        alert(
-            "Vous devez être connecté."
-        );
-
-        return false;
-    }
-
-    const numericAmount =
-        Number(amount);
-
-    if (
-        !Number.isFinite(
-            numericAmount
-        ) ||
-        numericAmount <= 0
-    ) {
-
-        alert(
-            "Montant invalide."
-        );
-
-        return false;
-    }
-
-    let fee = 0;
-    let netAmount =
-        numericAmount;
-
-    if (
-        type === "deposit"
-    ) {
-
-        fee =
-            Math.round(
-                numericAmount *
-                DEPOSIT_FEE_RATE
-            );
-
-        netAmount =
-            numericAmount -
-            fee;
-    }
-
-    if (
-        type === "withdrawal"
-    ) {
-
-        fee =
-            Math.round(
-                numericAmount *
-                WITHDRAWAL_FEE_RATE
-            );
-
-        netAmount =
-            numericAmount -
-            fee;
-    }
-
-    const transactions =
-        getTransactions();
-
-    transactions.push({
-
-        id:
-            "TX-" +
-            Date.now() +
-            "-" +
-            Math.floor(
-                Math.random() *
-                10000
-            ),
-
-        userId:
-            getUserIdentifier(),
-
-        userName:
-            user.name ||
-            user.fullName ||
-            user.nom ||
-            "Utilisateur",
-
-        phone:
-            user.phone ||
-            user.telephone ||
-            "",
-
-        type:
-            type,
-
-        amount:
-            numericAmount,
-
-        fee:
-            fee,
-
-        netAmount:
-            netAmount,
-
-        status:
-            "pending",
-
-        date:
-            new Date().toISOString()
+        return getUserPhone(user) === normalized;
 
     });
 
-    return saveTransactions(
-        transactions
-    );
 }
 
 
-/* =========================================
-   DEPOT
-========================================= */
+/* =========================================================
+   MISE A JOUR UTILISATEUR
+   ========================================================= */
 
-function requestDeposit(
-    amount
-) {
+function updateUser(user) {
 
-    const numericAmount =
-        Number(amount);
+    if (!user) return;
 
-    if (
-        !Number.isFinite(
-            numericAmount
-        ) ||
-        numericAmount <= 0
-    ) {
+    const users = getUsers();
 
-        alert(
-            "Veuillez saisir un montant valide."
-        );
+    const phone = getUserPhone(user);
 
-        return false;
+    const index = users.findIndex(item => {
+
+        return getUserPhone(item) === phone;
+
+    });
+
+
+    if (index !== -1) {
+
+        users[index] = {
+            ...users[index],
+            ...user
+        };
+
+    } else {
+
+        users.push(user);
+
     }
 
-    const fee =
-        Math.round(
-            numericAmount *
-            DEPOSIT_FEE_RATE
-        );
 
-    const credited =
-        numericAmount -
-        fee;
+    saveUsers(users);
 
-    const success =
-        createTransaction(
-            "deposit",
-            numericAmount
-        );
+    saveCurrentUser(user);
 
-    if (success) {
-
-        alert(
-            "Dépôt enregistré.\n\n" +
-            "Montant : " +
-            formatFCFA(
-                numericAmount
-            ) +
-            "\nFrais (1 %) : " +
-            formatFCFA(
-                fee
-            ) +
-            "\nMontant net : " +
-            formatFCFA(
-                credited
-            )
-        );
-
-        updateDashboardData();
-
-        return true;
-    }
-
-    return false;
 }
 
 
-/* =========================================
-   RETRAIT
-========================================= */
+/* =========================================================
+   INSCRIPTION
+   ========================================================= */
 
-function requestWithdrawal(
-    amount
-) {
+function registerUser(data) {
 
-    const numericAmount =
-        Number(amount);
+    const users = getUsers();
 
-    if (
-        !Number.isFinite(
-            numericAmount
-        ) ||
-        numericAmount <= 0
-    ) {
-
-        alert(
-            "Veuillez saisir un montant valide."
-        );
-
-        return false;
-    }
-
-    const balance =
-        getUserBalance();
-
-    if (
-        numericAmount >
-        balance
-    ) {
-
-        alert(
-            "Solde insuffisant."
-        );
-
-        return false;
-    }
-
-    const fee =
-        Math.round(
-            numericAmount *
-            WITHDRAWAL_FEE_RATE
-        );
-
-    const received =
-        numericAmount -
-        fee;
-
-    const success =
-        createTransaction(
-            "withdrawal",
-            numericAmount
-        );
-
-    if (success) {
-
-        alert(
-            "Retrait enregistré.\n\n" +
-            "Montant demandé : " +
-            formatFCFA(
-                numericAmount
-            ) +
-            "\nFrais (25 %) : " +
-            formatFCFA(
-                fee
-            ) +
-            "\nMontant net : " +
-            formatFCFA(
-                received
-            )
-        );
-
-        updateDashboardData();
-
-        return true;
-    }
-
-    return false;
-}
-
-
-/* =========================================
-   VERSEMENTS INVESTISSEMENT
-========================================= */
-
-function getInvestmentPayments() {
-
-    try {
-
-        const data =
-            localStorage.getItem(
-                "housingInvestmentPayments"
-            );
-
-        if (!data) {
-            return [];
-        }
-
-        const result =
-            JSON.parse(data);
-
-        return Array.isArray(result)
-            ? result
-            : [];
-
-    } catch (error) {
-
-        console.error(error);
-
-        return [];
-    }
-}
-
-
-function saveInvestmentPayments(
-    payments
-) {
-
-    localStorage.setItem(
-        "housingInvestmentPayments",
-        JSON.stringify(
-            payments
-        )
-    );
-}
-
-
-/* =========================================
-   CLE JOURNALIERE
-========================================= */
-
-function getDayKey(date) {
-
-    const d =
-        new Date(date);
-
-    return (
-        d.getFullYear() +
-        "-" +
+    const phone =
         String(
-            d.getMonth() + 1
-        ).padStart(2, "0") +
-        "-" +
-        String(
-            d.getDate()
-        ).padStart(2, "0")
-    );
+            data.phone ||
+            data.telephone ||
+            data.phoneNumber ||
+            ""
+        ).trim();
+
+
+    if (!phone) {
+
+        return {
+            success: false,
+            message: "Le numéro de téléphone est obligatoire."
+        };
+
+    }
+
+
+    const existing = users.find(user => {
+
+        return getUserPhone(user) === phone;
+
+    });
+
+
+    if (existing) {
+
+        return {
+            success: false,
+            message: "Ce numéro est déjà enregistré."
+        };
+
+    }
+
+
+    const user = {
+
+        id:
+            "USR-" +
+            Date.now() +
+            "-" +
+            Math.floor(Math.random() * 10000),
+
+        name:
+            data.name ||
+            data.fullName ||
+            data.nom ||
+            "",
+
+        phone: phone,
+
+        password:
+            data.password ||
+            "",
+
+        invitationCode:
+            data.invitationCode ||
+            "",
+
+        balance: 0,
+
+        totalInvested: 0,
+
+        totalGains: 0,
+
+        createdAt: today(),
+
+        status: "active"
+
+    };
+
+
+    users.push(user);
+
+    saveUsers(users);
+
+    saveCurrentUser(user);
+
+
+    return {
+        success: true,
+        user: user
+    };
+
 }
 
 
-/* =========================================
-   ACHAT PACK
-========================================= */
+/* =========================================================
+   CONNEXION
+   ========================================================= */
 
-function investInPack(
-    packId
-) {
+function loginUser(phone, password) {
 
-    const user =
-        getCurrentUser();
+    const users = getUsers();
+
+    const user = users.find(item => {
+
+        return (
+            getUserPhone(item) === String(phone).trim() &&
+            String(item.password || "") === String(password)
+        );
+
+    });
+
 
     if (!user) {
 
-        alert(
-            "Vous devez être connecté."
-        );
+        return {
+            success: false,
+            message: "Numéro ou mot de passe incorrect."
+        };
 
-        return false;
     }
 
-    const pack =
-        INVESTMENT_PACKS.find(
-            function(item) {
 
-                return (
-                    item.id ===
-                    packId
-                );
-            }
-        );
+    saveCurrentUser(user);
+
+
+    return {
+        success: true,
+        user: user
+    };
+
+}
+
+
+/* =========================================================
+   DECONNEXION
+   ========================================================= */
+
+function logoutUser() {
+
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("user");
+
+    window.location.href = "login.html";
+
+}
+
+
+/* =========================================================
+   INVESTISSEMENTS
+   ========================================================= */
+
+const PACKS = {
+
+    3000: {
+        name: "Starter",
+        amount: 3000,
+        dailyGain: 800,
+        duration: 180,
+        total: 144000
+    },
+
+    10000: {
+        name: "Familial",
+        amount: 10000,
+        dailyGain: 3000,
+        duration: 180,
+        total: 540000
+    },
+
+    20000: {
+        name: "Confort",
+        amount: 20000,
+        dailyGain: 6000,
+        duration: 180,
+        total: 1080000
+    },
+
+    45000: {
+        name: "Villa",
+        amount: 45000,
+        dailyGain: 14000,
+        duration: 180,
+        total: 2520000
+    },
+
+    100000: {
+        name: "Premium",
+        amount: 100000,
+        dailyGain: 30000,
+        duration: 180,
+        total: 5400000
+    },
+
+    200000: {
+        name: "Prestige",
+        amount: 200000,
+        dailyGain: 65000,
+        duration: 180,
+        total: 11700000
+    },
+
+    400000: {
+        name: "Excellence",
+        amount: 400000,
+        dailyGain: 140000,
+        duration: 180,
+        total: 25200000
+    },
+
+    800000: {
+        name: "Luxe",
+        amount: 800000,
+        dailyGain: 290000,
+        duration: 180,
+        total: 52200000
+    }
+
+};
+
+
+function getInvestments() {
+    return getJSON("investments", []);
+}
+
+
+function saveInvestments(investments) {
+    saveJSON("investments", investments);
+}
+
+
+/* =========================================================
+   CREER UN INVESTISSEMENT
+   ========================================================= */
+
+function createInvestment(amount) {
+
+    const user = getCurrentUser();
+
+    if (!user) {
+
+        return {
+            success: false,
+            message: "Vous devez être connecté."
+        };
+
+    }
+
+
+    const pack = PACKS[Number(amount)];
+
 
     if (!pack) {
 
-        alert(
-            "Pack introuvable."
-        );
+        return {
+            success: false,
+            message: "Pack d'investissement invalide."
+        };
 
-        return false;
     }
+
 
     const balance =
-        getUserBalance();
+        Number(user.balance || 0);
 
-    if (
-        balance <
-        pack.amount
-    ) {
 
-        alert(
-            "Solde insuffisant pour ce pack."
-        );
+    if (balance < pack.amount) {
 
-        return false;
+        return {
+            success: false,
+            message:
+                "Solde insuffisant. Effectuez d'abord un dépôt."
+        };
+
     }
 
-    const now =
-        new Date();
 
-    const end =
-        new Date(
-            now.getTime() +
-            (
-                INVESTMENT_DURATION_DAYS *
-                24 *
-                60 *
-                60 *
-                1000
-            )
-        );
+    /* Déduction du solde */
+
+    user.balance =
+        balance - pack.amount;
+
+
+    /* Total investi */
+
+    user.totalInvested =
+        Number(user.totalInvested || 0) +
+        pack.amount;
+
+
+    updateUser(user);
+
+
+    /* Création de l'investissement */
 
     const investments =
         getInvestments();
+
 
     const investment = {
 
@@ -773,29 +466,18 @@ function investInPack(
             "INV-" +
             Date.now() +
             "-" +
-            Math.floor(
-                Math.random() *
-                10000
-            ),
+            Math.floor(Math.random() * 10000),
 
         userId:
-            getUserIdentifier(),
+            user.id || "",
 
         userName:
-            user.name ||
-            user.fullName ||
-            user.nom ||
-            "Utilisateur",
+            getUserName(user),
 
-        phone:
-            user.phone ||
-            user.telephone ||
-            "",
+        userPhone:
+            getUserPhone(user),
 
-        packId:
-            pack.id,
-
-        packName:
+        pack:
             pack.name,
 
         amount:
@@ -805,927 +487,774 @@ function investInPack(
             pack.dailyGain,
 
         duration:
-            INVESTMENT_DURATION_DAYS,
+            pack.duration,
 
-        startDate:
-            now.toISOString(),
+        total:
+            pack.total,
 
-        endDate:
-            end.toISOString(),
+        elapsedDays:
+            0,
 
         status:
-            "active"
+            "active",
+
+        date:
+            today(),
+
+        createdAt:
+            new Date().toISOString()
 
     };
 
-    investments.push(
-        investment
-    );
 
-    if (
-        !saveInvestments(
-            investments
-        )
-    ) {
+    investments.push(investment);
 
-        alert(
-            "Impossible d'enregistrer l'investissement."
-        );
+    saveInvestments(investments);
 
-        return false;
+
+    return {
+        success: true,
+        investment: investment,
+        user: user
+    };
+
+}
+
+
+/* =========================================================
+   DEPOTS
+   ========================================================= */
+
+function getDeposits() {
+    return getJSON("deposits", []);
+}
+
+
+function saveDeposits(deposits) {
+    saveJSON("deposits", deposits);
+}
+
+
+/* =========================================================
+   CREER UNE DEMANDE DE DEPOT
+   ========================================================= */
+
+function createDeposit(amount, method = "Non précisé") {
+
+    const user = getCurrentUser();
+
+
+    if (!user) {
+
+        return {
+            success: false,
+            message: "Vous devez être connecté."
+        };
+
     }
 
-    /*
-       Le capital investi est enregistré
-       une seule fois.
-    */
 
-    const transactions =
-        getTransactions();
+    amount = Number(amount);
 
-    transactions.push({
+
+    if (!amount || amount <= 0) {
+
+        return {
+            success: false,
+            message: "Montant de dépôt invalide."
+        };
+
+    }
+
+
+    const deposits =
+        getDeposits();
+
+
+    const deposit = {
 
         id:
-            "TX-INV-" +
-            Date.now(),
+            "DEP-" +
+            Date.now() +
+            "-" +
+            Math.floor(Math.random() * 10000),
 
         userId:
-            getUserIdentifier(),
+            user.id || "",
 
         userName:
-            user.name ||
-            user.fullName ||
-            user.nom ||
-            "Utilisateur",
+            getUserName(user),
 
-        phone:
-            user.phone ||
-            user.telephone ||
-            "",
-
-        type:
-            "investment",
+        userPhone:
+            getUserPhone(user),
 
         amount:
-            pack.amount,
+            amount,
 
-        fee:
-            0,
-
-        netAmount:
-            pack.amount,
-
-        packId:
-            pack.id,
-
-        packName:
-            pack.name,
-
-        status:
-            "approved",
+        method:
+            method,
 
         date:
-            now.toISOString()
+            today(),
 
-    });
+        status:
+            "pending",
 
-    if (
-        !saveTransactions(
-            transactions
-        )
-    ) {
+        createdAt:
+            new Date().toISOString()
 
-        investments.pop();
+    };
 
-        saveInvestments(
-            investments
-        );
 
-        alert(
-            "Erreur lors de l'enregistrement."
-        );
+    deposits.push(deposit);
 
-        return false;
+    saveDeposits(deposits);
+
+
+    return {
+        success: true,
+        deposit: deposit
+    };
+
+}
+
+
+/* =========================================================
+   VALIDATION DEPOT ADMIN
+   ========================================================= */
+
+function approveDeposit(depositId) {
+
+    const deposits =
+        getDeposits();
+
+
+    const index =
+        deposits.findIndex(item => {
+
+            return item.id === depositId;
+
+        });
+
+
+    if (index === -1) {
+
+        return {
+            success: false,
+            message: "Dépôt introuvable."
+        };
+
     }
 
-    alert(
-        "Investissement activé.\n\n" +
-        pack.name +
-        "\nMontant : " +
-        formatFCFA(
-            pack.amount
+
+    const deposit =
+        deposits[index];
+
+
+    if (deposit.status !== "pending") {
+
+        return {
+            success: false,
+            message: "Cette opération a déjà été traitée."
+        };
+
+    }
+
+
+    const users =
+        getUsers();
+
+
+    const userIndex =
+        users.findIndex(user => {
+
+            return (
+                user.id === deposit.userId ||
+                getUserPhone(user) === deposit.userPhone
+            );
+
+        });
+
+
+    if (userIndex === -1) {
+
+        return {
+            success: false,
+            message: "Utilisateur introuvable."
+        };
+
+    }
+
+
+    users[userIndex].balance =
+        Number(
+            users[userIndex].balance || 0
         ) +
-        "\nGain quotidien prévu : " +
-        formatFCFA(
-            pack.dailyGain
-        ) +
-        "\nDurée : 180 jours"
-    );
+        Number(deposit.amount || 0);
 
-    updateDashboardData();
 
-    return true;
+    deposit.status =
+        "approved";
+
+    deposit.approvedAt =
+        new Date().toISOString();
+
+
+    saveUsers(users);
+
+    saveDeposits(deposits);
+
+
+    return {
+        success: true,
+        message: "Dépôt validé."
+    };
+
 }
 
 
-/* =========================================
-   ENREGISTRER LES GAINS DU JOUR
-========================================= */
+/* =========================================================
+   REFUS DEPOT
+   ========================================================= */
 
-function processDailyInvestmentPayments() {
+function rejectDeposit(depositId) {
 
-    const userId =
-        getUserIdentifier();
+    const deposits =
+        getDeposits();
 
-    if (!userId) {
-        return;
+
+    const index =
+        deposits.findIndex(item => {
+
+            return item.id === depositId;
+
+        });
+
+
+    if (index === -1) {
+
+        return {
+            success: false,
+            message: "Dépôt introuvable."
+        };
+
     }
 
-    const investments =
-        getInvestments();
 
-    const payments =
-        getInvestmentPayments();
+    deposits[index].status =
+        "rejected";
 
-    const today =
-        getDayKey(
-            new Date()
-        );
 
-    let changed =
-        false;
+    deposits[index].rejectedAt =
+        new Date().toISOString();
 
-    investments.forEach(
-        function(investment) {
 
-            if (
-                investment.userId !==
-                userId
-            ) {
-                return;
-            }
+    saveDeposits(deposits);
 
-            if (
-                investment.status !==
-                "active"
-            ) {
-                return;
-            }
 
-            const start =
-                new Date(
-                    investment.startDate
-                );
+    return {
+        success: true,
+        message: "Dépôt refusé."
+    };
 
-            const end =
-                new Date(
-                    investment.endDate
-                );
-
-            const now =
-                new Date();
-
-            if (
-                now < start
-            ) {
-                return;
-            }
-
-            /*
-               Si les 180 jours sont terminés,
-               on ferme l'investissement.
-            */
-
-            if (
-                now >= end
-            ) {
-
-                investment.status =
-                    "completed";
-
-                changed =
-                    true;
-
-                return;
-            }
-
-            /*
-               Une seule ligne de gain
-               par investissement et par jour.
-            */
-
-            const alreadyPaid =
-                payments.some(
-                    function(payment) {
-
-                        return (
-                            payment.investmentId ===
-                            investment.id &&
-                            payment.dayKey ===
-                            today
-                        );
-                    }
-                );
-
-            if (
-                alreadyPaid
-            ) {
-                return;
-            }
-
-            /*
-               Ne pas verser le jour zéro.
-            */
-
-            const elapsed =
-                Math.floor(
-                    (
-                        now.getTime() -
-                        start.getTime()
-                    ) /
-                    (
-                        24 *
-                        60 *
-                        60 *
-                        1000
-                    )
-                );
-
-            if (
-                elapsed < 1
-            ) {
-                return;
-            }
-
-            payments.push({
-
-                id:
-                    "PAY-" +
-                    Date.now() +
-                    "-" +
-                    Math.floor(
-                        Math.random() *
-                        10000
-                    ),
-
-                investmentId:
-                    investment.id,
-
-                userId:
-                    investment.userId,
-
-                amount:
-                    Number(
-                        investment.dailyGain
-                    ),
-
-                dayKey:
-                    today,
-
-                date:
-                    new Date().toISOString(),
-
-                status:
-                    "approved"
-
-            });
-
-            changed =
-                true;
-
-        }
-    );
-
-    if (changed) {
-
-        saveInvestments(
-            investments
-        );
-
-        saveInvestmentPayments(
-            payments
-        );
-    }
 }
 
 
-/* =========================================
-   TOTAL DES GAINS ENREGISTRES
-========================================= */
+/* =========================================================
+   RETRAITS
+   ========================================================= */
 
-function getCurrentUserPaidGains() {
-
-    const userId =
-        getUserIdentifier();
-
-    if (!userId) {
-        return 0;
-    }
-
-    return getInvestmentPayments()
-        .filter(
-            function(payment) {
-
-                return (
-                    payment.userId ===
-                    userId &&
-                    payment.status ===
-                    "approved"
-                );
-
-            }
-        )
-        .reduce(
-            function(total, payment) {
-
-                return (
-                    total +
-                    Number(
-                        payment.amount
-                    )
-                );
-
-            },
-            0
-        );
+function getWithdrawals() {
+    return getJSON("withdrawals", []);
 }
 
 
-/* =========================================
-   CALCUL DU SOLDE
-========================================= */
+function saveWithdrawals(withdrawals) {
+    saveJSON("withdrawals", withdrawals);
+}
 
-function getUserBalance() {
+
+/* =========================================================
+   CREER DEMANDE DE RETRAIT
+   ========================================================= */
+
+function createWithdrawal(amount, method = "Non précisé") {
 
     const user =
         getCurrentUser();
 
+
     if (!user) {
-        return 0;
+
+        return {
+            success: false,
+            message: "Vous devez être connecté."
+        };
+
     }
 
-    let balance =
-        Number(
-            user.balance ||
-            user.solde ||
-            0
-        );
 
-    if (
-        !Number.isFinite(
-            balance
-        )
-    ) {
-        balance = 0;
+    amount =
+        Number(amount);
+
+
+    if (!amount || amount <= 0) {
+
+        return {
+            success: false,
+            message: "Montant invalide."
+        };
+
     }
 
-    /*
-       Dépôts validés
-    */
-
-    getCurrentUserTransactions()
-        .forEach(
-            function(transaction) {
-
-                if (
-                    transaction.status !==
-                    "approved"
-                ) {
-                    return;
-                }
-
-                const amount =
-                    Number(
-                        transaction.amount
-                    ) || 0;
-
-                if (
-                    transaction.type ===
-                    "deposit"
-                ) {
-
-                    balance +=
-                        Number(
-                            transaction.netAmount
-                        ) ||
-                        amount;
-                }
-
-                if (
-                    transaction.type ===
-                    "withdrawal"
-                ) {
-
-                    balance -=
-                        amount;
-                }
-
-                if (
-                    transaction.type ===
-                    "investment"
-                ) {
-
-                    balance -=
-                        amount;
-                }
-            }
-        );
-
-    /*
-       Gains réellement enregistrés.
-       Ils ne sont jamais recalculés
-       simplement parce que la page est
-       rechargée.
-    */
-
-    balance +=
-        getCurrentUserPaidGains();
-
-    return Math.max(
-        0,
-        Math.round(
-            balance
-        )
-    );
-}
-
-
-/* =========================================
-   AFFICHAGE SOLDE
-========================================= */
-
-function updateBalanceDisplay() {
 
     const balance =
-        getUserBalance();
+        Number(user.balance || 0);
 
-    document
-        .querySelectorAll(
-            "[data-user-balance]"
-        )
-        .forEach(
-            function(element) {
 
-                element.textContent =
-                    formatFCFA(
-                        balance
-                    );
-            }
-        );
+    if (amount > balance) {
+
+        return {
+            success: false,
+            message: "Solde insuffisant."
+        };
+
+    }
+
+
+    const withdrawals =
+        getWithdrawals();
+
+
+    const withdrawal = {
+
+        id:
+            "RET-" +
+            Date.now() +
+            "-" +
+            Math.floor(Math.random() * 10000),
+
+        userId:
+            user.id || "",
+
+        userName:
+            getUserName(user),
+
+        userPhone:
+            getUserPhone(user),
+
+        amount:
+            amount,
+
+        method:
+            method,
+
+        date:
+            today(),
+
+        status:
+            "pending",
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    withdrawals.push(withdrawal);
+
+    saveWithdrawals(withdrawals);
+
+
+    return {
+        success: true,
+        withdrawal: withdrawal
+    };
+
 }
 
 
-/* =========================================
-   AFFICHAGE HISTORIQUE
-========================================= */
+/* =========================================================
+   VALIDATION RETRAIT
+   ========================================================= */
 
-function displayTransactionHistory() {
+function approveWithdrawal(withdrawalId) {
 
-    const container =
-        document.querySelector(
-            "[data-transaction-history]"
-        );
+    const withdrawals =
+        getWithdrawals();
 
-    if (!container) {
-        return;
+
+    const index =
+        withdrawals.findIndex(item => {
+
+            return item.id === withdrawalId;
+
+        });
+
+
+    if (index === -1) {
+
+        return {
+            success: false,
+            message: "Retrait introuvable."
+        };
+
     }
 
-    const transactions =
-        getCurrentUserTransactions();
 
-    const payments =
-        getInvestmentPayments()
-            .filter(
-                function(payment) {
+    const withdrawal =
+        withdrawals[index];
 
-                    return (
-                        payment.userId ===
-                        getUserIdentifier()
-                    );
-                }
+
+    if (withdrawal.status !== "pending") {
+
+        return {
+            success: false,
+            message: "Cette opération a déjà été traitée."
+        };
+
+    }
+
+
+    const users =
+        getUsers();
+
+
+    const userIndex =
+        users.findIndex(user => {
+
+            return (
+                user.id === withdrawal.userId ||
+                getUserPhone(user) === withdrawal.userPhone
             );
 
-    if (
-        transactions.length === 0 &&
-        payments.length === 0
-    ) {
+        });
 
-        container.innerHTML =
-            "<p>Aucune opération pour le moment.</p>";
 
-        return;
+    if (userIndex === -1) {
+
+        return {
+            success: false,
+            message: "Utilisateur introuvable."
+        };
+
     }
 
-    let html = "";
 
-    transactions.forEach(
-        function(transaction) {
+    const user =
+        users[userIndex];
 
-            html += `
-                <div class="transaction-item">
 
-                    <strong>
-                        ${transaction.type === "deposit"
-                            ? "Dépôt"
-                            : transaction.type === "withdrawal"
-                            ? "Retrait"
-                            : "Investissement"}
-                    </strong>
+    const balance =
+        Number(user.balance || 0);
 
-                    <div>
-                        Montant :
-                        ${formatFCFA(
-                            transaction.amount
-                        )}
-                    </div>
 
-                    ${
-                        transaction.type ===
-                        "deposit" ||
-                        transaction.type ===
-                        "withdrawal"
-                            ? `
-                                <div>
-                                    Frais :
-                                    ${formatFCFA(
-                                        transaction.fee
-                                    )}
-                                </div>
-                              `
-                            : ""
-                    }
+    if (
+        balance <
+        Number(withdrawal.amount || 0)
+    ) {
 
-                    <div>
-                        Statut :
-                        ${
-                            transaction.status ===
-                            "approved"
-                                ? "Validé"
-                                : transaction.status ===
-                                  "rejected"
-                                ? "Refusé"
-                                : "En attente"
-                        }
-                    </div>
+        return {
+            success: false,
+            message:
+                "Le solde de l'utilisateur est insuffisant."
+        };
 
-                </div>
-            `;
-        }
-    );
+    }
 
-    payments.forEach(
-        function(payment) {
 
-            html += `
-                <div class="transaction-item">
+    user.balance =
+        balance -
+        Number(withdrawal.amount || 0);
 
-                    <strong>
-                        Gain d'investissement
-                    </strong>
 
-                    <div>
-                        Montant :
-                        ${formatFCFA(
-                            payment.amount
-                        )}
-                    </div>
+    withdrawal.status =
+        "approved";
 
-                    <div>
-                        Date :
-                        ${new Date(
-                            payment.date
-                        ).toLocaleDateString(
-                            "fr-FR"
-                        )}
-                    </div>
+    withdrawal.approvedAt =
+        new Date().toISOString();
 
-                    <div>
-                        Statut :
-                        Validé
-                    </div>
 
-                </div>
-            `;
-        }
-    );
+    saveUsers(users);
 
-    container.innerHTML =
-        html;
+    saveWithdrawals(withdrawals);
+
+
+    return {
+        success: true,
+        message: "Retrait validé."
+    };
+
 }
 
 
-/* =========================================
-   AFFICHAGE INVESTISSEMENTS
-========================================= */
+/* =========================================================
+   REFUS RETRAIT
+   ========================================================= */
 
-function displayInvestments() {
+function rejectWithdrawal(withdrawalId) {
 
-    const container =
-        document.querySelector(
-            "[data-investments]"
-        );
+    const withdrawals =
+        getWithdrawals();
 
-    if (!container) {
-        return;
+
+    const index =
+        withdrawals.findIndex(item => {
+
+            return item.id === withdrawalId;
+
+        });
+
+
+    if (index === -1) {
+
+        return {
+            success: false,
+            message: "Retrait introuvable."
+        };
+
     }
+
+
+    withdrawals[index].status =
+        "rejected";
+
+
+    withdrawals[index].rejectedAt =
+        new Date().toISOString();
+
+
+    saveWithdrawals(withdrawals);
+
+
+    return {
+        success: true,
+        message: "Retrait refusé."
+    };
+
+}
+
+
+/* =========================================================
+   INVESTISSEMENTS DE L'UTILISATEUR
+   ========================================================= */
+
+function getMyInvestments() {
+
+    const user =
+        getCurrentUser();
+
+
+    if (!user) return [];
+
+
+    const phone =
+        getUserPhone(user);
+
 
     const investments =
-        getCurrentUserInvestments();
+        getInvestments();
 
-    if (
-        investments.length === 0
-    ) {
 
-        container.innerHTML =
-            "<p>Aucun investissement.</p>";
+    return investments.filter(item => {
 
-        return;
-    }
+        return (
+            item.userId === user.id ||
+            item.userPhone === phone
+        );
 
-    container.innerHTML =
-        "";
+    });
 
-    investments.forEach(
-        function(investment) {
+}
 
-            const start =
-                new Date(
-                    investment.startDate
-                );
 
-            const end =
-                new Date(
-                    investment.endDate
-                );
+/* =========================================================
+   CALCUL GAINS
+   ========================================================= */
 
-            const now =
-                new Date();
+function calculateTotalGains() {
 
-            let days = 0;
+    const investments =
+        getMyInvestments();
 
-            if (
-                now > start
-            ) {
 
-                days =
-                    Math.floor(
-                        (
-                            now.getTime() -
-                            start.getTime()
-                        ) /
-                        (
-                            24 *
-                            60 *
-                            60 *
-                            1000
-                        )
-                    );
-            }
+    let total = 0;
 
-            days =
-                Math.min(
-                    180,
-                    Math.max(
-                        0,
-                        days
-                    )
-                );
 
-            const status =
-                now >= end
-                    ? "Terminé"
-                    : "Actif";
+    investments.forEach(item => {
 
-            const card =
-                document.createElement(
-                    "div"
-                );
+        total +=
+            Number(item.gain || 0);
 
-            card.className =
-                "investment-item";
+    });
 
-            card.innerHTML = `
-                <h3>
-                    ${investment.packName}
-                </h3>
 
-                <p>
-                    Capital :
-                    <strong>
-                        ${formatFCFA(
-                            investment.amount
-                        )}
-                    </strong>
-                </p>
+    return total;
 
-                <p>
-                    Gain quotidien :
-                    <strong>
-                        ${formatFCFA(
-                            investment.dailyGain
-                        )}
-                    </strong>
-                </p>
+}
 
-                <p>
-                    Durée :
-                    180 jours
-                </p>
 
-                <p>
-                    Progression :
-                    ${days} / 180 jours
-                </p>
+/* =========================================================
+   NOTIFICATIONS
+   ========================================================= */
 
-                <p>
-                    Début :
-                    ${start.toLocaleDateString(
-                        "fr-FR"
-                    )}
-                </p>
+function getNotifications() {
+    return getJSON("notifications", []);
+}
 
-                <p>
-                    Fin :
-                    ${end.toLocaleDateString(
-                        "fr-FR"
-                    )}
-                </p>
 
-                <p>
-                    Statut :
-                    <strong>
-                        ${status}
-                    </strong>
-                </p>
-            `;
+function saveNotifications(notifications) {
+    saveJSON("notifications", notifications);
+}
 
-            container.appendChild(
-                card
-            );
-        }
+
+function addNotification(userId, message, type = "info") {
+
+    const notifications =
+        getNotifications();
+
+
+    notifications.push({
+
+        id:
+            "NOTIF-" +
+            Date.now(),
+
+        userId:
+            userId,
+
+        message:
+            message,
+
+        type:
+            type,
+
+        read:
+            false,
+
+        date:
+            new Date().toISOString()
+
+    });
+
+
+    saveNotifications(notifications);
+
+}
+
+
+/* =========================================================
+   AJOUTER NOTIFICATION DEPOT
+   ========================================================= */
+
+function notifyDepositApproved(deposit) {
+
+    addNotification(
+
+        deposit.userId,
+
+        "Votre demande de dépôt a été validée.",
+
+        "success"
+
     );
+
 }
 
 
-/* =========================================
-   MISE A JOUR
-========================================= */
+/* =========================================================
+   AJOUTER NOTIFICATION RETRAIT
+   ========================================================= */
 
-function updateDashboardData() {
+function notifyWithdrawalApproved(withdrawal) {
 
-    /*
-       Enregistre uniquement les gains
-       qui doivent réellement être créés
-       aujourd'hui.
-    */
+    addNotification(
 
-    processDailyInvestmentPayments();
+        withdrawal.userId,
 
-    updateBalanceDisplay();
+        "Votre demande de retrait a été validée.",
 
-    displayTransactionHistory();
+        "success"
 
-    displayInvestments();
-}
-
-
-/* =========================================
-   FORMULAIRE DEPOT
-========================================= */
-
-function initializeDepositForm() {
-
-    const form =
-        document.querySelector(
-            "[data-deposit-form]"
-        );
-
-    if (!form) {
-        return;
-    }
-
-    form.addEventListener(
-        "submit",
-        function(event) {
-
-            event.preventDefault();
-
-            const input =
-                form.querySelector(
-                    "[name='amount']"
-                );
-
-            if (!input) {
-                return;
-            }
-
-            if (
-                requestDeposit(
-                    input.value
-                )
-            ) {
-
-                form.reset();
-            }
-        }
     );
+
 }
 
 
-/* =========================================
-   FORMULAIRE RETRAIT
-========================================= */
+/* =========================================================
+   EXPOSITION GLOBALE
+   =========================================================
+   Permet aux autres pages de réutiliser
+   les fonctions sans dupliquer le code.
+   ========================================================= */
 
-function initializeWithdrawalForm() {
+window.HousingInvestment = {
 
-    const form =
-        document.querySelector(
-            "[data-withdrawal-form]"
-        );
+    getUsers,
+    saveUsers,
 
-    if (!form) {
-        return;
-    }
+    getCurrentUser,
+    saveCurrentUser,
 
-    form.addEventListener(
-        "submit",
-        function(event) {
+    registerUser,
+    loginUser,
+    logoutUser,
 
-            event.preventDefault();
+    updateUser,
+    findUserByPhone,
 
-            const input =
-                form.querySelector(
-                    "[name='amount']"
-                );
+    getInvestments,
+    saveInvestments,
+    createInvestment,
+    getMyInvestments,
 
-            if (!input) {
-                return;
-            }
+    getDeposits,
+    saveDeposits,
+    createDeposit,
+    approveDeposit,
+    rejectDeposit,
 
-            if (
-                requestWithdrawal(
-                    input.value
-                )
-            ) {
+    getWithdrawals,
+    saveWithdrawals,
+    createWithdrawal,
+    approveWithdrawal,
+    rejectWithdrawal,
 
-                form.reset();
-            }
-        }
-    );
-}
+    getNotifications,
+    addNotification,
 
+    calculateTotalGains,
 
-/* =========================================
-   BOUTONS PACKS
-========================================= */
+    formatFCFA,
+    PACKS
 
-function initializeInvestmentButtons() {
-
-    document
-        .querySelectorAll(
-            "[data-investment-pack]"
-        )
-        .forEach(
-            function(button) {
-
-                button.addEventListener(
-                    "click",
-                    function() {
-
-                        const packId =
-                            button.getAttribute(
-                                "data-investment-pack"
-                            );
-
-                        investInPack(
-                            packId
-                        );
-                    }
-                );
-            }
-        );
-}
+};
 
 
-/* =========================================
-   INITIALISATION
-========================================= */
+/* =========================================================
+   DIAGNOSTIC
+   ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
+console.log(
+    "Housing Investment : script.js chargé correctement."
+);
 
-        console.log(
-            "Housing Investment chargé correctement."
-        );
+console.log(
+    "Utilisateurs :",
+    getUsers().length
+);
 
-        initializeDepositForm();
+console.log(
+    "Investissements :",
+    getInvestments().length
+);
 
-        initializeWithdrawalForm();
+console.log(
+    "Dépôts :",
+    getDeposits().length
+);
 
-        initializeInvestmentButtons();
-
-        updateDashboardData();
-
-    }
+console.log(
+    "Retraits :",
+    getWithdrawals().length
 );
