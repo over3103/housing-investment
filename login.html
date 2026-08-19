@@ -1,5 +1,3 @@
-login.html
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,106 +6,221 @@ login.html
 
     <title>Connexion - Housing Investment</title>
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #087f45, #0aa65b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .logo {
+            text-align: center;
+            color: white;
+            font-size: 27px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 30px 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,.20);
+        }
+
+        h1 {
+            text-align: center;
+            color: #087f45;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d7ddd9;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #087f45;
+        }
+
+        .phone-box {
+            display: flex;
+            gap: 7px;
+        }
+
+        .prefix {
+            width: 75px;
+            min-width: 75px;
+            background: #f2f5f3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9px;
+            font-weight: bold;
+            color: #087f45;
+        }
+
+        .phone-box input {
+            flex: 1;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #087f45;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .btn:hover {
+            background: #066b3a;
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 17px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .error {
+            background: #fdecec;
+            color: #b42318;
+        }
+
+        .success {
+            background: #e9f8ef;
+            color: #087f45;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .register-link a {
+            color: #087f45;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .admin-link {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #888;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .admin-link:hover {
+            color: #087f45;
+        }
+    </style>
 </head>
 
 <body>
 
-<header class="header">
+<div class="container">
 
     <div class="logo">
-        Housing Investment
+        🏠 Housing Investment
     </div>
 
-    <nav class="navigation">
-        <a href="index.html">Accueil</a>
-        <a href="register.html" class="btn btn-primary">
-            Créer un compte
-        </a>
-    </nav>
+    <div class="card">
 
-</header>
+        <h1>Bienvenue</h1>
 
-<main>
+        <p class="subtitle">
+            Connectez-vous à votre espace personnel
+        </p>
 
-<section style="
-    padding:80px 20px;
-    min-height:70vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-">
 
-    <div style="
-        width:100%;
-        max-width:450px;
-        background:#fff;
-        padding:40px;
-        border-radius:15px;
-        box-shadow:0 10px 35px rgba(20,40,70,.08);
-    ">
-
-        <div style="
-            text-align:center;
-            margin-bottom:30px;
-        ">
-
-            <span class="section-label">
-                ESPACE MEMBRE
-            </span>
-
-            <h1 style="margin-bottom:10px;">
-                Se connecter
-            </h1>
-
-            <p style="color:#667085;">
-                Accédez à votre espace personnel.
-            </p>
-
+        <div
+            id="message"
+            class="message">
         </div>
+
 
         <form id="loginForm">
 
-            <div style="margin-bottom:20px;">
+            <div class="form-group">
 
-                <label
-                    for="phone"
-                    style="
-                        display:block;
-                        margin-bottom:8px;
-                        font-weight:700;
-                    "
-                >
+                <label for="phone">
                     Numéro de téléphone
                 </label>
 
-                <input
-                    type="tel"
-                    id="phone"
-                    placeholder="0700000000 ou +2250700000000"
-                    required
-                    style="
-                        width:100%;
-                        padding:14px;
-                        border:1px solid #d0d5dd;
-                        border-radius:8px;
-                        font-size:16px;
-                        box-sizing:border-box;
-                    "
-                >
+                <div class="phone-box">
+
+                    <div class="prefix">
+                        +225
+                    </div>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="0700000000"
+                        maxlength="10"
+                        inputmode="numeric"
+                        required
+                    >
+
+                </div>
 
             </div>
 
-            <div style="margin-bottom:20px;">
 
-                <label
-                    for="password"
-                    style="
-                        display:block;
-                        margin-bottom:8px;
-                        font-weight:700;
-                    "
-                >
+            <div class="form-group">
+
+                <label for="password">
                     Mot de passe
                 </label>
 
@@ -116,272 +229,144 @@ login.html
                     id="password"
                     placeholder="Votre mot de passe"
                     required
-                    style="
-                        width:100%;
-                        padding:14px;
-                        border:1px solid #d0d5dd;
-                        border-radius:8px;
-                        font-size:16px;
-                        box-sizing:border-box;
-                    "
                 >
 
             </div>
 
-            <div
-                id="loginMessage"
-                style="
-                    margin-bottom:20px;
-                    text-align:center;
-                    font-weight:600;
-                "
-            ></div>
 
             <button
                 type="submit"
-                class="btn btn-primary"
-                style="
-                    width:100%;
-                    border:none;
-                    font-size:16px;
-                "
-            >
+                class="btn">
                 Se connecter
             </button>
 
         </form>
 
-        <p style="
-            text-align:center;
-            margin-top:25px;
-            color:#667085;
-        ">
+
+        <div class="register-link">
 
             Vous n'avez pas encore de compte ?
 
-            <a
-                href="register.html"
-                style="
-                    color:#123c69;
-                    font-weight:700;
-                "
-            >
+            <a href="register.html">
                 Créer un compte
             </a>
 
-        </p>
+        </div>
+
+
+        <a
+            href="admin.html"
+            class="admin-link">
+            Administration
+        </a>
 
     </div>
 
-</section>
+</div>
 
-</main>
 
-<footer class="footer">
-
-    <div class="footer-bottom">
-
-        <p>
-            © 2026 Housing Investment.
-            Tous droits réservés.
-        </p>
-
-    </div>
-
-</footer>
-
+<script src="script.js"></script>
 
 <script>
 
-document
-.getElementById("loginForm")
-.addEventListener("submit", function(event) {
+const form =
+    document.getElementById("loginForm");
 
-    event.preventDefault();
-
-    const phoneInput =
-        document.getElementById("phone").value.trim();
-
-    const password =
-        document.getElementById("password").value;
-
-    const message =
-        document.getElementById("loginMessage");
+const message =
+    document.getElementById("message");
 
 
-    /* =========================
-       NETTOYAGE DU NUMÉRO
-    ========================= */
+function showMessage(text, type) {
 
-    let phoneDigits =
-        phoneInput.replace(/\D/g, "");
+    message.textContent = text;
 
+    message.className =
+        "message " + type;
 
-    /*
-       Si l'utilisateur écrit :
-       +2250700000000
+    message.style.display =
+        "block";
 
-       on retire le préfixe 225.
-    */
-
-    if (
-        phoneDigits.startsWith("225") &&
-        phoneDigits.length === 13
-    ) {
-
-        phoneDigits =
-            phoneDigits.substring(3);
-
-    }
+}
 
 
-    /* =========================
-       VERIFICATION DU NUMÉRO
-    ========================= */
+form.addEventListener(
+    "submit",
+    function(event) {
 
-    if (
-        phoneDigits.length !== 10 ||
-        !phoneDigits.startsWith("0")
-    ) {
-
-        message.textContent =
-            "Veuillez entrer un numéro ivoirien valide à 10 chiffres.";
-
-        message.style.color =
-            "#b42318";
-
-        return;
-    }
+        event.preventDefault();
 
 
-    if (!password) {
-
-        message.textContent =
-            "Veuillez entrer votre mot de passe.";
-
-        message.style.color =
-            "#b42318";
-
-        return;
-    }
+        let phone =
+            document.getElementById(
+                "phone"
+            ).value.trim();
 
 
-    /* =========================
-       RECUPERATION DU COMPTE
-    ========================= */
-
-    const savedUser =
-        localStorage.getItem("housingUser");
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
 
 
-    if (!savedUser) {
+        /* Nettoyage du numéro */
 
-        message.textContent =
-            "Aucun compte trouvé. Veuillez créer un compte.";
-
-        message.style.color =
-            "#b42318";
-
-        return;
-    }
+        phone =
+            phone.replace(/\D/g, "");
 
 
-    try {
+        if (phone.length !== 10) {
 
-        const user =
-            JSON.parse(savedUser);
+            showMessage(
+                "Veuillez entrer un numéro ivoirien valide à 10 chiffres.",
+                "error"
+            );
 
-
-        /*
-           NORMALISATION DU NUMÉRO
-           ENREGISTRÉ DANS LE COMPTE
-        */
-
-        let savedPhone =
-            String(user.phone || "")
-            .replace(/\D/g, "");
-
-
-        /*
-           Si le numéro enregistré commence
-           par 225, on retire ce préfixe.
-        */
-
-        if (
-            savedPhone.startsWith("225") &&
-            savedPhone.length === 13
-        ) {
-
-            savedPhone =
-                savedPhone.substring(3);
+            return;
 
         }
 
 
-        /* =========================
-           VERIFICATION
-        ========================= */
+        const fullPhone =
+            "+225" + phone;
 
-        if (
-            savedPhone === phoneDigits &&
-            String(user.password) === password
-        ) {
 
-            localStorage.setItem(
-                "housingLoggedIn",
-                "true"
-            );
-
-            /*
-               On conserve également
-               l'utilisateur connecté.
-            */
-
-            localStorage.setItem(
-                "currentUser",
-                JSON.stringify(user)
+        const result =
+            window.HousingInvestment.loginUser(
+                fullPhone,
+                password
             );
 
 
-            message.textContent =
-                "Connexion réussie...";
+        if (!result.success) {
 
-            message.style.color =
-                "#027a48";
+            showMessage(
+                result.message,
+                "error"
+            );
+
+            return;
+
+        }
 
 
-            setTimeout(function() {
+        showMessage(
+            "Connexion réussie. Ouverture de votre espace...",
+            "success"
+        );
+
+
+        setTimeout(
+            function() {
 
                 window.location.href =
                     "dashboard.html";
 
-            }, 500);
-
-
-        } else {
-
-            message.textContent =
-                "Numéro ou mot de passe incorrect.";
-
-            message.style.color =
-                "#b42318";
-
-        }
-
-
-    } catch (error) {
-
-        console.error(error);
-
-        message.textContent =
-            "Une erreur est survenue. Veuillez réessayer.";
-
-        message.style.color =
-            "#b42318";
+            },
+            800
+        );
 
     }
-
-});
+);
 
 </script>
 
