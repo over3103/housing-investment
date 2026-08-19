@@ -7,7 +7,6 @@
 <title>Connexion — Housing Investment</title>
 
 <style>
-
 *{
     box-sizing:border-box;
     margin:0;
@@ -21,6 +20,7 @@ body{
         linear-gradient(rgba(5,25,55,.78),rgba(5,25,55,.88)),
         url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85")
         center/cover fixed;
+
     display:flex;
     align-items:center;
     justify-content:center;
@@ -63,9 +63,11 @@ body{
     margin:0 auto 15px;
     border-radius:50%;
     background:#e9f2ff;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     font-size:30px;
 }
 
@@ -97,18 +99,23 @@ body{
 input{
     width:100%;
     height:50px;
+
     border:1px solid #d8dee8;
     border-radius:10px;
+
     padding:0 14px;
+
     font-size:15px;
     outline:none;
-    transition:.2s;
+
     background:#fff;
 }
 
 input:focus{
     border-color:#0b5ed7;
-    box-shadow:0 0 0 3px rgba(11,94,215,.1);
+
+    box-shadow:
+        0 0 0 3px rgba(11,94,215,.1);
 }
 
 .phone-input{
@@ -117,13 +124,19 @@ input:focus{
 
 .phone-prefix{
     height:50px;
+
     padding:0 12px;
+
     display:flex;
     align-items:center;
+
     background:#eef2f7;
+
     border:1px solid #d8dee8;
     border-right:none;
+
     border-radius:10px 0 0 10px;
+
     font-weight:bold;
     font-size:14px;
 }
@@ -138,12 +151,17 @@ input:focus{
 
 .toggle-password{
     position:absolute;
+
     right:10px;
     top:50%;
+
     transform:translateY(-50%);
+
     border:none;
     background:transparent;
+
     cursor:pointer;
+
     font-size:19px;
     padding:5px;
 }
@@ -151,14 +169,17 @@ input:focus{
 .login-options{
     display:flex;
     justify-content:flex-end;
+
     margin-top:-5px;
     margin-bottom:20px;
 }
 
 .forgot-password{
     color:#0b5ed7;
+
     font-size:13px;
     font-weight:bold;
+
     cursor:pointer;
 }
 
@@ -169,13 +190,18 @@ input:focus{
 .login-button{
     width:100%;
     height:51px;
+
     border:none;
     border-radius:10px;
+
     background:#0b5ed7;
     color:white;
+
     font-size:15px;
     font-weight:bold;
+
     cursor:pointer;
+
     transition:.2s;
 }
 
@@ -186,31 +212,41 @@ input:focus{
 
 .message{
     display:none;
+
     padding:11px;
+
     border-radius:9px;
+
     margin-bottom:15px;
+
     text-align:center;
+
     font-size:13px;
     font-weight:bold;
 }
 
 .message.error{
     display:block;
+
     background:#ffe9e9;
     color:#b42318;
 }
 
 .message.success{
     display:block;
+
     background:#e8f8ef;
     color:#18794e;
 }
 
 .register-link{
     text-align:center;
+
     margin-top:22px;
     padding-top:20px;
+
     border-top:1px solid #edf0f4;
+
     font-size:14px;
     color:#697586;
 }
@@ -222,74 +258,18 @@ input:focus{
 
 .back-home{
     display:block;
+
     text-align:center;
+
     color:white;
+
     margin-top:17px;
+
     font-size:13px;
 }
 
 .back-home:hover{
     color:#38bdf8;
-}
-
-
-/* MODAL MOT DE PASSE OUBLIÉ */
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.65);
-    z-index:9999;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-
-.modal.active{
-    display:flex;
-}
-
-.modal-card{
-    width:100%;
-    max-width:420px;
-    background:white;
-    border-radius:20px;
-    padding:28px;
-    box-shadow:0 20px 60px rgba(0,0,0,.3);
-    position:relative;
-}
-
-.close-modal{
-    position:absolute;
-    right:15px;
-    top:12px;
-    border:none;
-    background:none;
-    font-size:25px;
-    cursor:pointer;
-    color:#697586;
-}
-
-.modal-card h2{
-    margin-bottom:8px;
-}
-
-.modal-card p{
-    color:#697586;
-    font-size:13px;
-    margin-bottom:20px;
-}
-
-.modal-button{
-    width:100%;
-    height:48px;
-    border:none;
-    border-radius:10px;
-    background:#0b5ed7;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
 }
 
 @media(max-width:480px){
@@ -303,7 +283,6 @@ input:focus{
     }
 
 }
-
 </style>
 </head>
 
@@ -313,12 +292,14 @@ input:focus{
 
 <div class="login-container">
 
+
     <div class="logo">
         🏠 Housing <span>Investment</span>
     </div>
 
 
     <div class="login-card">
+
 
         <div class="login-header">
 
@@ -337,8 +318,9 @@ input:focus{
         </div>
 
 
-        <div id="message"
-             class="message">
+        <div
+            id="message"
+            class="message">
         </div>
 
 
@@ -396,7 +378,9 @@ input:focus{
                         class="toggle-password"
                         id="togglePassword"
                         aria-label="Afficher le mot de passe">
+
                         👁️
+
                     </button>
 
                 </div>
@@ -408,24 +392,32 @@ input:focus{
 
             <div class="login-options">
 
-                <span
-                    class="forgot-password"
-                    id="forgotPassword">
+                <a
+                    href="forgot-password.html"
+                    class="forgot-password">
+
                     Mot de passe oublié ?
-                </span>
+
+                </a>
 
             </div>
 
 
+            <!-- CONNEXION -->
+
             <button
                 type="submit"
                 class="login-button">
+
                 Se connecter
+
             </button>
 
 
         </form>
 
+
+        <!-- CREATION COMPTE -->
 
         <div class="register-link">
 
@@ -437,95 +429,30 @@ input:focus{
 
         </div>
 
+
     </div>
 
+
+    <!-- RETOUR ACCUEIL -->
 
     <a
         href="index.html"
         class="back-home">
+
         ← Retour à l'accueil
+
     </a>
 
-</div>
-
-
-
-<!-- =========================
-     MODAL MOT DE PASSE OUBLIÉ
-========================= -->
-
-<div
-    class="modal"
-    id="forgotModal">
-
-    <div class="modal-card">
-
-        <button
-            type="button"
-            class="close-modal"
-            id="closeModal">
-            ×
-        </button>
-
-        <h2>
-            🔑 Mot de passe oublié ?
-        </h2>
-
-        <p>
-            Entrez votre numéro de téléphone.
-            Nous allons préparer la récupération
-            de votre compte.
-        </p>
-
-
-        <div class="form-group">
-
-            <label for="recoveryPhone">
-                Numéro de téléphone
-            </label>
-
-            <div class="phone-input">
-
-                <div class="phone-prefix">
-                    +225
-                </div>
-
-                <input
-                    type="tel"
-                    id="recoveryPhone"
-                    placeholder="07 00 00 00 00"
-                >
-
-            </div>
-
-        </div>
-
-
-        <div
-            id="recoveryMessage"
-            class="message">
-        </div>
-
-
-        <button
-            type="button"
-            class="modal-button"
-            id="recoveryButton">
-            Continuer
-        </button>
-
-    </div>
 
 </div>
-
 
 
 <script>
 
-/* =========================
-   AFFICHER / MASQUER
-   MOT DE PASSE
-========================= */
+
+/* =================================
+   AFFICHER / MASQUER MOT DE PASSE
+================================= */
 
 const passwordInput =
     document.getElementById("password");
@@ -533,38 +460,44 @@ const passwordInput =
 const togglePassword =
     document.getElementById("togglePassword");
 
-togglePassword.addEventListener("click", function(){
 
-    if(passwordInput.type === "password"){
+togglePassword.addEventListener(
+    "click",
+    function(){
 
-        passwordInput.type = "text";
+        if(passwordInput.type === "password"){
 
-        togglePassword.textContent = "🙈";
+            passwordInput.type = "text";
 
-        togglePassword.setAttribute(
-            "aria-label",
-            "Masquer le mot de passe"
-        );
+            togglePassword.textContent = "🙈";
 
-    }else{
+            togglePassword.setAttribute(
+                "aria-label",
+                "Masquer le mot de passe"
+            );
 
-        passwordInput.type = "password";
+        }
 
-        togglePassword.textContent = "👁️";
+        else{
 
-        togglePassword.setAttribute(
-            "aria-label",
-            "Afficher le mot de passe"
-        );
+            passwordInput.type = "password";
+
+            togglePassword.textContent = "👁️";
+
+            togglePassword.setAttribute(
+                "aria-label",
+                "Afficher le mot de passe"
+            );
+
+        }
 
     }
+);
 
-});
 
-
-/* =========================
+/* =================================
    MESSAGE
-========================= */
+================================= */
 
 function showMessage(text,type){
 
@@ -579,280 +512,160 @@ function showMessage(text,type){
 }
 
 
-/* =========================
+/* =================================
    CONNEXION
-========================= */
+================================= */
 
 const loginForm =
     document.getElementById("loginForm");
 
-loginForm.addEventListener("submit",function(event){
 
-    event.preventDefault();
+loginForm.addEventListener(
+    "submit",
+    function(event){
 
-    const phone =
-        document.getElementById("phone")
-        .value.trim();
-
-    const password =
-        document.getElementById("password")
-        .value;
+        event.preventDefault();
 
 
-    if(!phone || !password){
-
-        showMessage(
-            "Veuillez remplir tous les champs.",
-            "error"
-        );
-
-        return;
-    }
+        const phone =
+            document
+            .getElementById("phone")
+            .value
+            .trim();
 
 
-    /*
-       Nous conservons ici la compatibilité
-       avec le système de comptes déjà créé.
-    */
-
-    let users = [];
-
-    try{
-
-        users =
-            JSON.parse(
-                localStorage.getItem("users")
-            ) || [];
-
-    }catch(error){
-
-        users = [];
-
-    }
+        const password =
+            document
+            .getElementById("password")
+            .value;
 
 
-    const cleanPhone =
-        phone.replace(/\s+/g,"");
+        if(!phone || !password){
 
-
-    const user =
-        users.find(function(u){
-
-            const savedPhone =
-                String(
-                    u.phone ||
-                    u.telephone ||
-                    ""
-                ).replace(/\s+/g,"");
-
-            return (
-                savedPhone === cleanPhone ||
-                savedPhone === "+225" + cleanPhone ||
-                savedPhone.replace("+225","") === cleanPhone
+            showMessage(
+                "Veuillez remplir tous les champs.",
+                "error"
             );
 
-        });
+            return;
+        }
 
 
-    if(!user){
+        /* Récupération des comptes */
 
-        showMessage(
-            "Aucun compte ne correspond à ce numéro.",
-            "error"
-        );
+        let users = [];
 
-        return;
-    }
 
+        try{
 
-    const savedPassword =
-        user.password ||
-        user.motDePasse ||
-        "";
+            users =
+                JSON.parse(
+                    localStorage.getItem("users")
+                ) || [];
 
+        }
 
-    if(savedPassword !== password){
+        catch(error){
 
-        showMessage(
-            "Mot de passe incorrect.",
-            "error"
-        );
+            users = [];
 
-        return;
-    }
+        }
 
 
-    /*
-       Sauvegarde de l'utilisateur connecté
-    */
+        const cleanPhone =
+            phone.replace(/\s+/g,"");
 
-    localStorage.setItem(
-        "currentUser",
-        JSON.stringify(user)
-    );
 
+        /* Recherche du compte */
 
-    localStorage.setItem(
-        "loggedIn",
-        "true"
-    );
+        const user =
+            users.find(function(u){
 
+                const savedPhone =
+                    String(
+                        u.phone ||
+                        u.telephone ||
+                        ""
+                    )
+                    .replace(/\s+/g,"");
 
-    showMessage(
-        "Connexion réussie. Redirection...",
-        "success"
-    );
 
+                return (
 
-    setTimeout(function(){
+                    savedPhone === cleanPhone ||
 
-        window.location.href =
-            "dashboard.html";
+                    savedPhone ===
+                    "+225" + cleanPhone ||
 
-    },700);
+                    savedPhone.replace(
+                        "+225",
+                        ""
+                    ) === cleanPhone
 
-});
+                );
 
+            });
 
-/* =========================
-   MOT DE PASSE OUBLIÉ
-========================= */
 
-const forgotPassword =
-    document.getElementById("forgotPassword");
+        if(!user){
 
-const forgotModal =
-    document.getElementById("forgotModal");
-
-const closeModal =
-    document.getElementById("closeModal");
-
-forgotPassword.addEventListener("click",function(){
-
-    forgotModal.classList.add("active");
-
-    document.getElementById(
-        "recoveryPhone"
-    ).focus();
-
-});
-
-
-closeModal.addEventListener("click",function(){
-
-    forgotModal.classList.remove("active");
-
-});
-
-
-forgotModal.addEventListener("click",function(event){
-
-    if(event.target === forgotModal){
-
-        forgotModal.classList.remove("active");
-
-    }
-
-});
-
-
-/* =========================
-   RECUPERATION
-========================= */
-
-document
-.getElementById("recoveryButton")
-.addEventListener("click",function(){
-
-    const recoveryPhone =
-        document
-        .getElementById("recoveryPhone")
-        .value
-        .trim();
-
-
-    const recoveryMessage =
-        document.getElementById(
-            "recoveryMessage"
-        );
-
-
-    if(!recoveryPhone){
-
-        recoveryMessage.textContent =
-            "Veuillez entrer votre numéro.";
-
-        recoveryMessage.className =
-            "message error";
-
-        return;
-    }
-
-
-    let users = [];
-
-    try{
-
-        users =
-            JSON.parse(
-                localStorage.getItem("users")
-            ) || [];
-
-    }catch(error){
-
-        users = [];
-
-    }
-
-
-    const cleanPhone =
-        recoveryPhone.replace(/\s+/g,"");
-
-
-    const userExists =
-        users.some(function(u){
-
-            const savedPhone =
-                String(
-                    u.phone ||
-                    u.telephone ||
-                    ""
-                ).replace(/\s+/g,"");
-
-            return (
-                savedPhone === cleanPhone ||
-                savedPhone === "+225" + cleanPhone ||
-                savedPhone.replace("+225","") === cleanPhone
+            showMessage(
+                "Aucun compte ne correspond à ce numéro.",
+                "error"
             );
 
-        });
+            return;
+        }
 
 
-    if(!userExists){
+        /* Vérification mot de passe */
 
-        recoveryMessage.textContent =
-            "Aucun compte ne correspond à ce numéro.";
+        const savedPassword =
+            user.password ||
+            user.motDePasse ||
+            "";
 
-        recoveryMessage.className =
-            "message error";
 
-        return;
+        if(savedPassword !== password){
+
+            showMessage(
+                "Mot de passe incorrect.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        /* Utilisateur connecté */
+
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(user)
+        );
+
+
+        localStorage.setItem(
+            "loggedIn",
+            "true"
+        );
+
+
+        showMessage(
+            "Connexion réussie. Redirection...",
+            "success"
+        );
+
+
+        setTimeout(function(){
+
+            window.location.href =
+                "dashboard.html";
+
+        },700);
+
     }
-
-
-    /*
-       L'étape suivante permettra de créer
-       réellement un nouveau mot de passe.
-    */
-
-    recoveryMessage.textContent =
-        "Compte trouvé. La récupération sécurisée sera disponible à l'étape suivante.";
-
-    recoveryMessage.className =
-        "message success";
-
-});
-
+);
 
 </script>
 
