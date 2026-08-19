@@ -1,12 +1,11 @@
 /* =========================================================
    HOUSING INVESTMENT
    SCRIPT CENTRAL
-   Version : 2026
    ========================================================= */
 
 
 /* =========================================================
-   OUTILS GENERAUX
+   OUTILS
    ========================================================= */
 
 function getJSON(key, fallback = []) {
@@ -14,7 +13,7 @@ function getJSON(key, fallback = []) {
         const data = localStorage.getItem(key);
         return data ? JSON.parse(data) : fallback;
     } catch (error) {
-        console.error("Erreur lecture :", key, error);
+        console.error("Erreur :", key, error);
         return fallback;
     }
 }
@@ -108,11 +107,9 @@ function findUserByPhone(phone) {
 
     const users = getUsers();
 
-    const normalized = String(phone || "").trim();
-
     return users.find(user => {
 
-        return getUserPhone(user) === normalized;
+        return getUserPhone(user) === String(phone).trim();
 
     });
 
@@ -153,7 +150,6 @@ function updateUser(user) {
 
 
     saveUsers(users);
-
     saveCurrentUser(user);
 
 }
@@ -243,7 +239,6 @@ function registerUser(data) {
     users.push(user);
 
     saveUsers(users);
-
     saveCurrentUser(user);
 
 
@@ -310,7 +305,7 @@ function logoutUser() {
 
 
 /* =========================================================
-   INVESTISSEMENTS
+   PACKS
    ========================================================= */
 
 const PACKS = {
@@ -382,6 +377,10 @@ const PACKS = {
 };
 
 
+/* =========================================================
+   INVESTISSEMENTS
+   ========================================================= */
+
 function getInvestments() {
     return getJSON("investments", []);
 }
@@ -393,12 +392,200 @@ function saveInvestments(investments) {
 
 
 /* =========================================================
-   CREER UN INVESTISSEMENT
+   CALCUL DU SUIVI
+   ========================================================= */
+
+function calculateInvestmentProgress(investment) {
+
+    const start =
+        new Date(
+            investment.createdAt ||
+            new Date().toISOString()
+        );
+
+    const now =
+        new Date();
+
+
+    const difference =
+        now.getTime() -
+        start.getTime();
+
+
+    const millisecondsPerDay =
+        24 * 60 * 60 * 1000;
+
+
+    let daysElapsed =
+        Math.floor(
+            difference /
+            millisecondsPerDay
+        );
+
+
+    if (daysElapsed < 0) {
+        daysElapsed = 0;
+    }
+
+
+    const duration =
+        Number(
+            investment.duration || 180
+        );
+
+
+    if (daysElapsed > duration) {
+        daysElapsed = duration;
+    }
+
+
+    const dailyGain =
+        Number(
+            investment.dailyGain || 0
+        );
+
+
+    const earned =
+        daysElapsed *
+        dailyGain;
+
+
+    const progress =
+        duration > 0
+        ? (daysElapsed / duration) * 100
+        : 0;
+
+
+    return {
+
+        daysElapsed: daysElapsed,
+
+        daysRemaining:
+            Math.max(
+                duration - daysElapsed,
+                0
+            ),
+
+        earned: earned,
+
+        progress:
+            Math.min(
+                progress,
+                100
+            ),
+
+        completed:
+            daysElapsed >= duration
+
+    };
+
+}
+
+
+/* =========================================================
+   ACTUALISATION DES INVESTISSEMENTS
+   ========================================================= */
+
+function updateInvestmentProgress() {
+
+    const investments =
+        getInvestments();
+
+
+    let changed = false;
+
+
+    investments.forEach(investment => {
+
+        const progress =
+            calculateInvestmentProgress(
+                investment
+            );
+
+
+        const oldDays =
+            Number(
+                investment.elapsedDays || 0
+            );
+
+
+        const oldGain =
+            Number(
+                investment.gain || 0
+            );
+
+
+        if (
+            oldDays !==
+            progress.daysElapsed
+        ) {
+
+            investment.elapsedDays =
+                progress.daysElapsed;
+
+            changed = true;
+
+        }
+
+
+        if (
+            oldGain !==
+            progress.earned
+        ) {
+
+            investment.gain =
+                progress.earned;
+
+            changed = true;
+
+        }
+
+
+        investment.daysRemaining =
+            progress.daysRemaining;
+
+        investment.progress =
+            progress.progress;
+
+
+        if (progress.completed) {
+
+            investment.status =
+                "completed";
+
+        } else {
+
+            investment.status =
+                "active";
+
+        }
+
+    });
+
+
+    if (changed) {
+
+        saveInvestments(
+            investments
+        );
+
+    }
+
+
+    return investments;
+
+}
+
+
+/* =========================================================
+   CREATION INVESTISSEMENT
    ========================================================= */
 
 function createInvestment(amount) {
 
-    const user = getCurrentUser();
+    const user =
+        getCurrentUser();
+
 
     if (!user) {
 
@@ -410,7 +597,8 @@ function createInvestment(amount) {
     }
 
 
-    const pack = PACKS[Number(amount)];
+    const pack =
+        PACKS[Number(amount)];
 
 
     if (!pack) {
@@ -424,7 +612,9 @@ function createInvestment(amount) {
 
 
     const balance =
-        Number(user.balance || 0);
+        Number(
+            user.balance || 0
+        );
 
 
     if (balance < pack.amount) {
@@ -438,23 +628,20 @@ function createInvestment(amount) {
     }
 
 
-    /* Déduction du solde */
-
     user.balance =
-        balance - pack.amount;
+        balance -
+        pack.amount;
 
-
-    /* Total investi */
 
     user.totalInvested =
-        Number(user.totalInvested || 0) +
+        Number(
+            user.totalInvested || 0
+        ) +
         pack.amount;
 
 
     updateUser(user);
 
-
-    /* Création de l'investissement */
 
     const investments =
         getInvestments();
@@ -495,6 +682,15 @@ function createInvestment(amount) {
         elapsedDays:
             0,
 
+        daysRemaining:
+            pack.duration,
+
+        gain:
+            0,
+
+        progress:
+            0,
+
         status:
             "active",
 
@@ -507,9 +703,22 @@ function createInvestment(amount) {
     };
 
 
-    investments.push(investment);
+    investments.push(
+        investment
+    );
 
-    saveInvestments(investments);
+    saveInvestments(
+        investments
+    );
+
+
+    addNotification(
+        user.id,
+        "Votre investissement " +
+        pack.name +
+        " a été enregistré.",
+        "success"
+    );
 
 
     return {
@@ -517,6 +726,70 @@ function createInvestment(amount) {
         investment: investment,
         user: user
     };
+
+}
+
+
+/* =========================================================
+   MES INVESTISSEMENTS
+   ========================================================= */
+
+function getMyInvestments() {
+
+    updateInvestmentProgress();
+
+
+    const user =
+        getCurrentUser();
+
+
+    if (!user) return [];
+
+
+    const phone =
+        getUserPhone(user);
+
+
+    const investments =
+        getInvestments();
+
+
+    return investments.filter(item => {
+
+        return (
+            item.userId === user.id ||
+            item.userPhone === phone
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   GAINS CUMULES
+   ========================================================= */
+
+function calculateTotalGains() {
+
+    const investments =
+        getMyInvestments();
+
+
+    let total = 0;
+
+
+    investments.forEach(item => {
+
+        total +=
+            Number(
+                item.gain || 0
+            );
+
+    });
+
+
+    return total;
 
 }
 
@@ -536,12 +809,16 @@ function saveDeposits(deposits) {
 
 
 /* =========================================================
-   CREER UNE DEMANDE DE DEPOT
+   CREER DEPOT
    ========================================================= */
 
-function createDeposit(amount, method = "Non précisé") {
+function createDeposit(
+    amount,
+    method = "Non précisé"
+) {
 
-    const user = getCurrentUser();
+    const user =
+        getCurrentUser();
 
 
     if (!user) {
@@ -554,7 +831,8 @@ function createDeposit(amount, method = "Non précisé") {
     }
 
 
-    amount = Number(amount);
+    amount =
+        Number(amount);
 
 
     if (!amount || amount <= 0) {
@@ -606,9 +884,20 @@ function createDeposit(amount, method = "Non précisé") {
     };
 
 
-    deposits.push(deposit);
+    deposits.push(
+        deposit
+    );
 
-    saveDeposits(deposits);
+    saveDeposits(
+        deposits
+    );
+
+
+    addNotification(
+        user.id,
+        "Votre demande de dépôt est en attente de validation.",
+        "info"
+    );
 
 
     return {
@@ -620,21 +909,22 @@ function createDeposit(amount, method = "Non précisé") {
 
 
 /* =========================================================
-   VALIDATION DEPOT ADMIN
+   APPROUVER DEPOT
    ========================================================= */
 
-function approveDeposit(depositId) {
+function approveDeposit(
+    depositId
+) {
 
     const deposits =
         getDeposits();
 
 
     const index =
-        deposits.findIndex(item => {
-
-            return item.id === depositId;
-
-        });
+        deposits.findIndex(
+            item =>
+            item.id === depositId
+        );
 
 
     if (index === -1) {
@@ -651,11 +941,15 @@ function approveDeposit(depositId) {
         deposits[index];
 
 
-    if (deposit.status !== "pending") {
+    if (
+        deposit.status !==
+        "pending"
+    ) {
 
         return {
             success: false,
-            message: "Cette opération a déjà été traitée."
+            message:
+                "Cette opération a déjà été traitée."
         };
 
     }
@@ -670,7 +964,8 @@ function approveDeposit(depositId) {
 
             return (
                 user.id === deposit.userId ||
-                getUserPhone(user) === deposit.userPhone
+                getUserPhone(user) ===
+                deposit.userPhone
             );
 
         });
@@ -680,7 +975,8 @@ function approveDeposit(depositId) {
 
         return {
             success: false,
-            message: "Utilisateur introuvable."
+            message:
+                "Utilisateur introuvable."
         };
 
     }
@@ -690,52 +986,66 @@ function approveDeposit(depositId) {
         Number(
             users[userIndex].balance || 0
         ) +
-        Number(deposit.amount || 0);
+        Number(
+            deposit.amount || 0
+        );
 
 
     deposit.status =
         "approved";
+
 
     deposit.approvedAt =
         new Date().toISOString();
 
 
     saveUsers(users);
-
     saveDeposits(deposits);
+
+
+    addNotification(
+        users[userIndex].id,
+        "Votre dépôt de " +
+        formatFCFA(deposit.amount) +
+        " a été validé.",
+        "success"
+    );
 
 
     return {
         success: true,
-        message: "Dépôt validé."
+        message:
+            "Dépôt validé."
     };
 
 }
 
 
 /* =========================================================
-   REFUS DEPOT
+   REFUSER DEPOT
    ========================================================= */
 
-function rejectDeposit(depositId) {
+function rejectDeposit(
+    depositId
+) {
 
     const deposits =
         getDeposits();
 
 
     const index =
-        deposits.findIndex(item => {
-
-            return item.id === depositId;
-
-        });
+        deposits.findIndex(
+            item =>
+            item.id === depositId
+        );
 
 
     if (index === -1) {
 
         return {
             success: false,
-            message: "Dépôt introuvable."
+            message:
+                "Dépôt introuvable."
         };
 
     }
@@ -749,12 +1059,22 @@ function rejectDeposit(depositId) {
         new Date().toISOString();
 
 
-    saveDeposits(deposits);
+    saveDeposits(
+        deposits
+    );
+
+
+    addNotification(
+        deposits[index].userId,
+        "Votre demande de dépôt a été refusée.",
+        "error"
+    );
 
 
     return {
         success: true,
-        message: "Dépôt refusé."
+        message:
+            "Dépôt refusé."
     };
 
 }
@@ -769,16 +1089,24 @@ function getWithdrawals() {
 }
 
 
-function saveWithdrawals(withdrawals) {
-    saveJSON("withdrawals", withdrawals);
+function saveWithdrawals(
+    withdrawals
+) {
+    saveJSON(
+        "withdrawals",
+        withdrawals
+    );
 }
 
 
 /* =========================================================
-   CREER DEMANDE DE RETRAIT
+   CREER RETRAIT
    ========================================================= */
 
-function createWithdrawal(amount, method = "Non précisé") {
+function createWithdrawal(
+    amount,
+    method = "Non précisé"
+) {
 
     const user =
         getCurrentUser();
@@ -788,7 +1116,8 @@ function createWithdrawal(amount, method = "Non précisé") {
 
         return {
             success: false,
-            message: "Vous devez être connecté."
+            message:
+                "Vous devez être connecté."
         };
 
     }
@@ -802,21 +1131,25 @@ function createWithdrawal(amount, method = "Non précisé") {
 
         return {
             success: false,
-            message: "Montant invalide."
+            message:
+                "Montant invalide."
         };
 
     }
 
 
     const balance =
-        Number(user.balance || 0);
+        Number(
+            user.balance || 0
+        );
 
 
     if (amount > balance) {
 
         return {
             success: false,
-            message: "Solde insuffisant."
+            message:
+                "Solde insuffisant."
         };
 
     }
@@ -861,9 +1194,20 @@ function createWithdrawal(amount, method = "Non précisé") {
     };
 
 
-    withdrawals.push(withdrawal);
+    withdrawals.push(
+        withdrawal
+    );
 
-    saveWithdrawals(withdrawals);
+    saveWithdrawals(
+        withdrawals
+    );
+
+
+    addNotification(
+        user.id,
+        "Votre demande de retrait est en attente de validation.",
+        "info"
+    );
 
 
     return {
@@ -875,28 +1219,30 @@ function createWithdrawal(amount, method = "Non précisé") {
 
 
 /* =========================================================
-   VALIDATION RETRAIT
+   APPROUVER RETRAIT
    ========================================================= */
 
-function approveWithdrawal(withdrawalId) {
+function approveWithdrawal(
+    withdrawalId
+) {
 
     const withdrawals =
         getWithdrawals();
 
 
     const index =
-        withdrawals.findIndex(item => {
-
-            return item.id === withdrawalId;
-
-        });
+        withdrawals.findIndex(
+            item =>
+            item.id === withdrawalId
+        );
 
 
     if (index === -1) {
 
         return {
             success: false,
-            message: "Retrait introuvable."
+            message:
+                "Retrait introuvable."
         };
 
     }
@@ -906,11 +1252,15 @@ function approveWithdrawal(withdrawalId) {
         withdrawals[index];
 
 
-    if (withdrawal.status !== "pending") {
+    if (
+        withdrawal.status !==
+        "pending"
+    ) {
 
         return {
             success: false,
-            message: "Cette opération a déjà été traitée."
+            message:
+                "Cette opération a déjà été traitée."
         };
 
     }
@@ -924,8 +1274,10 @@ function approveWithdrawal(withdrawalId) {
         users.findIndex(user => {
 
             return (
-                user.id === withdrawal.userId ||
-                getUserPhone(user) === withdrawal.userPhone
+                user.id ===
+                withdrawal.userId ||
+                getUserPhone(user) ===
+                withdrawal.userPhone
             );
 
         });
@@ -935,7 +1287,8 @@ function approveWithdrawal(withdrawalId) {
 
         return {
             success: false,
-            message: "Utilisateur introuvable."
+            message:
+                "Utilisateur introuvable."
         };
 
     }
@@ -946,12 +1299,16 @@ function approveWithdrawal(withdrawalId) {
 
 
     const balance =
-        Number(user.balance || 0);
+        Number(
+            user.balance || 0
+        );
 
 
     if (
         balance <
-        Number(withdrawal.amount || 0)
+        Number(
+            withdrawal.amount || 0
+        )
     ) {
 
         return {
@@ -965,52 +1322,68 @@ function approveWithdrawal(withdrawalId) {
 
     user.balance =
         balance -
-        Number(withdrawal.amount || 0);
+        Number(
+            withdrawal.amount || 0
+        );
 
 
     withdrawal.status =
         "approved";
+
 
     withdrawal.approvedAt =
         new Date().toISOString();
 
 
     saveUsers(users);
+    saveWithdrawals(
+        withdrawals
+    );
 
-    saveWithdrawals(withdrawals);
+
+    addNotification(
+        user.id,
+        "Votre retrait de " +
+        formatFCFA(withdrawal.amount) +
+        " a été validé.",
+        "success"
+    );
 
 
     return {
         success: true,
-        message: "Retrait validé."
+        message:
+            "Retrait validé."
     };
 
 }
 
 
 /* =========================================================
-   REFUS RETRAIT
+   REFUSER RETRAIT
    ========================================================= */
 
-function rejectWithdrawal(withdrawalId) {
+function rejectWithdrawal(
+    withdrawalId
+) {
 
     const withdrawals =
         getWithdrawals();
 
 
     const index =
-        withdrawals.findIndex(item => {
-
-            return item.id === withdrawalId;
-
-        });
+        withdrawals.findIndex(
+            item =>
+            item.id === withdrawalId
+        );
 
 
     if (index === -1) {
 
         return {
             success: false,
-            message: "Retrait introuvable."
+            message:
+                "Retrait introuvable."
         };
 
     }
@@ -1024,72 +1397,23 @@ function rejectWithdrawal(withdrawalId) {
         new Date().toISOString();
 
 
-    saveWithdrawals(withdrawals);
+    saveWithdrawals(
+        withdrawals
+    );
+
+
+    addNotification(
+        withdrawals[index].userId,
+        "Votre demande de retrait a été refusée.",
+        "error"
+    );
 
 
     return {
         success: true,
-        message: "Retrait refusé."
+        message:
+            "Retrait refusé."
     };
-
-}
-
-
-/* =========================================================
-   INVESTISSEMENTS DE L'UTILISATEUR
-   ========================================================= */
-
-function getMyInvestments() {
-
-    const user =
-        getCurrentUser();
-
-
-    if (!user) return [];
-
-
-    const phone =
-        getUserPhone(user);
-
-
-    const investments =
-        getInvestments();
-
-
-    return investments.filter(item => {
-
-        return (
-            item.userId === user.id ||
-            item.userPhone === phone
-        );
-
-    });
-
-}
-
-
-/* =========================================================
-   CALCUL GAINS
-   ========================================================= */
-
-function calculateTotalGains() {
-
-    const investments =
-        getMyInvestments();
-
-
-    let total = 0;
-
-
-    investments.forEach(item => {
-
-        total +=
-            Number(item.gain || 0);
-
-    });
-
-
-    return total;
 
 }
 
@@ -1099,16 +1423,31 @@ function calculateTotalGains() {
    ========================================================= */
 
 function getNotifications() {
-    return getJSON("notifications", []);
+    return getJSON(
+        "notifications",
+        []
+    );
 }
 
 
-function saveNotifications(notifications) {
-    saveJSON("notifications", notifications);
+function saveNotifications(
+    notifications
+) {
+    saveJSON(
+        "notifications",
+        notifications
+    );
 }
 
 
-function addNotification(userId, message, type = "info") {
+function addNotification(
+    userId,
+    message,
+    type = "info"
+) {
+
+    if (!userId) return;
+
 
     const notifications =
         getNotifications();
@@ -1118,7 +1457,11 @@ function addNotification(userId, message, type = "info") {
 
         id:
             "NOTIF-" +
-            Date.now(),
+            Date.now() +
+            "-" +
+            Math.floor(
+                Math.random() * 10000
+            ),
 
         userId:
             userId,
@@ -1138,54 +1481,38 @@ function addNotification(userId, message, type = "info") {
     });
 
 
-    saveNotifications(notifications);
-
-}
-
-
-/* =========================================================
-   AJOUTER NOTIFICATION DEPOT
-   ========================================================= */
-
-function notifyDepositApproved(deposit) {
-
-    addNotification(
-
-        deposit.userId,
-
-        "Votre demande de dépôt a été validée.",
-
-        "success"
-
+    saveNotifications(
+        notifications
     );
 
 }
 
 
 /* =========================================================
-   AJOUTER NOTIFICATION RETRAIT
+   NOTIFICATIONS UTILISATEUR
    ========================================================= */
 
-function notifyWithdrawalApproved(withdrawal) {
+function getMyNotifications() {
 
-    addNotification(
+    const user =
+        getCurrentUser();
 
-        withdrawal.userId,
 
-        "Votre demande de retrait a été validée.",
+    if (!user) return [];
 
-        "success"
 
-    );
+    return getNotifications()
+        .filter(
+            item =>
+            item.userId === user.id
+        )
+        .reverse();
 
 }
 
 
 /* =========================================================
-   EXPOSITION GLOBALE
-   =========================================================
-   Permet aux autres pages de réutiliser
-   les fonctions sans dupliquer le code.
+   EXPORT GLOBAL
    ========================================================= */
 
 window.HousingInvestment = {
@@ -1203,10 +1530,16 @@ window.HousingInvestment = {
     updateUser,
     findUserByPhone,
 
+    PACKS,
+
     getInvestments,
     saveInvestments,
     createInvestment,
     getMyInvestments,
+
+    calculateInvestmentProgress,
+    updateInvestmentProgress,
+    calculateTotalGains,
 
     getDeposits,
     saveDeposits,
@@ -1221,22 +1554,24 @@ window.HousingInvestment = {
     rejectWithdrawal,
 
     getNotifications,
+    saveNotifications,
     addNotification,
+    getMyNotifications,
 
-    calculateTotalGains,
-
-    formatFCFA,
-    PACKS
+    formatFCFA
 
 };
 
 
 /* =========================================================
-   DIAGNOSTIC
+   INITIALISATION
    ========================================================= */
 
+updateInvestmentProgress();
+
+
 console.log(
-    "Housing Investment : script.js chargé correctement."
+    "Housing Investment : script.js chargé."
 );
 
 console.log(
