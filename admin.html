@@ -7,6 +7,7 @@
 <title>Administration — Housing Investment</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -14,380 +15,602 @@
 }
 
 body{
-    font-family:Arial,sans-serif;
-    background:#f3f6fa;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fb;
     color:#172033;
 }
 
-header{
-    background:linear-gradient(135deg,#101c35,#063b8f);
-    color:white;
-    padding:18px;
-    box-shadow:0 4px 15px rgba(0,0,0,.15);
-}
+/* =========================
+   HEADER
+========================= */
 
-.header-content{
-    max-width:1200px;
-    margin:auto;
+header{
+    background:#081c3c;
+    color:white;
+    min-height:70px;
     display:flex;
-    justify-content:space-between;
     align-items:center;
-    gap:15px;
+    justify-content:space-between;
+    padding:0 25px;
+    box-shadow:0 4px 15px rgba(0,0,0,.15);
 }
 
 .logo{
     font-size:21px;
+    font-weight:800;
+}
+
+.logo span{
+    color:#38bdf8;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.admin-badge{
+    background:rgba(56,189,248,.15);
+    border:1px solid rgba(56,189,248,.35);
+    color:#38bdf8;
+    padding:8px 12px;
+    border-radius:20px;
+    font-size:12px;
     font-weight:bold;
 }
 
-.admin-label{
+.logout{
+    border:none;
+    background:#dc3545;
+    color:white;
+    padding:9px 13px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.layout{
+    display:flex;
+    min-height:calc(100vh - 70px);
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    width:235px;
+    background:#0b2145;
+    color:white;
+    padding:20px 12px;
+}
+
+.sidebar-title{
+    color:#91a3bd;
+    font-size:11px;
+    font-weight:bold;
+    padding:10px 12px;
+    text-transform:uppercase;
+}
+
+.menu{
+    width:100%;
+    border:none;
+    background:transparent;
+    color:#dce6f4;
+    text-align:left;
+    padding:13px 12px;
+    border-radius:9px;
+    margin-bottom:4px;
+    cursor:pointer;
     font-size:14px;
 }
 
-.container{
-    width:94%;
-    max-width:1200px;
-    margin:25px auto 50px;
+.menu:hover,
+.menu.active{
+    background:#0b5ed7;
+    color:white;
 }
 
-.dashboard-title{
-    background:white;
-    border-radius:18px;
-    padding:24px;
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    flex:1;
+    padding:25px;
+    overflow:hidden;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-title{
     margin-bottom:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
 }
 
-.dashboard-title h1{
-    font-size:25px;
-    margin-bottom:7px;
+.page-title h1{
+    font-size:28px;
+    margin-bottom:5px;
 }
 
-.dashboard-title p{
-    color:#6c7788;
+.page-title p{
+    color:#697586;
+    font-size:13px;
 }
+
+/* =========================
+   STATISTIQUES
+========================= */
 
 .stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
-    margin-bottom:22px;
+    margin-bottom:25px;
 }
 
 .stat{
     background:white;
-    border-radius:16px;
+    border:1px solid #e5eaf0;
+    border-radius:15px;
     padding:20px;
-    box-shadow:0 5px 18px rgba(0,0,0,.06);
+    box-shadow:0 4px 15px rgba(0,0,0,.04);
 }
 
 .stat-icon{
-    font-size:26px;
-    margin-bottom:8px;
+    font-size:25px;
+    margin-bottom:10px;
 }
 
-.stat-label{
-    color:#758094;
-    font-size:13px;
-    margin-bottom:7px;
+.stat strong{
+    display:block;
+    font-size:25px;
+    color:#0b5ed7;
 }
 
-.stat-value{
-    font-size:23px;
-    font-weight:bold;
+.stat span{
+    color:#697586;
+    font-size:12px;
 }
 
-.section{
+/* =========================
+   CARD
+========================= */
+
+.card{
     background:white;
-    border-radius:18px;
-    padding:22px;
-    margin-bottom:22px;
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
+    border:1px solid #e5eaf0;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,.04);
 }
 
-.section-header{
+.card-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:12px;
+    gap:10px;
     margin-bottom:18px;
 }
 
-.section-header h2{
-    font-size:21px;
+.card-header h2{
+    font-size:19px;
 }
 
-.filters{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-.filter-btn{
-    border:1px solid #dce3eb;
-    background:white;
-    padding:9px 13px;
-    border-radius:9px;
+.refresh{
+    border:none;
+    background:#e9f2ff;
+    color:#0b5ed7;
+    padding:9px 12px;
+    border-radius:8px;
     cursor:pointer;
     font-weight:bold;
 }
 
-.filter-btn.active{
-    background:#0b5ed7;
-    color:white;
-    border-color:#0b5ed7;
+/* =========================
+   TABLE
+========================= */
+
+.table-container{
+    width:100%;
+    overflow-x:auto;
 }
 
-.ticket{
-    border:1px solid #e1e6ed;
-    border-radius:15px;
-    padding:17px;
-    margin-bottom:13px;
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
 }
 
-.ticket-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:12px;
-}
-
-.ticket-title{
-    font-weight:bold;
-    font-size:16px;
-    margin-bottom:5px;
-}
-
-.ticket-number{
+th{
+    background:#f4f7fb;
+    color:#526174;
     font-size:12px;
-    color:#7a8493;
+    text-align:left;
+    padding:12px;
 }
 
-.status{
-    padding:6px 10px;
+td{
+    padding:12px;
+    border-top:1px solid #edf0f4;
+    font-size:13px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
     border-radius:20px;
     font-size:11px;
     font-weight:bold;
-    white-space:nowrap;
 }
 
-.pending{
-    background:#fff4d6;
-    color:#956a00;
-}
-
-.progress-status{
-    background:#e5f0ff;
-    color:#0b5ed7;
-}
-
-.answered{
-    background:#e5f7ed;
+.badge-green{
+    background:#e7f7ee;
     color:#198754;
 }
 
-.closed{
-    background:#eceff3;
-    color:#697383;
+.badge-orange{
+    background:#fff2dc;
+    color:#b56b00;
 }
 
-.ticket-message{
-    background:#f7f9fc;
-    border-radius:10px;
-    padding:13px;
-    margin:13px 0;
-    line-height:1.5;
-    font-size:14px;
+.badge-red{
+    background:#ffe7e7;
+    color:#b42318;
 }
 
-.reply-box{
-    background:#eef6ff;
-    border-radius:11px;
-    padding:13px;
-    margin-top:12px;
+.badge-blue{
+    background:#e7f0ff;
+    color:#0b5ed7;
 }
 
-.reply-box strong{
-    display:block;
-    margin-bottom:8px;
-}
+/* =========================
+   SEARCH
+========================= */
 
-textarea{
+.search{
     width:100%;
-    min-height:100px;
-    border:1px solid #d8e0e9;
-    border-radius:10px;
-    padding:12px;
-    resize:vertical;
-    font-family:Arial,sans-serif;
+    height:45px;
+    border:1px solid #d8dee8;
+    border-radius:9px;
+    padding:0 13px;
     outline:none;
+    margin-bottom:15px;
 }
 
-textarea:focus{
+.search:focus{
     border-color:#0b5ed7;
 }
 
-.actions{
+/* =========================
+   ASSISTANCE
+========================= */
+
+.support-item{
+    border:1px solid #e5eaf0;
+    border-radius:13px;
+    padding:18px;
+    margin-bottom:12px;
+    background:#fff;
+}
+
+.support-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:10px;
+}
+
+.support-name{
+    font-weight:bold;
+    font-size:15px;
+}
+
+.support-date{
+    color:#8a96a6;
+    font-size:11px;
+}
+
+.support-subject{
+    display:inline-block;
+    background:#e9f2ff;
+    color:#0b5ed7;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.support-message{
+    background:#f7f9fc;
+    border-radius:9px;
+    padding:12px;
+    color:#526174;
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.support-actions{
     display:flex;
     gap:8px;
     flex-wrap:wrap;
-    margin-top:10px;
 }
 
 .btn{
     border:none;
-    border-radius:9px;
-    padding:10px 14px;
+    border-radius:8px;
+    padding:9px 12px;
     cursor:pointer;
+    font-size:12px;
     font-weight:bold;
 }
 
-.btn-primary{
-    background:#0b5ed7;
-    color:white;
-}
-
-.btn-success{
+.btn-green{
     background:#198754;
     color:white;
 }
 
-.btn-danger{
+.btn-red{
     background:#dc3545;
     color:white;
 }
 
-.btn-dark{
-    background:#172033;
+.btn-blue{
+    background:#0b5ed7;
     color:white;
 }
 
-.btn-light{
-    background:#edf1f5;
-    color:#172033;
-}
+/* =========================
+   EMPTY
+========================= */
 
 .empty{
     text-align:center;
-    color:#7b8491;
-    padding:30px 15px;
+    padding:40px 15px;
+    color:#7b8797;
 }
 
-.message{
-    display:none;
-    padding:12px;
-    border-radius:9px;
-    margin-bottom:15px;
-    font-size:14px;
+.empty-icon{
+    font-size:40px;
+    margin-bottom:10px;
 }
 
-.message.success{
-    display:block;
-    background:#e8f7ef;
-    color:#197346;
-}
+/* =========================
+   MOBILE
+========================= */
 
-.message.error{
-    display:block;
-    background:#fdebec;
-    color:#a32934;
-}
-
-@media(max-width:850px){
+@media(max-width:950px){
 
     .stats{
         grid-template-columns:repeat(2,1fr);
     }
 
-}
-
-@media(max-width:600px){
-
-    .header-content{
-        flex-direction:column;
-        align-items:flex-start;
+    .sidebar{
+        width:190px;
     }
 
-    .container{
-        width:92%;
+}
+
+@media(max-width:700px){
+
+    header{
+        padding:0 13px;
+    }
+
+    .logo{
+        font-size:16px;
+    }
+
+    .admin-badge{
+        display:none;
+    }
+
+    .layout{
+        display:block;
+    }
+
+    .sidebar{
+        width:100%;
+        display:flex;
+        overflow-x:auto;
+        padding:8px;
+        gap:5px;
+    }
+
+    .sidebar-title{
+        display:none;
+    }
+
+    .menu{
+        white-space:nowrap;
+        width:auto;
+        margin:0;
+    }
+
+    .main{
+        padding:15px;
+    }
+
+    .page-title h1{
+        font-size:23px;
     }
 
     .stats{
         grid-template-columns:1fr 1fr;
+        gap:10px;
     }
 
-    .ticket-top{
-        flex-direction:column;
+    .stat{
+        padding:15px;
     }
 
-    .section{
-        padding:16px;
+    .stat strong{
+        font-size:21px;
     }
 
 }
+
 </style>
 </head>
 
 <body>
 
+
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
 
-    <div class="header-content">
+    <div class="logo">
+        🏠 Housing <span>Investment</span>
+    </div>
 
-        <div class="logo">
-            🏠 Housing Investment — Administration
+    <div class="header-right">
+
+        <div class="admin-badge">
+            🛡️ ADMINISTRATEUR
         </div>
 
-        <div class="admin-label">
-            🔐 Espace administrateur
-        </div>
+        <button
+            class="logout"
+            onclick="logoutAdmin()">
+
+            Déconnexion
+
+        </button>
 
     </div>
 
 </header>
 
 
-<main class="container">
+<div class="layout">
 
-    <div class="dashboard-title">
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">
+        Administration
+    </div>
+
+
+    <button
+        class="menu active"
+        onclick="showPage('overview',this)">
+
+        📊 Tableau de bord
+
+    </button>
+
+
+    <button
+        class="menu"
+        onclick="showPage('users',this)">
+
+        👥 Utilisateurs
+
+    </button>
+
+
+    <button
+        class="menu"
+        onclick="showPage('investments',this)">
+
+        💰 Investissements
+
+    </button>
+
+
+    <button
+        class="menu"
+        onclick="showPage('deposits',this)">
+
+        📥 Dépôts
+
+    </button>
+
+
+    <button
+        class="menu"
+        onclick="showPage('withdrawals',this)">
+
+        📤 Retraits
+
+    </button>
+
+
+    <button
+        class="menu"
+        onclick="showPage('support',this)">
+
+        📩 Assistance
+
+    </button>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+
+<!-- =========================
+     OVERVIEW
+========================= -->
+
+<section
+    id="overview"
+    class="page active">
+
+    <div class="page-title">
 
         <h1>
-            Tableau de bord administrateur
+            Tableau de bord
         </h1>
 
         <p>
-            Gérez les demandes d'assistance et accompagnez vos utilisateurs.
+            Vue générale de votre plateforme.
         </p>
 
     </div>
 
 
-    <div
-        id="message"
-        class="message"
-    ></div>
-
-
-    <!-- STATISTIQUES -->
-
-    <section class="stats">
+    <div class="stats">
 
         <div class="stat">
 
             <div class="stat-icon">
-                🎧
+                👥
             </div>
 
-            <div class="stat-label">
-                Total tickets
-            </div>
-
-            <div
-                class="stat-value"
-                id="totalTickets"
-            >
+            <strong id="statUsers">
                 0
-            </div>
+            </strong>
+
+            <span>
+                Utilisateurs
+            </span>
 
         </div>
 
@@ -395,19 +618,16 @@ textarea:focus{
         <div class="stat">
 
             <div class="stat-icon">
-                🟡
+                💰
             </div>
 
-            <div class="stat-label">
-                En attente
-            </div>
-
-            <div
-                class="stat-value"
-                id="pendingTickets"
-            >
+            <strong id="statInvestments">
                 0
-            </div>
+            </strong>
+
+            <span>
+                Investissements
+            </span>
 
         </div>
 
@@ -415,19 +635,16 @@ textarea:focus{
         <div class="stat">
 
             <div class="stat-icon">
-                🔵
+                📥
             </div>
 
-            <div class="stat-label">
-                En cours
-            </div>
-
-            <div
-                class="stat-value"
-                id="progressTickets"
-            >
+            <strong id="statDeposits">
                 0
-            </div>
+            </strong>
+
+            <span>
+                Dépôts
+            </span>
 
         </div>
 
@@ -435,432 +652,893 @@ textarea:focus{
         <div class="stat">
 
             <div class="stat-icon">
-                🟢
+                📩
             </div>
 
-            <div class="stat-label">
-                Répondus
-            </div>
-
-            <div
-                class="stat-value"
-                id="answeredTickets"
-            >
+            <strong id="statSupport">
                 0
-            </div>
+            </strong>
+
+            <span>
+                Demandes d'assistance
+            </span>
 
         </div>
 
-    </section>
+    </div>
 
 
-    <!-- ASSISTANCE -->
+    <div class="card">
 
-    <section class="section">
-
-        <div class="section-header">
+        <div class="card-header">
 
             <h2>
-                🎧 Centre d'assistance
+                Activité récente
             </h2>
 
             <button
-                class="btn btn-light"
-                onclick="loadTickets()"
-            >
+                class="refresh"
+                onclick="loadAll()">
+
                 🔄 Actualiser
+
             </button>
 
         </div>
 
-
-        <div class="filters">
-
-            <button
-                class="filter-btn active"
-                data-filter="all"
-                onclick="setFilter('all')"
-            >
-                Toutes
-            </button>
-
-            <button
-                class="filter-btn"
-                data-filter="pending"
-                onclick="setFilter('pending')"
-            >
-                En attente
-            </button>
-
-            <button
-                class="filter-btn"
-                data-filter="in_progress"
-                onclick="setFilter('in_progress')"
-            >
-                En cours
-            </button>
-
-            <button
-                class="filter-btn"
-                data-filter="answered"
-                onclick="setFilter('answered')"
-            >
-                Répondues
-            </button>
-
-            <button
-                class="filter-btn"
-                data-filter="closed"
-                onclick="setFilter('closed')"
-            >
-                Fermées
-            </button>
+        <div id="recentActivity">
 
         </div>
 
-        <br>
+    </div>
 
-        <div id="ticketsList">
-
-            <div class="empty">
-                Chargement des demandes...
-            </div>
-
-        </div>
-
-    </section>
+</section>
 
 
-    <!-- RAPPEL -->
+<!-- =========================
+     USERS
+========================= -->
 
-    <section class="section">
+<section
+    id="users"
+    class="page">
 
-        <h2 style="margin-bottom:10px;">
-            💡 Gestion des demandes
-        </h2>
+    <div class="page-title">
 
-        <p style="color:#6c7788;line-height:1.6;font-size:14px;">
-            Les utilisateurs peuvent envoyer leurs problèmes depuis
-            leur espace personnel. Vous pouvez consulter leur demande,
-            répondre et suivre son évolution directement depuis cette page.
+        <h1>
+            👥 Utilisateurs
+        </h1>
+
+        <p>
+            Comptes enregistrés sur la plateforme.
         </p>
 
-    </section>
+    </div>
+
+
+    <div class="card">
+
+        <input
+            type="search"
+            id="userSearch"
+            class="search"
+            placeholder="🔎 Rechercher un utilisateur..."
+            oninput="displayUsers()">
+
+
+        <div
+            id="usersContainer"
+            class="table-container">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     INVESTMENTS
+========================= -->
+
+<section
+    id="investments"
+    class="page">
+
+    <div class="page-title">
+
+        <h1>
+            💰 Investissements
+        </h1>
+
+        <p>
+            Suivi des investissements enregistrés.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div
+            id="investmentsContainer"
+            class="table-container">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     DEPOSITS
+========================= -->
+
+<section
+    id="deposits"
+    class="page">
+
+    <div class="page-title">
+
+        <h1>
+            📥 Dépôts
+        </h1>
+
+        <p>
+            Historique des dépôts.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div
+            id="depositsContainer"
+            class="table-container">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     WITHDRAWALS
+========================= -->
+
+<section
+    id="withdrawals"
+    class="page">
+
+    <div class="page-title">
+
+        <h1>
+            📤 Retraits
+        </h1>
+
+        <p>
+            Historique des demandes de retrait.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div
+            id="withdrawalsContainer"
+            class="table-container">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SUPPORT
+========================= -->
+
+<section
+    id="support"
+    class="page">
+
+    <div class="page-title">
+
+        <h1>
+            📩 Assistance
+        </h1>
+
+        <p>
+            Demandes envoyées par les utilisateurs.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Messages reçus
+            </h2>
+
+            <button
+                class="refresh"
+                onclick="displaySupport()">
+
+                🔄 Actualiser
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="supportContainer">
+
+        </div>
+
+    </div>
+
+</section>
+
 
 </main>
 
-
-<script src="script.js"></script>
+</div>
 
 
 <script>
 
-let currentFilter = "all";
-
-
-/* =========================================================
+/* ==================================================
    OUTILS
-   ========================================================= */
+================================================== */
 
-function app(){
+function getStorageArray(key){
 
-    return window.HousingInvestment;
+    try{
 
-}
+        return JSON.parse(
+            localStorage.getItem(key)
+        ) || [];
 
+    }catch(error){
 
-function showMessage(text,type="success"){
+        return [];
 
-    const box =
-        document.getElementById("message");
-
-    box.className =
-        "message " + type;
-
-    box.textContent =
-        text;
-
-    setTimeout(function(){
-
-        box.className =
-            "message";
-
-    },4000);
+    }
 
 }
 
 
-/* =========================================================
-   FILTRE
-   ========================================================= */
+/* ==================================================
+   NAVIGATION
+================================================== */
 
-function setFilter(filter){
-
-    currentFilter =
-        filter;
+function showPage(pageId,button){
 
     document
-        .querySelectorAll(".filter-btn")
-        .forEach(btn => {
+    .querySelectorAll(".page")
+    .forEach(function(page){
 
-            btn.classList.remove(
-                "active"
+        page.classList.remove("active");
+
+    });
+
+
+    document
+    .querySelectorAll(".menu")
+    .forEach(function(btn){
+
+        btn.classList.remove("active");
+
+    });
+
+
+    const page =
+        document.getElementById(pageId);
+
+    if(page){
+
+        page.classList.add("active");
+
+    }
+
+
+    if(button){
+
+        button.classList.add("active");
+
+    }
+
+
+    if(pageId === "users"){
+        displayUsers();
+    }
+
+    if(pageId === "investments"){
+        displayInvestments();
+    }
+
+    if(pageId === "deposits"){
+        displayDeposits();
+    }
+
+    if(pageId === "withdrawals"){
+        displayWithdrawals();
+    }
+
+    if(pageId === "support"){
+        displaySupport();
+    }
+
+}
+
+
+/* ==================================================
+   UTILISATEURS
+================================================== */
+
+function displayUsers(){
+
+    const users =
+        getStorageArray("users");
+
+    const container =
+        document.getElementById(
+            "usersContainer"
+        );
+
+    const search =
+        document
+        .getElementById("userSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const filtered =
+        users.filter(function(user){
+
+            const name =
+                String(
+                    user.name ||
+                    user.fullName ||
+                    user.nom ||
+                    ""
+                ).toLowerCase();
+
+            const phone =
+                String(
+                    user.phone ||
+                    user.telephone ||
+                    ""
+                ).toLowerCase();
+
+            return (
+                name.includes(search) ||
+                phone.includes(search)
             );
 
         });
 
 
-    const selected =
-        document.querySelector(
-            `[data-filter="${filter}"]`
-        );
+    if(filtered.length === 0){
 
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">👥</div>
+                Aucun utilisateur trouvé.
+            </div>
+        `;
 
-    if(selected){
-
-        selected.classList.add(
-            "active"
-        );
+        return;
 
     }
 
 
-    loadTickets();
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Nom</th>
+                    <th>Téléphone</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+    `;
+
+
+    filtered.forEach(function(user){
+
+        const name =
+            user.name ||
+            user.fullName ||
+            user.nom ||
+            "Utilisateur";
+
+
+        const phone =
+            user.phone ||
+            user.telephone ||
+            "—";
+
+
+        const date =
+            user.date ||
+            user.createdAt ||
+            "—";
+
+
+        html += `
+
+            <tr>
+
+                <td>
+                    <strong>${escapeHtml(name)}</strong>
+                </td>
+
+                <td>
+                    ${escapeHtml(phone)}
+                </td>
+
+                <td>
+                    ${escapeHtml(date)}
+                </td>
+
+                <td>
+                    <span class="badge badge-green">
+                        Actif
+                    </span>
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML = html;
 
 }
 
 
-/* =========================================================
-   STATUT
-   ========================================================= */
+/* ==================================================
+   INVESTISSEMENTS
+================================================== */
 
-function statusInfo(status){
+function displayInvestments(){
 
-    if(status === "in_progress"){
+    const investments =
+        getStorageArray("investments");
 
-        return {
-            text:"En cours",
-            className:"progress-status"
-        };
-
-    }
-
-
-    if(status === "answered"){
-
-        return {
-            text:"Répondue",
-            className:"answered"
-        };
-
-    }
-
-
-    if(status === "closed"){
-
-        return {
-            text:"Fermée",
-            className:"closed"
-        };
-
-    }
-
-
-    return {
-        text:"En attente",
-        className:"pending"
-    };
-
-}
-
-
-/* =========================================================
-   CHARGEMENT DES TICKETS
-   ========================================================= */
-
-function loadTickets(){
-
-    try{
-
-        const tickets =
-            app().getAllSupportTickets();
-
-
-        updateStats(tickets);
-
-
-        let filtered =
-            tickets;
-
-
-        if(currentFilter !== "all"){
-
-            filtered =
-                tickets.filter(
-                    ticket =>
-                    ticket.status ===
-                    currentFilter
-                );
-
-        }
-
-
-        const container =
-            document.getElementById(
-                "ticketsList"
-            );
-
-
-        if(!filtered.length){
-
-            container.innerHTML = `
-                <div class="empty">
-                    🎉 Aucune demande dans cette catégorie.
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        container.innerHTML =
-            filtered
-            .slice()
-            .reverse()
-            .map(ticket =>
-                ticketHTML(ticket)
-            )
-            .join("");
-
-
-    }catch(error){
-
-        console.error(error);
-
+    const container =
         document.getElementById(
-            "ticketsList"
-        ).innerHTML = `
+            "investmentsContainer"
+        );
+
+
+    if(investments.length === 0){
+
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">💰</div>
+                Aucun investissement enregistré.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Pack</th>
+                    <th>Montant</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+    `;
+
+
+    investments.forEach(function(item){
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${escapeHtml(
+                        item.name ||
+                        item.user ||
+                        "Utilisateur"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.pack ||
+                        item.plan ||
+                        "—"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        String(
+                            item.amount ||
+                            item.montant ||
+                            "—"
+                        )
+                    )} FCFA
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.date ||
+                        item.createdAt ||
+                        "—"
+                    )}
+                </td>
+
+                <td>
+                    <span class="badge badge-green">
+                        Actif
+                    </span>
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* ==================================================
+   DEPOTS
+================================================== */
+
+function displayDeposits(){
+
+    const deposits =
+        getStorageArray("deposits");
+
+    const container =
+        document.getElementById(
+            "depositsContainer"
+        );
+
+
+    if(deposits.length === 0){
+
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">📥</div>
+                Aucun dépôt enregistré.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Montant</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+    `;
+
+
+    deposits.forEach(function(item){
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${escapeHtml(
+                        item.name ||
+                        item.user ||
+                        "Utilisateur"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        String(
+                            item.amount ||
+                            item.montant ||
+                            "—"
+                        )
+                    )} FCFA
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.date ||
+                        item.createdAt ||
+                        "—"
+                    )}
+                </td>
+
+                <td>
+                    <span class="badge badge-orange">
+                        ${escapeHtml(
+                            item.status ||
+                            "En attente"
+                        )}
+                    </span>
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* ==================================================
+   RETRAITS
+================================================== */
+
+function displayWithdrawals(){
+
+    const withdrawals =
+        getStorageArray("withdrawals");
+
+    const container =
+        document.getElementById(
+            "withdrawalsContainer"
+        );
+
+
+    if(withdrawals.length === 0){
+
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">📤</div>
+                Aucun retrait enregistré.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Montant</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+    `;
+
+
+    withdrawals.forEach(function(item){
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${escapeHtml(
+                        item.name ||
+                        item.user ||
+                        "Utilisateur"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        String(
+                            item.amount ||
+                            item.montant ||
+                            "—"
+                        )
+                    )} FCFA
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.date ||
+                        item.createdAt ||
+                        "—"
+                    )}
+                </td>
+
+                <td>
+                    <span class="badge badge-orange">
+                        ${escapeHtml(
+                            item.status ||
+                            "En attente"
+                        )}
+                    </span>
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* ==================================================
+   ASSISTANCE
+================================================== */
+
+function displaySupport(){
+
+    const requests =
+        getStorageArray(
+            "supportRequests"
+        );
+
+
+    const container =
+        document.getElementById(
+            "supportContainer"
+        );
+
+
+    if(requests.length === 0){
+
+        container.innerHTML = `
 
             <div class="empty">
 
-                Impossible de charger les tickets.
+                <div class="empty-icon">
+                    📩
+                </div>
 
-                <br><br>
-
-                Vérifiez que le système d'assistance
-                de <strong>script.js</strong> est bien présent.
+                Aucune demande d'assistance
+                pour le moment.
 
             </div>
 
         `;
 
+        return;
+
     }
 
-}
+
+    let html = "";
 
 
-/* =========================================================
-   STATISTIQUES
-   ========================================================= */
+    [...requests]
+    .reverse()
+    .forEach(function(request,index){
 
-function updateStats(tickets){
+        html += `
 
-    document.getElementById(
-        "totalTickets"
-    ).textContent =
-        tickets.length;
+            <div class="support-item">
 
+                <div class="support-top">
 
-    document.getElementById(
-        "pendingTickets"
-    ).textContent =
-        tickets.filter(
-            t => !t.status ||
-            t.status === "pending"
-        ).length;
+                    <div>
 
+                        <div class="support-name">
 
-    document.getElementById(
-        "progressTickets"
-    ).textContent =
-        tickets.filter(
-            t => t.status ===
-            "in_progress"
-        ).length;
+                            👤
+                            ${escapeHtml(
+                                request.name ||
+                                "Utilisateur"
+                            )}
 
+                        </div>
 
-    document.getElementById(
-        "answeredTickets"
-    ).textContent =
-        tickets.filter(
-            t => t.status ===
-            "answered"
-        ).length;
+                        <div style="
+                            color:#697586;
+                            font-size:12px;
+                            margin-top:4px;
+                        ">
 
-}
+                            📞
+                            ${escapeHtml(
+                                request.phone ||
+                                "—"
+                            )}
 
-
-/* =========================================================
-   HTML D'UN TICKET
-   ========================================================= */
-
-function ticketHTML(ticket){
-
-    const info =
-        statusInfo(
-            ticket.status
-        );
-
-
-    const userName =
-        ticket.userName ||
-        ticket.name ||
-        ticket.fullName ||
-        "Utilisateur";
-
-
-    const userPhone =
-        ticket.phone ||
-        ticket.userPhone ||
-        "";
-
-
-    const created =
-        ticket.createdAt
-        ? new Date(
-            ticket.createdAt
-        ).toLocaleString("fr-FR")
-        : "";
-
-
-    return `
-
-        <div
-            class="ticket"
-            id="ticket-${ticket.id}"
-        >
-
-            <div class="ticket-top">
-
-                <div>
-
-                    <div class="ticket-title">
-
-                        🎧 ${escapeHTML(
-                            ticket.subject ||
-                            "Demande d'assistance"
-                        )}
+                        </div>
 
                     </div>
 
-                    <div class="ticket-number">
 
-                        Ticket :
-                        ${escapeHTML(
-                            ticket.ticketNumber ||
-                            ticket.id ||
-                            ""
+                    <div class="support-date">
+
+                        ${escapeHtml(
+                            request.date ||
+                            "Date inconnue"
                         )}
 
                     </div>
@@ -868,271 +1546,110 @@ function ticketHTML(ticket){
                 </div>
 
 
-                <span
-                    class="status ${info.className}"
-                >
-                    ${info.text}
-                </span>
+                <div class="support-subject">
+
+                    ${escapeHtml(
+                        request.subject ||
+                        "Autre"
+                    )}
+
+                </div>
+
+
+                <div class="support-message">
+
+                    ${escapeHtml(
+                        request.message ||
+                        "Aucun message"
+                    )}
+
+                </div>
+
+
+                <div class="support-actions">
+
+                    <button
+                        class="btn btn-green"
+                        onclick="markSupportRead(${request.id})">
+
+                        ✓ Marquer traité
+
+                    </button>
+
+
+                    <button
+                        class="btn btn-red"
+                        onclick="deleteSupport(${request.id})">
+
+                        🗑️ Supprimer
+
+                    </button>
+
+                </div>
 
             </div>
 
+        `;
 
-            <div style="
-                margin-top:12px;
-                font-size:13px;
-                color:#667184;
-            ">
-
-                👤
-                <strong>
-                    ${escapeHTML(userName)}
-                </strong>
-
-                ${
-                    userPhone
-                    ? `
-                        &nbsp; • &nbsp; 📱
-                        ${escapeHTML(userPhone)}
-                    `
-                    : ""
-                }
-
-                ${
-                    created
-                    ? `
-                        &nbsp; • &nbsp;
-                        ${created}
-                    `
-                    : ""
-                }
-
-            </div>
+    });
 
 
-            <div class="ticket-message">
-
-                ${escapeHTML(
-                    ticket.message ||
-                    ""
-                )}
-
-            </div>
-
-
-            ${
-                ticket.reply
-                ? `
-
-                    <div class="reply-box">
-
-                        <strong>
-                            💬 Votre réponse
-                        </strong>
-
-                        <div>
-                            ${escapeHTML(
-                                ticket.reply
-                            )}
-                        </div>
-
-                    </div>
-
-                `
-                : ""
-            }
-
-
-            ${
-                ticket.status !== "closed"
-                ? `
-
-                    <div style="
-                        margin-top:15px;
-                    ">
-
-                        <textarea
-                            id="reply-${ticket.id}"
-                            placeholder="Écrivez votre réponse à l'utilisateur..."
-                        ></textarea>
-
-
-                        <div class="actions">
-
-                            <button
-                                class="btn btn-primary"
-                                onclick="replyTicket('${ticket.id}')"
-                            >
-                                💬 Répondre
-                            </button>
-
-
-                            <button
-                                class="btn btn-light"
-                                onclick="markInProgress('${ticket.id}')"
-                            >
-                                🔵 Mettre en cours
-                            </button>
-
-
-                            <button
-                                class="btn btn-success"
-                                onclick="closeTicket('${ticket.id}')"
-                            >
-                                ✅ Fermer
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                `
-                : ""
-            }
-
-        </div>
-
-    `;
+    container.innerHTML = html;
 
 }
 
 
-/* =========================================================
-   RÉPONDRE
-   ========================================================= */
+/* ==================================================
+   MARQUER ASSISTANCE TRAITÉE
+================================================== */
 
-function replyTicket(id){
+function markSupportRead(id){
 
-    const textarea =
-        document.getElementById(
-            "reply-" + id
+    const requests =
+        getStorageArray(
+            "supportRequests"
         );
 
 
-    if(!textarea){
+    const index =
+        requests.findIndex(function(item){
 
+            return String(item.id) === String(id);
+
+        });
+
+
+    if(index === -1){
         return;
-
     }
 
 
-    const reply =
-        textarea.value.trim();
+    requests[index].status =
+        "Traité";
 
 
-    if(!reply){
-
-        showMessage(
-            "Écrivez d'abord une réponse.",
-            "error"
-        );
-
-        return;
-
-    }
+    localStorage.setItem(
+        "supportRequests",
+        JSON.stringify(requests)
+    );
 
 
-    try{
+    displaySupport();
 
-        const result =
-            app().replySupportTicket(
-                id,
-                reply
-            );
-
-
-        if(!result.success){
-
-            showMessage(
-                result.message ||
-                "Impossible d'envoyer la réponse.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        showMessage(
-            "Réponse envoyée à l'utilisateur."
-        );
-
-
-        loadTickets();
-
-
-    }catch(error){
-
-        console.error(error);
-
-        showMessage(
-            "Une erreur est survenue.",
-            "error"
-        );
-
-    }
+    updateStats();
 
 }
 
 
-/* =========================================================
-   METTRE EN COURS
-   ========================================================= */
+/* ==================================================
+   SUPPRIMER ASSISTANCE
+================================================== */
 
-function markInProgress(id){
-
-    try{
-
-        const result =
-            app().updateSupportTicketStatus(
-                id,
-                "in_progress"
-            );
-
-
-        if(!result.success){
-
-            showMessage(
-                result.message ||
-                "Impossible de modifier le ticket.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        showMessage(
-            "Ticket placé en cours de traitement."
-        );
-
-
-        loadTickets();
-
-    }catch(error){
-
-        console.error(error);
-
-        showMessage(
-            "Une erreur est survenue.",
-            "error"
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   FERMER
-   ========================================================= */
-
-function closeTicket(id){
+function deleteSupport(id){
 
     if(
         !confirm(
-            "Voulez-vous vraiment fermer cette demande ?"
+            "Voulez-vous vraiment supprimer cette demande ?"
         )
     ){
 
@@ -1141,84 +1658,281 @@ function closeTicket(id){
     }
 
 
-    try{
-
-        const result =
-            app().updateSupportTicketStatus(
-                id,
-                "closed"
-            );
-
-
-        if(!result.success){
-
-            showMessage(
-                result.message ||
-                "Impossible de fermer le ticket.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        showMessage(
-            "Ticket fermé."
+    let requests =
+        getStorageArray(
+            "supportRequests"
         );
 
 
-        loadTickets();
+    requests =
+        requests.filter(function(item){
 
-    }catch(error){
+            return String(item.id) !== String(id);
 
-        console.error(error);
+        });
 
-        showMessage(
-            "Une erreur est survenue.",
-            "error"
+
+    localStorage.setItem(
+        "supportRequests",
+        JSON.stringify(requests)
+    );
+
+
+    displaySupport();
+
+    updateStats();
+
+}
+
+
+/* ==================================================
+   STATISTIQUES
+================================================== */
+
+function updateStats(){
+
+    const users =
+        getStorageArray("users");
+
+    const investments =
+        getStorageArray("investments");
+
+    const deposits =
+        getStorageArray("deposits");
+
+    const support =
+        getStorageArray("supportRequests");
+
+
+    document.getElementById(
+        "statUsers"
+    ).textContent =
+        users.length;
+
+
+    document.getElementById(
+        "statInvestments"
+    ).textContent =
+        investments.length;
+
+
+    document.getElementById(
+        "statDeposits"
+    ).textContent =
+        deposits.length;
+
+
+    document.getElementById(
+        "statSupport"
+    ).textContent =
+        support.filter(function(item){
+
+            return item.status !== "Traité";
+
+        }).length;
+
+}
+
+
+/* ==================================================
+   ACTIVITÉ RÉCENTE
+================================================== */
+
+function displayRecentActivity(){
+
+    const support =
+        getStorageArray(
+            "supportRequests"
         );
+
+
+    const deposits =
+        getStorageArray(
+            "deposits"
+        );
+
+
+    const users =
+        getStorageArray(
+            "users"
+        );
+
+
+    const container =
+        document.getElementById(
+            "recentActivity"
+        );
+
+
+    let html = "";
+
+
+    if(users.length){
+
+        html += `
+
+            <p style="
+                padding:10px;
+                border-bottom:1px solid #edf0f4;
+                font-size:13px;
+            ">
+
+                👥
+                <strong>
+                    ${users.length}
+                </strong>
+                utilisateur(s) enregistré(s)
+
+            </p>
+
+        `;
+
+    }
+
+
+    if(deposits.length){
+
+        html += `
+
+            <p style="
+                padding:10px;
+                border-bottom:1px solid #edf0f4;
+                font-size:13px;
+            ">
+
+                📥
+                <strong>
+                    ${deposits.length}
+                </strong>
+                dépôt(s) enregistré(s)
+
+            </p>
+
+        `;
+
+    }
+
+
+    if(support.length){
+
+        html += `
+
+            <p style="
+                padding:10px;
+                border-bottom:1px solid #edf0f4;
+                font-size:13px;
+            ">
+
+                📩
+                <strong>
+                    ${support.length}
+                </strong>
+                demande(s) d'assistance
+
+            </p>
+
+        `;
+
+    }
+
+
+    if(!html){
+
+        html = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📊
+                </div>
+
+                Aucune activité enregistrée.
+
+            </div>
+
+        `;
+
+    }
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* ==================================================
+   PROTECTION AFFICHAGE TEXTE
+================================================== */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ==================================================
+   ACTUALISATION GÉNÉRALE
+================================================== */
+
+function loadAll(){
+
+    updateStats();
+
+    displayRecentActivity();
+
+    displayUsers();
+
+    displayInvestments();
+
+    displayDeposits();
+
+    displayWithdrawals();
+
+    displaySupport();
+
+}
+
+
+/* ==================================================
+   DÉCONNEXION
+================================================== */
+
+function logoutAdmin(){
+
+    if(
+        confirm(
+            "Voulez-vous vous déconnecter de l'administration ?"
+        )
+    ){
+
+        /*
+           On ne touche pas aux comptes utilisateurs.
+           Seule la session administrateur est retirée.
+        */
+
+        localStorage.removeItem(
+            "adminLoggedIn"
+        );
+
+        window.location.href =
+            "index.html";
 
     }
 
 }
 
 
-/* =========================================================
-   PROTECTION AFFICHAGE
-   ========================================================= */
-
-function escapeHTML(value){
-
-    return String(
-        value ?? ""
-    )
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================================================
+/* ==================================================
    DÉMARRAGE
-   ========================================================= */
+================================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
-
-        loadTickets();
-
-        setInterval(
-            loadTickets,
-            60000
-        );
-
-    }
-);
+loadAll();
 
 </script>
 
