@@ -1,2038 +1,1221 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Housing Investment - Administration</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f7f5;
-            color: #202a24;
-        }
-
-        /* ================= HEADER ================= */
-
-        header {
-            background: #087f45;
-            color: white;
-            min-height: 70px;
-        }
-
-        .header-inner {
-            max-width: 1300px;
-            margin: auto;
-            min-height: 70px;
-            padding: 10px 20px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo {
-            font-size: 21px;
-            font-weight: 800;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .header-btn {
-            border: none;
-            padding: 10px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        .site-btn {
-            background: white;
-            color: #087f45;
-        }
-
-        .logout-btn {
-            background: #064f2b;
-            color: white;
-        }
-
-        /* ================= CONTAINER ================= */
-
-        .container {
-            max-width: 1300px;
-            margin: auto;
-            padding: 25px 20px 60px;
-        }
-
-        .welcome {
-            margin-bottom: 25px;
-        }
-
-        .welcome h1 {
-            color: #173326;
-            margin-bottom: 5px;
-        }
-
-        .welcome p {
-            color: #6c7771;
-        }
-
-        /* ================= STATISTICS ================= */
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-            margin-bottom: 30px;
-        }
-
-        .stat {
-            background: white;
-            padding: 22px;
-            border-radius: 15px;
-            box-shadow: 0 5px 18px rgba(0,0,0,.06);
-        }
-
-        .stat-icon {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .stat h3 {
-            color: #6c7771;
-            font-size: 14px;
-            margin-bottom: 7px;
-        }
-
-        .stat strong {
-            font-size: 25px;
-            color: #087f45;
-        }
-
-        /* ================= NAVIGATION ================= */
-
-        .admin-nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .nav-btn {
-            border: none;
-            background: white;
-            color: #333;
-            padding: 12px 17px;
-            border-radius: 9px;
-            cursor: pointer;
-            font-weight: 700;
-            box-shadow: 0 3px 12px rgba(0,0,0,.05);
-        }
-
-        .nav-btn.active,
-        .nav-btn:hover {
-            background: #087f45;
-            color: white;
-        }
-
-        /* ================= SECTIONS ================= */
-
-        .admin-section {
-            display: none;
-        }
-
-        .admin-section.active {
-            display: block;
-        }
-
-        .section-box {
-            background: white;
-            border-radius: 16px;
-            padding: 22px;
-            box-shadow: 0 5px 18px rgba(0,0,0,.06);
-            margin-bottom: 25px;
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 18px;
-        }
-
-        .section-title h2 {
-            color: #087f45;
-            font-size: 21px;
-        }
-
-        /* ================= SEARCH ================= */
-
-        .search {
-            width: 100%;
-            max-width: 450px;
-            padding: 13px;
-            border: 1px solid #d8dfda;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 18px;
-            outline: none;
-        }
-
-        .search:focus {
-            border-color: #087f45;
-        }
-
-        /* ================= TABLE ================= */
-
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 700px;
-        }
-
-        th,
-        td {
-            padding: 13px 10px;
-            border-bottom: 1px solid #edf0ee;
-            text-align: left;
-            font-size: 13px;
-        }
-
-        th {
-            color: #087f45;
-            background: #f7faf8;
-        }
-
-        tr:hover td {
-            background: #fafcfb;
-        }
-
-        /* ================= BADGES ================= */
-
-        .badge {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .badge-green {
-            background: #e8f7ee;
-            color: #087f45;
-        }
-
-        .badge-orange {
-            background: #fff3df;
-            color: #a65b00;
-        }
-
-        .badge-red {
-            background: #fdecec;
-            color: #b42318;
-        }
-
-        .badge-blue {
-            background: #eaf2ff;
-            color: #1859a8;
-        }
-
-        /* ================= ACTIONS ================= */
-
-        .action-btn {
-            border: none;
-            border-radius: 7px;
-            padding: 7px 10px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 700;
-            margin: 2px;
-        }
-
-        .approve {
-            background: #087f45;
-            color: white;
-        }
-
-        .reject {
-            background: #fdecec;
-            color: #b42318;
-        }
-
-        .view {
-            background: #eaf2ff;
-            color: #1859a8;
-        }
-
-        /* ================= CARDS ================= */
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        .card {
-            background: #f8faf9;
-            border: 1px solid #e5ebe7;
-            border-radius: 12px;
-            padding: 18px;
-        }
-
-        .card h3 {
-            color: #087f45;
-            margin-bottom: 8px;
-        }
-
-        .card p {
-            color: #68736d;
-            font-size: 14px;
-        }
-
-        /* ================= EMPTY ================= */
-
-        .empty {
-            text-align: center;
-            padding: 30px;
-            color: #7a837e;
-        }
-
-        /* ================= MESSAGE ================= */
-
-        #message {
-            display: none;
-            background: #eaf7ef;
-            color: #087f45;
-            padding: 14px;
-            border-radius: 9px;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        /* ================= MODAL ================= */
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,.55);
-            z-index: 3000;
-            padding: 20px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-box {
-            background: white;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 16px;
-            padding: 25px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-header h2 {
-            color: #087f45;
-        }
-
-        .close {
-            border: none;
-            background: #f0f3f1;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .modal-row {
-            padding: 12px 0;
-            border-bottom: 1px solid #edf0ee;
-        }
-
-        .modal-row span {
-            display: block;
-            color: #777;
-            font-size: 12px;
-            margin-bottom: 3px;
-        }
-
-        .modal-row strong {
-            font-size: 15px;
-        }
-
-        /* ================= MOBILE ================= */
-
-        @media(max-width:1000px) {
-
-            .stats {
-                grid-template-columns: repeat(2,1fr);
-            }
-
-            .cards {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media(max-width:650px) {
-
-            .header-inner {
-                flex-direction: column;
-                align-items: stretch;
-                padding: 14px;
-            }
-
-            .logo {
-                text-align: center;
-            }
-
-            .header-actions {
-                justify-content: center;
-            }
-
-            .container {
-                padding: 20px 12px 40px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .admin-nav {
-                display: grid;
-                grid-template-columns: repeat(2,1fr);
-            }
-
-            .nav-btn {
-                width: 100%;
-            }
-
-            .section-title {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Administration - Housing Investment</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f6f4;
+    color:#202822;
+}
+
+header{
+    background:#087f45;
+    color:white;
+    padding:18px;
+}
+
+.header-inner{
+    max-width:1250px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.logo{
+    font-size:21px;
+    font-weight:bold;
+}
+
+.logout{
+    background:#064f2b;
+    border:0;
+    color:white;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.container{
+    max-width:1250px;
+    margin:auto;
+    padding:25px 16px 50px;
+}
+
+h1{
+    color:#087f45;
+    margin-bottom:6px;
+}
+
+.subtitle{
+    color:#737b76;
+    margin-bottom:25px;
+}
+
+/* STATISTIQUES */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 16px rgba(0,0,0,.06);
+}
+
+.stat span{
+    display:block;
+    color:#747d77;
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+.stat strong{
+    font-size:24px;
+    color:#087f45;
+}
+
+/* SECTION */
+
+.section{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:25px;
+    box-shadow:0 4px 16px rgba(0,0,0,.06);
+}
+
+.section h2{
+    color:#087f45;
+    margin-bottom:18px;
+    font-size:20px;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th,td{
+    padding:12px 9px;
+    border-bottom:1px solid #edf0ee;
+    text-align:left;
+    font-size:13px;
+}
+
+th{
+    background:#f6f9f7;
+    color:#087f45;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.pending{
+    background:#fff3df;
+    color:#a55b00;
+}
+
+.approved{
+    background:#e8f7ee;
+    color:#087f45;
+}
+
+.rejected{
+    background:#fdecec;
+    color:#b42318;
+}
+
+.action-btn{
+    border:0;
+    border-radius:7px;
+    padding:7px 10px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:bold;
+    margin:2px;
+}
+
+.approve-btn{
+    background:#087f45;
+    color:white;
+}
+
+.reject-btn{
+    background:#fbe2e2;
+    color:#b42318;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:25px;
+}
+
+.refresh{
+    background:white;
+    border:1px solid #087f45;
+    color:#087f45;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    margin-bottom:18px;
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:550px){
+
+    .header-inner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .container{
+        padding:20px 10px 40px;
+    }
+
+}
+</style>
 </head>
 
 <body>
 
 <header>
 
-    <div class="header-inner">
+<div class="header-inner">
 
-        <div class="logo">
-            🏠 Housing Investment — Administration
-        </div>
+<div class="logo">
+🏠 Housing Investment — Administration
+</div>
 
-        <div class="header-actions">
+<button
+class="logout"
+onclick="logoutAdmin()">
+Quitter
+</button>
 
-            <button
-                class="header-btn site-btn"
-                onclick="window.location.href='index.html'">
-                🌐 Site
-            </button>
-
-            <button
-                class="header-btn logout-btn"
-                onclick="logout()">
-                Déconnexion
-            </button>
-
-        </div>
-
-    </div>
+</div>
 
 </header>
 
 
 <main class="container">
 
-    <div id="message"></div>
+<h1>
+Tableau de bord administrateur
+</h1>
 
+<p class="subtitle">
+Gestion des utilisateurs, dépôts, retraits et investissements.
+</p>
 
-    <!-- ================= BIENVENUE ================= -->
 
-    <section class="welcome">
+<button
+class="refresh"
+onclick="loadAdmin()">
+🔄 Actualiser les données
+</button>
 
-        <h1>
-            Centre de contrôle 👋
-        </h1>
 
-        <p>
-            Gérez les utilisateurs, investissements,
-            dépôts et retraits depuis cet espace.
-        </p>
+<!-- STATISTIQUES -->
 
-    </section>
+<section class="stats">
 
+<div class="stat">
 
-    <!-- ================= STATISTIQUES ================= -->
+<span>
+👥 Utilisateurs
+</span>
 
-    <section class="stats">
-
-        <div class="stat">
-
-            <div class="stat-icon">👥</div>
-
-            <h3>
-                Utilisateurs enregistrés
-            </h3>
-
-            <strong id="usersCount">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-icon">📊</div>
-
-            <h3>
-                Investissements
-            </h3>
-
-            <strong id="investmentsCount">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-icon">💰</div>
-
-            <h3>
-                Total investi
-            </h3>
-
-            <strong id="totalInvested">
-                0 FCFA
-            </strong>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-icon">💸</div>
-
-            <h3>
-                Retraits en attente
-            </h3>
-
-            <strong id="pendingWithdrawals">
-                0
-            </strong>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= NAVIGATION ================= -->
-
-    <nav class="admin-nav">
-
-        <button
-            class="nav-btn active"
-            onclick="showSection('users', this)">
-            👥 Utilisateurs
-        </button>
-
-        <button
-            class="nav-btn"
-            onclick="showSection('investments', this)">
-            📊 Investissements
-        </button>
-
-        <button
-            class="nav-btn"
-            onclick="showSection('deposits', this)">
-            💳 Dépôts
-        </button>
-
-        <button
-            class="nav-btn"
-            onclick="showSection('withdrawals', this)">
-            💸 Retraits
-        </button>
-
-        <button
-            class="nav-btn"
-            onclick="showSection('overview', this)">
-            📈 Statistiques
-        </button>
-
-    </nav>
-
-
-    <!-- =====================================================
-         UTILISATEURS
-    ===================================================== -->
-
-    <section
-        id="users"
-        class="admin-section active">
-
-        <div class="section-box">
-
-            <div class="section-title">
-
-                <h2>
-                    👥 Utilisateurs enregistrés
-                </h2>
-
-            </div>
-
-
-            <input
-                type="text"
-                id="userSearch"
-                class="search"
-                placeholder="🔎 Rechercher par nom ou téléphone..."
-                oninput="filterUsers()"
-            >
-
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Nom
-                            </th>
-
-                            <th>
-                                Téléphone
-                            </th>
-
-                            <th>
-                                Solde
-                            </th>
-
-                            <th>
-                                Investi
-                            </th>
-
-                            <th>
-                                Statut
-                            </th>
-
-                            <th>
-                                Action
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="usersBody">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         INVESTISSEMENTS
-    ===================================================== -->
-
-    <section
-        id="investments"
-        class="admin-section">
-
-        <div class="section-box">
-
-            <div class="section-title">
-
-                <h2>
-                    📊 Investissements
-                </h2>
-
-            </div>
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Utilisateur
-                            </th>
-
-                            <th>
-                                Pack
-                            </th>
-
-                            <th>
-                                Montant
-                            </th>
-
-                            <th>
-                                Gain quotidien
-                            </th>
-
-                            <th>
-                                Date
-                            </th>
-
-                            <th>
-                                Statut
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="investmentsBody">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         DEPOTS
-    ===================================================== -->
-
-    <section
-        id="deposits"
-        class="admin-section">
-
-        <div class="section-box">
-
-            <div class="section-title">
-
-                <h2>
-                    💳 Gestion des dépôts
-                </h2>
-
-            </div>
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Utilisateur
-                            </th>
-
-                            <th>
-                                Montant
-                            </th>
-
-                            <th>
-                                Date
-                            </th>
-
-                            <th>
-                                Statut
-                            </th>
-
-                            <th>
-                                Action
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="depositsBody">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         RETRAITS
-    ===================================================== -->
-
-    <section
-        id="withdrawals"
-        class="admin-section">
-
-        <div class="section-box">
-
-            <div class="section-title">
-
-                <h2>
-                    💸 Gestion des retraits
-                </h2>
-
-            </div>
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Utilisateur
-                            </th>
-
-                            <th>
-                                Montant
-                            </th>
-
-                            <th>
-                                Date
-                            </th>
-
-                            <th>
-                                Statut
-                            </th>
-
-                            <th>
-                                Action
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="withdrawalsBody">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         STATISTIQUES
-    ===================================================== -->
-
-    <section
-        id="overview"
-        class="admin-section">
-
-        <div class="section-box">
-
-            <div class="section-title">
-
-                <h2>
-                    📈 Vue générale
-                </h2>
-
-            </div>
-
-
-            <div class="cards">
-
-                <div class="card">
-
-                    <h3>
-                        👥 Membres
-                    </h3>
-
-                    <p id="overviewUsers">
-                        0 utilisateur
-                    </p>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>
-                        💰 Capitaux investis
-                    </h3>
-
-                    <p id="overviewInvested">
-                        0 FCFA
-                    </p>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>
-                        📊 Nombre d'investissements
-                    </h3>
-
-                    <p id="overviewInvestments">
-                        0
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<!-- =====================================================
-     MODAL UTILISATEUR
-===================================================== -->
-
-<div
-    class="modal"
-    id="userModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h2>
-                👤 Profil utilisateur
-            </h2>
-
-            <button
-                class="close"
-                onclick="closeModal()">
-                ×
-            </button>
-
-        </div>
-
-        <div id="userDetails"></div>
-
-    </div>
+<strong id="usersCount">
+0
+</strong>
 
 </div>
 
 
+<div class="stat">
+
+<span>
+📊 Investissements
+</span>
+
+<strong id="investmentsCount">
+0
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<span>
+💳 Dépôts en attente
+</span>
+
+<strong id="pendingDeposits">
+0
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<span>
+💸 Retraits en attente
+</span>
+
+<strong id="pendingWithdrawals">
+0
+</strong>
+
+</div>
+
+</section>
+
+
+<!-- UTILISATEURS -->
+
+<section class="section">
+
+<h2>
+👥 Utilisateurs enregistrés
+</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Nom</th>
+<th>Téléphone</th>
+<th>Solde</th>
+<th>Total investi</th>
+<th>Date</th>
+<th>Statut</th>
+</tr>
+
+</thead>
+
+<tbody id="usersBody"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- DEPOTS -->
+
+<section class="section">
+
+<h2>
+💳 Demandes de dépôt
+</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Utilisateur</th>
+<th>Téléphone</th>
+<th>Montant</th>
+<th>Méthode</th>
+<th>Date</th>
+<th>Statut</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="depositsBody"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- RETRAITS -->
+
+<section class="section">
+
+<h2>
+💸 Demandes de retrait
+</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Utilisateur</th>
+<th>Téléphone</th>
+<th>Montant</th>
+<th>Méthode</th>
+<th>Date</th>
+<th>Statut</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="withdrawalsBody"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- INVESTISSEMENTS -->
+
+<section class="section">
+
+<h2>
+📈 Investissements enregistrés
+</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Utilisateur</th>
+<th>Pack</th>
+<th>Montant</th>
+<th>Gain quotidien</th>
+<th>Durée</th>
+<th>Date</th>
+<th>Statut</th>
+</tr>
+
+</thead>
+
+<tbody id="investmentsBody"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</main>
+
+
+<script src="script.js"></script>
+
 <script>
 
-    /* =====================================================
-       OUTILS
-    ===================================================== */
+/* =====================================================
+UTILITAIRE
+===================================================== */
 
-    function formatFCFA(value) {
+function money(value){
 
-        return Number(value || 0)
-            .toLocaleString("fr-FR") + " FCFA";
+    return window.HousingInvestment
+        .formatFCFA(value);
 
+}
+
+
+function safe(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+CHARGEMENT ADMIN
+===================================================== */
+
+function loadAdmin(){
+
+    const api =
+        window.HousingInvestment;
+
+
+    const users =
+        api.getUsers();
+
+
+    const deposits =
+        api.getDeposits();
+
+
+    const withdrawals =
+        api.getWithdrawals();
+
+
+    const investments =
+        api.getInvestments();
+
+
+    /* STATISTIQUES */
+
+    document.getElementById(
+        "usersCount"
+    ).textContent =
+        users.length;
+
+
+    document.getElementById(
+        "investmentsCount"
+    ).textContent =
+        investments.length;
+
+
+    document.getElementById(
+        "pendingDeposits"
+    ).textContent =
+        deposits.filter(
+            item =>
+            item.status === "pending"
+        ).length;
+
+
+    document.getElementById(
+        "pendingWithdrawals"
+    ).textContent =
+        withdrawals.filter(
+            item =>
+            item.status === "pending"
+        ).length;
+
+
+    renderUsers(users);
+
+    renderDeposits(deposits);
+
+    renderWithdrawals(withdrawals);
+
+    renderInvestments(investments);
+
+}
+
+
+/* =====================================================
+UTILISATEURS
+===================================================== */
+
+function renderUsers(users){
+
+    const body =
+        document.getElementById(
+            "usersBody"
+        );
+
+
+    if(!users.length){
+
+        body.innerHTML = `
+
+        <tr>
+            <td
+                colspan="6"
+                class="empty">
+
+                Aucun utilisateur enregistré.
+
+            </td>
+        </tr>
+
+        `;
+
+        return;
     }
 
 
-    function getUsers() {
-
-        /*
-         * Plusieurs anciennes versions du site
-         * peuvent utiliser différents noms de stockage.
-         */
-
-        return JSON.parse(
-            localStorage.getItem("users")
-        ) || [];
-
-    }
+    body.innerHTML = "";
 
 
-    function getInvestments() {
+    users.forEach(user => {
 
-        return JSON.parse(
-            localStorage.getItem("investments")
-        ) || [];
-
-    }
+        const row =
+            document.createElement("tr");
 
 
-    function getDeposits() {
+        row.innerHTML = `
 
-        return JSON.parse(
-            localStorage.getItem("deposits")
-        ) || [];
-
-    }
-
-
-    function getWithdrawals() {
-
-        return JSON.parse(
-            localStorage.getItem("withdrawals")
-        ) || [];
-
-    }
-
-
-    /* =====================================================
-       STATISTIQUES
-    ===================================================== */
-
-    function updateStatistics() {
-
-        const users =
-            getUsers();
-
-        const investments =
-            getInvestments();
-
-        const withdrawals =
-            getWithdrawals();
-
-
-        let totalInvested = 0;
-
-        investments.forEach(item => {
-
-            totalInvested +=
-                Number(item.amount || 0);
-
-        });
-
-
-        const pending =
-            withdrawals.filter(item => {
-
-                return (
-                    item.status === "pending" ||
-                    item.status === "en_attente" ||
-                    item.status === "En attente"
-                );
-
-            }).length;
-
-
-        document.getElementById(
-            "usersCount"
-        ).textContent =
-            users.length;
-
-
-        document.getElementById(
-            "investmentsCount"
-        ).textContent =
-            investments.length;
-
-
-        document.getElementById(
-            "totalInvested"
-        ).textContent =
-            formatFCFA(totalInvested);
-
-
-        document.getElementById(
-            "pendingWithdrawals"
-        ).textContent =
-            pending;
-
-
-        document.getElementById(
-            "overviewUsers"
-        ).textContent =
-            users.length +
-            (users.length > 1
-                ? " utilisateurs"
-                : " utilisateur");
-
-
-        document.getElementById(
-            "overviewInvested"
-        ).textContent =
-            formatFCFA(totalInvested);
-
-
-        document.getElementById(
-            "overviewInvestments"
-        ).textContent =
-            investments.length;
-
-    }
-
-
-    /* =====================================================
-       UTILISATEURS
-    ===================================================== */
-
-    function renderUsers(list = getUsers()) {
-
-        const body =
-            document.getElementById(
-                "usersBody"
-            );
-
-
-        if (!list.length) {
-
-            body.innerHTML = `
-                <tr>
-                    <td colspan="6"
-                        class="empty">
-                        Aucun utilisateur enregistré.
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
-
-
-        const investments =
-            getInvestments();
-
-
-        body.innerHTML = "";
-
-
-        list.forEach((user, index) => {
-
-            const phone =
-                user.phone ||
-                user.telephone ||
-                user.phoneNumber ||
-                "—";
-
-
-            const name =
+        <td>
+            ${safe(
                 user.name ||
                 user.fullName ||
-                user.nom ||
-                user.username ||
-                "Utilisateur";
+                "Utilisateur"
+            )}
+        </td>
 
+        <td>
+            ${safe(
+                user.phone ||
+                "—"
+            )}
+        </td>
 
-            const balance =
-                Number(
-                    user.balance ||
-                    user.solde ||
-                    0
-                );
+        <td>
+            ${money(
+                user.balance || 0
+            )}
+        </td>
 
+        <td>
+            ${money(
+                user.totalInvested || 0
+            )}
+        </td>
 
-            let invested = 0;
+        <td>
+            ${safe(
+                user.createdAt ||
+                "—"
+            )}
+        </td>
 
+        <td>
 
-            investments.forEach(item => {
+            <span class="badge approved">
+                Actif
+            </span>
 
-                const itemPhone =
-                    item.userPhone ||
-                    item.phone ||
-                    "";
+        </td>
 
+        `;
 
-                if (
-                    itemPhone &&
-                    itemPhone === phone
-                ) {
 
-                    invested +=
-                        Number(
-                            item.amount || 0
-                        );
+        body.appendChild(row);
 
-                }
+    });
 
-            });
+}
 
 
-            const row =
-                document.createElement("tr");
+/* =====================================================
+DEPOTS
+===================================================== */
 
+function renderDeposits(deposits){
 
-            row.innerHTML = `
-
-                <td>
-                    <strong>
-                        ${escapeHTML(name)}
-                    </strong>
-                </td>
-
-                <td>
-                    ${escapeHTML(phone)}
-                </td>
-
-                <td>
-                    ${formatFCFA(balance)}
-                </td>
-
-                <td>
-                    ${formatFCFA(invested)}
-                </td>
-
-                <td>
-                    <span class="badge badge-green">
-                        Actif
-                    </span>
-                </td>
-
-                <td>
-
-                    <button
-                        class="action-btn view"
-                        onclick="viewUser(${index})">
-                        Voir
-                    </button>
-
-                </td>
-
-            `;
-
-
-            body.appendChild(row);
-
-        });
-
-    }
-
-
-    /* =====================================================
-       RECHERCHE
-    ===================================================== */
-
-    function filterUsers() {
-
-        const search =
-            document.getElementById(
-                "userSearch"
-            ).value
-            .toLowerCase()
-            .trim();
-
-
-        const users =
-            getUsers();
-
-
-        const filtered =
-            users.filter(user => {
-
-                const name =
-                    String(
-                        user.name ||
-                        user.fullName ||
-                        user.nom ||
-                        user.username ||
-                        ""
-                    ).toLowerCase();
-
-
-                const phone =
-                    String(
-                        user.phone ||
-                        user.telephone ||
-                        user.phoneNumber ||
-                        ""
-                    ).toLowerCase();
-
-
-                return (
-                    name.includes(search) ||
-                    phone.includes(search)
-                );
-
-            });
-
-
-        renderUsers(filtered);
-
-    }
-
-
-    /* =====================================================
-       INVESTISSEMENTS
-    ===================================================== */
-
-    function renderInvestments() {
-
-        const body =
-            document.getElementById(
-                "investmentsBody"
-            );
-
-
-        const investments =
-            getInvestments();
-
-
-        if (!investments.length) {
-
-            body.innerHTML = `
-                <tr>
-                    <td colspan="6"
-                        class="empty">
-                        Aucun investissement enregistré.
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
-
-
-        body.innerHTML = "";
-
-
-        investments.forEach(item => {
-
-            const row =
-                document.createElement("tr");
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${escapeHTML(
-                        item.userName ||
-                        item.name ||
-                        item.userPhone ||
-                        item.phone ||
-                        "Utilisateur"
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHTML(
-                        item.pack ||
-                        "Investissement"
-                    )}
-                </td>
-
-                <td>
-                    ${formatFCFA(
-                        item.amount
-                    )}
-                </td>
-
-                <td>
-                    ${formatFCFA(
-                        item.dailyGain ||
-                        item.gain
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHTML(
-                        item.date || "—"
-                    )}
-                </td>
-
-                <td>
-                    <span class="badge badge-green">
-                        Actif
-                    </span>
-                </td>
-
-            `;
-
-
-            body.appendChild(row);
-
-        });
-
-    }
-
-
-    /* =====================================================
-       DEPOTS
-    ===================================================== */
-
-    function renderDeposits() {
-
-        const body =
-            document.getElementById(
-                "depositsBody"
-            );
-
-
-        const deposits =
-            getDeposits();
-
-
-        if (!deposits.length) {
-
-            body.innerHTML = `
-                <tr>
-                    <td colspan="5"
-                        class="empty">
-                        Aucun dépôt en attente.
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
-
-
-        body.innerHTML = "";
-
-
-        deposits.forEach((item, index) => {
-
-            const status =
-                item.status ||
-                "pending";
-
-
-            const row =
-                document.createElement("tr");
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${escapeHTML(
-                        item.userName ||
-                        item.name ||
-                        item.userPhone ||
-                        item.phone ||
-                        "Utilisateur"
-                    )}
-                </td>
-
-                <td>
-                    ${formatFCFA(
-                        item.amount
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHTML(
-                        item.date || "—"
-                    )}
-                </td>
-
-                <td>
-                    ${statusBadge(status)}
-                </td>
-
-                <td>
-
-                    ${
-                        isPending(status)
-                        ? `
-                            <button
-                                class="action-btn approve"
-                                onclick="approveDeposit(${index})">
-                                Valider
-                            </button>
-
-                            <button
-                                class="action-btn reject"
-                                onclick="rejectDeposit(${index})">
-                                Refuser
-                            </button>
-                        `
-                        : "—"
-                    }
-
-                </td>
-
-            `;
-
-
-            body.appendChild(row);
-
-        });
-
-    }
-
-
-    /* =====================================================
-       RETRAITS
-    ===================================================== */
-
-    function renderWithdrawals() {
-
-        const body =
-            document.getElementById(
-                "withdrawalsBody"
-            );
-
-
-        const withdrawals =
-            getWithdrawals();
-
-
-        if (!withdrawals.length) {
-
-            body.innerHTML = `
-                <tr>
-                    <td colspan="5"
-                        class="empty">
-                        Aucun retrait enregistré.
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
-
-
-        body.innerHTML = "";
-
-
-        withdrawals.forEach((item, index) => {
-
-            const status =
-                item.status ||
-                "pending";
-
-
-            const row =
-                document.createElement("tr");
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${escapeHTML(
-                        item.userName ||
-                        item.name ||
-                        item.userPhone ||
-                        item.phone ||
-                        "Utilisateur"
-                    )}
-                </td>
-
-                <td>
-                    ${formatFCFA(
-                        item.amount
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHTML(
-                        item.date || "—"
-                    )}
-                </td>
-
-                <td>
-                    ${statusBadge(status)}
-                </td>
-
-                <td>
-
-                    ${
-                        isPending(status)
-                        ? `
-                            <button
-                                class="action-btn approve"
-                                onclick="approveWithdrawal(${index})">
-                                Valider
-                            </button>
-
-                            <button
-                                class="action-btn reject"
-                                onclick="rejectWithdrawal(${index})">
-                                Refuser
-                            </button>
-                        `
-                        : "—"
-                    }
-
-                </td>
-
-            `;
-
-
-            body.appendChild(row);
-
-        });
-
-    }
-
-
-    /* =====================================================
-       STATUTS
-    ===================================================== */
-
-    function isPending(status) {
-
-        return (
-            status === "pending" ||
-            status === "en_attente" ||
-            status === "En attente"
+    const body =
+        document.getElementById(
+            "depositsBody"
         );
 
+
+    if(!deposits.length){
+
+        body.innerHTML = `
+
+        <tr>
+            <td
+                colspan="7"
+                class="empty">
+
+                Aucun dépôt enregistré.
+
+            </td>
+        </tr>
+
+        `;
+
+        return;
     }
 
 
-    function statusBadge(status) {
-
-        if (
-            status === "approved" ||
-            status === "validé" ||
-            status === "Valide"
-        ) {
-
-            return `
-                <span class="badge badge-green">
-                    Validé
-                </span>
-            `;
-
-        }
+    body.innerHTML = "";
 
 
-        if (
-            status === "rejected" ||
-            status === "refusé"
-        ) {
+    deposits
+    .slice()
+    .reverse()
+    .forEach(deposit => {
 
-            return `
-                <span class="badge badge-red">
-                    Refusé
-                </span>
-            `;
+        const row =
+            document.createElement("tr");
 
-        }
 
+        row.innerHTML = `
+
+        <td>
+            ${safe(
+                deposit.userName ||
+                "Utilisateur"
+            )}
+        </td>
+
+        <td>
+            ${safe(
+                deposit.userPhone ||
+                "—"
+            )}
+        </td>
+
+        <td>
+            <strong>
+                ${money(
+                    deposit.amount
+                )}
+            </strong>
+        </td>
+
+        <td>
+            ${safe(
+                deposit.method ||
+                "—"
+            )}
+        </td>
+
+        <td>
+            ${safe(
+                deposit.date ||
+                "—"
+            )}
+        </td>
+
+        <td>
+            ${statusBadge(
+                deposit.status
+            )}
+        </td>
+
+        <td>
+
+            ${
+                deposit.status === "pending"
+
+                ?
+
+                `
+                <button
+                    class="action-btn approve-btn"
+                    onclick="approveDeposit('${deposit.id}')">
+
+                    Valider
+
+                </button>
+
+                <button
+                    class="action-btn reject-btn"
+                    onclick="rejectDeposit('${deposit.id}')">
+
+                    Refuser
+
+                </button>
+                `
+
+                :
+
+                "—"
+            }
+
+        </td>
+
+        `;
+
+
+        body.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================================
+RETRAITS
+===================================================== */
+
+function renderWithdrawals(withdrawals){
+
+    const body =
+        document.getElementById(
+            "withdrawalsBody"
+        );
+
+
+    if(!withdrawals.length){
+
+        body.innerHTML = `
+
+        <tr>
+            <td
+                colspan="7"
+                class="empty">
+
+                Aucun retrait enregistré.
+
+            </td>
+        </tr>
+
+        `;
+
+        return;
+    }
+
+
+    body.innerHTML = "";
+
+
+    withdrawals
+    .slice()
+    .reverse()
+    .forEach(withdrawal => {
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+        <td>
+            ${safe(
+                withdrawal.userName ||
+                "Utilisateur"
+            )}
+        </td>
+
+        <td>
+            ${safe(
+                withdrawal.userPhone ||
+                "—"
+            )}
+        </td>
+
+        <td>
+            <strong>
+                ${money(
+                    withdrawal.amount
+                )}
+            </strong>
+        </td>
+
+        <td>
+            ${safe(
+                withdrawal.method ||
+                "—"
+            )}
+        </td>
+
+        <td>
+            ${safe(
+                withdrawal.date ||
+                "—"
+            )}
+        </td>
+
+        <td>
+            ${statusBadge(
+                withdrawal.status
+            )}
+        </td>
+
+        <td>
+
+            ${
+                withdrawal.status === "pending"
+
+                ?
+
+                `
+                <button
+                    class="action-btn approve-btn"
+                    onclick="approveWithdrawal('${withdrawal.id}')">
+
+                    Valider
+
+                </button>
+
+                <button
+                    class="action-btn reject-btn"
+                    onclick="rejectWithdrawal('${withdrawal.id}')">
+
+                    Refuser
+
+                </button>
+                `
+
+                :
+
+                "—"
+            }
+
+        </td>
+
+        `;
+
+
+        body.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================================
+INVESTISSEMENTS
+===================================================== */
+
+function renderInvestments(investments){
+
+    const body =
+        document.getElementById(
+            "investmentsBody"
+        );
+
+
+    if(!investments.length){
+
+        body.innerHTML = `
+
+        <tr>
+            <td
+                colspan="7"
+                class="empty">
+
+                Aucun investissement enregistré.
+
+            </td>
+        </tr>
+
+        `;
+
+        return;
+    }
+
+
+    body.innerHTML = "";
+
+
+    investments
+    .slice()
+    .reverse()
+    .forEach(item => {
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+        <td>
+            ${safe(
+                item.userName ||
+                "Utilisateur"
+            )}
+        </td>
+
+        <td>
+            ${safe(
+                item.pack ||
+                "—"
+            )}
+        </td>
+
+        <td>
+            ${money(
+                item.amount
+            )}
+        </td>
+
+        <td>
+            ${money(
+                item.dailyGain
+            )}
+        </td>
+
+        <td>
+            ${item.duration || 180}
+            jours
+        </td>
+
+        <td>
+            ${safe(
+                item.date ||
+                "—"
+            )}
+        </td>
+
+        <td>
+            <span class="badge approved">
+                Actif
+            </span>
+        </td>
+
+        `;
+
+
+        body.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================================
+STATUT
+===================================================== */
+
+function statusBadge(status){
+
+    if(status === "approved"){
 
         return `
-            <span class="badge badge-orange">
-                En attente
-            </span>
+        <span class="badge approved">
+            Validé
+        </span>
         `;
 
     }
 
 
-    /* =====================================================
-       VALIDATION DEPOT
-    ===================================================== */
-
-    function approveDeposit(index) {
-
-        const deposits =
-            getDeposits();
-
-
-        if (!deposits[index]) {
-            return;
-        }
-
-
-        deposits[index].status =
-            "approved";
-
-
-        localStorage.setItem(
-            "deposits",
-            JSON.stringify(deposits)
-        );
-
-
-        showMessage(
-            "Dépôt validé."
-        );
-
-
-        renderDeposits();
-
-    }
-
-
-    function rejectDeposit(index) {
-
-        const deposits =
-            getDeposits();
-
-
-        if (!deposits[index]) {
-            return;
-        }
-
-
-        deposits[index].status =
-            "rejected";
-
-
-        localStorage.setItem(
-            "deposits",
-            JSON.stringify(deposits)
-        );
-
-
-        showMessage(
-            "Dépôt refusé."
-        );
-
-
-        renderDeposits();
-
-    }
-
-
-    /* =====================================================
-       VALIDATION RETRAIT
-    ===================================================== */
-
-    function approveWithdrawal(index) {
-
-        const withdrawals =
-            getWithdrawals();
-
-
-        if (!withdrawals[index]) {
-            return;
-        }
-
-
-        withdrawals[index].status =
-            "approved";
-
-
-        localStorage.setItem(
-            "withdrawals",
-            JSON.stringify(
-                withdrawals
-            )
-        );
-
-
-        showMessage(
-            "Retrait validé."
-        );
-
-
-        renderWithdrawals();
-
-        updateStatistics();
-
-    }
-
-
-    function rejectWithdrawal(index) {
-
-        const withdrawals =
-            getWithdrawals();
-
-
-        if (!withdrawals[index]) {
-            return;
-        }
-
-
-        withdrawals[index].status =
-            "rejected";
-
-
-        localStorage.setItem(
-            "withdrawals",
-            JSON.stringify(
-                withdrawals
-            )
-        );
-
-
-        showMessage(
-            "Retrait refusé."
-        );
-
-
-        renderWithdrawals();
-
-        updateStatistics();
-
-    }
-
-
-    /* =====================================================
-       VOIR UTILISATEUR
-    ===================================================== */
-
-    function viewUser(index) {
-
-        const users =
-            getUsers();
-
-
-        const user =
-            users[index];
-
-
-        if (!user) {
-            return;
-        }
-
-
-        const name =
-            user.name ||
-            user.fullName ||
-            user.nom ||
-            user.username ||
-            "Utilisateur";
-
-
-        const phone =
-            user.phone ||
-            user.telephone ||
-            user.phoneNumber ||
-            "—";
-
-
-        const balance =
-            Number(
-                user.balance ||
-                user.solde ||
-                0
-            );
-
-
-        document.getElementById(
-            "userDetails"
-        ).innerHTML = `
-
-            <div class="modal-row">
-
-                <span>
-                    Nom complet
-                </span>
-
-                <strong>
-                    ${escapeHTML(name)}
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Téléphone
-                </span>
-
-                <strong>
-                    ${escapeHTML(phone)}
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Solde
-                </span>
-
-                <strong>
-                    ${formatFCFA(balance)}
-                </strong>
-
-            </div>
-
-
-            <div class="modal-row">
-
-                <span>
-                    Statut
-                </span>
-
-                <strong>
-                    <span class="badge badge-green">
-                        Compte actif
-                    </span>
-                </strong>
-
-            </div>
-
+    if(status === "rejected"){
+
+        return `
+        <span class="badge rejected">
+            Refusé
+        </span>
         `;
 
+    }
 
-        document.getElementById(
-            "userModal"
-        ).style.display =
-            "flex";
+
+    return `
+    <span class="badge pending">
+        En attente
+    </span>
+    `;
+
+}
+
+
+/* =====================================================
+VALIDER DEPOT
+===================================================== */
+
+function approveDeposit(id){
+
+    if(!confirm(
+        "Confirmer la validation de ce dépôt ?"
+    )){
+
+        return;
 
     }
 
 
-    function closeModal() {
-
-        document.getElementById(
-            "userModal"
-        ).style.display =
-            "none";
-
-    }
+    const result =
+        window.HousingInvestment
+        .approveDeposit(id);
 
 
-    /* =====================================================
-       NAVIGATION
-    ===================================================== */
+    if(!result.success){
 
-    function showSection(id, button) {
+        alert(result.message);
 
-        document
-            .querySelectorAll(".admin-section")
-            .forEach(section => {
-
-                section.classList.remove(
-                    "active"
-                );
-
-            });
-
-
-        document
-            .querySelectorAll(".nav-btn")
-            .forEach(btn => {
-
-                btn.classList.remove(
-                    "active"
-                );
-
-            });
-
-
-        document.getElementById(id)
-            .classList.add("active");
-
-
-        button.classList.add("active");
+        return;
 
     }
 
 
-    /* =====================================================
-       MESSAGE
-    ===================================================== */
+    loadAdmin();
 
-    function showMessage(text) {
+    alert(
+        "Dépôt validé avec succès."
+    );
 
-        const message =
-            document.getElementById(
-                "message"
-            );
+}
 
 
-        message.textContent =
-            text;
+/* =====================================================
+REFUSER DEPOT
+===================================================== */
 
+function rejectDeposit(id){
 
-        message.style.display =
-            "block";
+    if(!confirm(
+        "Confirmer le refus de ce dépôt ?"
+    )){
 
-
-        setTimeout(() => {
-
-            message.style.display =
-                "none";
-
-        }, 4000);
+        return;
 
     }
 
 
-    /* =====================================================
-       SECURITE AFFICHAGE
-    ===================================================== */
+    const result =
+        window.HousingInvestment
+        .rejectDeposit(id);
 
-    function escapeHTML(value) {
 
-        return String(value || "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+    if(!result.success){
+
+        alert(result.message);
+
+        return;
 
     }
 
 
-    /* =====================================================
-       DECONNEXION
-    ===================================================== */
+    loadAdmin();
 
-    function logout() {
+    alert(
+        "Dépôt refusé."
+    );
 
-        localStorage.removeItem(
-            "adminLoggedIn"
-        );
-
-        window.location.href =
-            "login.html";
-
-    }
+}
 
 
-    /* =====================================================
-       INITIALISATION
-    ===================================================== */
+/* =====================================================
+VALIDER RETRAIT
+===================================================== */
 
-    function initialize() {
+function approveWithdrawal(id){
 
-        updateStatistics();
+    if(!confirm(
+        "Confirmer la validation de ce retrait ?"
+    )){
 
-        renderUsers();
-
-        renderInvestments();
-
-        renderDeposits();
-
-        renderWithdrawals();
+        return;
 
     }
 
 
-    initialize();
+    const result =
+        window.HousingInvestment
+        .approveWithdrawal(id);
+
+
+    if(!result.success){
+
+        alert(result.message);
+
+        return;
+
+    }
+
+
+    loadAdmin();
+
+    alert(
+        "Retrait validé avec succès."
+    );
+
+}
+
+
+/* =====================================================
+REFUSER RETRAIT
+===================================================== */
+
+function rejectWithdrawal(id){
+
+    if(!confirm(
+        "Confirmer le refus de ce retrait ?"
+    )){
+
+        return;
+
+    }
+
+
+    const result =
+        window.HousingInvestment
+        .rejectWithdrawal(id);
+
+
+    if(!result.success){
+
+        alert(result.message);
+
+        return;
+
+    }
+
+
+    loadAdmin();
+
+    alert(
+        "Retrait refusé."
+    );
+
+}
+
+
+/* =====================================================
+DECONNEXION ADMIN
+===================================================== */
+
+function logoutAdmin(){
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =====================================================
+INITIALISATION
+===================================================== */
+
+loadAdmin();
 
 </script>
 
