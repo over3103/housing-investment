@@ -7,7 +7,6 @@
 <title>Administration — Housing Investment</title>
 
 <style>
-
 *{
     box-sizing:border-box;
     margin:0;
@@ -20,19 +19,20 @@ body{
     color:#172033;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* ================= HEADER ================= */
 
 header{
+    height:70px;
     background:#081c3c;
     color:white;
-    min-height:70px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 25px;
-    box-shadow:0 4px 15px rgba(0,0,0,.15);
+    padding:0 22px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 3px 15px rgba(0,0,0,.15);
 }
 
 .logo{
@@ -47,21 +47,18 @@ header{
 .header-right{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:12px;
 }
 
 .admin-badge{
-    background:rgba(56,189,248,.15);
-    border:1px solid rgba(56,189,248,.35);
-    color:#38bdf8;
-    padding:8px 12px;
-    border-radius:20px;
     font-size:12px;
-    font-weight:bold;
+    background:#0b5ed7;
+    padding:9px 13px;
+    border-radius:20px;
 }
 
 .logout{
-    border:none;
+    border:0;
     background:#dc3545;
     color:white;
     padding:9px 13px;
@@ -70,45 +67,31 @@ header{
     font-weight:bold;
 }
 
-/* =========================
-   LAYOUT
-========================= */
+/* ================= LAYOUT ================= */
 
 .layout{
     display:flex;
     min-height:calc(100vh - 70px);
 }
 
-/* =========================
-   SIDEBAR
-========================= */
-
 .sidebar{
-    width:235px;
+    width:230px;
     background:#0b2145;
+    padding:18px 12px;
     color:white;
-    padding:20px 12px;
-}
-
-.sidebar-title{
-    color:#91a3bd;
-    font-size:11px;
-    font-weight:bold;
-    padding:10px 12px;
-    text-transform:uppercase;
 }
 
 .menu{
     width:100%;
-    border:none;
+    border:0;
     background:transparent;
     color:#dce6f4;
     text-align:left;
-    padding:13px 12px;
+    padding:13px;
     border-radius:9px;
-    margin-bottom:4px;
+    margin-bottom:5px;
     cursor:pointer;
-    font-size:14px;
+    font-size:13px;
 }
 
 .menu:hover,
@@ -117,14 +100,10 @@ header{
     color:white;
 }
 
-/* =========================
-   MAIN
-========================= */
-
 .main{
     flex:1;
     padding:25px;
-    overflow:hidden;
+    min-width:0;
 }
 
 .page{
@@ -135,23 +114,21 @@ header{
     display:block;
 }
 
-.page-title{
+.title{
     margin-bottom:20px;
 }
 
-.page-title h1{
+.title h1{
     font-size:28px;
-    margin-bottom:5px;
+    margin-bottom:6px;
 }
 
-.page-title p{
+.title p{
     color:#697586;
     font-size:13px;
 }
 
-/* =========================
-   STATISTIQUES
-========================= */
+/* ================= STATISTICS ================= */
 
 .stats{
     display:grid;
@@ -164,8 +141,8 @@ header{
     background:white;
     border:1px solid #e5eaf0;
     border-radius:15px;
-    padding:20px;
-    box-shadow:0 4px 15px rgba(0,0,0,.04);
+    padding:18px;
+    box-shadow:0 4px 15px rgba(0,0,0,.03);
 }
 
 .stat-icon{
@@ -175,8 +152,8 @@ header{
 
 .stat strong{
     display:block;
-    font-size:25px;
-    color:#0b5ed7;
+    font-size:22px;
+    margin-bottom:5px;
 }
 
 .stat span{
@@ -184,9 +161,7 @@ header{
     font-size:12px;
 }
 
-/* =========================
-   CARD
-========================= */
+/* ================= CARDS ================= */
 
 .card{
     background:white;
@@ -194,7 +169,6 @@ header{
     border-radius:15px;
     padding:20px;
     margin-bottom:20px;
-    box-shadow:0 4px 15px rgba(0,0,0,.04);
 }
 
 .card-header{
@@ -202,160 +176,103 @@ header{
     justify-content:space-between;
     align-items:center;
     gap:10px;
-    margin-bottom:18px;
+    margin-bottom:16px;
+    flex-wrap:wrap;
 }
 
 .card-header h2{
-    font-size:19px;
+    font-size:18px;
 }
 
-.refresh{
-    border:none;
-    background:#e9f2ff;
-    color:#0b5ed7;
-    padding:9px 12px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-/* =========================
-   TABLE
-========================= */
-
-.table-container{
-    width:100%;
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:700px;
-}
-
-th{
-    background:#f4f7fb;
-    color:#526174;
-    font-size:12px;
-    text-align:left;
-    padding:12px;
-}
-
-td{
-    padding:12px;
-    border-top:1px solid #edf0f4;
-    font-size:13px;
-}
-
-.badge{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:bold;
-}
-
-.badge-green{
-    background:#e7f7ee;
-    color:#198754;
-}
-
-.badge-orange{
-    background:#fff2dc;
-    color:#b56b00;
-}
-
-.badge-red{
-    background:#ffe7e7;
-    color:#b42318;
-}
-
-.badge-blue{
-    background:#e7f0ff;
-    color:#0b5ed7;
-}
-
-/* =========================
-   SEARCH
-========================= */
+/* ================= SEARCH ================= */
 
 .search{
-    width:100%;
-    height:45px;
-    border:1px solid #d8dee8;
+    width:280px;
+    max-width:100%;
+    height:42px;
+    border:1px solid #d7dee8;
     border-radius:9px;
-    padding:0 13px;
+    padding:0 12px;
     outline:none;
-    margin-bottom:15px;
 }
 
 .search:focus{
     border-color:#0b5ed7;
 }
 
-/* =========================
-   ASSISTANCE
-========================= */
+/* ================= TABLE ================= */
 
-.support-item{
-    border:1px solid #e5eaf0;
-    border-radius:13px;
-    padding:18px;
-    margin-bottom:12px;
-    background:#fff;
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
 }
 
-.support-top{
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:10px;
+table{
+    width:100%;
+    min-width:750px;
+    border-collapse:collapse;
 }
 
-.support-name{
-    font-weight:bold;
-    font-size:15px;
-}
-
-.support-date{
-    color:#8a96a6;
+th{
+    background:#f4f7fb;
+    color:#526174;
+    text-align:left;
     font-size:11px;
+    padding:12px;
+    white-space:nowrap;
 }
 
-.support-subject{
+td{
+    padding:12px;
+    border-top:1px solid #edf0f4;
+    font-size:12px;
+    vertical-align:middle;
+}
+
+.badge{
     display:inline-block;
-    background:#e9f2ff;
-    color:#0b5ed7;
     padding:5px 9px;
     border-radius:20px;
-    font-size:11px;
+    font-size:10px;
     font-weight:bold;
-    margin-bottom:10px;
+    white-space:nowrap;
 }
 
-.support-message{
-    background:#f7f9fc;
-    border-radius:9px;
-    padding:12px;
-    color:#526174;
-    font-size:13px;
-    margin-bottom:12px;
+.green{
+    background:#e7f7ee;
+    color:#198754;
 }
 
-.support-actions{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
+.orange{
+    background:#fff2dc;
+    color:#b56b00;
 }
+
+.red{
+    background:#fde8e8;
+    color:#c62828;
+}
+
+.blue{
+    background:#e7f0ff;
+    color:#0b5ed7;
+}
+
+/* ================= BUTTONS ================= */
 
 .btn{
-    border:none;
-    border-radius:8px;
-    padding:9px 12px;
+    border:0;
+    border-radius:7px;
+    padding:8px 11px;
     cursor:pointer;
-    font-size:12px;
+    font-size:11px;
     font-weight:bold;
+    margin:2px;
+}
+
+.btn-blue{
+    background:#0b5ed7;
+    color:white;
 }
 
 .btn-green{
@@ -368,46 +285,141 @@ td{
     color:white;
 }
 
-.btn-blue{
-    background:#0b5ed7;
+.btn-orange{
+    background:#f0a000;
     color:white;
 }
 
-/* =========================
-   EMPTY
-========================= */
+.btn-light{
+    background:#edf0f4;
+    color:#172033;
+}
+
+/* ================= EMPTY ================= */
 
 .empty{
     text-align:center;
-    padding:40px 15px;
+    padding:35px;
     color:#7b8797;
 }
 
 .empty-icon{
-    font-size:40px;
+    font-size:38px;
     margin-bottom:10px;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* ================= ALERT ================= */
 
-@media(max-width:950px){
+.alert{
+    display:none;
+    padding:12px 15px;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-size:12px;
+}
+
+.alert.show{
+    display:block;
+}
+
+.alert.success{
+    background:#e7f7ee;
+    color:#198754;
+}
+
+.alert.error{
+    background:#fde8e8;
+    color:#c62828;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:300;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:470px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:white;
+    border-radius:18px;
+    padding:25px;
+}
+
+.modal-box h2{
+    margin-bottom:18px;
+}
+
+.info-line{
+    padding:10px 0;
+    border-bottom:1px solid #edf0f4;
+    font-size:13px;
+}
+
+.modal-actions{
+    display:flex;
+    gap:8px;
+    margin-top:20px;
+}
+
+.modal-actions button{
+    flex:1;
+    height:43px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:1100px){
 
     .stats{
         grid-template-columns:repeat(2,1fr);
     }
 
+}
+
+@media(max-width:800px){
+
+    .layout{
+        display:block;
+    }
+
     .sidebar{
-        width:190px;
+        width:100%;
+        display:flex;
+        overflow-x:auto;
+        gap:5px;
+        padding:8px;
+    }
+
+    .menu{
+        width:auto;
+        white-space:nowrap;
+        margin:0;
+    }
+
+    .main{
+        padding:15px;
     }
 
 }
 
-@media(max-width:700px){
+@media(max-width:550px){
 
     header{
-        padding:0 13px;
+        padding:0 12px;
     }
 
     .logo{
@@ -418,60 +430,24 @@ td{
         display:none;
     }
 
-    .layout{
-        display:block;
-    }
-
-    .sidebar{
-        width:100%;
-        display:flex;
-        overflow-x:auto;
+    .logout{
         padding:8px;
-        gap:5px;
-    }
-
-    .sidebar-title{
-        display:none;
-    }
-
-    .menu{
-        white-space:nowrap;
-        width:auto;
-        margin:0;
-    }
-
-    .main{
-        padding:15px;
-    }
-
-    .page-title h1{
-        font-size:23px;
+        font-size:11px;
     }
 
     .stats{
-        grid-template-columns:1fr 1fr;
-        gap:10px;
+        grid-template-columns:1fr;
     }
 
-    .stat{
-        padding:15px;
-    }
-
-    .stat strong{
-        font-size:21px;
+    .title h1{
+        font-size:23px;
     }
 
 }
-
 </style>
 </head>
 
 <body>
-
-
-<!-- =========================
-     HEADER
-========================= -->
 
 <header>
 
@@ -487,7 +463,7 @@ td{
 
         <button
             class="logout"
-            onclick="logoutAdmin()">
+            onclick="logout()">
 
             Déconnexion
 
@@ -500,26 +476,17 @@ td{
 
 <div class="layout">
 
-
-<!-- =========================
-     SIDEBAR
-========================= -->
+<!-- ================= SIDEBAR ================= -->
 
 <aside class="sidebar">
 
-    <div class="sidebar-title">
-        Administration
-    </div>
-
-
     <button
         class="menu active"
-        onclick="showPage('overview',this)">
+        onclick="showPage('dashboard',this)">
 
         📊 Tableau de bord
 
     </button>
-
 
     <button
         class="menu"
@@ -529,7 +496,6 @@ td{
 
     </button>
 
-
     <button
         class="menu"
         onclick="showPage('investments',this)">
@@ -537,7 +503,6 @@ td{
         💰 Investissements
 
     </button>
-
 
     <button
         class="menu"
@@ -547,7 +512,6 @@ td{
 
     </button>
 
-
     <button
         class="menu"
         onclick="showPage('withdrawals',this)">
@@ -556,34 +520,32 @@ td{
 
     </button>
 
-
     <button
         class="menu"
         onclick="showPage('support',this)">
 
-        📩 Assistance
+        🎧 Assistance
 
     </button>
 
 </aside>
 
 
-<!-- =========================
-     MAIN
-========================= -->
-
 <main class="main">
 
+<div
+    id="alert"
+    class="alert">
+</div>
 
-<!-- =========================
-     OVERVIEW
-========================= -->
+
+<!-- ================= DASHBOARD ================= -->
 
 <section
-    id="overview"
+    id="dashboard"
     class="page active">
 
-    <div class="page-title">
+    <div class="title">
 
         <h1>
             Tableau de bord
@@ -604,12 +566,12 @@ td{
                 👥
             </div>
 
-            <strong id="statUsers">
+            <strong id="usersCount">
                 0
             </strong>
 
             <span>
-                Utilisateurs
+                Utilisateurs enregistrés
             </span>
 
         </div>
@@ -621,7 +583,7 @@ td{
                 💰
             </div>
 
-            <strong id="statInvestments">
+            <strong id="investmentsCount">
                 0
             </strong>
 
@@ -638,12 +600,12 @@ td{
                 📥
             </div>
 
-            <strong id="statDeposits">
+            <strong id="depositsCount">
                 0
             </strong>
 
             <span>
-                Dépôts
+                Demandes de dépôt
             </span>
 
         </div>
@@ -652,15 +614,87 @@ td{
         <div class="stat">
 
             <div class="stat-icon">
-                📩
+                📤
             </div>
 
-            <strong id="statSupport">
+            <strong id="withdrawalsCount">
                 0
             </strong>
 
             <span>
-                Demandes d'assistance
+                Demandes de retrait
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                💵
+            </div>
+
+            <strong id="totalDeposits">
+                0 FCFA
+            </strong>
+
+            <span>
+                Total des dépôts
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📈
+            </div>
+
+            <strong id="totalInvested">
+                0 FCFA
+            </strong>
+
+            <span>
+                Total investi
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ⏳
+            </div>
+
+            <strong id="pendingDeposits">
+                0
+            </strong>
+
+            <span>
+                Dépôts en attente
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ⚠️
+            </div>
+
+            <strong id="pendingWithdrawals">
+                0
+            </strong>
+
+            <span>
+                Retraits en attente
             </span>
 
         </div>
@@ -673,12 +707,57 @@ td{
         <div class="card-header">
 
             <h2>
-                Activité récente
+                ⚡ Actions rapides
+            </h2>
+
+        </div>
+
+        <button
+            class="btn btn-blue"
+            onclick="showPageByName('users')">
+
+            👥 Voir les utilisateurs
+
+        </button>
+
+        <button
+            class="btn btn-orange"
+            onclick="showPageByName('deposits')">
+
+            📥 Vérifier les dépôts
+
+        </button>
+
+        <button
+            class="btn btn-red"
+            onclick="showPageByName('withdrawals')">
+
+            📤 Vérifier les retraits
+
+        </button>
+
+        <button
+            class="btn btn-green"
+            onclick="showPageByName('investments')">
+
+            💰 Voir les investissements
+
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                🕐 Activité récente
             </h2>
 
             <button
-                class="refresh"
-                onclick="loadAll()">
+                class="btn btn-light"
+                onclick="refreshAll()">
 
                 🔄 Actualiser
 
@@ -686,8 +765,8 @@ td{
 
         </div>
 
-        <div id="recentActivity">
-
+        <div
+            id="recentActivity">
         </div>
 
     </div>
@@ -695,166 +774,20 @@ td{
 </section>
 
 
-<!-- =========================
-     USERS
-========================= -->
+<!-- ================= USERS ================= -->
 
 <section
     id="users"
     class="page">
 
-    <div class="page-title">
+    <div class="title">
 
         <h1>
             👥 Utilisateurs
         </h1>
 
         <p>
-            Comptes enregistrés sur la plateforme.
-        </p>
-
-    </div>
-
-
-    <div class="card">
-
-        <input
-            type="search"
-            id="userSearch"
-            class="search"
-            placeholder="🔎 Rechercher un utilisateur..."
-            oninput="displayUsers()">
-
-
-        <div
-            id="usersContainer"
-            class="table-container">
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     INVESTMENTS
-========================= -->
-
-<section
-    id="investments"
-    class="page">
-
-    <div class="page-title">
-
-        <h1>
-            💰 Investissements
-        </h1>
-
-        <p>
-            Suivi des investissements enregistrés.
-        </p>
-
-    </div>
-
-
-    <div class="card">
-
-        <div
-            id="investmentsContainer"
-            class="table-container">
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     DEPOSITS
-========================= -->
-
-<section
-    id="deposits"
-    class="page">
-
-    <div class="page-title">
-
-        <h1>
-            📥 Dépôts
-        </h1>
-
-        <p>
-            Historique des dépôts.
-        </p>
-
-    </div>
-
-
-    <div class="card">
-
-        <div
-            id="depositsContainer"
-            class="table-container">
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     WITHDRAWALS
-========================= -->
-
-<section
-    id="withdrawals"
-    class="page">
-
-    <div class="page-title">
-
-        <h1>
-            📤 Retraits
-        </h1>
-
-        <p>
-            Historique des demandes de retrait.
-        </p>
-
-    </div>
-
-
-    <div class="card">
-
-        <div
-            id="withdrawalsContainer"
-            class="table-container">
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     SUPPORT
-========================= -->
-
-<section
-    id="support"
-    class="page">
-
-    <div class="page-title">
-
-        <h1>
-            📩 Assistance
-        </h1>
-
-        <p>
-            Demandes envoyées par les utilisateurs.
+            Gestion des comptes enregistrés.
         </p>
 
     </div>
@@ -865,23 +798,22 @@ td{
         <div class="card-header">
 
             <h2>
-                Messages reçus
+                Utilisateurs enregistrés
             </h2>
 
-            <button
-                class="refresh"
-                onclick="displaySupport()">
-
-                🔄 Actualiser
-
-            </button>
+            <input
+                id="userSearch"
+                class="search"
+                type="text"
+                placeholder="🔎 Rechercher un utilisateur..."
+                oninput="displayUsers()">
 
         </div>
 
 
         <div
-            id="supportContainer">
-
+            id="usersTable"
+            class="table-wrap">
         </div>
 
     </div>
@@ -889,18 +821,207 @@ td{
 </section>
 
 
+<!-- ================= INVESTMENTS ================= -->
+
+<section
+    id="investments"
+    class="page">
+
+    <div class="title">
+
+        <h1>
+            💰 Investissements
+        </h1>
+
+        <p>
+            Tous les investissements enregistrés.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Liste des investissements
+            </h2>
+
+            <input
+                id="investmentSearch"
+                class="search"
+                type="text"
+                placeholder="🔎 Rechercher..."
+                oninput="displayInvestments()">
+
+        </div>
+
+
+        <div
+            id="investmentsTable"
+            class="table-wrap">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DEPOSITS ================= -->
+
+<section
+    id="deposits"
+    class="page">
+
+    <div class="title">
+
+        <h1>
+            📥 Dépôts
+        </h1>
+
+        <p>
+            Gestion des demandes de dépôt.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Demandes de dépôt
+            </h2>
+
+        </div>
+
+
+        <div
+            id="depositsTable"
+            class="table-wrap">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= WITHDRAWALS ================= -->
+
+<section
+    id="withdrawals"
+    class="page">
+
+    <div class="title">
+
+        <h1>
+            📤 Retraits
+        </h1>
+
+        <p>
+            Gestion des demandes de retrait.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Demandes de retrait
+            </h2>
+
+        </div>
+
+
+        <div
+            id="withdrawalsTable"
+            class="table-wrap">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SUPPORT ================= -->
+
+<section
+    id="support"
+    class="page">
+
+    <div class="title">
+
+        <h1>
+            🎧 Assistance
+        </h1>
+
+        <p>
+            Messages reçus des utilisateurs.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div
+            id="supportTable"
+            class="table-wrap">
+        </div>
+
+    </div>
+
+</section>
+
 </main>
+
+</div>
+
+
+<!-- ================= USER MODAL ================= -->
+
+<div
+    id="userModal"
+    class="modal">
+
+    <div class="modal-box">
+
+        <h2>
+            👤 Détails du compte
+        </h2>
+
+        <div id="userDetails">
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="btn btn-light"
+                onclick="closeModal()">
+
+                Fermer
+
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
 
 <script>
 
-/* ==================================================
+/* =====================================================
    OUTILS
-================================================== */
+===================================================== */
 
-function getStorageArray(key){
+function getArray(key){
 
     try{
 
@@ -917,11 +1038,62 @@ function getStorageArray(key){
 }
 
 
-/* ==================================================
-   NAVIGATION
-================================================== */
+function saveArray(key,data){
 
-function showPage(pageId,button){
+    localStorage.setItem(
+        key,
+        JSON.stringify(data)
+    );
+
+}
+
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function money(value){
+
+    return Number(value || 0)
+        .toLocaleString("fr-FR")
+        + " FCFA";
+
+}
+
+
+function showAlert(message,type="success"){
+
+    const alert =
+        document.getElementById("alert");
+
+    alert.textContent =
+        message;
+
+    alert.className =
+        "alert show " + type;
+
+    setTimeout(function(){
+
+        alert.classList.remove("show");
+
+    },3500);
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showPage(id,button){
 
     document
     .querySelectorAll(".page")
@@ -942,7 +1114,7 @@ function showPage(pageId,button){
 
 
     const page =
-        document.getElementById(pageId);
+        document.getElementById(id);
 
     if(page){
 
@@ -958,84 +1130,209 @@ function showPage(pageId,button){
     }
 
 
-    if(pageId === "users"){
+    refreshPage(id);
+
+}
+
+
+function showPageByName(id){
+
+    const button =
+        [...document.querySelectorAll(".menu")]
+        .find(function(btn){
+
+            return btn.getAttribute("onclick")
+                ?.includes("'" + id + "'");
+
+        });
+
+
+    showPage(id,button);
+
+}
+
+
+function refreshPage(id){
+
+    if(id === "users"){
         displayUsers();
     }
 
-    if(pageId === "investments"){
+    if(id === "investments"){
         displayInvestments();
     }
 
-    if(pageId === "deposits"){
+    if(id === "deposits"){
         displayDeposits();
     }
 
-    if(pageId === "withdrawals"){
+    if(id === "withdrawals"){
         displayWithdrawals();
     }
 
-    if(pageId === "support"){
+    if(id === "support"){
         displaySupport();
     }
 
 }
 
 
-/* ==================================================
+/* =====================================================
+   STATISTIQUES
+===================================================== */
+
+function updateStats(){
+
+    const users =
+        getArray("users");
+
+    const investments =
+        getArray("investments");
+
+    const deposits =
+        getArray("deposits");
+
+    const withdrawals =
+        getArray("withdrawals");
+
+
+    document.getElementById(
+        "usersCount"
+    ).textContent =
+        users.length;
+
+
+    document.getElementById(
+        "investmentsCount"
+    ).textContent =
+        investments.length;
+
+
+    document.getElementById(
+        "depositsCount"
+    ).textContent =
+        deposits.length;
+
+
+    document.getElementById(
+        "withdrawalsCount"
+    ).textContent =
+        withdrawals.length;
+
+
+    let totalDeposits = 0;
+
+    deposits.forEach(function(item){
+
+        totalDeposits +=
+            Number(item.amount || 0);
+
+    });
+
+
+    let totalInvested = 0;
+
+    investments.forEach(function(item){
+
+        totalInvested +=
+            Number(item.amount || 0);
+
+    });
+
+
+    document.getElementById(
+        "totalDeposits"
+    ).textContent =
+        money(totalDeposits);
+
+
+    document.getElementById(
+        "totalInvested"
+    ).textContent =
+        money(totalInvested);
+
+
+    document.getElementById(
+        "pendingDeposits"
+    ).textContent =
+        deposits.filter(function(item){
+
+            return (
+                !item.status ||
+                item.status === "En attente"
+            );
+
+        }).length;
+
+
+    document.getElementById(
+        "pendingWithdrawals"
+    ).textContent =
+        withdrawals.filter(function(item){
+
+            return (
+                !item.status ||
+                item.status === "En attente"
+            );
+
+        }).length;
+
+}
+
+
+/* =====================================================
    UTILISATEURS
-================================================== */
+===================================================== */
 
 function displayUsers(){
 
     const users =
-        getStorageArray("users");
+        getArray("users");
 
-    const container =
-        document.getElementById(
-            "usersContainer"
-        );
 
     const search =
-        document
-        .getElementById("userSearch")
-        .value
-        .toLowerCase()
-        .trim();
+        (
+            document.getElementById(
+                "userSearch"
+            )?.value || ""
+        ).toLowerCase().trim();
 
 
     const filtered =
         users.filter(function(user){
 
-            const name =
-                String(
-                    user.name ||
-                    user.fullName ||
-                    user.nom ||
-                    ""
+            const text =
+                (
+                    (user.name || user.fullName || user.nom || "")
+                    + " "
+                    + (user.phone || user.telephone || "")
                 ).toLowerCase();
 
-            const phone =
-                String(
-                    user.phone ||
-                    user.telephone ||
-                    ""
-                ).toLowerCase();
-
-            return (
-                name.includes(search) ||
-                phone.includes(search)
-            );
+            return text.includes(search);
 
         });
+
+
+    const container =
+        document.getElementById(
+            "usersTable"
+        );
 
 
     if(filtered.length === 0){
 
         container.innerHTML = `
+
             <div class="empty">
-                <div class="empty-icon">👥</div>
+
+                <div class="empty-icon">
+                    👥
+                </div>
+
                 Aucun utilisateur trouvé.
+
             </div>
+
         `;
 
         return;
@@ -1051,20 +1348,23 @@ function displayUsers(){
 
                 <tr>
 
+                    <th>#</th>
                     <th>Nom</th>
                     <th>Téléphone</th>
-                    <th>Date</th>
+                    <th>Solde</th>
                     <th>Statut</th>
+                    <th>Action</th>
 
                 </tr>
 
             </thead>
 
             <tbody>
+
     `;
 
 
-    filtered.forEach(function(user){
+    filtered.forEach(function(user,index){
 
         const name =
             user.name ||
@@ -1079,10 +1379,10 @@ function displayUsers(){
             "—";
 
 
-        const date =
-            user.date ||
-            user.createdAt ||
-            "—";
+        const balance =
+            user.balance ||
+            user.solde ||
+            0;
 
 
         html += `
@@ -1090,7 +1390,13 @@ function displayUsers(){
             <tr>
 
                 <td>
-                    <strong>${escapeHtml(name)}</strong>
+                    ${index + 1}
+                </td>
+
+                <td>
+                    <strong>
+                        ${escapeHtml(name)}
+                    </strong>
                 </td>
 
                 <td>
@@ -1098,13 +1404,27 @@ function displayUsers(){
                 </td>
 
                 <td>
-                    ${escapeHtml(date)}
+                    ${money(balance)}
                 </td>
 
                 <td>
-                    <span class="badge badge-green">
+
+                    <span class="badge green">
                         Actif
                     </span>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-blue"
+                        onclick="viewUser(${index})">
+
+                        Voir
+
+                    </button>
+
                 </td>
 
             </tr>
@@ -1120,368 +1440,168 @@ function displayUsers(){
     `;
 
 
-    container.innerHTML = html;
+    container.innerHTML =
+        html;
 
 }
 
 
-/* ==================================================
+function viewUser(index){
+
+    const users =
+        getArray("users");
+
+
+    const search =
+        (
+            document.getElementById(
+                "userSearch"
+            )?.value || ""
+        ).toLowerCase().trim();
+
+
+    const filtered =
+        users.filter(function(user){
+
+            const text =
+                (
+                    (user.name || user.fullName || user.nom || "")
+                    + " "
+                    + (user.phone || user.telephone || "")
+                ).toLowerCase();
+
+            return text.includes(search);
+
+        });
+
+
+    const user =
+        filtered[index];
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    const name =
+        user.name ||
+        user.fullName ||
+        user.nom ||
+        "Utilisateur";
+
+
+    const phone =
+        user.phone ||
+        user.telephone ||
+        "—";
+
+
+    const balance =
+        user.balance ||
+        user.solde ||
+        0;
+
+
+    document.getElementById(
+        "userDetails"
+    ).innerHTML = `
+
+        <div class="info-line">
+            <strong>Nom :</strong>
+            ${escapeHtml(name)}
+        </div>
+
+        <div class="info-line">
+            <strong>Téléphone :</strong>
+            ${escapeHtml(phone)}
+        </div>
+
+        <div class="info-line">
+            <strong>Solde :</strong>
+            ${money(balance)}
+        </div>
+
+        <div class="info-line">
+            <strong>Statut :</strong>
+            <span class="badge green">
+                Actif
+            </span>
+        </div>
+
+    `;
+
+
+    document
+    .getElementById("userModal")
+    .classList.add("show");
+
+}
+
+
+function closeModal(){
+
+    document
+    .getElementById("userModal")
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
    INVESTISSEMENTS
-================================================== */
+===================================================== */
 
 function displayInvestments(){
 
     const investments =
-        getStorageArray("investments");
+        getArray("investments");
 
-    const container =
-        document.getElementById(
-            "investmentsContainer"
-        );
 
+    const search =
+        (
+            document.getElementById(
+                "investmentSearch"
+            )?.value || ""
+        ).toLowerCase().trim();
 
-    if(investments.length === 0){
 
-        container.innerHTML = `
-            <div class="empty">
-                <div class="empty-icon">💰</div>
-                Aucun investissement enregistré.
-            </div>
-        `;
+    const filtered =
+        investments.filter(function(item){
 
-        return;
+            const text =
+                (
+                    (item.name || "")
+                    + " "
+                    + (item.phone || "")
+                    + " "
+                    + (item.pack || "")
+                ).toLowerCase();
 
-    }
+            return text.includes(search);
 
-
-    let html = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Utilisateur</th>
-                    <th>Pack</th>
-                    <th>Montant</th>
-                    <th>Date</th>
-                    <th>Statut</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-    `;
-
-
-    investments.forEach(function(item){
-
-        html += `
-
-            <tr>
-
-                <td>
-                    ${escapeHtml(
-                        item.name ||
-                        item.user ||
-                        "Utilisateur"
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        item.pack ||
-                        item.plan ||
-                        "—"
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        String(
-                            item.amount ||
-                            item.montant ||
-                            "—"
-                        )
-                    )} FCFA
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        item.date ||
-                        item.createdAt ||
-                        "—"
-                    )}
-                </td>
-
-                <td>
-                    <span class="badge badge-green">
-                        Actif
-                    </span>
-                </td>
-
-            </tr>
-
-        `;
-
-    });
-
-
-    html += `
-            </tbody>
-        </table>
-    `;
-
-
-    container.innerHTML = html;
-
-}
-
-
-/* ==================================================
-   DEPOTS
-================================================== */
-
-function displayDeposits(){
-
-    const deposits =
-        getStorageArray("deposits");
-
-    const container =
-        document.getElementById(
-            "depositsContainer"
-        );
-
-
-    if(deposits.length === 0){
-
-        container.innerHTML = `
-            <div class="empty">
-                <div class="empty-icon">📥</div>
-                Aucun dépôt enregistré.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    let html = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Utilisateur</th>
-                    <th>Montant</th>
-                    <th>Date</th>
-                    <th>Statut</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-    `;
-
-
-    deposits.forEach(function(item){
-
-        html += `
-
-            <tr>
-
-                <td>
-                    ${escapeHtml(
-                        item.name ||
-                        item.user ||
-                        "Utilisateur"
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        String(
-                            item.amount ||
-                            item.montant ||
-                            "—"
-                        )
-                    )} FCFA
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        item.date ||
-                        item.createdAt ||
-                        "—"
-                    )}
-                </td>
-
-                <td>
-                    <span class="badge badge-orange">
-                        ${escapeHtml(
-                            item.status ||
-                            "En attente"
-                        )}
-                    </span>
-                </td>
-
-            </tr>
-
-        `;
-
-    });
-
-
-    html += `
-            </tbody>
-        </table>
-    `;
-
-
-    container.innerHTML = html;
-
-}
-
-
-/* ==================================================
-   RETRAITS
-================================================== */
-
-function displayWithdrawals(){
-
-    const withdrawals =
-        getStorageArray("withdrawals");
-
-    const container =
-        document.getElementById(
-            "withdrawalsContainer"
-        );
-
-
-    if(withdrawals.length === 0){
-
-        container.innerHTML = `
-            <div class="empty">
-                <div class="empty-icon">📤</div>
-                Aucun retrait enregistré.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    let html = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Utilisateur</th>
-                    <th>Montant</th>
-                    <th>Date</th>
-                    <th>Statut</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-    `;
-
-
-    withdrawals.forEach(function(item){
-
-        html += `
-
-            <tr>
-
-                <td>
-                    ${escapeHtml(
-                        item.name ||
-                        item.user ||
-                        "Utilisateur"
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        String(
-                            item.amount ||
-                            item.montant ||
-                            "—"
-                        )
-                    )} FCFA
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        item.date ||
-                        item.createdAt ||
-                        "—"
-                    )}
-                </td>
-
-                <td>
-                    <span class="badge badge-orange">
-                        ${escapeHtml(
-                            item.status ||
-                            "En attente"
-                        )}
-                    </span>
-                </td>
-
-            </tr>
-
-        `;
-
-    });
-
-
-    html += `
-            </tbody>
-        </table>
-    `;
-
-
-    container.innerHTML = html;
-
-}
-
-
-/* ==================================================
-   ASSISTANCE
-================================================== */
-
-function displaySupport(){
-
-    const requests =
-        getStorageArray(
-            "supportRequests"
-        );
+        });
 
 
     const container =
         document.getElementById(
-            "supportContainer"
+            "investmentsTable"
         );
 
 
-    if(requests.length === 0){
+    if(filtered.length === 0){
 
         container.innerHTML = `
 
             <div class="empty">
 
                 <div class="empty-icon">
-                    📩
+                    💰
                 </div>
 
-                Aucune demande d'assistance
-                pour le moment.
+                Aucun investissement enregistré.
 
             </div>
 
@@ -1492,270 +1612,1037 @@ function displaySupport(){
     }
 
 
-    let html = "";
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Utilisateur</th>
+                    <th>Téléphone</th>
+                    <th>Pack</th>
+                    <th>Montant</th>
+                    <th>Gain/jour</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
 
 
-    [...requests]
+    filtered
+    .slice()
     .reverse()
-    .forEach(function(request,index){
+    .forEach(function(item){
 
         html += `
 
-            <div class="support-item">
+            <tr>
 
-                <div class="support-top">
+                <td>
+                    ${escapeHtml(item.name || "—")}
+                </td>
 
-                    <div>
+                <td>
+                    ${escapeHtml(item.phone || "—")}
+                </td>
 
-                        <div class="support-name">
+                <td>
+                    ${escapeHtml(item.pack || "—")}
+                </td>
 
-                            👤
-                            ${escapeHtml(
-                                request.name ||
-                                "Utilisateur"
-                            )}
+                <td>
+                    ${money(item.amount)}
+                </td>
 
-                        </div>
+                <td>
+                    ${money(item.daily)}
+                </td>
 
-                        <div style="
-                            color:#697586;
-                            font-size:12px;
-                            margin-top:4px;
-                        ">
+                <td>
+                    ${escapeHtml(item.date || "—")}
+                </td>
 
-                            📞
-                            ${escapeHtml(
-                                request.phone ||
-                                "—"
-                            )}
+                <td>
 
-                        </div>
-
-                    </div>
-
-
-                    <div class="support-date">
-
+                    <span class="badge green">
                         ${escapeHtml(
-                            request.date ||
-                            "Date inconnue"
+                            item.status || "Actif"
                         )}
+                    </span>
 
-                    </div>
+                </td>
 
-                </div>
-
-
-                <div class="support-subject">
-
-                    ${escapeHtml(
-                        request.subject ||
-                        "Autre"
-                    )}
-
-                </div>
-
-
-                <div class="support-message">
-
-                    ${escapeHtml(
-                        request.message ||
-                        "Aucun message"
-                    )}
-
-                </div>
-
-
-                <div class="support-actions">
-
-                    <button
-                        class="btn btn-green"
-                        onclick="markSupportRead(${request.id})">
-
-                        ✓ Marquer traité
-
-                    </button>
-
-
-                    <button
-                        class="btn btn-red"
-                        onclick="deleteSupport(${request.id})">
-
-                        🗑️ Supprimer
-
-                    </button>
-
-                </div>
-
-            </div>
+            </tr>
 
         `;
 
     });
 
 
-    container.innerHTML = html;
+    html += `
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML =
+        html;
 
 }
 
 
-/* ==================================================
-   MARQUER ASSISTANCE TRAITÉE
-================================================== */
+/* =====================================================
+   DEPOTS
+===================================================== */
 
-function markSupportRead(id){
-
-    const requests =
-        getStorageArray(
-            "supportRequests"
-        );
-
-
-    const index =
-        requests.findIndex(function(item){
-
-            return String(item.id) === String(id);
-
-        });
-
-
-    if(index === -1){
-        return;
-    }
-
-
-    requests[index].status =
-        "Traité";
-
-
-    localStorage.setItem(
-        "supportRequests",
-        JSON.stringify(requests)
-    );
-
-
-    displaySupport();
-
-    updateStats();
-
-}
-
-
-/* ==================================================
-   SUPPRIMER ASSISTANCE
-================================================== */
-
-function deleteSupport(id){
-
-    if(
-        !confirm(
-            "Voulez-vous vraiment supprimer cette demande ?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    let requests =
-        getStorageArray(
-            "supportRequests"
-        );
-
-
-    requests =
-        requests.filter(function(item){
-
-            return String(item.id) !== String(id);
-
-        });
-
-
-    localStorage.setItem(
-        "supportRequests",
-        JSON.stringify(requests)
-    );
-
-
-    displaySupport();
-
-    updateStats();
-
-}
-
-
-/* ==================================================
-   STATISTIQUES
-================================================== */
-
-function updateStats(){
-
-    const users =
-        getStorageArray("users");
-
-    const investments =
-        getStorageArray("investments");
+function displayDeposits(){
 
     const deposits =
-        getStorageArray("deposits");
-
-    const support =
-        getStorageArray("supportRequests");
+        getArray("deposits");
 
 
-    document.getElementById(
-        "statUsers"
-    ).textContent =
-        users.length;
+    const container =
+        document.getElementById(
+            "depositsTable"
+        );
 
 
-    document.getElementById(
-        "statInvestments"
-    ).textContent =
-        investments.length;
+    if(deposits.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📥
+                </div>
+
+                Aucun dépôt enregistré.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
 
 
-    document.getElementById(
-        "statDeposits"
-    ).textContent =
-        deposits.length;
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Utilisateur</th>
+                    <th>Téléphone</th>
+                    <th>Montant</th>
+                    <th>Méthode</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
 
 
-    document.getElementById(
-        "statSupport"
-    ).textContent =
-        support.filter(function(item){
+    deposits
+    .slice()
+    .reverse()
+    .forEach(function(item,index){
 
-            return item.status !== "Traité";
+        const realIndex =
+            deposits.length - 1 - index;
 
-        }).length;
+
+        const status =
+            item.status ||
+            "En attente";
+
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${escapeHtml(
+                        item.name || "—"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.phone || "—"
+                    )}
+                </td>
+
+                <td>
+                    <strong>
+                        ${money(item.amount)}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.method || "—"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.date || "—"
+                    )}
+                </td>
+
+                <td>
+
+                    <span class="badge
+                    ${status === "Validé"
+                        ? "green"
+                        : status === "Refusé"
+                        ? "red"
+                        : "orange"}">
+
+                        ${escapeHtml(status)}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    ${
+                        status === "En attente"
+                        ? `
+
+                        <button
+                            class="btn btn-green"
+                            onclick="validateDeposit(${realIndex})">
+
+                            ✓ Valider
+
+                        </button>
+
+                        <button
+                            class="btn btn-red"
+                            onclick="refuseDeposit(${realIndex})">
+
+                            ✕ Refuser
+
+                        </button>
+
+                        `
+                        :
+                        `<span class="badge blue">
+                            Traité
+                        </span>`
+                    }
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML =
+        html;
 
 }
 
 
-/* ==================================================
+function validateDeposit(index){
+
+    const deposits =
+        getArray("deposits");
+
+
+    const item =
+        deposits[index];
+
+
+    if(!item){
+
+        return;
+
+    }
+
+
+    if(item.status === "Validé"){
+
+        return;
+
+    }
+
+
+    item.status =
+        "Validé";
+
+
+    const users =
+        getArray("users");
+
+
+    const phone =
+        String(
+            item.phone || ""
+        ).replace(/\s+/g,"");
+
+
+    const userIndex =
+        users.findIndex(function(user){
+
+            const userPhone =
+                String(
+                    user.phone ||
+                    user.telephone ||
+                    ""
+                ).replace(/\s+/g,"");
+
+
+            return (
+                userPhone.replace("+225","")
+                === phone.replace("+225","")
+            );
+
+        });
+
+
+    if(userIndex !== -1){
+
+        const oldBalance =
+            Number(
+                users[userIndex].balance ||
+                users[userIndex].solde ||
+                0
+            );
+
+
+        users[userIndex].balance =
+            oldBalance +
+            Number(item.amount || 0);
+
+
+        saveArray(
+            "users",
+            users
+        );
+
+    }
+
+
+    saveArray(
+        "deposits",
+        deposits
+    );
+
+
+    addAdminNotification(
+        "Dépôt validé",
+        "Le dépôt de "
+        + money(item.amount)
+        + " de "
+        + (item.name || "un utilisateur")
+        + " a été validé."
+    );
+
+
+    showAlert(
+        "Dépôt validé avec succès."
+    );
+
+
+    refreshAll();
+
+}
+
+
+function refuseDeposit(index){
+
+    const deposits =
+        getArray("deposits");
+
+
+    if(!deposits[index]){
+
+        return;
+
+    }
+
+
+    deposits[index].status =
+        "Refusé";
+
+
+    saveArray(
+        "deposits",
+        deposits
+    );
+
+
+    addAdminNotification(
+        "Dépôt refusé",
+        "Un dépôt de "
+        + money(deposits[index].amount)
+        + " a été refusé."
+    );
+
+
+    showAlert(
+        "Dépôt refusé.",
+        "error"
+    );
+
+
+    refreshAll();
+
+}
+
+
+/* =====================================================
+   RETRAITS
+===================================================== */
+
+function displayWithdrawals(){
+
+    const withdrawals =
+        getArray("withdrawals");
+
+
+    const container =
+        document.getElementById(
+            "withdrawalsTable"
+        );
+
+
+    if(withdrawals.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📤
+                </div>
+
+                Aucun retrait enregistré.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Utilisateur</th>
+                    <th>Téléphone</th>
+                    <th>Montant</th>
+                    <th>Destination</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    withdrawals
+    .slice()
+    .reverse()
+    .forEach(function(item,index){
+
+        const realIndex =
+            withdrawals.length - 1 - index;
+
+
+        const status =
+            item.status ||
+            "En attente";
+
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${escapeHtml(
+                        item.name || "—"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.phone || "—"
+                    )}
+                </td>
+
+                <td>
+                    <strong>
+                        ${money(item.amount)}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.destination || "—"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.date || "—"
+                    )}
+                </td>
+
+                <td>
+
+                    <span class="badge
+                    ${status === "Validé"
+                        ? "green"
+                        : status === "Refusé"
+                        ? "red"
+                        : "orange"}">
+
+                        ${escapeHtml(status)}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    ${
+                        status === "En attente"
+                        ? `
+
+                        <button
+                            class="btn btn-green"
+                            onclick="validateWithdrawal(${realIndex})">
+
+                            ✓ Valider
+
+                        </button>
+
+                        <button
+                            class="btn btn-red"
+                            onclick="refuseWithdrawal(${realIndex})">
+
+                            ✕ Refuser
+
+                        </button>
+
+                        `
+                        :
+                        `<span class="badge blue">
+                            Traité
+                        </span>`
+                    }
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+function validateWithdrawal(index){
+
+    const withdrawals =
+        getArray("withdrawals");
+
+
+    const item =
+        withdrawals[index];
+
+
+    if(!item){
+
+        return;
+
+    }
+
+
+    if(item.status === "Validé"){
+
+        return;
+
+    }
+
+
+    const users =
+        getArray("users");
+
+
+    const phone =
+        String(
+            item.phone || ""
+        ).replace(/\s+/g,"");
+
+
+    const userIndex =
+        users.findIndex(function(user){
+
+            const userPhone =
+                String(
+                    user.phone ||
+                    user.telephone ||
+                    ""
+                ).replace(/\s+/g,"");
+
+
+            return (
+                userPhone.replace("+225","")
+                === phone.replace("+225","")
+            );
+
+        });
+
+
+    if(userIndex !== -1){
+
+        const balance =
+            Number(
+                users[userIndex].balance ||
+                users[userIndex].solde ||
+                0
+            );
+
+
+        if(
+            balance <
+            Number(item.amount || 0)
+        ){
+
+            showAlert(
+                "Solde insuffisant pour valider ce retrait.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        users[userIndex].balance =
+            balance -
+            Number(item.amount || 0);
+
+
+        saveArray(
+            "users",
+            users
+        );
+
+    }
+
+
+    item.status =
+        "Validé";
+
+
+    saveArray(
+        "withdrawals",
+        withdrawals
+    );
+
+
+    addAdminNotification(
+        "Retrait validé",
+        "Le retrait de "
+        + money(item.amount)
+        + " a été validé."
+    );
+
+
+    showAlert(
+        "Retrait validé avec succès."
+    );
+
+
+    refreshAll();
+
+}
+
+
+function refuseWithdrawal(index){
+
+    const withdrawals =
+        getArray("withdrawals");
+
+
+    if(!withdrawals[index]){
+
+        return;
+
+    }
+
+
+    withdrawals[index].status =
+        "Refusé";
+
+
+    saveArray(
+        "withdrawals",
+        withdrawals
+    );
+
+
+    addAdminNotification(
+        "Retrait refusé",
+        "Une demande de retrait a été refusée."
+    );
+
+
+    showAlert(
+        "Retrait refusé.",
+        "error"
+    );
+
+
+    refreshAll();
+
+}
+
+
+/* =====================================================
+   ASSISTANCE
+===================================================== */
+
+function displaySupport(){
+
+    const possibleKeys = [
+        "supportMessages",
+        "support",
+        "assistance",
+        "contactMessages"
+    ];
+
+
+    let messages = [];
+
+
+    for(
+        let i = 0;
+        i < possibleKeys.length;
+        i++
+    ){
+
+        const data =
+            getArray(
+                possibleKeys[i]
+            );
+
+
+        if(data.length){
+
+            messages =
+                data;
+
+            break;
+
+        }
+
+    }
+
+
+    const container =
+        document.getElementById(
+            "supportTable"
+        );
+
+
+    if(messages.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🎧
+                </div>
+
+                Aucun message d'assistance.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Utilisateur</th>
+                    <th>Téléphone</th>
+                    <th>Sujet</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    messages
+    .slice()
+    .reverse()
+    .forEach(function(item){
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${escapeHtml(
+                        item.name ||
+                        item.fullName ||
+                        "—"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.phone ||
+                        item.telephone ||
+                        "—"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.subject ||
+                        item.sujet ||
+                        "Assistance"
+                    )}
+                </td>
+
+                <td style="max-width:300px;">
+
+                    ${escapeHtml(
+                        item.message ||
+                        item.text ||
+                        "—"
+                    )}
+
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.date || "—"
+                    )}
+                </td>
+
+                <td>
+
+                    <span class="badge orange">
+                        ${escapeHtml(
+                            item.status ||
+                            "Nouveau"
+                        )}
+                    </span>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   NOTIFICATIONS ADMIN
+===================================================== */
+
+function getAdminNotifications(){
+
+    return getArray(
+        "adminNotifications"
+    );
+
+}
+
+
+function addAdminNotification(
+    title,
+    text
+){
+
+    const list =
+        getAdminNotifications();
+
+
+    list.push({
+
+        id:Date.now(),
+
+        title:title,
+
+        text:text,
+
+        date:new Date().toLocaleString(
+            "fr-FR"
+        )
+
+    });
+
+
+    saveArray(
+        "adminNotifications",
+        list
+    );
+
+}
+
+
+/* =====================================================
    ACTIVITÉ RÉCENTE
-================================================== */
+===================================================== */
 
 function displayRecentActivity(){
 
-    const support =
-        getStorageArray(
-            "supportRequests"
-        );
-
-
     const deposits =
-        getStorageArray(
-            "deposits"
-        );
+        getArray("deposits");
+
+    const withdrawals =
+        getArray("withdrawals");
+
+    const investments =
+        getArray("investments");
 
 
-    const users =
-        getStorageArray(
-            "users"
-        );
+    const activities = [];
+
+
+    deposits.forEach(function(item){
+
+        activities.push({
+
+            type:"📥 Dépôt",
+
+            text:
+                (item.name || "Utilisateur")
+                + " — "
+                + money(item.amount),
+
+            date:item.date || ""
+
+        });
+
+    });
+
+
+    withdrawals.forEach(function(item){
+
+        activities.push({
+
+            type:"📤 Retrait",
+
+            text:
+                (item.name || "Utilisateur")
+                + " — "
+                + money(item.amount),
+
+            date:item.date || ""
+
+        });
+
+    });
+
+
+    investments.forEach(function(item){
+
+        activities.push({
+
+            type:"💰 Investissement",
+
+            text:
+                (item.name || "Utilisateur")
+                + " — "
+                + (item.pack || "Pack"),
+
+            date:item.date || ""
+
+        });
+
+    });
 
 
     const container =
@@ -1764,123 +2651,87 @@ function displayRecentActivity(){
         );
 
 
-    let html = "";
+    if(activities.length === 0){
 
-
-    if(users.length){
-
-        html += `
-
-            <p style="
-                padding:10px;
-                border-bottom:1px solid #edf0f4;
-                font-size:13px;
-            ">
-
-                👥
-                <strong>
-                    ${users.length}
-                </strong>
-                utilisateur(s) enregistré(s)
-
-            </p>
-
-        `;
-
-    }
-
-
-    if(deposits.length){
-
-        html += `
-
-            <p style="
-                padding:10px;
-                border-bottom:1px solid #edf0f4;
-                font-size:13px;
-            ">
-
-                📥
-                <strong>
-                    ${deposits.length}
-                </strong>
-                dépôt(s) enregistré(s)
-
-            </p>
-
-        `;
-
-    }
-
-
-    if(support.length){
-
-        html += `
-
-            <p style="
-                padding:10px;
-                border-bottom:1px solid #edf0f4;
-                font-size:13px;
-            ">
-
-                📩
-                <strong>
-                    ${support.length}
-                </strong>
-                demande(s) d'assistance
-
-            </p>
-
-        `;
-
-    }
-
-
-    if(!html){
-
-        html = `
+        container.innerHTML = `
 
             <div class="empty">
 
-                <div class="empty-icon">
-                    📊
-                </div>
-
-                Aucune activité enregistrée.
+                Aucune activité récente.
 
             </div>
 
         `;
 
+        return;
+
     }
 
 
-    container.innerHTML = html;
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Type</th>
+                    <th>Activité</th>
+                    <th>Date</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    activities
+    .slice(-8)
+    .reverse()
+    .forEach(function(item){
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${item.type}
+                </td>
+
+                <td>
+                    ${escapeHtml(item.text)}
+                </td>
+
+                <td>
+                    ${escapeHtml(item.date)}
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML =
+        html;
 
 }
 
 
-/* ==================================================
-   PROTECTION AFFICHAGE TEXTE
-================================================== */
+/* =====================================================
+   ACTUALISATION
+===================================================== */
 
-function escapeHtml(value){
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* ==================================================
-   ACTUALISATION GÉNÉRALE
-================================================== */
-
-function loadAll(){
+function refreshAll(){
 
     updateStats();
 
@@ -1899,40 +2750,40 @@ function loadAll(){
 }
 
 
-/* ==================================================
+/* =====================================================
    DÉCONNEXION
-================================================== */
+===================================================== */
 
-function logoutAdmin(){
+function logout(){
 
-    if(
-        confirm(
-            "Voulez-vous vous déconnecter de l'administration ?"
-        )
-    ){
+    localStorage.removeItem(
+        "adminLoggedIn"
+    );
 
-        /*
-           On ne touche pas aux comptes utilisateurs.
-           Seule la session administrateur est retirée.
-        */
+    localStorage.removeItem(
+        "isAdmin"
+    );
 
-        localStorage.removeItem(
-            "adminLoggedIn"
-        );
-
-        window.location.href =
-            "index.html";
-
-    }
+    window.location.href =
+        "login.html";
 
 }
 
 
-/* ==================================================
-   DÉMARRAGE
-================================================== */
+/* =====================================================
+   INITIALISATION
+===================================================== */
 
-loadAll();
+refreshAll();
+
+
+/* Actualisation automatique */
+
+setInterval(function(){
+
+    refreshAll();
+
+},5000);
 
 </script>
 
