@@ -13,7 +13,7 @@ function getJSON(key, fallback = []) {
         const data = localStorage.getItem(key);
         return data ? JSON.parse(data) : fallback;
     } catch (error) {
-        console.error("Erreur :", key, error);
+        console.error("Erreur de lecture :", key, error);
         return fallback;
     }
 }
@@ -34,6 +34,11 @@ function today() {
 }
 
 
+function nowISO() {
+    return new Date().toISOString();
+}
+
+
 /* =========================================================
    UTILISATEUR CONNECTÉ
    ========================================================= */
@@ -45,6 +50,7 @@ function getCurrentUser() {
         getJSON("loggedInUser", null) ||
         getJSON("user", null)
     );
+
 }
 
 
@@ -55,6 +61,7 @@ function saveCurrentUser(user) {
     saveJSON("currentUser", user);
     saveJSON("loggedInUser", user);
     saveJSON("user", user);
+
 }
 
 
@@ -81,7 +88,8 @@ function getUserPhone(user) {
         user.telephone ||
         user.phoneNumber ||
         ""
-    );
+    ).trim();
+
 }
 
 
@@ -96,6 +104,7 @@ function getUserName(user) {
         user.username ||
         "Utilisateur"
     );
+
 }
 
 
@@ -109,7 +118,8 @@ function findUserByPhone(phone) {
 
     return users.find(user => {
 
-        return getUserPhone(user) === String(phone).trim();
+        return getUserPhone(user) ===
+            String(phone).trim();
 
     });
 
@@ -117,7 +127,7 @@ function findUserByPhone(phone) {
 
 
 /* =========================================================
-   MISE A JOUR UTILISATEUR
+   MISE À JOUR UTILISATEUR
    ========================================================= */
 
 function updateUser(user) {
@@ -150,6 +160,7 @@ function updateUser(user) {
 
 
     saveUsers(users);
+
     saveCurrentUser(user);
 
 }
@@ -163,20 +174,20 @@ function registerUser(data) {
 
     const users = getUsers();
 
-    const phone =
-        String(
-            data.phone ||
-            data.telephone ||
-            data.phoneNumber ||
-            ""
-        ).trim();
+    const phone = String(
+        data.phone ||
+        data.telephone ||
+        data.phoneNumber ||
+        ""
+    ).trim();
 
 
     if (!phone) {
 
         return {
             success: false,
-            message: "Le numéro de téléphone est obligatoire."
+            message:
+                "Le numéro de téléphone est obligatoire."
         };
 
     }
@@ -193,7 +204,8 @@ function registerUser(data) {
 
         return {
             success: false,
-            message: "Ce numéro est déjà enregistré."
+            message:
+                "Ce numéro est déjà enregistré."
         };
 
     }
@@ -205,7 +217,9 @@ function registerUser(data) {
             "USR-" +
             Date.now() +
             "-" +
-            Math.floor(Math.random() * 10000),
+            Math.floor(
+                Math.random() * 10000
+            ),
 
         name:
             data.name ||
@@ -239,6 +253,7 @@ function registerUser(data) {
     users.push(user);
 
     saveUsers(users);
+
     saveCurrentUser(user);
 
 
@@ -261,8 +276,11 @@ function loginUser(phone, password) {
     const user = users.find(item => {
 
         return (
-            getUserPhone(item) === String(phone).trim() &&
-            String(item.password || "") === String(password)
+            getUserPhone(item) ===
+            String(phone).trim() &&
+
+            String(item.password || "") ===
+            String(password)
         );
 
     });
@@ -272,7 +290,8 @@ function loginUser(phone, password) {
 
         return {
             success: false,
-            message: "Numéro ou mot de passe incorrect."
+            message:
+                "Numéro ou mot de passe incorrect."
         };
 
     }
@@ -290,7 +309,7 @@ function loginUser(phone, password) {
 
 
 /* =========================================================
-   DECONNEXION
+   DÉCONNEXION
    ========================================================= */
 
 function logoutUser() {
@@ -299,7 +318,8 @@ function logoutUser() {
     localStorage.removeItem("loggedInUser");
     localStorage.removeItem("user");
 
-    window.location.href = "login.html";
+    window.location.href =
+        "login.html";
 
 }
 
@@ -392,7 +412,7 @@ function saveInvestments(investments) {
 
 
 /* =========================================================
-   CALCUL DU SUIVI
+   PROGRESSION INVESTISSEMENT
    ========================================================= */
 
 function calculateInvestmentProgress(investment) {
@@ -400,21 +420,18 @@ function calculateInvestmentProgress(investment) {
     const start =
         new Date(
             investment.createdAt ||
-            new Date().toISOString()
+            nowISO()
         );
 
     const now =
         new Date();
 
-
     const difference =
         now.getTime() -
         start.getTime();
 
-
     const millisecondsPerDay =
         24 * 60 * 60 * 1000;
-
 
     let daysElapsed =
         Math.floor(
@@ -452,21 +469,22 @@ function calculateInvestmentProgress(investment) {
 
     const progress =
         duration > 0
-        ? (daysElapsed / duration) * 100
-        : 0;
+            ? (daysElapsed / duration) * 100
+            : 0;
 
 
     return {
 
-        daysElapsed: daysElapsed,
+        daysElapsed,
 
         daysRemaining:
             Math.max(
-                duration - daysElapsed,
+                duration -
+                daysElapsed,
                 0
             ),
 
-        earned: earned,
+        earned,
 
         progress:
             Math.min(
@@ -483,14 +501,13 @@ function calculateInvestmentProgress(investment) {
 
 
 /* =========================================================
-   ACTUALISATION DES INVESTISSEMENTS
+   ACTUALISATION INVESTISSEMENTS
    ========================================================= */
 
 function updateInvestmentProgress() {
 
     const investments =
         getInvestments();
-
 
     let changed = false;
 
@@ -503,20 +520,10 @@ function updateInvestmentProgress() {
             );
 
 
-        const oldDays =
+        if (
             Number(
                 investment.elapsedDays || 0
-            );
-
-
-        const oldGain =
-            Number(
-                investment.gain || 0
-            );
-
-
-        if (
-            oldDays !==
+            ) !==
             progress.daysElapsed
         ) {
 
@@ -529,7 +536,9 @@ function updateInvestmentProgress() {
 
 
         if (
-            oldGain !==
+            Number(
+                investment.gain || 0
+            ) !==
             progress.earned
         ) {
 
@@ -548,17 +557,10 @@ function updateInvestmentProgress() {
             progress.progress;
 
 
-        if (progress.completed) {
-
-            investment.status =
-                "completed";
-
-        } else {
-
-            investment.status =
-                "active";
-
-        }
+        investment.status =
+            progress.completed
+                ? "completed"
+                : "active";
 
     });
 
@@ -578,7 +580,7 @@ function updateInvestmentProgress() {
 
 
 /* =========================================================
-   CREATION INVESTISSEMENT
+   CRÉER INVESTISSEMENT
    ========================================================= */
 
 function createInvestment(amount) {
@@ -591,21 +593,25 @@ function createInvestment(amount) {
 
         return {
             success: false,
-            message: "Vous devez être connecté."
+            message:
+                "Vous devez être connecté."
         };
 
     }
 
 
     const pack =
-        PACKS[Number(amount)];
+        PACKS[
+            Number(amount)
+        ];
 
 
     if (!pack) {
 
         return {
             success: false,
-            message: "Pack d'investissement invalide."
+            message:
+                "Pack d'investissement invalide."
         };
 
     }
@@ -653,7 +659,9 @@ function createInvestment(amount) {
             "INV-" +
             Date.now() +
             "-" +
-            Math.floor(Math.random() * 10000),
+            Math.floor(
+                Math.random() * 10000
+            ),
 
         userId:
             user.id || "",
@@ -679,17 +687,14 @@ function createInvestment(amount) {
         total:
             pack.total,
 
-        elapsedDays:
-            0,
+        elapsedDays: 0,
 
         daysRemaining:
             pack.duration,
 
-        gain:
-            0,
+        gain: 0,
 
-        progress:
-            0,
+        progress: 0,
 
         status:
             "active",
@@ -698,7 +703,7 @@ function createInvestment(amount) {
             today(),
 
         createdAt:
-            new Date().toISOString()
+            nowISO()
 
     };
 
@@ -723,8 +728,8 @@ function createInvestment(amount) {
 
     return {
         success: true,
-        investment: investment,
-        user: user
+        investment,
+        user
     };
 
 }
@@ -750,24 +755,21 @@ function getMyInvestments() {
         getUserPhone(user);
 
 
-    const investments =
-        getInvestments();
+    return getInvestments()
+        .filter(item => {
 
+            return (
+                item.userId === user.id ||
+                item.userPhone === phone
+            );
 
-    return investments.filter(item => {
-
-        return (
-            item.userId === user.id ||
-            item.userPhone === phone
-        );
-
-    });
+        });
 
 }
 
 
 /* =========================================================
-   GAINS CUMULES
+   GAINS
    ========================================================= */
 
 function calculateTotalGains() {
@@ -776,26 +778,23 @@ function calculateTotalGains() {
         getMyInvestments();
 
 
-    let total = 0;
+    return investments.reduce(
+        (total, item) => {
 
+            return total +
+                Number(
+                    item.gain || 0
+                );
 
-    investments.forEach(item => {
-
-        total +=
-            Number(
-                item.gain || 0
-            );
-
-    });
-
-
-    return total;
+        },
+        0
+    );
 
 }
 
 
 /* =========================================================
-   DEPOTS
+   DÉPÔTS
    ========================================================= */
 
 function getDeposits() {
@@ -809,7 +808,7 @@ function saveDeposits(deposits) {
 
 
 /* =========================================================
-   CREER DEPOT
+   CRÉER DÉPÔT
    ========================================================= */
 
 function createDeposit(
@@ -825,7 +824,8 @@ function createDeposit(
 
         return {
             success: false,
-            message: "Vous devez être connecté."
+            message:
+                "Vous devez être connecté."
         };
 
     }
@@ -839,7 +839,8 @@ function createDeposit(
 
         return {
             success: false,
-            message: "Montant de dépôt invalide."
+            message:
+                "Montant de dépôt invalide."
         };
 
     }
@@ -855,7 +856,9 @@ function createDeposit(
             "DEP-" +
             Date.now() +
             "-" +
-            Math.floor(Math.random() * 10000),
+            Math.floor(
+                Math.random() * 10000
+            ),
 
         userId:
             user.id || "",
@@ -866,11 +869,9 @@ function createDeposit(
         userPhone:
             getUserPhone(user),
 
-        amount:
-            amount,
+        amount,
 
-        method:
-            method,
+        method,
 
         date:
             today(),
@@ -879,7 +880,7 @@ function createDeposit(
             "pending",
 
         createdAt:
-            new Date().toISOString()
+            nowISO()
 
     };
 
@@ -902,19 +903,17 @@ function createDeposit(
 
     return {
         success: true,
-        deposit: deposit
+        deposit
     };
 
 }
 
 
 /* =========================================================
-   APPROUVER DEPOT
+   VALIDER DÉPÔT
    ========================================================= */
 
-function approveDeposit(
-    depositId
-) {
+function approveDeposit(depositId) {
 
     const deposits =
         getDeposits();
@@ -931,7 +930,8 @@ function approveDeposit(
 
         return {
             success: false,
-            message: "Dépôt introuvable."
+            message:
+                "Dépôt introuvable."
         };
 
     }
@@ -994,19 +994,23 @@ function approveDeposit(
     deposit.status =
         "approved";
 
-
     deposit.approvedAt =
-        new Date().toISOString();
+        nowISO();
 
 
     saveUsers(users);
-    saveDeposits(deposits);
+
+    saveDeposits(
+        deposits
+    );
 
 
     addNotification(
         users[userIndex].id,
         "Votre dépôt de " +
-        formatFCFA(deposit.amount) +
+        formatFCFA(
+            deposit.amount
+        ) +
         " a été validé.",
         "success"
     );
@@ -1022,12 +1026,10 @@ function approveDeposit(
 
 
 /* =========================================================
-   REFUSER DEPOT
+   REFUSER DÉPÔT
    ========================================================= */
 
-function rejectDeposit(
-    depositId
-) {
+function rejectDeposit(depositId) {
 
     const deposits =
         getDeposits();
@@ -1056,7 +1058,7 @@ function rejectDeposit(
 
 
     deposits[index].rejectedAt =
-        new Date().toISOString();
+        nowISO();
 
 
     saveDeposits(
@@ -1085,13 +1087,14 @@ function rejectDeposit(
    ========================================================= */
 
 function getWithdrawals() {
-    return getJSON("withdrawals", []);
+    return getJSON(
+        "withdrawals",
+        []
+    );
 }
 
 
-function saveWithdrawals(
-    withdrawals
-) {
+function saveWithdrawals(withdrawals) {
     saveJSON(
         "withdrawals",
         withdrawals
@@ -1100,7 +1103,7 @@ function saveWithdrawals(
 
 
 /* =========================================================
-   CREER RETRAIT
+   CRÉER RETRAIT
    ========================================================= */
 
 function createWithdrawal(
@@ -1165,7 +1168,9 @@ function createWithdrawal(
             "RET-" +
             Date.now() +
             "-" +
-            Math.floor(Math.random() * 10000),
+            Math.floor(
+                Math.random() * 10000
+            ),
 
         userId:
             user.id || "",
@@ -1176,11 +1181,9 @@ function createWithdrawal(
         userPhone:
             getUserPhone(user),
 
-        amount:
-            amount,
+        amount,
 
-        method:
-            method,
+        method,
 
         date:
             today(),
@@ -1189,7 +1192,7 @@ function createWithdrawal(
             "pending",
 
         createdAt:
-            new Date().toISOString()
+            nowISO()
 
     };
 
@@ -1212,14 +1215,14 @@ function createWithdrawal(
 
     return {
         success: true,
-        withdrawal: withdrawal
+        withdrawal
     };
 
 }
 
 
 /* =========================================================
-   APPROUVER RETRAIT
+   VALIDER RETRAIT
    ========================================================= */
 
 function approveWithdrawal(
@@ -1276,6 +1279,7 @@ function approveWithdrawal(
             return (
                 user.id ===
                 withdrawal.userId ||
+
                 getUserPhone(user) ===
                 withdrawal.userPhone
             );
@@ -1332,10 +1336,11 @@ function approveWithdrawal(
 
 
     withdrawal.approvedAt =
-        new Date().toISOString();
+        nowISO();
 
 
     saveUsers(users);
+
     saveWithdrawals(
         withdrawals
     );
@@ -1344,7 +1349,9 @@ function approveWithdrawal(
     addNotification(
         user.id,
         "Votre retrait de " +
-        formatFCFA(withdrawal.amount) +
+        formatFCFA(
+            withdrawal.amount
+        ) +
         " a été validé.",
         "success"
     );
@@ -1394,7 +1401,7 @@ function rejectWithdrawal(
 
 
     withdrawals[index].rejectedAt =
-        new Date().toISOString();
+        nowISO();
 
 
     saveWithdrawals(
@@ -1423,20 +1430,24 @@ function rejectWithdrawal(
    ========================================================= */
 
 function getNotifications() {
+
     return getJSON(
         "notifications",
         []
     );
+
 }
 
 
 function saveNotifications(
     notifications
 ) {
+
     saveJSON(
         "notifications",
         notifications
     );
+
 }
 
 
@@ -1463,20 +1474,16 @@ function addNotification(
                 Math.random() * 10000
             ),
 
-        userId:
-            userId,
+        userId,
 
-        message:
-            message,
+        message,
 
-        type:
-            type,
+        type,
 
-        read:
-            false,
+        read: false,
 
         date:
-            new Date().toISOString()
+            nowISO()
 
     });
 
@@ -1489,7 +1496,7 @@ function addNotification(
 
 
 /* =========================================================
-   NOTIFICATIONS UTILISATEUR
+   MES NOTIFICATIONS
    ========================================================= */
 
 function getMyNotifications() {
@@ -1512,10 +1519,447 @@ function getMyNotifications() {
 
 
 /* =========================================================
+   ASSISTANCE / TICKETS
+   ========================================================= */
+
+function getSupportTickets() {
+
+    return getJSON(
+        "supportTickets",
+        []
+    );
+
+}
+
+
+function saveSupportTickets(
+    tickets
+) {
+
+    saveJSON(
+        "supportTickets",
+        tickets
+    );
+
+}
+
+
+/* =========================================================
+   CRÉER UN TICKET
+   ========================================================= */
+
+function createSupportTicket(
+    subject,
+    message
+) {
+
+    const user =
+        getCurrentUser();
+
+
+    if (!user) {
+
+        return {
+            success: false,
+            message:
+                "Vous devez être connecté."
+        };
+
+    }
+
+
+    subject =
+        String(
+            subject || ""
+        ).trim();
+
+
+    message =
+        String(
+            message || ""
+        ).trim();
+
+
+    if (!subject) {
+
+        return {
+            success: false,
+            message:
+                "Veuillez indiquer l'objet de votre demande."
+        };
+
+    }
+
+
+    if (!message) {
+
+        return {
+            success: false,
+            message:
+                "Veuillez écrire votre message."
+        };
+
+    }
+
+
+    if (subject.length > 100) {
+
+        return {
+            success: false,
+            message:
+                "L'objet est trop long."
+        };
+
+    }
+
+
+    if (message.length > 2000) {
+
+        return {
+            success: false,
+            message:
+                "Le message ne doit pas dépasser 2000 caractères."
+        };
+
+    }
+
+
+    const tickets =
+        getSupportTickets();
+
+
+    const ticketNumber =
+        "HI-" +
+        new Date()
+            .getFullYear() +
+        "-" +
+        String(
+            tickets.length + 1
+        ).padStart(5, "0");
+
+
+    const ticket = {
+
+        id:
+            "TICKET-" +
+            Date.now() +
+            "-" +
+            Math.floor(
+                Math.random() * 10000
+            ),
+
+        ticketNumber,
+
+        userId:
+            user.id || "",
+
+        userName:
+            getUserName(user),
+
+        userPhone:
+            getUserPhone(user),
+
+        subject,
+
+        message,
+
+        reply: "",
+
+        status:
+            "pending",
+
+        createdAt:
+            nowISO(),
+
+        updatedAt:
+            nowISO(),
+
+        date:
+            today()
+
+    };
+
+
+    tickets.push(
+        ticket
+    );
+
+
+    saveSupportTickets(
+        tickets
+    );
+
+
+    addNotification(
+        user.id,
+        "Votre demande d'assistance " +
+        ticketNumber +
+        " a été créée.",
+        "info"
+    );
+
+
+    return {
+        success: true,
+        ticket
+    };
+
+}
+
+
+/* =========================================================
+   MES TICKETS
+   ========================================================= */
+
+function getMySupportTickets() {
+
+    const user =
+        getCurrentUser();
+
+
+    if (!user) return [];
+
+
+    return getSupportTickets()
+        .filter(ticket => {
+
+            return (
+                ticket.userId ===
+                user.id ||
+
+                ticket.userPhone ===
+                getUserPhone(user)
+            );
+
+        })
+        .sort(
+            (a, b) =>
+                new Date(
+                    b.updatedAt ||
+                    b.createdAt
+                ) -
+                new Date(
+                    a.updatedAt ||
+                    a.createdAt
+                )
+        );
+
+}
+
+
+/* =========================================================
+   ADMIN : RÉCUPÉRER TOUS LES TICKETS
+   ========================================================= */
+
+function getAllSupportTickets() {
+
+    return getSupportTickets()
+        .sort(
+            (a, b) =>
+                new Date(
+                    b.updatedAt ||
+                    b.createdAt
+                ) -
+                new Date(
+                    a.updatedAt ||
+                    a.createdAt
+                )
+        );
+
+}
+
+
+/* =========================================================
+   ADMIN : CHANGER LE STATUT
+   ========================================================= */
+
+function updateSupportTicketStatus(
+    ticketId,
+    status
+) {
+
+    const allowed = [
+        "pending",
+        "in_progress",
+        "answered",
+        "closed"
+    ];
+
+
+    if (!allowed.includes(status)) {
+
+        return {
+            success: false,
+            message:
+                "Statut invalide."
+        };
+
+    }
+
+
+    const tickets =
+        getSupportTickets();
+
+
+    const ticket =
+        tickets.find(
+            item =>
+            item.id === ticketId
+        );
+
+
+    if (!ticket) {
+
+        return {
+            success: false,
+            message:
+                "Ticket introuvable."
+        };
+
+    }
+
+
+    ticket.status =
+        status;
+
+
+    ticket.updatedAt =
+        nowISO();
+
+
+    saveSupportTickets(
+        tickets
+    );
+
+
+    return {
+        success: true,
+        ticket
+    };
+
+}
+
+
+/* =========================================================
+   ADMIN : RÉPONDRE
+   ========================================================= */
+
+function replyToSupportTicket(
+    ticketId,
+    reply
+) {
+
+    reply =
+        String(
+            reply || ""
+        ).trim();
+
+
+    if (!reply) {
+
+        return {
+            success: false,
+            message:
+                "La réponse ne peut pas être vide."
+        };
+
+    }
+
+
+    if (reply.length > 3000) {
+
+        return {
+            success: false,
+            message:
+                "La réponse est trop longue."
+        };
+
+    }
+
+
+    const tickets =
+        getSupportTickets();
+
+
+    const ticket =
+        tickets.find(
+            item =>
+            item.id === ticketId
+        );
+
+
+    if (!ticket) {
+
+        return {
+            success: false,
+            message:
+                "Ticket introuvable."
+        };
+
+    }
+
+
+    ticket.reply =
+        reply;
+
+
+    ticket.status =
+        "answered";
+
+
+    ticket.updatedAt =
+        nowISO();
+
+
+    ticket.repliedAt =
+        nowISO();
+
+
+    saveSupportTickets(
+        tickets
+    );
+
+
+    addNotification(
+        ticket.userId,
+        "L'administration a répondu à votre demande " +
+        ticket.ticketNumber +
+        ".",
+        "success"
+    );
+
+
+    return {
+        success: true,
+        ticket
+    };
+
+}
+
+
+/* =========================================================
+   FERMER UN TICKET
+   ========================================================= */
+
+function closeSupportTicket(
+    ticketId
+) {
+
+    return updateSupportTicketStatus(
+        ticketId,
+        "closed"
+    );
+
+}
+
+
+/* =========================================================
    EXPORT GLOBAL
    ========================================================= */
 
 window.HousingInvestment = {
+
+    /* Utilisateurs */
 
     getUsers,
     saveUsers,
@@ -1530,33 +1974,66 @@ window.HousingInvestment = {
     updateUser,
     findUserByPhone,
 
+    /* Packs */
+
     PACKS,
+
+    /* Investissements */
 
     getInvestments,
     saveInvestments,
+
     createInvestment,
     getMyInvestments,
 
     calculateInvestmentProgress,
     updateInvestmentProgress,
+
     calculateTotalGains,
+
+    /* Dépôts */
 
     getDeposits,
     saveDeposits,
+
     createDeposit,
     approveDeposit,
     rejectDeposit,
 
+    /* Retraits */
+
     getWithdrawals,
     saveWithdrawals,
+
     createWithdrawal,
     approveWithdrawal,
     rejectWithdrawal,
 
+    /* Notifications */
+
     getNotifications,
     saveNotifications,
+
     addNotification,
     getMyNotifications,
+
+    /* Assistance */
+
+    getSupportTickets,
+    saveSupportTickets,
+
+    createSupportTicket,
+    getMySupportTickets,
+
+    getAllSupportTickets,
+
+    updateSupportTicketStatus,
+
+    replyToSupportTicket,
+
+    closeSupportTicket,
+
+    /* Outils */
 
     formatFCFA
 
@@ -1571,7 +2048,15 @@ updateInvestmentProgress();
 
 
 console.log(
-    "Housing Investment : script.js chargé."
+    "===================================="
+);
+
+console.log(
+    "Housing Investment"
+);
+
+console.log(
+    "Script chargé correctement."
 );
 
 console.log(
@@ -1592,4 +2077,13 @@ console.log(
 console.log(
     "Retraits :",
     getWithdrawals().length
+);
+
+console.log(
+    "Tickets assistance :",
+    getSupportTickets().length
+);
+
+console.log(
+    "===================================="
 );
