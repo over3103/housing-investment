@@ -6,8 +6,6 @@
 
 <title>Mon espace — Housing Investment</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 *{
     box-sizing:border-box;
@@ -15,44 +13,79 @@
     padding:0;
 }
 
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f7fb;
-    color:#172033;
+:root{
+    --navy:#071a35;
+    --navy2:#0b2850;
+    --blue:#087cff;
+    --cyan:#28d7ff;
+    --green:#16c784;
+    --gold:#f6c453;
+    --red:#ef476f;
+    --bg:#f4f7fc;
+    --card:#ffffff;
+    --text:#142033;
+    --muted:#748197;
+    --border:#e7edf5;
+    --shadow:0 15px 40px rgba(8,28,60,.08);
 }
 
-button,input,select{
-    font-family:inherit;
+body{
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at 10% 0%,rgba(40,215,255,.08),transparent 28%),
+        radial-gradient(circle at 90% 10%,rgba(8,124,255,.08),transparent 28%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
 }
+
+/* HEADER */
 
 header{
-    height:70px;
-    background:#081c3c;
-    color:white;
+    height:74px;
+    background:linear-gradient(135deg,#06162e,#0b2c59);
+    color:#fff;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 20px;
+    padding:0 25px;
     position:sticky;
     top:0;
-    z-index:100;
-    box-shadow:0 3px 15px rgba(0,0,0,.15);
+    z-index:1000;
+    box-shadow:0 8px 30px rgba(3,18,40,.22);
 }
 
 .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
     font-size:21px;
-    font-weight:800;
+    font-weight:900;
+    letter-spacing:-.4px;
+}
+
+.logo-mark{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--blue),var(--cyan));
+    box-shadow:0 8px 20px rgba(40,215,255,.25);
 }
 
 .logo span{
-    color:#38bdf8;
+    color:var(--cyan);
 }
 
 .header-actions{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:14px;
 }
+
+/* NOTIFICATIONS */
 
 .notification{
     position:relative;
@@ -61,45 +94,49 @@ header{
 .notification-btn{
     width:42px;
     height:42px;
-    border:none;
-    border-radius:50%;
-    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:13px;
+    background:rgba(255,255,255,.08);
     color:white;
-    font-size:20px;
+    font-size:18px;
     cursor:pointer;
+}
+
+.notification-btn:hover{
+    background:rgba(255,255,255,.16);
 }
 
 .notification-count{
     position:absolute;
-    top:-2px;
-    right:-2px;
+    top:-4px;
+    right:-4px;
     min-width:19px;
     height:19px;
     padding:0 5px;
     border-radius:20px;
-    background:#dc3545;
+    background:var(--red);
     color:white;
-    font-size:10px;
-    font-weight:bold;
+    font-size:9px;
+    font-weight:800;
     display:none;
     align-items:center;
     justify-content:center;
-    border:2px solid #081c3c;
+    border:2px solid var(--navy);
 }
 
 .notification-panel{
     position:absolute;
     right:0;
-    top:52px;
-    width:330px;
-    max-height:420px;
+    top:54px;
+    width:350px;
+    max-height:430px;
     overflow-y:auto;
     background:white;
-    color:#172033;
-    border-radius:15px;
-    box-shadow:0 15px 40px rgba(0,0,0,.22);
+    color:var(--text);
+    border-radius:18px;
+    box-shadow:0 25px 60px rgba(0,0,0,.22);
     display:none;
-    border:1px solid #e5eaf0;
+    border:1px solid var(--border);
 }
 
 .notification-panel.open{
@@ -107,24 +144,25 @@ header{
 }
 
 .notification-header{
-    padding:15px;
-    border-bottom:1px solid #edf0f4;
+    padding:17px;
+    border-bottom:1px solid var(--border);
     display:flex;
     justify-content:space-between;
+    align-items:center;
 }
 
 .clear-notifications{
     border:none;
     background:none;
-    color:#0b5ed7;
+    color:var(--blue);
     font-size:11px;
-    font-weight:bold;
+    font-weight:800;
     cursor:pointer;
 }
 
 .notification-item{
-    padding:13px 15px;
-    border-bottom:1px solid #edf0f4;
+    padding:14px 17px;
+    border-bottom:1px solid #edf1f6;
     font-size:12px;
 }
 
@@ -134,84 +172,107 @@ header{
 
 .notification-item strong{
     display:block;
-    margin-bottom:4px;
+    margin-bottom:5px;
 }
 
 .notification-item small{
-    color:#7b8797;
+    color:#8a96a8;
 }
 
 .no-notification{
-    padding:30px 15px;
+    padding:35px 15px;
     text-align:center;
-    color:#7b8797;
+    color:#8793a5;
 }
+
+/* USER */
 
 .user-menu{
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:9px;
     color:white;
     font-size:12px;
+    font-weight:700;
 }
 
 .user-avatar{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    background:#0b5ed7;
+    width:40px;
+    height:40px;
+    border-radius:13px;
+    background:linear-gradient(135deg,var(--blue),var(--cyan));
     display:flex;
     align-items:center;
     justify-content:center;
-    font-weight:bold;
+    font-weight:900;
 }
 
 .logout{
-    border:none;
-    background:#dc3545;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(239,71,111,.9);
     color:white;
-    padding:9px 12px;
-    border-radius:8px;
+    padding:10px 13px;
+    border-radius:10px;
     cursor:pointer;
-    font-size:12px;
-    font-weight:bold;
+    font-size:11px;
+    font-weight:800;
 }
+
+/* LAYOUT */
 
 .layout{
     display:flex;
-    min-height:calc(100vh - 70px);
+    min-height:calc(100vh - 74px);
 }
 
 .sidebar{
-    width:225px;
-    background:#0b2145;
+    width:235px;
+    background:linear-gradient(180deg,#081d3d,#06172f);
     color:white;
-    padding:18px 12px;
+    padding:22px 13px;
+    box-shadow:8px 0 25px rgba(0,0,0,.05);
+}
+
+.sidebar-title{
+    color:#6f86a8;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:1.4px;
+    padding:0 13px 12px;
+    text-transform:uppercase;
 }
 
 .menu{
     width:100%;
     border:none;
     background:transparent;
-    color:#dce6f4;
+    color:#c8d6e8;
     text-align:left;
-    padding:13px 12px;
-    border-radius:9px;
-    margin-bottom:5px;
+    padding:13px 14px;
+    border-radius:11px;
+    margin-bottom:6px;
     cursor:pointer;
-    font-size:13px;
+    font-size:12px;
+    font-weight:700;
+    transition:.2s;
 }
 
 .menu:hover,
 .menu.active{
-    background:#0b5ed7;
+    background:linear-gradient(90deg,#087cff,#0b5ed7);
     color:white;
+    box-shadow:0 8px 20px rgba(8,124,255,.22);
+    transform:translateX(2px);
 }
+
+/* MAIN */
 
 .main{
     flex:1;
-    padding:25px;
-    max-width:1400px;
+    padding:30px;
+    max-width:1500px;
+    margin:auto;
+    width:100%;
 }
 
 .page{
@@ -220,40 +281,111 @@ header{
 
 .page.active{
     display:block;
+    animation:fadeIn .35s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
 }
 
 .title{
-    margin-bottom:20px;
+    margin-bottom:23px;
 }
 
 .title h1{
-    font-size:28px;
-    margin-bottom:5px;
+    font-size:29px;
+    letter-spacing:-.7px;
+    margin-bottom:6px;
 }
 
 .title p{
-    color:#697586;
+    color:var(--muted);
     font-size:13px;
 }
+
+/* HERO */
+
+.hero{
+    position:relative;
+    overflow:hidden;
+    border-radius:25px;
+    padding:30px;
+    margin-bottom:20px;
+    color:white;
+    background:
+        radial-gradient(circle at 85% 20%,rgba(40,215,255,.35),transparent 25%),
+        radial-gradient(circle at 70% 90%,rgba(8,124,255,.35),transparent 30%),
+        linear-gradient(135deg,#061a38,#0b4c9c);
+    box-shadow:0 18px 45px rgba(7,49,100,.18);
+}
+
+.hero:after{
+    content:"";
+    position:absolute;
+    width:240px;
+    height:240px;
+    right:-90px;
+    bottom:-120px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.15);
+}
+
+.hero-small{
+    font-size:11px;
+    opacity:.75;
+    margin-bottom:7px;
+}
+
+.hero h2{
+    font-size:28px;
+    margin-bottom:6px;
+}
+
+.hero p{
+    color:#c9d9ee;
+    font-size:12px;
+    max-width:600px;
+}
+
+.hero-badge{
+    display:inline-flex;
+    margin-top:18px;
+    padding:8px 12px;
+    border-radius:30px;
+    background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.14);
+    font-size:10px;
+    font-weight:800;
+}
+
+/* BALANCE */
 
 .balance-card{
     background:linear-gradient(135deg,#0b5ed7,#073b8f);
     color:white;
-    border-radius:20px;
+    border-radius:22px;
     padding:25px;
     margin-bottom:20px;
-    box-shadow:0 10px 30px rgba(11,94,215,.22);
+    box-shadow:0 14px 35px rgba(11,94,215,.2);
 }
 
 .balance-label{
-    font-size:12px;
-    opacity:.8;
+    font-size:10px;
+    letter-spacing:1px;
+    opacity:.72;
     margin-bottom:8px;
 }
 
 .balance{
-    font-size:34px;
-    font-weight:800;
+    font-size:35px;
+    font-weight:900;
     margin-bottom:18px;
 }
 
@@ -265,11 +397,11 @@ header{
 
 .balance-actions button{
     border:none;
-    border-radius:9px;
-    padding:10px 14px;
+    border-radius:10px;
+    padding:11px 15px;
     cursor:pointer;
-    font-weight:bold;
-    font-size:12px;
+    font-weight:800;
+    font-size:11px;
 }
 
 .deposit-btn{
@@ -278,91 +410,134 @@ header{
 }
 
 .withdraw-btn{
-    background:rgba(255,255,255,.15);
+    background:rgba(255,255,255,.12);
     color:white;
-    border:1px solid rgba(255,255,255,.35)!important;
+    border:1px solid rgba(255,255,255,.25)!important;
 }
+
+/* STATS */
 
 .stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:15px;
-    margin-bottom:20px;
+    gap:16px;
+    margin-bottom:27px;
 }
 
 .stat{
+    position:relative;
+    overflow:hidden;
     background:white;
-    border:1px solid #e5eaf0;
-    border-radius:15px;
-    padding:18px;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:20px;
+    box-shadow:var(--shadow);
+}
+
+.stat:after{
+    content:"";
+    position:absolute;
+    right:-25px;
+    bottom:-35px;
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background:rgba(8,124,255,.05);
 }
 
 .stat-icon{
-    font-size:24px;
-    margin-bottom:9px;
+    font-size:23px;
+    margin-bottom:10px;
 }
 
 .stat strong{
     display:block;
-    font-size:22px;
+    font-size:21px;
     margin-bottom:5px;
 }
 
 .stat span{
-    color:#697586;
-    font-size:12px;
+    color:var(--muted);
+    font-size:11px;
 }
 
+/* SECTION */
+
 .section-title{
-    margin:25px 0 15px;
+    margin:28px 0 15px;
     font-size:21px;
 }
+
+/* PACKS */
 
 .packs{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:15px;
+    gap:17px;
 }
 
 .pack{
     background:white;
-    border:1px solid #e5eaf0;
-    border-radius:16px;
+    border:1px solid var(--border);
+    border-radius:19px;
     overflow:hidden;
-    box-shadow:0 5px 18px rgba(0,0,0,.04);
+    box-shadow:var(--shadow);
+    transition:.25s;
+}
+
+.pack:hover{
+    transform:translateY(-6px);
+    box-shadow:0 22px 45px rgba(8,28,60,.13);
+}
+
+.pack-image-wrap{
+    position:relative;
 }
 
 .pack-image{
     width:100%;
-    height:155px;
+    height:170px;
     object-fit:cover;
     display:block;
 }
 
+.pack-tag{
+    position:absolute;
+    left:12px;
+    top:12px;
+    padding:6px 9px;
+    border-radius:20px;
+    background:rgba(6,26,56,.82);
+    color:white;
+    font-size:9px;
+    font-weight:800;
+    backdrop-filter:blur(8px);
+}
+
 .pack-content{
-    padding:16px;
+    padding:17px;
 }
 
 .pack h3{
-    font-size:17px;
+    font-size:16px;
     margin-bottom:8px;
 }
 
 .pack-price{
-    color:#0b5ed7;
-    font-weight:800;
+    color:var(--blue);
+    font-weight:900;
     font-size:19px;
     margin-bottom:12px;
 }
 
 .pack-info{
-    font-size:12px;
-    color:#697586;
-    line-height:1.8;
+    font-size:11px;
+    color:var(--muted);
+    line-height:1.9;
 }
 
 .pack-info strong{
-    color:#172033;
+    color:var(--text);
 }
 
 .invest-btn{
@@ -370,25 +545,36 @@ header{
     height:43px;
     margin-top:14px;
     border:none;
-    border-radius:9px;
-    background:#0b5ed7;
+    border-radius:10px;
+    background:linear-gradient(135deg,#087cff,#0755ca);
     color:white;
-    font-weight:bold;
+    font-weight:800;
     cursor:pointer;
+    transition:.2s;
 }
+
+.invest-btn:hover{
+    transform:translateY(-1px);
+    box-shadow:0 9px 20px rgba(8,124,255,.2);
+}
+
+/* CARDS */
 
 .card{
     background:white;
-    border:1px solid #e5eaf0;
-    border-radius:15px;
+    border:1px solid var(--border);
+    border-radius:18px;
     padding:20px;
     margin-bottom:20px;
+    box-shadow:var(--shadow);
 }
 
 .card h2{
-    font-size:19px;
+    font-size:18px;
     margin-bottom:15px;
 }
+
+/* TABLE */
 
 .table-container{
     width:100%;
@@ -402,57 +588,91 @@ table{
 }
 
 th{
-    background:#f4f7fb;
-    color:#526174;
-    font-size:12px;
+    background:#f4f7fc;
+    color:#66758b;
+    font-size:10px;
     text-align:left;
-    padding:12px;
+    padding:13px;
+    text-transform:uppercase;
 }
 
 td{
-    padding:12px;
-    border-top:1px solid #edf0f4;
-    font-size:12px;
+    padding:13px;
+    border-top:1px solid #edf1f6;
+    font-size:11px;
 }
 
 .badge{
     display:inline-block;
     padding:5px 9px;
     border-radius:20px;
-    font-size:10px;
-    font-weight:bold;
+    font-size:9px;
+    font-weight:800;
 }
 
 .green{
-    background:#e7f7ee;
-    color:#198754;
+    background:#e7f8f0;
+    color:#11975e;
 }
 
 .orange{
-    background:#fff2dc;
-    color:#b56b00;
+    background:#fff3dc;
+    color:#b86b00;
 }
+
+/* EMPTY */
 
 .empty{
     text-align:center;
-    padding:35px;
-    color:#7b8797;
+    padding:40px;
+    color:#7c899c;
 }
 
 .empty-icon{
-    font-size:38px;
+    font-size:40px;
     margin-bottom:10px;
 }
+
+/* PROFILE */
+
+.profile-box{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:25px;
+    align-items:center;
+}
+
+.profile-avatar{
+    width:105px;
+    height:105px;
+    border-radius:28px;
+    background:linear-gradient(135deg,#087cff,#28d7ff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:36px;
+    font-weight:900;
+    box-shadow:0 12px 30px rgba(8,124,255,.2);
+}
+
+.profile-line{
+    margin:10px 0;
+    font-size:13px;
+}
+
+/* MODAL */
 
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.55);
+    background:rgba(2,14,30,.65);
+    backdrop-filter:blur(6px);
     display:none;
     align-items:center;
     justify-content:center;
     padding:20px;
-    z-index:200;
+    z-index:2000;
 }
 
 .modal.show{
@@ -463,79 +683,78 @@ td{
     width:100%;
     max-width:430px;
     background:white;
-    border-radius:18px;
-    padding:25px;
+    border-radius:22px;
+    padding:26px;
+    box-shadow:0 30px 80px rgba(0,0,0,.25);
 }
 
 .modal-box h2{
-    margin-bottom:15px;
+    margin-bottom:17px;
 }
 
 .modal-box input,
 .modal-box select{
     width:100%;
-    height:47px;
-    border:1px solid #d8dee8;
-    border-radius:9px;
+    height:48px;
+    border:1px solid #d9e1eb;
+    border-radius:10px;
     padding:0 12px;
     margin-bottom:13px;
     outline:none;
 }
 
-.fee-info{
-    background:#f4f7fb;
+.modal-box input:focus,
+.modal-box select:focus{
+    border-color:var(--blue);
+}
+
+.modal-note{
+    background:#f4f8ff;
+    padding:11px;
     border-radius:10px;
-    padding:12px;
+    font-size:10px;
+    color:#617086;
     margin-bottom:14px;
-    font-size:12px;
-    line-height:1.7;
 }
 
 .modal-actions{
     display:flex;
-    gap:8px;
+    gap:9px;
 }
 
 .modal-actions button{
     flex:1;
     height:45px;
     border:none;
-    border-radius:9px;
+    border-radius:10px;
     cursor:pointer;
-    font-weight:bold;
+    font-weight:800;
 }
 
 .cancel{
-    background:#edf0f4;
+    background:#edf1f6;
 }
 
 .confirm{
-    background:#0b5ed7;
+    background:linear-gradient(135deg,#087cff,#0755ca);
     color:white;
 }
 
-.profile-line{
-    margin:12px 0;
-    font-size:14px;
+/* MOBILE */
+
+@media(max-width:1150px){
+    .packs{
+        grid-template-columns:repeat(3,1fr);
+    }
 }
 
-.support-box{
-    background:linear-gradient(135deg,#081c3c,#0b5ed7);
-    color:white;
-    border-radius:16px;
-    padding:25px;
-}
-
-.support-box p{
-    font-size:13px;
-    line-height:1.7;
-    opacity:.9;
-}
-
-@media(max-width:1100px){
-
+@media(max-width:950px){
     .packs{
         grid-template-columns:repeat(2,1fr);
+    }
+
+    .sidebar{
+        width:205px;
     }
 }
 
@@ -561,6 +780,10 @@ td{
         gap:5px;
     }
 
+    .sidebar-title{
+        display:none;
+    }
+
     .menu{
         width:auto;
         white-space:nowrap;
@@ -574,12 +797,21 @@ td{
     .stats{
         grid-template-columns:1fr 1fr;
     }
+
+    .profile-box{
+        grid-template-columns:1fr;
+    }
 }
 
 @media(max-width:550px){
 
     .logo{
-        font-size:16px;
+        font-size:15px;
+    }
+
+    .logo-mark{
+        width:34px;
+        height:34px;
     }
 
     .logout{
@@ -588,7 +820,7 @@ td{
 
     .notification-panel{
         position:fixed;
-        top:70px;
+        top:74px;
         right:10px;
         left:10px;
         width:auto;
@@ -606,6 +838,10 @@ td{
         font-size:23px;
     }
 
+    .hero h2{
+        font-size:23px;
+    }
+
     .balance{
         font-size:28px;
     }
@@ -618,39 +854,34 @@ td{
 <header>
 
     <div class="logo">
-        🏠 Housing <span>Investment</span>
+        <div class="logo-mark">🏠</div>
+        Housing <span>Investment</span>
     </div>
 
     <div class="header-actions">
 
         <div class="notification">
 
-            <button
-                class="notification-btn"
-                onclick="toggleNotifications()">
+            <button class="notification-btn"
+                    onclick="toggleNotifications()">
                 🔔
             </button>
 
-            <div
-                id="notificationCount"
-                class="notification-count">
+            <div id="notificationCount"
+                 class="notification-count">
                 0
             </div>
 
-            <div
-                id="notificationPanel"
-                class="notification-panel">
+            <div id="notificationPanel"
+                 class="notification-panel">
 
                 <div class="notification-header">
-
                     <strong>Notifications</strong>
 
-                    <button
-                        class="clear-notifications"
-                        onclick="clearNotifications()">
+                    <button class="clear-notifications"
+                            onclick="clearNotifications()">
                         Tout lire
                     </button>
-
                 </div>
 
                 <div id="notificationList"></div>
@@ -661,9 +892,8 @@ td{
 
         <div class="user-menu">
 
-            <div
-                id="avatar"
-                class="user-avatar">
+            <div id="avatar"
+                 class="user-avatar">
                 U
             </div>
 
@@ -673,9 +903,8 @@ td{
 
         </div>
 
-        <button
-            class="logout"
-            onclick="logout()">
+        <button class="logout"
+                onclick="logout()">
             Déconnexion
         </button>
 
@@ -688,39 +917,37 @@ td{
 
 <aside class="sidebar">
 
-    <button
-        class="menu active"
-        onclick="showPage('home',this)">
+    <div class="sidebar-title">
+        Mon espace
+    </div>
+
+    <button class="menu active"
+            onclick="showPage('home',this)">
         🏠 Accueil
     </button>
 
-    <button
-        class="menu"
-        onclick="showPage('packs',this)">
+    <button class="menu"
+            onclick="showPage('packs',this)">
         💰 Investir
     </button>
 
-    <button
-        class="menu"
-        onclick="showPage('investments',this)">
+    <button class="menu"
+            onclick="showPage('investments',this)">
         📊 Mes investissements
     </button>
 
-    <button
-        class="menu"
-        onclick="showPage('transactions',this)">
+    <button class="menu"
+            onclick="showPage('transactions',this)">
         📋 Historique
     </button>
 
-    <button
-        class="menu"
-        onclick="showPage('profile',this)">
+    <button class="menu"
+            onclick="showPage('profile',this)">
         👤 Mon profil
     </button>
 
-    <button
-        class="menu"
-        onclick="window.location.href='contact.html'">
+    <button class="menu"
+            onclick="window.location.href='contact.html'">
         🎧 Assistance
     </button>
 
@@ -729,17 +956,27 @@ td{
 
 <main class="main">
 
+
 <section id="home" class="page active">
 
-    <div class="title">
+    <div class="hero">
 
-        <h1>
+        <div class="hero-small">
+            ESPACE INVESTISSEUR
+        </div>
+
+        <h2>
             Bonjour <span id="welcomeName">!</span> 👋
-        </h1>
+        </h2>
 
         <p>
-            Bienvenue dans votre espace Housing Investment.
+            Bienvenue sur votre espace Housing Investment.
+            Développez votre capital à travers nos opportunités.
         </p>
+
+        <div class="hero-badge">
+            🛡️ Votre espace personnel est actif
+        </div>
 
     </div>
 
@@ -750,21 +987,20 @@ td{
             SOLDE DISPONIBLE
         </div>
 
-        <div id="balance" class="balance">
+        <div id="balance"
+             class="balance">
             0 FCFA
         </div>
 
         <div class="balance-actions">
 
-            <button
-                class="deposit-btn"
-                onclick="openDeposit()">
+            <button class="deposit-btn"
+                    onclick="openDeposit()">
                 📥 Déposer
             </button>
 
-            <button
-                class="withdraw-btn"
-                onclick="openWithdraw()">
+            <button class="withdraw-btn"
+                    onclick="openWithdraw()">
                 📤 Retirer
             </button>
 
@@ -776,39 +1012,39 @@ td{
     <div class="stats">
 
         <div class="stat">
-
             <div class="stat-icon">💰</div>
 
             <strong id="totalInvested">
                 0 FCFA
             </strong>
 
-            <span>Total investi</span>
-
+            <span>
+                Total investi
+            </span>
         </div>
 
         <div class="stat">
-
             <div class="stat-icon">📈</div>
 
             <strong id="dailyGain">
                 0 FCFA
             </strong>
 
-            <span>Gain quotidien</span>
-
+            <span>
+                Gain quotidien
+            </span>
         </div>
 
         <div class="stat">
-
             <div class="stat-icon">📦</div>
 
             <strong id="activeInvestments">
                 0
             </strong>
 
-            <span>Investissements actifs</span>
-
+            <span>
+                Investissements actifs
+            </span>
         </div>
 
     </div>
@@ -818,146 +1054,496 @@ td{
         🚀 Nos opportunités
     </h2>
 
+    <div class="packs">
 
-    <div class="packs" id="homePacks"></div>
+        <!-- 1 -->
+
+        <div class="pack">
+
+            <div class="pack-image-wrap">
+
+                <img class="pack-image"
+                     src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=900&q=80"
+                     alt="Petite maison moderne">
+
+                <div class="pack-tag">
+                    STARTER
+                </div>
+
+            </div>
+
+            <div class="pack-content">
+
+                <h3>Pack Starter</h3>
+
+                <div class="pack-price">
+                    3 000 FCFA
+                </div>
+
+                <div class="pack-info">
+                    Gain quotidien :
+                    <strong>800 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>144 000 FCFA</strong>
+                </div>
+
+                <button class="invest-btn"
+                        onclick="invest('Pack Starter',3000,800)">
+                    Investir maintenant
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 2 -->
+
+        <div class="pack">
+
+            <div class="pack-image-wrap">
+
+                <img class="pack-image"
+                     src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80"
+                     alt="Maison familiale">
+
+                <div class="pack-tag">
+                    FAMILIAL
+                </div>
+
+            </div>
+
+            <div class="pack-content">
+
+                <h3>Pack Familial</h3>
+
+                <div class="pack-price">
+                    10 000 FCFA
+                </div>
+
+                <div class="pack-info">
+                    Gain quotidien :
+                    <strong>3 000 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>540 000 FCFA</strong>
+                </div>
+
+                <button class="invest-btn"
+                        onclick="invest('Pack Familial',10000,3000)">
+                    Investir maintenant
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 3 -->
+
+        <div class="pack">
+
+            <div class="pack-image-wrap">
+
+                <img class="pack-image"
+                     src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80"
+                     alt="Maison moderne">
+
+                <div class="pack-tag">
+                    CONFORT
+                </div>
+
+            </div>
+
+            <div class="pack-content">
+
+                <h3>Pack Confort</h3>
+
+                <div class="pack-price">
+                    20 000 FCFA
+                </div>
+
+                <div class="pack-info">
+                    Gain quotidien :
+                    <strong>6 000 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>1 080 000 FCFA</strong>
+                </div>
+
+                <button class="invest-btn"
+                        onclick="invest('Pack Confort',20000,6000)">
+                    Investir maintenant
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 4 -->
+
+        <div class="pack">
+
+            <div class="pack-image-wrap">
+
+                <img class="pack-image"
+                     src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"
+                     alt="Villa moderne">
+
+                <div class="pack-tag">
+                    PREMIUM
+                </div>
+
+            </div>
+
+            <div class="pack-content">
+
+                <h3>Pack Premium</h3>
+
+                <div class="pack-price">
+                    45 000 FCFA
+                </div>
+
+                <div class="pack-info">
+                    Gain quotidien :
+                    <strong>14 000 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>2 520 000 FCFA</strong>
+                </div>
+
+                <button class="invest-btn"
+                        onclick="invest('Pack Premium',45000,14000)">
+                    Investir maintenant
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 5 -->
+
+        <div class="pack">
+
+            <div class="pack-image-wrap">
+
+                <img class="pack-image"
+                     src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
+                     alt="Grande villa">
+
+                <div class="pack-tag">
+                    PRESTIGE
+                </div>
+
+            </div>
+
+            <div class="pack-content">
+
+                <h3>Pack Prestige</h3>
+
+                <div class="pack-price">
+                    100 000 FCFA
+                </div>
+
+                <div class="pack-info">
+                    Gain quotidien :
+                    <strong>30 000 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>5 400 000 FCFA</strong>
+                </div>
+
+                <button class="invest-btn"
+                        onclick="invest('Pack Prestige',100000,30000)">
+                    Investir maintenant
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 6 -->
+
+        <div class="pack">
+
+            <div class="pack-image-wrap">
+
+                <img class="pack-image"
+                     src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80"
+                     alt="Villa premium">
+
+                <div class="pack-tag">
+                    PREMIUM+
+                </div>
+
+            </div>
+
+            <div class="pack-content">
+
+                <h3>Pack Premium Plus</h3>
+
+                <div class="pack-price">
+                    200 000 FCFA
+                </div>
+
+                <div class="pack-info">
+                    Gain quotidien :
+                    <strong>65 000 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>11 700 000 FCFA</strong>
+                </div>
+
+                <button class="invest-btn"
+                        onclick="invest('Pack Premium Plus',200000,65000)">
+                    Investir maintenant
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 7 -->
+
+        <div class="pack">
+
+            <div class="pack-image-wrap">
+
+                <img class="pack-image"
+                     src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
+                     alt="Résidence haut de gamme">
+
+                <div class="pack-tag">
+                    ELITE
+                </div>
+
+            </div>
+
+            <div class="pack-content">
+
+                <h3>Pack Elite</h3>
+
+                <div class="pack-price">
+                    400 000 FCFA
+                </div>
+
+                <div class="pack-info">
+                    Gain quotidien :
+                    <strong>140 000 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>25 200 000 FCFA</strong>
+                </div>
+
+                <button class="invest-btn"
+                        onclick="invest('Pack Elite',400000,140000)">
+                    Investir maintenant
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 8 -->
+
+        <div class="pack">
+
+            <div class="pack-image-wrap">
+
+                <img class="pack-image"
+                     src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80"
+                     alt="Villa de luxe avec piscine">
+
+                <div class="pack-tag">
+                    LUXE
+                </div>
+
+            </div>
+
+            <div class="pack-content">
+
+                <h3>Pack Luxe</h3>
+
+                <div class="pack-price">
+                    800 000 FCFA
+                </div>
+
+                <div class="pack-info">
+                    Gain quotidien :
+                    <strong>290 000 FCFA</strong><br>
+
+                    Durée :
+                    <strong>180 jours</strong><br>
+
+                    Total :
+                    <strong>52 200 000 FCFA</strong>
+                </div>
+
+                <button class="invest-btn"
+                        onclick="invest('Pack Luxe',800000,290000)">
+                    Investir maintenant
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
+
+<!-- INVESTIR -->
 
 <section id="packs" class="page">
 
     <div class="title">
-
         <h1>💰 Investir</h1>
-
         <p>
             Choisissez l'opportunité qui vous convient.
         </p>
-
     </div>
 
-    <div class="packs" id="packsPage"></div>
+    <div id="packsPage"></div>
 
 </section>
 
+
+<!-- INVESTISSEMENTS -->
 
 <section id="investments" class="page">
 
     <div class="title">
-
         <h1>📊 Mes investissements</h1>
-
         <p>
             Retrouvez ici vos investissements actifs.
         </p>
-
     </div>
 
     <div class="card">
-
-        <div
-            id="investmentTable"
-            class="table-container">
-        </div>
-
+        <div id="investmentTable"
+             class="table-container"></div>
     </div>
 
 </section>
 
+
+<!-- HISTORIQUE -->
 
 <section id="transactions" class="page">
 
     <div class="title">
-
         <h1>📋 Historique</h1>
-
         <p>
             Retrouvez vos dépôts et retraits.
         </p>
-
     </div>
 
     <div class="card">
-
-        <div
-            id="transactionTable"
-            class="table-container">
-        </div>
-
+        <div id="transactionTable"
+             class="table-container"></div>
     </div>
 
 </section>
 
 
+<!-- PROFIL -->
+
 <section id="profile" class="page">
 
     <div class="title">
-
         <h1>👤 Mon profil</h1>
-
         <p>
             Informations de votre compte.
         </p>
-
     </div>
 
     <div class="card">
 
-        <h2>
-            Informations personnelles
-        </h2>
+        <div class="profile-box">
 
-        <div class="profile-line">
-            <strong>Nom :</strong>
-            <span id="profileName">—</span>
+            <div id="profileAvatar"
+                 class="profile-avatar">
+                U
+            </div>
+
+            <div>
+
+                <div class="profile-line">
+                    <strong>Nom :</strong>
+                    <span id="profileName">—</span>
+                </div>
+
+                <div class="profile-line">
+                    <strong>Téléphone :</strong>
+                    <span id="profilePhone">—</span>
+                </div>
+
+                <div class="profile-line">
+                    <strong>Statut :</strong>
+                    <span class="badge green">
+                        Compte actif
+                    </span>
+                </div>
+
+                <button class="invest-btn"
+                        style="max-width:260px;"
+                        onclick="window.location.href='contact.html'">
+                    🎧 Contacter l'assistance
+                </button>
+
+            </div>
+
         </div>
-
-        <div class="profile-line">
-            <strong>E-mail :</strong>
-            <span id="profileEmail">—</span>
-        </div>
-
-        <div class="profile-line">
-            <strong>Téléphone :</strong>
-            <span id="profilePhone">—</span>
-        </div>
-
-        <div class="profile-line">
-            <strong>Statut :</strong>
-            <span class="badge green">
-                Compte actif
-            </span>
-        </div>
-
-        <button
-            class="invest-btn"
-            style="max-width:250px"
-            onclick="window.location.href='contact.html'">
-            🎧 Contacter l'assistance
-        </button>
 
     </div>
 
 </section>
 
 </main>
-
 </div>
 
 
-<!-- ================= DEPOT ================= -->
+<!-- DEPOT -->
 
-<div id="depositModal" class="modal">
+<div id="depositModal"
+     class="modal">
 
     <div class="modal-box">
 
         <h2>📥 Effectuer un dépôt</h2>
 
-        <input
-            type="number"
-            id="depositAmount"
-            min="1"
-            placeholder="Montant en FCFA">
+        <input type="number"
+               id="depositAmount"
+               placeholder="Montant en FCFA"
+               min="1">
 
         <select id="depositMethod">
 
@@ -965,39 +1551,28 @@ td{
                 Choisir le moyen de paiement
             </option>
 
-            <option value="Orange Money">
-                Orange Money
-            </option>
-
-            <option value="MTN Money">
-                MTN Money
-            </option>
-
-            <option value="Wave">
-                Wave
-            </option>
-
-            <option value="Moov Money">
-                Moov Money
-            </option>
+            <option>Orange Money</option>
+            <option>MTN Money</option>
+            <option>Moov Money</option>
+            <option>Wave</option>
+            <option>Mobile Money</option>
 
         </select>
 
-        <div id="depositFeeInfo" class="fee-info">
-            Les frais de dépôt sont de <strong>1 %</strong>.
+        <div class="modal-note">
+            Des frais de service de <strong>1 %</strong>
+            sont appliqués aux dépôts.
         </div>
 
         <div class="modal-actions">
 
-            <button
-                class="cancel"
-                onclick="closeDeposit()">
+            <button class="cancel"
+                    onclick="closeDeposit()">
                 Annuler
             </button>
 
-            <button
-                class="confirm"
-                onclick="confirmDeposit()">
+            <button class="confirm"
+                    onclick="confirmDeposit()">
                 Confirmer
             </button>
 
@@ -1008,40 +1583,38 @@ td{
 </div>
 
 
-<!-- ================= RETRAIT ================= -->
+<!-- RETRAIT -->
 
-<div id="withdrawModal" class="modal">
+<div id="withdrawModal"
+     class="modal">
 
     <div class="modal-box">
 
         <h2>📤 Demander un retrait</h2>
 
-        <input
-            type="number"
-            id="withdrawAmount"
-            min="1"
-            placeholder="Montant en FCFA">
+        <input type="number"
+               id="withdrawAmount"
+               placeholder="Montant en FCFA"
+               min="1">
 
-        <input
-            type="tel"
-            id="withdrawPhone"
-            placeholder="Numéro de réception">
+        <input type="tel"
+               id="withdrawPhone"
+               placeholder="Numéro de réception">
 
-        <div class="fee-info">
-            Les frais de retrait sont de <strong>25 %</strong>.
+        <div class="modal-note">
+            Des frais de retrait de <strong>25 %</strong>
+            sont appliqués à chaque retrait.
         </div>
 
         <div class="modal-actions">
 
-            <button
-                class="cancel"
-                onclick="closeWithdraw()">
+            <button class="cancel"
+                    onclick="closeWithdraw()">
                 Annuler
             </button>
 
-            <button
-                class="confirm"
-                onclick="confirmWithdraw()">
+            <button class="confirm"
+                    onclick="confirmWithdraw()">
                 Demander
             </button>
 
@@ -1054,121 +1627,19 @@ td{
 
 <script>
 
-/* =====================================================
-   CONFIGURATION SUPABASE
-===================================================== */
-
-const SUPABASE_URL =
-    "https://scnuphudlhqiadyavknt.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_SQ6iUFoLHRsPMYE41Z8XtQ_pgaF3O5L";
-
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
-
-/* =====================================================
-   VARIABLES
-===================================================== */
-
 let currentUser = null;
-let currentAuthUser = null;
-let sessionReady = false;
 
 
-/* =====================================================
-   PACKS
-===================================================== */
-
-const PACKS = [
-
-    {
-        name:"Pack Starter",
-        amount:3000,
-        daily:800,
-        image:"https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=900&q=80"
-    },
-
-    {
-        name:"Pack Familial",
-        amount:10000,
-        daily:3000,
-        image:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80"
-    },
-
-    {
-        name:"Pack Confort",
-        amount:20000,
-        daily:6000,
-        image:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80"
-    },
-
-    {
-        name:"Pack Premium",
-        amount:45000,
-        daily:14000,
-        image:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"
-    },
-
-    {
-        name:"Pack Prestige",
-        amount:100000,
-        daily:30000,
-        image:"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
-    },
-
-    {
-        name:"Pack Premium Plus",
-        amount:200000,
-        daily:65000,
-        image:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80"
-    },
-
-    {
-        name:"Pack Elite",
-        amount:400000,
-        daily:140000,
-        image:"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
-    },
-
-    {
-        name:"Pack Luxe",
-        amount:800000,
-        daily:290000,
-        image:"https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80"
-    }
-
-];
-
-
-/* =====================================================
-   OUTILS
-===================================================== */
-
-function formatFCFA(value){
-
-    return Number(value || 0)
-        .toLocaleString("fr-FR") + " FCFA";
-
-}
-
+/* ================= UTILITAIRES ================= */
 
 function getArray(key){
 
     try{
-
         return JSON.parse(
             localStorage.getItem(key)
         ) || [];
-
-    }catch(error){
-
+    }catch(e){
         return [];
-
     }
 
 }
@@ -1184,574 +1655,334 @@ function saveArray(key,value){
 }
 
 
-function escapeHtml(value){
+function getUserName(){
 
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+    return currentUser &&
+    (
+        currentUser.name ||
+        currentUser.fullName ||
+        currentUser.nom
+    ) || "Utilisateur";
 
 }
 
 
-function normalizePhone(phone){
+function getUserPhone(){
 
-    return String(phone || "")
+    return String(
+        currentUser &&
+        (
+            currentUser.phone ||
+            currentUser.telephone
+        ) || ""
+    ).replace(/\s+/g,"");
+
+}
+
+
+function samePhone(a,b){
+
+    a=String(a || "")
         .replace(/\s+/g,"")
-        .replace(/^\+225/,"");
+        .replace("+225","");
 
+    b=String(b || "")
+        .replace(/\s+/g,"")
+        .replace("+225","");
+
+    return a === b;
 }
 
 
-/* =====================================================
-   AUTHENTIFICATION
-===================================================== */
+/* ================= UTILISATEUR ================= */
 
-async function initializeDashboard(){
+function loadCurrentUser(){
 
     try{
 
-        const response =
-            await supabaseClient.auth.getSession();
+        currentUser =
+            JSON.parse(
+                localStorage.getItem("currentUser")
+            );
 
+    }catch(e){
 
-        if(response.error){
-
-            console.error(response.error);
-
-            goToLogin();
-
-            return;
-
-        }
-
-
-        const session =
-            response.data.session;
-
-
-        /*
-         * POINT IMPORTANT :
-         * On vérifie directement la session Supabase.
-         * On ne dépend plus de currentUser pour autoriser
-         * l'accès au dashboard.
-         */
-
-        if(!session || !session.user){
-
-            goToLogin();
-
-            return;
-
-        }
-
-
-        currentAuthUser =
-            session.user;
-
-
-        await loadUserProfile(
-            currentAuthUser
-        );
-
-
-        sessionReady = true;
-
-        renderPacks();
-
-        updateDashboard();
-
-        displayInvestments();
-
-        displayTransactions();
-
-        updateNotifications();
-
-    }catch(error){
-
-        console.error(
-            "Erreur initialisation dashboard :",
-            error
-        );
-
-        goToLogin();
-
-    }
-
-}
-
-
-async function loadUserProfile(user){
-
-    let profile = null;
-
-
-    /*
-     * On tente de récupérer le profil Supabase.
-     * Si la table profiles n'est pas encore correctement
-     * configurée, le dashboard ne plante pas.
-     */
-
-    try{
-
-        const result =
-            await supabaseClient
-            .from("profiles")
-            .select("*")
-            .eq("id",user.id)
-            .maybeSingle();
-
-
-        if(
-            !result.error &&
-            result.data
-        ){
-
-            profile =
-                result.data;
-
-        }
-
-    }catch(error){
-
-        console.warn(
-            "Profil Supabase indisponible.",
-            error
-        );
+        currentUser=null;
 
     }
 
 
-    const metadata =
-        user.user_metadata || {};
+    if(!currentUser){
 
-
-    const oldUser =
-        JSON.parse(
-            localStorage.getItem("currentUser")
-            || "null"
-        );
-
-
-    currentUser = {
-
-        id:user.id,
-
-        auth_id:user.id,
-
-        email:
-            user.email || "",
-
-        name:
-            profile?.name ||
-            profile?.full_name ||
-            profile?.fullname ||
-            metadata.name ||
-            metadata.full_name ||
-            oldUser?.name ||
-            "Utilisateur",
-
-        fullName:
-            profile?.full_name ||
-            profile?.name ||
-            metadata.full_name ||
-            metadata.name ||
-            oldUser?.fullName ||
-            "Utilisateur",
-
-        phone:
-            profile?.phone ||
-            profile?.telephone ||
-            metadata.phone ||
-            metadata.telephone ||
-            oldUser?.phone ||
-            "",
-
-        balance:Number(
-            profile?.balance ??
-            profile?.solde ??
-            oldUser?.balance ??
-            0
-        )
-
-    };
-
-
-    localStorage.setItem(
-        "currentUser",
-        JSON.stringify(currentUser)
-    );
-
-
-    document.getElementById(
-        "userName"
-    ).textContent =
-        currentUser.name;
-
-
-    document.getElementById(
-        "welcomeName"
-    ).textContent =
-        currentUser.name;
-
-
-    document.getElementById(
-        "profileName"
-    ).textContent =
-        currentUser.name;
-
-
-    document.getElementById(
-        "profileEmail"
-    ).textContent =
-        currentUser.email;
-
-
-    document.getElementById(
-        "profilePhone"
-    ).textContent =
-        currentUser.phone || "—";
-
-
-    document.getElementById(
-        "avatar"
-    ).textContent =
-        currentUser.name
-        .charAt(0)
-        .toUpperCase();
-
-}
-
-
-/* =====================================================
-   REDIRECTION
-===================================================== */
-
-function goToLogin(){
-
-    /*
-     * Protection contre une boucle :
-     * on ne redirige qu'une seule fois.
-     */
-
-    if(
-        window.location.pathname
-        .toLowerCase()
-        .endsWith("login.html")
-    ){
-
-        return;
+        window.location.href="login.html";
+        return false;
 
     }
 
 
-    window.location.replace(
-        "login.html"
-    );
+    const name=getUserName();
+    const phone=
+        currentUser.phone ||
+        currentUser.telephone ||
+        "—";
+
+
+    document.getElementById("userName")
+        .textContent=name;
+
+    document.getElementById("welcomeName")
+        .textContent=name;
+
+    document.getElementById("profileName")
+        .textContent=name;
+
+    document.getElementById("profilePhone")
+        .textContent=phone;
+
+    const first=name.charAt(0).toUpperCase();
+
+    document.getElementById("avatar")
+        .textContent=first;
+
+    document.getElementById("profileAvatar")
+        .textContent=first;
+
+    return true;
 
 }
 
 
-/* =====================================================
-   NAVIGATION
-===================================================== */
+/* ================= NAVIGATION ================= */
 
 function showPage(pageId,button){
 
     document
-    .querySelectorAll(".page")
-    .forEach(function(page){
-
-        page.classList.remove("active");
-
-    });
+        .querySelectorAll(".page")
+        .forEach(function(page){
+            page.classList.remove("active");
+        });
 
 
     document
-    .querySelectorAll(".menu")
-    .forEach(function(btn){
-
-        btn.classList.remove("active");
-
-    });
+        .querySelectorAll(".menu")
+        .forEach(function(btn){
+            btn.classList.remove("active");
+        });
 
 
-    const page =
+    const page=
         document.getElementById(pageId);
 
 
     if(page){
-
         page.classList.add("active");
-
     }
 
 
     if(button){
-
         button.classList.add("active");
-
     }
 
 
-    if(pageId === "investments"){
-
+    if(pageId==="investments"){
         displayInvestments();
-
     }
 
-
-    if(pageId === "transactions"){
-
+    if(pageId==="transactions"){
         displayTransactions();
-
     }
 
 }
 
 
-/* =====================================================
-   AFFICHAGE DES PACKS
-===================================================== */
+/* ================= NOTIFICATIONS ================= */
 
-function renderPacks(){
+function getNotifications(){
 
-    const containers = [
+    return getArray("userNotifications");
 
-        document.getElementById("homePacks"),
-
-        document.getElementById("packsPage")
-
-    ];
+}
 
 
-    let html = "";
+function saveNotifications(list){
+
+    saveArray(
+        "userNotifications",
+        list
+    );
+
+}
 
 
-    PACKS.forEach(function(pack){
+function addNotification(title,text){
 
-        html += `
+    const list=getNotifications();
 
-            <div class="pack">
+    list.push({
 
-                <img
-                    class="pack-image"
-                    src="${pack.image}"
-                    alt="${escapeHtml(pack.name)}">
+        id:Date.now(),
+        title:title,
+        text:text,
+        date:new Date().toLocaleString("fr-FR"),
+        read:false
 
-                <div class="pack-content">
+    });
 
-                    <h3>
-                        ${escapeHtml(pack.name)}
-                    </h3>
+    saveNotifications(list);
 
-                    <div class="pack-price">
-                        ${formatFCFA(pack.amount)}
-                    </div>
+    updateNotifications();
 
-                    <div class="pack-info">
+}
 
-                        Gain quotidien :
-                        <strong>
-                            ${formatFCFA(pack.daily)}
-                        </strong>
-                        <br>
 
-                        Durée :
-                        <strong>
-                            180 jours
-                        </strong>
-                        <br>
+function updateNotifications(){
 
-                        Total :
-                        <strong>
-                            ${formatFCFA(pack.daily * 180)}
-                        </strong>
+    const list=getNotifications();
 
-                    </div>
+    const unread=
+        list.filter(x=>!x.read).length;
 
-                    <button
-                        class="invest-btn"
-                        onclick="invest(
-                            '${escapeHtml(pack.name)}',
-                            ${pack.amount},
-                            ${pack.daily}
-                        )">
+    const count=
+        document.getElementById(
+            "notificationCount"
+        );
 
-                        Investir
 
-                    </button>
+    if(unread){
 
-                </div>
+        count.textContent=
+            unread>99 ? "99+" : unread;
 
+        count.style.display="flex";
+
+    }else{
+
+        count.style.display="none";
+
+    }
+
+
+    const container=
+        document.getElementById(
+            "notificationList"
+        );
+
+
+    if(!list.length){
+
+        container.innerHTML=`
+
+            <div class="no-notification">
+                🔔<br><br>
+                Aucune notification.
             </div>
 
         `;
 
-    });
-
-
-    containers.forEach(function(container){
-
-        if(container){
-
-            container.innerHTML = html;
-
-        }
-
-    });
-
-}
-
-
-/* =====================================================
-   DASHBOARD
-===================================================== */
-
-function getMyInvestments(){
-
-    if(!currentUser){
-
-        return [];
+        return;
 
     }
 
 
-    const phone =
-        normalizePhone(
-            currentUser.phone
-        );
+    let html="";
 
 
-    const id =
-        String(
-            currentUser.id || ""
-        );
+    [...list].reverse()
+        .forEach(function(item){
 
+            html+=`
 
-    return getArray("investments")
-        .filter(function(item){
+                <div class="notification-item
+                    ${item.read?"":"unread"}"
+                    onclick="readNotification(${item.id})">
 
-            const itemPhone =
-                normalizePhone(
-                    item.phone
-                );
+                    <strong>
+                        ${escapeHtml(item.title)}
+                    </strong>
 
+                    <div>
+                        ${escapeHtml(item.text)}
+                    </div>
 
-            return (
-                String(item.user_id || "") === id ||
-                (
-                    phone &&
-                    itemPhone === phone
-                )
-            );
+                    <small>
+                        ${escapeHtml(item.date)}
+                    </small>
+
+                </div>
+
+            `;
 
         });
 
-}
 
-
-function updateDashboard(){
-
-    if(!currentUser){
-
-        return;
-
-    }
-
-
-    const balance =
-        Number(
-            currentUser.balance || 0
-        );
-
-
-    document.getElementById(
-        "balance"
-    ).textContent =
-        formatFCFA(balance);
-
-
-    const investments =
-        getMyInvestments();
-
-
-    let totalInvested = 0;
-
-    let dailyGain = 0;
-
-
-    investments.forEach(function(item){
-
-        if(
-            item.status &&
-            item.status !== "Actif"
-        ){
-
-            return;
-
-        }
-
-
-        totalInvested +=
-            Number(item.amount || 0);
-
-
-        dailyGain +=
-            Number(item.daily || 0);
-
-    });
-
-
-    document.getElementById(
-        "totalInvested"
-    ).textContent =
-        formatFCFA(totalInvested);
-
-
-    document.getElementById(
-        "dailyGain"
-    ).textContent =
-        formatFCFA(dailyGain);
-
-
-    document.getElementById(
-        "activeInvestments"
-    ).textContent =
-        investments.length;
+    container.innerHTML=html;
 
 }
 
 
-/* =====================================================
-   INVESTISSEMENT
-===================================================== */
+function toggleNotifications(){
 
-async function invest(pack,amount,daily){
+    document
+        .getElementById("notificationPanel")
+        .classList.toggle("open");
 
-    if(!sessionReady || !currentUser){
+}
 
-        alert(
-            "Votre session n'est pas encore prête."
-        );
 
-        return;
+function readNotification(id){
+
+    const list=getNotifications();
+
+    const item=list.find(
+        x=>String(x.id)===String(id)
+    );
+
+    if(item){
+
+        item.read=true;
+
+        saveNotifications(list);
+
+        updateNotifications();
 
     }
 
-
-    const balance =
-        Number(
-            currentUser.balance || 0
-        );
+}
 
 
-    if(balance < amount){
+function clearNotifications(){
+
+    const list=getNotifications();
+
+    list.forEach(
+        x=>x.read=true
+    );
+
+    saveNotifications(list);
+
+    updateNotifications();
+
+}
+
+
+/* ================= INVESTISSEMENT ================= */
+
+function invest(pack,amount,daily){
+
+    if(!currentUser)return;
+
+
+    const balance=Number(
+        currentUser.balance ||
+        currentUser.solde ||
+        0
+    );
+
+
+    if(balance<amount){
 
         alert(
-            "Votre solde disponible est insuffisant. Veuillez effectuer un dépôt."
+            "Votre solde est insuffisant. Veuillez effectuer un dépôt."
         );
 
         openDeposit();
@@ -1761,24 +1992,60 @@ async function invest(pack,amount,daily){
     }
 
 
-    const confirmation =
-        confirm(
-            "Confirmer votre investissement de "
-            + formatFCFA(amount)
-            + " dans "
-            + pack
-            + " ?"
+    const confirmation=confirm(
+        "Confirmer votre investissement de "
+        +amount.toLocaleString("fr-FR")
+        +" FCFA dans "
+        +pack
+        +" ?"
+    );
+
+
+    if(!confirmation)return;
+
+
+    const users=getArray("users");
+
+    const phone=getUserPhone();
+
+
+    const index=users.findIndex(
+        user=>samePhone(
+            user.phone ||
+            user.telephone,
+            phone
+        )
+    );
+
+
+    if(index!==-1){
+
+        const oldBalance=Number(
+            users[index].balance ||
+            users[index].solde ||
+            0
         );
 
 
-    if(!confirmation){
+        users[index].balance=
+            oldBalance-amount;
 
-        return;
+
+        currentUser.balance=
+            oldBalance-amount;
+
+
+        saveArray("users",users);
+
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(currentUser)
+        );
 
     }
 
 
-    const investments =
+    const investments=
         getArray("investments");
 
 
@@ -1786,17 +2053,9 @@ async function invest(pack,amount,daily){
 
         id:Date.now(),
 
-        user_id:
-            currentUser.id,
+        name:getUserName(),
 
-        name:
-            currentUser.name,
-
-        email:
-            currentUser.email,
-
-        phone:
-            currentUser.phone,
+        phone:phone,
 
         pack:pack,
 
@@ -1806,11 +2065,9 @@ async function invest(pack,amount,daily){
 
         duration:180,
 
-        total:daily * 180,
+        total:daily*180,
 
-        date:new Date().toLocaleString(
-            "fr-FR"
-        ),
+        date:new Date().toLocaleString("fr-FR"),
 
         status:"Actif"
 
@@ -1823,23 +2080,13 @@ async function invest(pack,amount,daily){
     );
 
 
-    currentUser.balance =
-        balance - amount;
-
-
-    localStorage.setItem(
-        "currentUser",
-        JSON.stringify(currentUser)
-    );
-
-
     addNotification(
         "Investissement confirmé",
-        "Votre investissement de "
-        + formatFCFA(amount)
-        + " dans "
-        + pack
-        + " a été enregistré."
+        "Votre investissement "
+        +pack
+        +" de "
+        +amount.toLocaleString("fr-FR")
+        +" FCFA a été enregistré."
     );
 
 
@@ -1855,15 +2102,198 @@ async function invest(pack,amount,daily){
 }
 
 
-/* =====================================================
-   DEPOT
-===================================================== */
+/* ================= DASHBOARD ================= */
+
+function updateDashboard(){
+
+    if(!currentUser)return;
+
+
+    const balance=Number(
+        currentUser.balance ||
+        currentUser.solde ||
+        0
+    );
+
+
+    document.getElementById("balance")
+        .textContent=
+            balance.toLocaleString("fr-FR")
+            +" FCFA";
+
+
+    const investments=
+        getArray("investments");
+
+
+    const mine=
+        investments.filter(
+            item=>samePhone(
+                item.phone,
+                getUserPhone()
+            )
+        );
+
+
+    let total=0;
+    let daily=0;
+
+
+    mine.forEach(function(item){
+
+        total+=Number(item.amount || 0);
+
+        daily+=Number(item.daily || 0);
+
+    });
+
+
+    document.getElementById("totalInvested")
+        .textContent=
+            total.toLocaleString("fr-FR")
+            +" FCFA";
+
+
+    document.getElementById("dailyGain")
+        .textContent=
+            daily.toLocaleString("fr-FR")
+            +" FCFA";
+
+
+    document.getElementById("activeInvestments")
+        .textContent=
+            mine.length;
+
+}
+
+
+/* ================= INVESTISSEMENTS ================= */
+
+function displayInvestments(){
+
+    const container=
+        document.getElementById(
+            "investmentTable"
+        );
+
+
+    if(!container)return;
+
+
+    const mine=
+        getArray("investments")
+        .filter(
+            item=>samePhone(
+                item.phone,
+                getUserPhone()
+            )
+        );
+
+
+    if(!mine.length){
+
+        container.innerHTML=`
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📊
+                </div>
+
+                Aucun investissement actif.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html=`
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Pack</th>
+                    <th>Montant</th>
+                    <th>Gain/jour</th>
+                    <th>Durée</th>
+                    <th>Total</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    mine.forEach(function(item){
+
+        html+=`
+
+            <tr>
+
+                <td>
+                    ${escapeHtml(item.pack)}
+                </td>
+
+                <td>
+                    ${Number(item.amount||0)
+                        .toLocaleString("fr-FR")}
+                    FCFA
+                </td>
+
+                <td>
+                    ${Number(item.daily||0)
+                        .toLocaleString("fr-FR")}
+                    FCFA
+                </td>
+
+                <td>
+                    ${item.duration||180} jours
+                </td>
+
+                <td>
+                    ${Number(item.total||0)
+                        .toLocaleString("fr-FR")}
+                    FCFA
+                </td>
+
+                <td>
+                    <span class="badge green">
+                        Actif
+                    </span>
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html+=`
+            </tbody>
+        </table>
+    `;
+
+
+    container.innerHTML=html;
+
+}
+
+
+/* ================= DEPOT ================= */
 
 function openDeposit(){
 
     document
-    .getElementById("depositModal")
-    .classList.add("show");
+        .getElementById("depositModal")
+        .classList.add("show");
 
 }
 
@@ -1871,85 +2301,28 @@ function openDeposit(){
 function closeDeposit(){
 
     document
-    .getElementById("depositModal")
-    .classList.remove("show");
+        .getElementById("depositModal")
+        .classList.remove("show");
 
 }
-
-
-function updateDepositFee(){
-
-    const amount =
-        Number(
-            document.getElementById(
-                "depositAmount"
-            ).value
-        );
-
-
-    const info =
-        document.getElementById(
-            "depositFeeInfo"
-        );
-
-
-    if(!amount || amount <= 0){
-
-        info.innerHTML =
-            "Les frais de dépôt sont de <strong>1 %</strong>.";
-
-        return;
-
-    }
-
-
-    const fee =
-        amount * 0.01;
-
-
-    const net =
-        amount - fee;
-
-
-    info.innerHTML =
-        "Montant : <strong>"
-        + formatFCFA(amount)
-        + "</strong><br>"
-        + "Frais 1 % : <strong>"
-        + formatFCFA(fee)
-        + "</strong><br>"
-        + "Montant crédité après validation : <strong>"
-        + formatFCFA(net)
-        + "</strong>";
-
-}
-
-
-document
-.getElementById("depositAmount")
-.addEventListener(
-    "input",
-    updateDepositFee
-);
 
 
 function confirmDeposit(){
 
-    const amount =
-        Number(
-            document.getElementById(
-                "depositAmount"
-            ).value
-        );
+    const amount=Number(
+        document.getElementById(
+            "depositAmount"
+        ).value
+    );
 
 
-    const method =
+    const method=
         document.getElementById(
             "depositMethod"
         ).value;
 
 
-    if(!amount || amount <= 0){
+    if(!amount || amount<=0){
 
         alert(
             "Veuillez entrer un montant valide."
@@ -1971,15 +2344,12 @@ function confirmDeposit(){
     }
 
 
-    const fee =
-        amount * 0.01;
+    const fee=amount*0.01;
+
+    const net=amount-fee;
 
 
-    const net =
-        amount - fee;
-
-
-    const deposits =
+    const deposits=
         getArray("deposits");
 
 
@@ -1987,29 +2357,19 @@ function confirmDeposit(){
 
         id:Date.now(),
 
-        user_id:
-            currentUser.id,
+        name:getUserName(),
 
-        name:
-            currentUser.name,
-
-        email:
-            currentUser.email,
-
-        phone:
-            currentUser.phone,
+        phone:getUserPhone(),
 
         amount:amount,
 
         fee:fee,
 
-        net_amount:net,
+        netAmount:net,
 
         method:method,
 
-        date:new Date().toLocaleString(
-            "fr-FR"
-        ),
+        date:new Date().toLocaleString("fr-FR"),
 
         status:"En attente"
 
@@ -2024,49 +2384,43 @@ function confirmDeposit(){
 
     addNotification(
         "Dépôt enregistré",
-        "Votre demande de dépôt de "
-        + formatFCFA(amount)
-        + " est en attente de validation. Frais : 1 %."
+        "Dépôt de "
+        +amount.toLocaleString("fr-FR")
+        +" FCFA. Frais : "
+        +fee.toLocaleString("fr-FR")
+        +" FCFA. Montant net : "
+        +net.toLocaleString("fr-FR")
+        +" FCFA."
     );
 
 
     document.getElementById(
         "depositAmount"
-    ).value = "";
+    ).value="";
 
 
     document.getElementById(
         "depositMethod"
-    ).value = "";
+    ).value="";
 
 
     closeDeposit();
 
 
     alert(
-        "Demande enregistrée.\n\n"
-        + "Montant : "
-        + formatFCFA(amount)
-        + "\n"
-        + "Frais (1 %) : "
-        + formatFCFA(fee)
-        + "\n"
-        + "Montant crédité après validation : "
-        + formatFCFA(net)
+        "Votre demande de dépôt a été enregistrée. Les frais de 1 % seront appliqués lors de la validation."
     );
 
 }
 
 
-/* =====================================================
-   RETRAIT
-===================================================== */
+/* ================= RETRAIT ================= */
 
 function openWithdraw(){
 
     document
-    .getElementById("withdrawModal")
-    .classList.add("show");
+        .getElementById("withdrawModal")
+        .classList.add("show");
 
 }
 
@@ -2074,35 +2428,28 @@ function openWithdraw(){
 function closeWithdraw(){
 
     document
-    .getElementById("withdrawModal")
-    .classList.remove("show");
+        .getElementById("withdrawModal")
+        .classList.remove("show");
 
 }
 
 
 function confirmWithdraw(){
 
-    const amount =
-        Number(
-            document.getElementById(
-                "withdrawAmount"
-            ).value
-        );
+    const amount=Number(
+        document.getElementById(
+            "withdrawAmount"
+        ).value
+    );
 
 
-    const destination =
+    const destination=
         document.getElementById(
             "withdrawPhone"
         ).value.trim();
 
 
-    const balance =
-        Number(
-            currentUser.balance || 0
-        );
-
-
-    if(!amount || amount <= 0){
+    if(!amount || amount<=0){
 
         alert(
             "Veuillez entrer un montant valide."
@@ -2113,7 +2460,14 @@ function confirmWithdraw(){
     }
 
 
-    if(amount > balance){
+    const balance=Number(
+        currentUser.balance ||
+        currentUser.solde ||
+        0
+    );
+
+
+    if(amount>balance){
 
         alert(
             "Votre solde disponible est insuffisant."
@@ -2135,15 +2489,12 @@ function confirmWithdraw(){
     }
 
 
-    const fee =
-        amount * 0.25;
+    const fee=amount*0.25;
+
+    const net=amount-fee;
 
 
-    const net =
-        amount - fee;
-
-
-    const withdrawals =
+    const withdrawals=
         getArray("withdrawals");
 
 
@@ -2151,29 +2502,19 @@ function confirmWithdraw(){
 
         id:Date.now(),
 
-        user_id:
-            currentUser.id,
+        name:getUserName(),
 
-        name:
-            currentUser.name,
-
-        email:
-            currentUser.email,
-
-        phone:
-            currentUser.phone,
+        phone:getUserPhone(),
 
         amount:amount,
 
         fee:fee,
 
-        net_amount:net,
+        netAmount:net,
 
         destination:destination,
 
-        date:new Date().toLocaleString(
-            "fr-FR"
-        ),
+        date:new Date().toLocaleString("fr-FR"),
 
         status:"En attente"
 
@@ -2188,200 +2529,59 @@ function confirmWithdraw(){
 
     addNotification(
         "Retrait demandé",
-        "Votre demande de retrait de "
-        + formatFCFA(amount)
-        + " a été enregistrée."
+        "Retrait de "
+        +amount.toLocaleString("fr-FR")
+        +" FCFA. Frais : "
+        +fee.toLocaleString("fr-FR")
+        +" FCFA. Montant net : "
+        +net.toLocaleString("fr-FR")
+        +" FCFA."
     );
 
 
     document.getElementById(
         "withdrawAmount"
-    ).value = "";
+    ).value="";
 
 
     document.getElementById(
         "withdrawPhone"
-    ).value = "";
+    ).value="";
 
 
     closeWithdraw();
 
 
     alert(
-        "Demande de retrait enregistrée.\n\n"
-        + "Montant : "
-        + formatFCFA(amount)
-        + "\n"
-        + "Frais (25 %) : "
-        + formatFCFA(fee)
-        + "\n"
-        + "Montant net : "
-        + formatFCFA(net)
+        "Votre demande de retrait a été enregistrée."
     );
 
 }
 
 
-/* =====================================================
-   INVESTISSEMENTS
-===================================================== */
-
-function displayInvestments(){
-
-    const container =
-        document.getElementById(
-            "investmentTable"
-        );
-
-
-    if(!container){
-
-        return;
-
-    }
-
-
-    const mine =
-        getMyInvestments();
-
-
-    if(mine.length === 0){
-
-        container.innerHTML = `
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    📊
-                </div>
-
-                Aucun investissement actif.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    let html = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Pack</th>
-                    <th>Montant</th>
-                    <th>Gain/jour</th>
-                    <th>Durée</th>
-                    <th>Total</th>
-                    <th>Statut</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
-
-
-    mine.forEach(function(item){
-
-        html += `
-
-            <tr>
-
-                <td>
-                    ${escapeHtml(item.pack)}
-                </td>
-
-                <td>
-                    ${formatFCFA(item.amount)}
-                </td>
-
-                <td>
-                    ${formatFCFA(item.daily)}
-                </td>
-
-                <td>
-                    ${item.duration || 180} jours
-                </td>
-
-                <td>
-                    ${formatFCFA(item.total)}
-                </td>
-
-                <td>
-                    <span class="badge green">
-                        ${escapeHtml(
-                            item.status || "Actif"
-                        )}
-                    </span>
-                </td>
-
-            </tr>
-
-        `;
-
-    });
-
-
-    html += `
-            </tbody>
-        </table>
-    `;
-
-
-    container.innerHTML =
-        html;
-
-}
-
-
-/* =====================================================
-   HISTORIQUE
-===================================================== */
+/* ================= HISTORIQUE ================= */
 
 function displayTransactions(){
 
-    const container =
+    const container=
         document.getElementById(
             "transactionTable"
         );
 
 
-    const userId =
-        String(
-            currentUser?.id || ""
-        );
+    if(!container)return;
 
 
-    const userPhone =
-        normalizePhone(
-            currentUser?.phone
-        );
+    const phone=getUserPhone();
+
+    const transactions=[];
 
 
-    const deposits =
-        getArray("deposits");
-
-
-    const withdrawals =
-        getArray("withdrawals");
-
-
-    const transactions = [];
-
-
-    deposits.forEach(function(item){
-
-        if(
-            String(item.user_id || "") === userId ||
-            normalizePhone(item.phone) === userPhone
-        ){
+    getArray("deposits")
+        .filter(
+            item=>samePhone(item.phone,phone)
+        )
+        .forEach(function(item){
 
             transactions.push({
 
@@ -2389,11 +2589,11 @@ function displayTransactions(){
 
                 amount:item.amount,
 
-                fee:item.fee,
+                fee:item.fee || 0,
 
-                net:item.net_amount,
+                net:item.netAmount || item.amount,
 
-                details:item.method,
+                method:item.method || "—",
 
                 date:item.date,
 
@@ -2401,17 +2601,14 @@ function displayTransactions(){
 
             });
 
-        }
-
-    });
+        });
 
 
-    withdrawals.forEach(function(item){
-
-        if(
-            String(item.user_id || "") === userId ||
-            normalizePhone(item.phone) === userPhone
-        ){
+    getArray("withdrawals")
+        .filter(
+            item=>samePhone(item.phone,phone)
+        )
+        .forEach(function(item){
 
             transactions.push({
 
@@ -2419,11 +2616,11 @@ function displayTransactions(){
 
                 amount:item.amount,
 
-                fee:item.fee,
+                fee:item.fee || 0,
 
-                net:item.net_amount,
+                net:item.netAmount || item.amount,
 
-                details:item.destination,
+                method:item.destination || "—",
 
                 date:item.date,
 
@@ -2431,14 +2628,12 @@ function displayTransactions(){
 
             });
 
-        }
-
-    });
+        });
 
 
-    if(transactions.length === 0){
+    if(!transactions.length){
 
-        container.innerHTML = `
+        container.innerHTML=`
 
             <div class="empty">
 
@@ -2457,7 +2652,7 @@ function displayTransactions(){
     }
 
 
-    let html = `
+    let html=`
 
         <table>
 
@@ -2481,330 +2676,79 @@ function displayTransactions(){
 
 
     transactions
-    .slice()
-    .reverse()
-    .forEach(function(item){
+        .slice()
+        .reverse()
+        .forEach(function(item){
 
-        html += `
+            html+=`
 
-            <tr>
+                <tr>
 
-                <td>
-                    ${
-                        item.type === "Dépôt"
-                        ? "📥 Dépôt"
-                        : "📤 Retrait"
-                    }
-                </td>
+                    <td>
+                        ${item.type==="Dépôt"
+                            ?"📥 Dépôt"
+                            :"📤 Retrait"}
+                    </td>
 
-                <td>
-                    ${formatFCFA(item.amount)}
-                </td>
+                    <td>
+                        ${Number(item.amount||0)
+                            .toLocaleString("fr-FR")}
+                        FCFA
+                    </td>
 
-                <td>
-                    ${formatFCFA(item.fee)}
-                </td>
+                    <td>
+                        ${Number(item.fee||0)
+                            .toLocaleString("fr-FR")}
+                        FCFA
+                    </td>
 
-                <td>
-                    ${formatFCFA(item.net)}
-                </td>
+                    <td>
+                        ${Number(item.net||0)
+                            .toLocaleString("fr-FR")}
+                        FCFA
+                    </td>
 
-                <td>
-                    ${escapeHtml(
-                        item.details || "—"
-                    )}
-                </td>
+                    <td>
+                        ${escapeHtml(item.method)}
+                    </td>
 
-                <td>
-                    ${escapeHtml(
-                        item.date || "—"
-                    )}
-                </td>
+                    <td>
+                        ${escapeHtml(item.date)}
+                    </td>
 
-                <td>
-                    <span class="badge orange">
-                        ${escapeHtml(
-                            item.status ||
-                            "En attente"
-                        )}
-                    </span>
-                </td>
+                    <td>
+                        <span class="badge orange">
+                            ${escapeHtml(
+                                item.status ||
+                                "En attente"
+                            )}
+                        </span>
+                    </td>
 
-            </tr>
+                </tr>
 
-        `;
+            `;
 
-    });
+        });
 
 
-    html += `
+    html+=`
+
             </tbody>
+
         </table>
+
     `;
 
 
-    container.innerHTML =
-        html;
+    container.innerHTML=html;
 
 }
 
 
-/* =====================================================
-   NOTIFICATIONS
-===================================================== */
+/* ================= LOGOUT ================= */
 
-function getNotifications(){
-
-    return getArray(
-        "userNotifications"
-    );
-
-}
-
-
-function saveNotifications(list){
-
-    saveArray(
-        "userNotifications",
-        list
-    );
-
-}
-
-
-function addNotification(title,text){
-
-    const list =
-        getNotifications();
-
-
-    list.push({
-
-        id:Date.now(),
-
-        title:title,
-
-        text:text,
-
-        date:new Date().toLocaleString(
-            "fr-FR"
-        ),
-
-        read:false,
-
-        user_id:
-            currentUser?.id || ""
-
-    });
-
-
-    saveNotifications(list);
-
-    updateNotifications();
-
-}
-
-
-function updateNotifications(){
-
-    const list =
-        getNotifications();
-
-
-    const mine =
-        list.filter(function(item){
-
-            return (
-                !item.user_id ||
-                item.user_id === currentUser?.id
-            );
-
-        });
-
-
-    const unread =
-        mine.filter(function(item){
-
-            return !item.read;
-
-        }).length;
-
-
-    const count =
-        document.getElementById(
-            "notificationCount"
-        );
-
-
-    if(unread){
-
-        count.textContent =
-            unread > 99
-            ? "99+"
-            : unread;
-
-        count.style.display =
-            "flex";
-
-    }else{
-
-        count.style.display =
-            "none";
-
-    }
-
-
-    const container =
-        document.getElementById(
-            "notificationList"
-        );
-
-
-    if(!mine.length){
-
-        container.innerHTML = `
-
-            <div class="no-notification">
-
-                🔔<br><br>
-
-                Aucune notification.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    let html = "";
-
-
-    mine
-    .slice()
-    .reverse()
-    .forEach(function(item){
-
-        html += `
-
-            <div
-                class="notification-item ${
-                    item.read ? "" : "unread"
-                }"
-                onclick="readNotification(${item.id})">
-
-                <strong>
-                    ${escapeHtml(item.title)}
-                </strong>
-
-                <div>
-                    ${escapeHtml(item.text)}
-                </div>
-
-                <small>
-                    ${escapeHtml(item.date)}
-                </small>
-
-            </div>
-
-        `;
-
-    });
-
-
-    container.innerHTML =
-        html;
-
-}
-
-
-function toggleNotifications(){
-
-    document
-    .getElementById(
-        "notificationPanel"
-    )
-    .classList.toggle("open");
-
-}
-
-
-function readNotification(id){
-
-    const list =
-        getNotifications();
-
-
-    const item =
-        list.find(function(item){
-
-            return String(item.id) ===
-                String(id);
-
-        });
-
-
-    if(item){
-
-        item.read = true;
-
-        saveNotifications(list);
-
-        updateNotifications();
-
-    }
-
-}
-
-
-function clearNotifications(){
-
-    const list =
-        getNotifications();
-
-
-    list.forEach(function(item){
-
-        if(
-            !item.user_id ||
-            item.user_id === currentUser?.id
-        ){
-
-            item.read = true;
-
-        }
-
-    });
-
-
-    saveNotifications(list);
-
-    updateNotifications();
-
-}
-
-
-/* =====================================================
-   DÉCONNEXION
-===================================================== */
-
-async function logout(){
-
-    try{
-
-        await supabaseClient.auth.signOut();
-
-    }catch(error){
-
-        console.error(
-            "Erreur déconnexion :",
-            error
-        );
-
-    }
-
+function logout(){
 
     localStorage.removeItem(
         "currentUser"
@@ -2814,92 +2758,79 @@ async function logout(){
         "loggedIn"
     );
 
-
-    window.location.replace(
-        "login.html"
-    );
+    window.location.href="login.html";
 
 }
 
 
-/* =====================================================
-   PROTECTION SESSION
-===================================================== */
+/* ================= SECURITE HTML ================= */
 
-supabaseClient.auth.onAuthStateChange(
-    function(event,session){
+function escapeHtml(value){
 
-        /*
-         * Si Supabase signale une vraie déconnexion,
-         * on retourne à login.
-         *
-         * On ne redirige PAS simplement parce qu'une
-         * donnée localStorage manque.
-         */
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ================= INITIALISATION ================= */
+
+if(loadCurrentUser()){
+
+    updateDashboard();
+
+    displayInvestments();
+
+    displayTransactions();
+
+    updateNotifications();
+
+}
+
+
+setInterval(function(){
+
+    if(currentUser){
+
+        updateDashboard();
+
+        updateNotifications();
+
+    }
+
+},5000);
+
+
+/* fermeture notification en cliquant ailleurs */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const notification=
+            document.querySelector(
+                ".notification"
+            );
 
         if(
-            event === "SIGNED_OUT"
+            notification &&
+            !notification.contains(event.target)
         ){
 
-            localStorage.removeItem(
-                "currentUser"
-            );
-
-            localStorage.removeItem(
-                "loggedIn"
-            );
-
-            window.location.replace(
-                "login.html"
-            );
+            document
+                .getElementById(
+                    "notificationPanel"
+                )
+                .classList.remove("open");
 
         }
 
     }
 );
-
-
-/* =====================================================
-   FERMETURE DES MODALES
-===================================================== */
-
-document
-.getElementById("depositModal")
-.addEventListener(
-    "click",
-    function(event){
-
-        if(event.target === this){
-
-            closeDeposit();
-
-        }
-
-    }
-);
-
-
-document
-.getElementById("withdrawModal")
-.addEventListener(
-    "click",
-    function(event){
-
-        if(event.target === this){
-
-            closeWithdraw();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   INITIALISATION UNIQUE
-===================================================== */
-
-initializeDashboard();
 
 </script>
 
