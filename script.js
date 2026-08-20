@@ -3,6 +3,7 @@
    SCRIPT PRINCIPAL — SUPABASE
    ========================================================= */
 
+
 /* =========================================================
    CONFIGURATION SUPABASE
 ========================================================= */
@@ -15,28 +16,45 @@ const SUPABASE_KEY =
 
 
 /* =========================================================
-   INITIALISATION
+   FRAIS
+========================================================= */
+
+const DEPOSIT_FEE_RATE = 0.01;   // 1 %
+const WITHDRAW_FEE_RATE = 0.25;  // 25 %
+
+
+/* =========================================================
+   VARIABLES
 ========================================================= */
 
 let supabaseClient = null;
+
 let currentUser = null;
+
 let currentProfile = null;
 
 
 /* =========================================================
-   CHARGEMENT SUPABASE
+   INITIALISATION SUPABASE
 ========================================================= */
 
 function loadSupabase(){
 
-    if(typeof window.supabase === "undefined"){
+    if(
+        typeof window.supabase === "undefined"
+    ){
 
         console.error(
-            "Supabase JS n'est pas chargé."
+            "La bibliothèque Supabase n'est pas chargée."
+        );
+
+        alert(
+            "Erreur : Supabase n'est pas chargé sur cette page."
         );
 
         return false;
     }
+
 
     supabaseClient =
         window.supabase.createClient(
@@ -44,12 +62,13 @@ function loadSupabase(){
             SUPABASE_KEY
         );
 
+
     return true;
 }
 
 
 /* =========================================================
-   OUTILS
+   FORMAT FCFA
 ========================================================= */
 
 function formatFCFA(amount){
@@ -59,6 +78,10 @@ function formatFCFA(amount){
         + " FCFA";
 }
 
+
+/* =========================================================
+   PROTECTION HTML
+========================================================= */
 
 function escapeHtml(value){
 
@@ -82,35 +105,45 @@ async function getCurrentUser(){
         return null;
     }
 
+
     const {
         data,
         error
-    } = await supabaseClient.auth.getUser();
+    } =
+        await supabaseClient.auth.getUser();
 
 
-    if(error || !data.user){
+    if(
+        error ||
+        !data ||
+        !data.user
+    ){
 
         return null;
     }
 
 
-    currentUser = data.user;
+    currentUser =
+        data.user;
 
-    return data.user;
+
+    return currentUser;
 }
 
 
 /* =========================================================
-   PROFIL
+   CHARGEMENT PROFIL
 ========================================================= */
 
 async function loadProfile(){
 
-    const user =
+    if(!currentUser){
+
         await getCurrentUser();
+    }
 
 
-    if(!user){
+    if(!currentUser){
 
         window.location.href =
             "login.html";
@@ -122,17 +155,21 @@ async function loadProfile(){
     const {
         data,
         error
-    } = await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id",user.id)
-        .single();
+    } =
+        await supabaseClient
+            .from("profiles")
+            .select("*")
+            .eq(
+                "id",
+                currentUser.id
+            )
+            .single();
 
 
     if(error){
 
         console.error(
-            "Erreur profil :",
+            "Erreur chargement profil :",
             error
         );
 
@@ -140,9 +177,11 @@ async function loadProfile(){
     }
 
 
-    currentProfile = data;
+    currentProfile =
+        data;
 
-    return data;
+
+    return currentProfile;
 }
 
 
@@ -237,7 +276,7 @@ function displayUserProfile(){
 
 
 /* =========================================================
-   SOLDE
+   AFFICHAGE SOLDE
 ========================================================= */
 
 function displayBalance(){
@@ -272,28 +311,35 @@ function displayBalance(){
    NAVIGATION
 ========================================================= */
 
-function showPage(pageId,button){
+function showPage(
+    pageId,
+    button
+){
 
     document
         .querySelectorAll(".page")
-        .forEach(function(page){
+        .forEach(
+            function(page){
 
-            page.classList.remove(
-                "active"
-            );
+                page.classList.remove(
+                    "active"
+                );
 
-        });
+            }
+        );
 
 
     document
         .querySelectorAll(".menu")
-        .forEach(function(btn){
+        .forEach(
+            function(btn){
 
-            btn.classList.remove(
-                "active"
-            );
+                btn.classList.remove(
+                    "active"
+                );
 
-        });
+            }
+        );
 
 
     const page =
@@ -364,24 +410,26 @@ async function loadInvestments(){
     const {
         data,
         error
-    } = await supabaseClient
-        .from("investments")
-        .select("*")
-        .eq(
-            "user_id",
-            currentUser.id
-        )
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
+    } =
+        await supabaseClient
+            .from("investments")
+            .select("*")
+            .eq(
+                "user_id",
+                currentUser.id
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            );
 
 
     if(error){
 
         console.error(error);
+
 
         container.innerHTML = `
 
@@ -398,7 +446,10 @@ async function loadInvestments(){
     }
 
 
-    if(!data || data.length === 0){
+    if(
+        !data ||
+        data.length === 0
+    ){
 
         container.innerHTML = `
 
@@ -447,58 +498,60 @@ async function loadInvestments(){
     `;
 
 
-    data.forEach(function(item){
+    data.forEach(
+        function(item){
 
-        html += `
+            html += `
 
-            <tr>
+                <tr>
 
-                <td>
-                    ${escapeHtml(
-                        item.pack_name
-                    )}
-                </td>
-
-                <td>
-                    ${formatFCFA(
-                        item.amount
-                    )}
-                </td>
-
-                <td>
-                    ${formatFCFA(
-                        item.daily_gain
-                    )}
-                </td>
-
-                <td>
-                    ${item.duration_days}
-                    jours
-                </td>
-
-                <td>
-                    ${formatFCFA(
-                        item.total_expected
-                    )}
-                </td>
-
-                <td>
-
-                    <span class="badge green">
-
+                    <td>
                         ${escapeHtml(
-                            item.status
+                            item.pack_name
                         )}
+                    </td>
 
-                    </span>
+                    <td>
+                        ${formatFCFA(
+                            item.amount
+                        )}
+                    </td>
 
-                </td>
+                    <td>
+                        ${formatFCFA(
+                            item.daily_gain
+                        )}
+                    </td>
 
-            </tr>
+                    <td>
+                        ${item.duration_days}
+                        jours
+                    </td>
 
-        `;
+                    <td>
+                        ${formatFCFA(
+                            item.total_expected
+                        )}
+                    </td>
 
-    });
+                    <td>
+
+                        <span class="badge green">
+
+                            ${escapeHtml(
+                                item.status
+                            )}
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
 
 
     html += `
@@ -553,6 +606,7 @@ async function invest(
     amount =
         Number(amount);
 
+
     daily =
         Number(daily);
 
@@ -571,11 +625,13 @@ async function invest(
 
     const confirmation =
         confirm(
+
             "Confirmer votre investissement de "
             + formatFCFA(amount)
             + " dans "
             + pack
             + " ?"
+
         );
 
 
@@ -597,41 +653,38 @@ async function invest(
         balance - amount;
 
 
-    /* -----------------------------------------
-       Création investissement
-    ----------------------------------------- */
-
     const {
         data:investment,
         error:investmentError
-    } = await supabaseClient
-        .from("investments")
-        .insert({
+    } =
+        await supabaseClient
+            .from("investments")
+            .insert({
 
-            user_id:
-                currentUser.id,
+                user_id:
+                    currentUser.id,
 
-            pack_name:
-                pack,
+                pack_name:
+                    pack,
 
-            amount:
-                amount,
+                amount:
+                    amount,
 
-            daily_gain:
-                daily,
+                daily_gain:
+                    daily,
 
-            duration_days:
-                duration,
+                duration_days:
+                    duration,
 
-            total_expected:
-                total,
+                total_expected:
+                    total,
 
-            status:
-                "active"
+                status:
+                    "active"
 
-        })
-        .select()
-        .single();
+            })
+            .select()
+            .single();
 
 
     if(investmentError){
@@ -639,6 +692,7 @@ async function invest(
         console.error(
             investmentError
         );
+
 
         alert(
             "Impossible d'enregistrer l'investissement."
@@ -648,32 +702,29 @@ async function invest(
     }
 
 
-    /* -----------------------------------------
-       Mise à jour du solde
-    ----------------------------------------- */
-
     const {
         error:balanceError
-    } = await supabaseClient
-        .from("profiles")
-        .update({
+    } =
+        await supabaseClient
+            .from("profiles")
+            .update({
 
-            balance:
-                newBalance,
+                balance:
+                    newBalance,
 
-            total_invested:
-                Number(
-                    currentProfile.total_invested || 0
-                ) + amount,
+                total_invested:
+                    Number(
+                        currentProfile.total_invested || 0
+                    ) + amount,
 
-            updated_at:
-                new Date().toISOString()
+                updated_at:
+                    new Date().toISOString()
 
-        })
-        .eq(
-            "id",
-            currentUser.id
-        );
+            })
+            .eq(
+                "id",
+                currentUser.id
+            );
 
 
     if(balanceError){
@@ -682,17 +733,14 @@ async function invest(
             balanceError
         );
 
+
         alert(
-            "L'investissement a été créé mais la mise à jour du solde a échoué. Contactez l'administration."
+            "L'investissement a été créé mais le solde n'a pas pu être mis à jour."
         );
 
         return;
     }
 
-
-    /* -----------------------------------------
-       Historique
-    ----------------------------------------- */
 
     await supabaseClient
         .from("transactions")
@@ -715,10 +763,6 @@ async function invest(
 
         });
 
-
-    /* -----------------------------------------
-       Notification
-    ----------------------------------------- */
 
     await createNotification(
 
@@ -747,7 +791,8 @@ async function invest(
 
     displayBalance();
 
-    updateDashboard();
+
+    await updateDashboard();
 
 
     alert(
@@ -780,15 +825,16 @@ async function updateDashboard(){
     const {
         data,
         error
-    } = await supabaseClient
-        .from("investments")
-        .select(
-            "amount,daily_gain,status"
-        )
-        .eq(
-            "user_id",
-            currentUser.id
-        );
+    } =
+        await supabaseClient
+            .from("investments")
+            .select(
+                "amount,daily_gain,status"
+            )
+            .eq(
+                "user_id",
+                currentUser.id
+            );
 
 
     if(error){
@@ -806,7 +852,9 @@ async function updateDashboard(){
     let activeCount = 0;
 
 
-    (data || []).forEach(
+    (
+        data || []
+    ).forEach(
         function(item){
 
             if(
@@ -818,10 +866,12 @@ async function updateDashboard(){
                         item.amount || 0
                     );
 
+
                 dailyGain +=
                     Number(
                         item.daily_gain || 0
                     );
+
 
                 activeCount++;
 
@@ -913,6 +963,10 @@ function closeDeposit(){
 }
 
 
+/* =========================================================
+   CONFIRMATION DEPOT
+========================================================= */
+
 async function confirmDeposit(){
 
     if(!currentUser){
@@ -935,7 +989,10 @@ async function confirmDeposit(){
         )?.value;
 
 
-    if(!amount || amount <= 0){
+    if(
+        !amount ||
+        amount <= 0
+    ){
 
         alert(
             "Veuillez entrer un montant valide."
@@ -955,30 +1012,73 @@ async function confirmDeposit(){
     }
 
 
+    /* =========================================
+       FRAIS DEPOT : 1 %
+    ========================================= */
+
+    const fee =
+        amount * DEPOSIT_FEE_RATE;
+
+
+    const creditedAmount =
+        amount - fee;
+
+
+    const confirmation =
+        confirm(
+
+            "Montant du dépôt : "
+            + formatFCFA(amount)
+
+            + "\n\n"
+
+            + "Frais de dépôt (1 %) : "
+            + formatFCFA(fee)
+
+            + "\n\n"
+
+            + "Montant qui sera crédité : "
+            + formatFCFA(creditedAmount)
+
+            + "\n\n"
+
+            + "Continuer ?"
+
+        );
+
+
+    if(!confirmation){
+
+        return;
+    }
+
+
     const {
         error
-    } = await supabaseClient
-        .from("deposits")
-        .insert({
+    } =
+        await supabaseClient
+            .from("deposits")
+            .insert({
 
-            user_id:
-                currentUser.id,
+                user_id:
+                    currentUser.id,
 
-            amount:
-                amount,
+                amount:
+                    amount,
 
-            method:
-                method,
+                method:
+                    method,
 
-            status:
-                "pending"
+                status:
+                    "pending"
 
-        });
+            });
 
 
     if(error){
 
         console.error(error);
+
 
         alert(
             "Impossible d'enregistrer le dépôt."
@@ -994,7 +1094,10 @@ async function confirmDeposit(){
 
         "Votre demande de dépôt de "
         + formatFCFA(amount)
-        + " est en attente de validation.",
+        + " est en attente de validation. "
+        + "Après validation, "
+        + formatFCFA(creditedAmount)
+        + " seront crédités sur votre solde.",
 
         "deposit"
 
@@ -1015,11 +1118,26 @@ async function confirmDeposit(){
 
 
     alert(
-        "Votre demande de dépôt a été enregistrée."
+
+        "Demande enregistrée.\n\n"
+
+        + "Dépôt : "
+        + formatFCFA(amount)
+
+        + "\n"
+
+        + "Frais 1 % : "
+        + formatFCFA(fee)
+
+        + "\n"
+
+        + "Crédit prévu : "
+        + formatFCFA(creditedAmount)
+
     );
 
 
-    loadTransactions();
+    await loadTransactions();
 }
 
 
@@ -1061,6 +1179,10 @@ function closeWithdraw(){
 }
 
 
+/* =========================================================
+   CONFIRMATION RETRAIT
+========================================================= */
+
 async function confirmWithdraw(){
 
     if(!currentUser){
@@ -1095,7 +1217,10 @@ async function confirmWithdraw(){
         );
 
 
-    if(!amount || amount <= 0){
+    if(
+        !amount ||
+        amount <= 0
+    ){
 
         alert(
             "Veuillez entrer un montant valide."
@@ -1105,7 +1230,9 @@ async function confirmWithdraw(){
     }
 
 
-    if(amount > balance){
+    if(
+        amount > balance
+    ){
 
         alert(
             "Votre solde disponible est insuffisant."
@@ -1125,46 +1252,79 @@ async function confirmWithdraw(){
     }
 
 
-    /* Frais de retrait : 25 % */
+    /* =========================================
+       FRAIS RETRAIT : 25 %
+    ========================================= */
 
     const fee =
-        amount * 0.25;
+        amount * WITHDRAW_FEE_RATE;
 
 
     const netAmount =
         amount - fee;
 
 
+    const confirmation =
+        confirm(
+
+            "Montant du retrait : "
+            + formatFCFA(amount)
+
+            + "\n\n"
+
+            + "Frais de retrait (25 %) : "
+            + formatFCFA(fee)
+
+            + "\n\n"
+
+            + "Montant net reçu : "
+            + formatFCFA(netAmount)
+
+            + "\n\n"
+
+            + "Continuer ?"
+
+        );
+
+
+    if(!confirmation){
+
+        return;
+    }
+
+
     const {
         error
-    } = await supabaseClient
-        .from("withdrawals")
-        .insert({
+    } =
+        await supabaseClient
+            .from("withdrawals")
+            .insert({
 
-            user_id:
-                currentUser.id,
+                user_id:
+                    currentUser.id,
 
-            amount:
-                amount,
+                amount:
+                    amount,
 
-            fee:
-                fee,
+                fee:
+                    fee,
 
-            net_amount:
-                netAmount,
+                net_amount:
+                    netAmount,
 
-            destination:
-                destination,
+                destination:
+                    destination,
 
-            status:
-                "pending"
+                status:
+                    "pending"
 
-        });
+            });
 
 
     if(error){
 
         console.error(error);
+
 
         alert(
             "Impossible d'enregistrer la demande de retrait."
@@ -1180,7 +1340,10 @@ async function confirmWithdraw(){
 
         "Votre demande de retrait de "
         + formatFCFA(amount)
-        + " a été enregistrée.",
+        + " a été enregistrée. "
+        + "Montant net prévu : "
+        + formatFCFA(netAmount)
+        + ".",
 
         "withdrawal"
 
@@ -1201,11 +1364,26 @@ async function confirmWithdraw(){
 
 
     alert(
-        "Votre demande de retrait a été enregistrée."
+
+        "Demande de retrait enregistrée.\n\n"
+
+        + "Retrait : "
+        + formatFCFA(amount)
+
+        + "\n"
+
+        + "Frais 25 % : "
+        + formatFCFA(fee)
+
+        + "\n"
+
+        + "Net : "
+        + formatFCFA(netAmount)
+
     );
 
 
-    loadTransactions();
+    await loadTransactions();
 }
 
 
@@ -1234,31 +1412,62 @@ async function loadTransactions(){
 
 
     const {
-        data:deposits
-    } = await supabaseClient
-        .from("deposits")
-        .select("*")
-        .eq(
-            "user_id",
-            currentUser.id
-        );
+        data:deposits,
+        error:depositError
+    } =
+        await supabaseClient
+            .from("deposits")
+            .select("*")
+            .eq(
+                "user_id",
+                currentUser.id
+            );
 
 
     const {
-        data:withdrawals
-    } = await supabaseClient
-        .from("withdrawals")
-        .select("*")
-        .eq(
-            "user_id",
-            currentUser.id
+        data:withdrawals,
+        error:withdrawError
+    } =
+        await supabaseClient
+            .from("withdrawals")
+            .select("*")
+            .eq(
+                "user_id",
+                currentUser.id
+            );
+
+
+    if(
+        depositError ||
+        withdrawError
+    ){
+
+        console.error(
+            depositError ||
+            withdrawError
         );
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                Impossible de charger
+                l'historique.
+
+            </div>
+
+        `;
+
+        return;
+    }
 
 
     const transactions = [];
 
 
-    (deposits || []).forEach(
+    (
+        deposits || []
+    ).forEach(
         function(item){
 
             transactions.push({
@@ -1276,7 +1485,13 @@ async function loadTransactions(){
                     item.created_at,
 
                 status:
-                    item.status
+                    item.status,
+
+                fee:
+                    Number(
+                        item.amount || 0
+                    ) *
+                    DEPOSIT_FEE_RATE
 
             });
 
@@ -1284,7 +1499,9 @@ async function loadTransactions(){
     );
 
 
-    (withdrawals || []).forEach(
+    (
+        withdrawals || []
+    ).forEach(
         function(item){
 
             transactions.push({
@@ -1302,7 +1519,10 @@ async function loadTransactions(){
                     item.created_at,
 
                 status:
-                    item.status
+                    item.status,
+
+                fee:
+                    item.fee || 0
 
             });
 
@@ -1314,13 +1534,16 @@ async function loadTransactions(){
         function(a,b){
 
             return new Date(b.date)
-                - new Date(a.date);
+                -
+                new Date(a.date);
 
         }
     );
 
 
-    if(transactions.length === 0){
+    if(
+        transactions.length === 0
+    ){
 
         container.innerHTML = `
 
@@ -1351,6 +1574,8 @@ async function loadTransactions(){
                     <th>Type</th>
 
                     <th>Montant</th>
+
+                    <th>Frais</th>
 
                     <th>Détails</th>
 
@@ -1387,8 +1612,15 @@ async function loadTransactions(){
                     </td>
 
                     <td>
+                        ${formatFCFA(
+                            item.fee
+                        )}
+                    </td>
+
+                    <td>
                         ${escapeHtml(
-                            item.details || "—"
+                            item.details ||
+                            "—"
                         )}
                     </td>
 
@@ -1452,37 +1684,42 @@ async function createNotification(
 
     const {
         error
-    } = await supabaseClient
-        .from("notifications")
-        .insert({
+    } =
+        await supabaseClient
+            .from("notifications")
+            .insert({
 
-            user_id:
-                currentUser.id,
+                user_id:
+                    currentUser.id,
 
-            title:
-                title,
+                title:
+                    title,
 
-            message:
-                message,
+                message:
+                    message,
 
-            type:
-                type,
+                type:
+                    type,
 
-            is_read:
-                false
+                is_read:
+                    false
 
-        });
+            });
 
 
     if(error){
 
         console.error(
-            "Notification error:",
+            "Erreur notification :",
             error
         );
     }
 }
 
+
+/* =========================================================
+   CHARGER NOTIFICATIONS
+========================================================= */
 
 async function loadNotifications(){
 
@@ -1495,19 +1732,20 @@ async function loadNotifications(){
     const {
         data,
         error
-    } = await supabaseClient
-        .from("notifications")
-        .select("*")
-        .eq(
-            "user_id",
-            currentUser.id
-        )
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
+    } =
+        await supabaseClient
+            .from("notifications")
+            .select("*")
+            .eq(
+                "user_id",
+                currentUser.id
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            );
 
 
     if(error){
@@ -1536,7 +1774,10 @@ async function loadNotifications(){
     }
 
 
-    if(!data || data.length === 0){
+    if(
+        !data ||
+        data.length === 0
+    ){
 
         list.innerHTML = `
 
@@ -1557,13 +1798,18 @@ async function loadNotifications(){
                 "none";
         }
 
+
         return;
     }
 
 
     const unread =
         data.filter(
-            item => !item.is_read
+            function(item){
+
+                return !item.is_read;
+
+            }
         ).length;
 
 
@@ -1576,6 +1822,7 @@ async function loadNotifications(){
                     ? "99+"
                     : unread;
 
+
             count.style.display =
                 "flex";
 
@@ -1583,7 +1830,6 @@ async function loadNotifications(){
 
             count.style.display =
                 "none";
-
         }
     }
 
@@ -1634,6 +1880,10 @@ async function loadNotifications(){
 }
 
 
+/* =========================================================
+   LIRE UNE NOTIFICATION
+========================================================= */
+
 async function readNotification(id){
 
     if(!currentUser){
@@ -1645,7 +1895,10 @@ async function readNotification(id){
     await supabaseClient
         .from("notifications")
         .update({
-            is_read:true
+
+            is_read:
+                true
+
         })
         .eq(
             "id",
@@ -1657,9 +1910,13 @@ async function readNotification(id){
         );
 
 
-    loadNotifications();
+    await loadNotifications();
 }
 
+
+/* =========================================================
+   TOUT LIRE
+========================================================= */
 
 async function clearNotifications(){
 
@@ -1672,7 +1929,10 @@ async function clearNotifications(){
     await supabaseClient
         .from("notifications")
         .update({
-            is_read:true
+
+            is_read:
+                true
+
         })
         .eq(
             "user_id",
@@ -1680,9 +1940,13 @@ async function clearNotifications(){
         );
 
 
-    loadNotifications();
+    await loadNotifications();
 }
 
+
+/* =========================================================
+   OUVERTURE NOTIFICATIONS
+========================================================= */
 
 function toggleNotifications(){
 
@@ -1702,7 +1966,7 @@ function toggleNotifications(){
 
 
 /* =========================================================
-   DECONNEXION
+   DÉCONNEXION
 ========================================================= */
 
 async function logout(){
@@ -1713,9 +1977,12 @@ async function logout(){
     }
 
 
-    currentUser = null;
+    currentUser =
+        null;
 
-    currentProfile = null;
+
+    currentProfile =
+        null;
 
 
     window.location.href =
@@ -1724,7 +1991,7 @@ async function logout(){
 
 
 /* =========================================================
-   INITIALISATION DASHBOARD
+   INITIALISATION
 ========================================================= */
 
 async function initializeDashboard(){
@@ -1755,6 +2022,16 @@ async function initializeDashboard(){
     await loadProfile();
 
 
+    if(!currentProfile){
+
+        alert(
+            "Impossible de charger votre profil."
+        );
+
+        return;
+    }
+
+
     displayUserProfile();
 
     displayBalance();
@@ -1770,7 +2047,7 @@ async function initializeDashboard(){
 
 
 /* =========================================================
-   DEMARRAGE
+   DÉMARRAGE
 ========================================================= */
 
 document.addEventListener(
@@ -1784,7 +2061,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   ACTUALISATION
+   ACTUALISATION AUTOMATIQUE
 ========================================================= */
 
 setInterval(
