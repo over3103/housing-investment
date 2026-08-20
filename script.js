@@ -1,2089 +1,1811 @@
 /* =========================================================
    HOUSING INVESTMENT
-   SCRIPT CENTRAL
+   SCRIPT PRINCIPAL — SUPABASE
    ========================================================= */
+
+/* =========================================================
+   CONFIGURATION SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+    "https://scnuphudlhqiadyavknt.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_SQ6iUFoLHRsPMYE41Z8XtQ_pgaF3O5L";
+
+
+/* =========================================================
+   INITIALISATION
+========================================================= */
+
+let supabaseClient = null;
+let currentUser = null;
+let currentProfile = null;
+
+
+/* =========================================================
+   CHARGEMENT SUPABASE
+========================================================= */
+
+function loadSupabase(){
+
+    if(typeof window.supabase === "undefined"){
+
+        console.error(
+            "Supabase JS n'est pas chargé."
+        );
+
+        return false;
+    }
+
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+    return true;
+}
 
 
 /* =========================================================
    OUTILS
-   ========================================================= */
+========================================================= */
 
-function getJSON(key, fallback = []) {
-    try {
-        const data = localStorage.getItem(key);
-        return data ? JSON.parse(data) : fallback;
-    } catch (error) {
-        console.error("Erreur de lecture :", key, error);
-        return fallback;
-    }
+function formatFCFA(amount){
+
+    return Number(amount || 0)
+        .toLocaleString("fr-FR")
+        + " FCFA";
 }
 
 
-function saveJSON(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
-}
+function escapeHtml(value){
 
-
-function formatFCFA(amount) {
-    return Number(amount || 0).toLocaleString("fr-FR") + " FCFA";
-}
-
-
-function today() {
-    return new Date().toLocaleDateString("fr-FR");
-}
-
-
-function nowISO() {
-    return new Date().toISOString();
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
 /* =========================================================
    UTILISATEUR CONNECTÉ
-   ========================================================= */
+========================================================= */
 
-function getCurrentUser() {
+async function getCurrentUser(){
 
-    return (
-        getJSON("currentUser", null) ||
-        getJSON("loggedInUser", null) ||
-        getJSON("user", null)
-    );
+    if(!supabaseClient){
 
-}
+        return null;
+    }
 
-
-function saveCurrentUser(user) {
-
-    if (!user) return;
-
-    saveJSON("currentUser", user);
-    saveJSON("loggedInUser", user);
-    saveJSON("user", user);
-
-}
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.getUser();
 
 
-/* =========================================================
-   UTILISATEURS
-   ========================================================= */
+    if(error || !data.user){
 
-function getUsers() {
-    return getJSON("users", []);
-}
-
-
-function saveUsers(users) {
-    saveJSON("users", users);
-}
-
-
-function getUserPhone(user) {
-
-    if (!user) return "";
-
-    return String(
-        user.phone ||
-        user.telephone ||
-        user.phoneNumber ||
-        ""
-    ).trim();
-
-}
-
-
-function getUserName(user) {
-
-    if (!user) return "Utilisateur";
-
-    return (
-        user.name ||
-        user.fullName ||
-        user.nom ||
-        user.username ||
-        "Utilisateur"
-    );
-
-}
-
-
-/* =========================================================
-   RECHERCHE UTILISATEUR
-   ========================================================= */
-
-function findUserByPhone(phone) {
-
-    const users = getUsers();
-
-    return users.find(user => {
-
-        return getUserPhone(user) ===
-            String(phone).trim();
-
-    });
-
-}
-
-
-/* =========================================================
-   MISE À JOUR UTILISATEUR
-   ========================================================= */
-
-function updateUser(user) {
-
-    if (!user) return;
-
-    const users = getUsers();
-
-    const phone = getUserPhone(user);
-
-    const index = users.findIndex(item => {
-
-        return getUserPhone(item) === phone;
-
-    });
-
-
-    if (index !== -1) {
-
-        users[index] = {
-            ...users[index],
-            ...user
-        };
-
-    } else {
-
-        users.push(user);
-
+        return null;
     }
 
 
-    saveUsers(users);
+    currentUser = data.user;
 
-    saveCurrentUser(user);
-
+    return data.user;
 }
 
 
 /* =========================================================
-   INSCRIPTION
-   ========================================================= */
+   PROFIL
+========================================================= */
 
-function registerUser(data) {
+async function loadProfile(){
 
-    const users = getUsers();
-
-    const phone = String(
-        data.phone ||
-        data.telephone ||
-        data.phoneNumber ||
-        ""
-    ).trim();
+    const user =
+        await getCurrentUser();
 
 
-    if (!phone) {
+    if(!user){
 
-        return {
-            success: false,
-            message:
-                "Le numéro de téléphone est obligatoire."
-        };
+        window.location.href =
+            "login.html";
 
+        return null;
     }
 
 
-    const existing = users.find(user => {
-
-        return getUserPhone(user) === phone;
-
-    });
-
-
-    if (existing) {
-
-        return {
-            success: false,
-            message:
-                "Ce numéro est déjà enregistré."
-        };
-
-    }
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id",user.id)
+        .single();
 
 
-    const user = {
+    if(error){
 
-        id:
-            "USR-" +
-            Date.now() +
-            "-" +
-            Math.floor(
-                Math.random() * 10000
-            ),
-
-        name:
-            data.name ||
-            data.fullName ||
-            data.nom ||
-            "",
-
-        phone: phone,
-
-        password:
-            data.password ||
-            "",
-
-        invitationCode:
-            data.invitationCode ||
-            "",
-
-        balance: 0,
-
-        totalInvested: 0,
-
-        totalGains: 0,
-
-        createdAt: today(),
-
-        status: "active"
-
-    };
-
-
-    users.push(user);
-
-    saveUsers(users);
-
-    saveCurrentUser(user);
-
-
-    return {
-        success: true,
-        user: user
-    };
-
-}
-
-
-/* =========================================================
-   CONNEXION
-   ========================================================= */
-
-function loginUser(phone, password) {
-
-    const users = getUsers();
-
-    const user = users.find(item => {
-
-        return (
-            getUserPhone(item) ===
-            String(phone).trim() &&
-
-            String(item.password || "") ===
-            String(password)
+        console.error(
+            "Erreur profil :",
+            error
         );
 
-    });
-
-
-    if (!user) {
-
-        return {
-            success: false,
-            message:
-                "Numéro ou mot de passe incorrect."
-        };
-
+        return null;
     }
 
 
-    saveCurrentUser(user);
+    currentProfile = data;
 
-
-    return {
-        success: true,
-        user: user
-    };
-
+    return data;
 }
 
 
 /* =========================================================
-   DÉCONNEXION
-   ========================================================= */
+   AFFICHAGE PROFIL
+========================================================= */
 
-function logoutUser() {
+function displayUserProfile(){
 
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("loggedInUser");
-    localStorage.removeItem("user");
+    if(!currentProfile){
 
-    window.location.href =
-        "login.html";
+        return;
+    }
 
+
+    const name =
+        currentProfile.full_name ||
+        "Utilisateur";
+
+
+    const phone =
+        currentProfile.phone ||
+        "—";
+
+
+    const userName =
+        document.getElementById(
+            "userName"
+        );
+
+
+    const welcomeName =
+        document.getElementById(
+            "welcomeName"
+        );
+
+
+    const profileName =
+        document.getElementById(
+            "profileName"
+        );
+
+
+    const profilePhone =
+        document.getElementById(
+            "profilePhone"
+        );
+
+
+    const avatar =
+        document.getElementById(
+            "avatar"
+        );
+
+
+    if(userName){
+
+        userName.textContent =
+            name;
+    }
+
+
+    if(welcomeName){
+
+        welcomeName.textContent =
+            name;
+    }
+
+
+    if(profileName){
+
+        profileName.textContent =
+            name;
+    }
+
+
+    if(profilePhone){
+
+        profilePhone.textContent =
+            phone;
+    }
+
+
+    if(avatar){
+
+        avatar.textContent =
+            name
+                .charAt(0)
+                .toUpperCase();
+    }
 }
 
 
 /* =========================================================
-   PACKS
-   ========================================================= */
+   SOLDE
+========================================================= */
 
-const PACKS = {
+function displayBalance(){
 
-    3000: {
-        name: "Starter",
-        amount: 3000,
-        dailyGain: 800,
-        duration: 180,
-        total: 144000
-    },
+    if(!currentProfile){
 
-    10000: {
-        name: "Familial",
-        amount: 10000,
-        dailyGain: 3000,
-        duration: 180,
-        total: 540000
-    },
-
-    20000: {
-        name: "Confort",
-        amount: 20000,
-        dailyGain: 6000,
-        duration: 180,
-        total: 1080000
-    },
-
-    45000: {
-        name: "Villa",
-        amount: 45000,
-        dailyGain: 14000,
-        duration: 180,
-        total: 2520000
-    },
-
-    100000: {
-        name: "Premium",
-        amount: 100000,
-        dailyGain: 30000,
-        duration: 180,
-        total: 5400000
-    },
-
-    200000: {
-        name: "Prestige",
-        amount: 200000,
-        dailyGain: 65000,
-        duration: 180,
-        total: 11700000
-    },
-
-    400000: {
-        name: "Excellence",
-        amount: 400000,
-        dailyGain: 140000,
-        duration: 180,
-        total: 25200000
-    },
-
-    800000: {
-        name: "Luxe",
-        amount: 800000,
-        dailyGain: 290000,
-        duration: 180,
-        total: 52200000
+        return;
     }
 
-};
+
+    const balance =
+        Number(
+            currentProfile.balance || 0
+        );
+
+
+    const element =
+        document.getElementById(
+            "balance"
+        );
+
+
+    if(element){
+
+        element.textContent =
+            formatFCFA(balance);
+    }
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(pageId,button){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(function(page){
+
+            page.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    document
+        .querySelectorAll(".menu")
+        .forEach(function(btn){
+
+            btn.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    const page =
+        document.getElementById(
+            pageId
+        );
+
+
+    if(page){
+
+        page.classList.add(
+            "active"
+        );
+    }
+
+
+    if(button){
+
+        button.classList.add(
+            "active"
+        );
+    }
+
+
+    if(pageId === "investments"){
+
+        loadInvestments();
+    }
+
+
+    if(pageId === "transactions"){
+
+        loadTransactions();
+    }
+
+
+    if(pageId === "home"){
+
+        updateDashboard();
+    }
+}
 
 
 /* =========================================================
    INVESTISSEMENTS
-   ========================================================= */
+========================================================= */
 
-function getInvestments() {
-    return getJSON("investments", []);
-}
+async function loadInvestments(){
 
+    if(!currentUser){
 
-function saveInvestments(investments) {
-    saveJSON("investments", investments);
-}
-
-
-/* =========================================================
-   PROGRESSION INVESTISSEMENT
-   ========================================================= */
-
-function calculateInvestmentProgress(investment) {
-
-    const start =
-        new Date(
-            investment.createdAt ||
-            nowISO()
-        );
-
-    const now =
-        new Date();
-
-    const difference =
-        now.getTime() -
-        start.getTime();
-
-    const millisecondsPerDay =
-        24 * 60 * 60 * 1000;
-
-    let daysElapsed =
-        Math.floor(
-            difference /
-            millisecondsPerDay
-        );
-
-
-    if (daysElapsed < 0) {
-        daysElapsed = 0;
+        return;
     }
 
 
-    const duration =
-        Number(
-            investment.duration || 180
+    const container =
+        document.getElementById(
+            "investmentTable"
         );
 
 
-    if (daysElapsed > duration) {
-        daysElapsed = duration;
+    if(!container){
+
+        return;
     }
 
 
-    const dailyGain =
-        Number(
-            investment.dailyGain || 0
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("investments")
+        .select("*")
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
         );
 
 
-    const earned =
-        daysElapsed *
-        dailyGain;
+    if(error){
+
+        console.error(error);
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                Impossible de charger
+                les investissements.
+
+            </div>
+
+        `;
+
+        return;
+    }
 
 
-    const progress =
-        duration > 0
-            ? (daysElapsed / duration) * 100
-            : 0;
+    if(!data || data.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📊
+                </div>
+
+                Aucun investissement actif.
+
+            </div>
+
+        `;
+
+        return;
+    }
 
 
-    return {
+    let html = `
 
-        daysElapsed,
+        <table>
 
-        daysRemaining:
-            Math.max(
-                duration -
-                daysElapsed,
-                0
-            ),
+            <thead>
 
-        earned,
+                <tr>
 
-        progress:
-            Math.min(
-                progress,
-                100
-            ),
+                    <th>Pack</th>
 
-        completed:
-            daysElapsed >= duration
+                    <th>Montant</th>
 
-    };
+                    <th>Gain/jour</th>
 
-}
+                    <th>Durée</th>
 
+                    <th>Total</th>
 
-/* =========================================================
-   ACTUALISATION INVESTISSEMENTS
-   ========================================================= */
+                    <th>Statut</th>
 
-function updateInvestmentProgress() {
+                </tr>
 
-    const investments =
-        getInvestments();
+            </thead>
 
-    let changed = false;
+            <tbody>
+
+    `;
 
 
-    investments.forEach(investment => {
+    data.forEach(function(item){
 
-        const progress =
-            calculateInvestmentProgress(
-                investment
-            );
+        html += `
 
+            <tr>
 
-        if (
-            Number(
-                investment.elapsedDays || 0
-            ) !==
-            progress.daysElapsed
-        ) {
+                <td>
+                    ${escapeHtml(
+                        item.pack_name
+                    )}
+                </td>
 
-            investment.elapsedDays =
-                progress.daysElapsed;
+                <td>
+                    ${formatFCFA(
+                        item.amount
+                    )}
+                </td>
 
-            changed = true;
+                <td>
+                    ${formatFCFA(
+                        item.daily_gain
+                    )}
+                </td>
 
-        }
+                <td>
+                    ${item.duration_days}
+                    jours
+                </td>
 
+                <td>
+                    ${formatFCFA(
+                        item.total_expected
+                    )}
+                </td>
 
-        if (
-            Number(
-                investment.gain || 0
-            ) !==
-            progress.earned
-        ) {
+                <td>
 
-            investment.gain =
-                progress.earned;
+                    <span class="badge green">
 
-            changed = true;
+                        ${escapeHtml(
+                            item.status
+                        )}
 
-        }
+                    </span>
 
+                </td>
 
-        investment.daysRemaining =
-            progress.daysRemaining;
+            </tr>
 
-        investment.progress =
-            progress.progress;
-
-
-        investment.status =
-            progress.completed
-                ? "completed"
-                : "active";
+        `;
 
     });
 
 
-    if (changed) {
+    html += `
 
-        saveInvestments(
-            investments
-        );
+            </tbody>
 
-    }
+        </table>
+
+    `;
 
 
-    return investments;
-
+    container.innerHTML =
+        html;
 }
 
 
 /* =========================================================
-   CRÉER INVESTISSEMENT
-   ========================================================= */
+   INVESTIR
+========================================================= */
 
-function createInvestment(amount) {
+async function invest(
+    pack,
+    amount,
+    daily
+){
 
-    const user =
-        getCurrentUser();
+    if(!currentUser){
 
+        alert(
+            "Votre session a expiré."
+        );
 
-    if (!user) {
+        window.location.href =
+            "login.html";
 
-        return {
-            success: false,
-            message:
-                "Vous devez être connecté."
-        };
-
+        return;
     }
 
 
-    const pack =
-        PACKS[
-            Number(amount)
-        ];
+    if(!currentProfile){
 
-
-    if (!pack) {
-
-        return {
-            success: false,
-            message:
-                "Pack d'investissement invalide."
-        };
-
+        await loadProfile();
     }
 
 
     const balance =
         Number(
-            user.balance || 0
+            currentProfile?.balance || 0
         );
 
 
-    if (balance < pack.amount) {
+    amount =
+        Number(amount);
 
-        return {
-            success: false,
-            message:
-                "Solde insuffisant. Effectuez d'abord un dépôt."
-        };
+    daily =
+        Number(daily);
 
+
+    if(balance < amount){
+
+        alert(
+            "Votre solde est insuffisant. Veuillez effectuer un dépôt."
+        );
+
+        openDeposit();
+
+        return;
     }
 
 
-    user.balance =
-        balance -
-        pack.amount;
+    const confirmation =
+        confirm(
+            "Confirmer votre investissement de "
+            + formatFCFA(amount)
+            + " dans "
+            + pack
+            + " ?"
+        );
 
 
-    user.totalInvested =
-        Number(
-            user.totalInvested || 0
-        ) +
-        pack.amount;
+    if(!confirmation){
+
+        return;
+    }
 
 
-    updateUser(user);
+    const duration =
+        180;
 
 
-    const investments =
-        getInvestments();
+    const total =
+        daily * duration;
 
 
-    const investment = {
-
-        id:
-            "INV-" +
-            Date.now() +
-            "-" +
-            Math.floor(
-                Math.random() * 10000
-            ),
-
-        userId:
-            user.id || "",
-
-        userName:
-            getUserName(user),
-
-        userPhone:
-            getUserPhone(user),
-
-        pack:
-            pack.name,
-
-        amount:
-            pack.amount,
-
-        dailyGain:
-            pack.dailyGain,
-
-        duration:
-            pack.duration,
-
-        total:
-            pack.total,
-
-        elapsedDays: 0,
-
-        daysRemaining:
-            pack.duration,
-
-        gain: 0,
-
-        progress: 0,
-
-        status:
-            "active",
-
-        date:
-            today(),
-
-        createdAt:
-            nowISO()
-
-    };
+    const newBalance =
+        balance - amount;
 
 
-    investments.push(
-        investment
-    );
+    /* -----------------------------------------
+       Création investissement
+    ----------------------------------------- */
 
-    saveInvestments(
-        investments
-    );
+    const {
+        data:investment,
+        error:investmentError
+    } = await supabaseClient
+        .from("investments")
+        .insert({
 
+            user_id:
+                currentUser.id,
 
-    addNotification(
-        user.id,
-        "Votre investissement " +
-        pack.name +
-        " a été enregistré.",
-        "success"
-    );
+            pack_name:
+                pack,
 
+            amount:
+                amount,
 
-    return {
-        success: true,
-        investment,
-        user
-    };
+            daily_gain:
+                daily,
 
-}
+            duration_days:
+                duration,
 
+            total_expected:
+                total,
 
-/* =========================================================
-   MES INVESTISSEMENTS
-   ========================================================= */
+            status:
+                "active"
 
-function getMyInvestments() {
-
-    updateInvestmentProgress();
-
-
-    const user =
-        getCurrentUser();
+        })
+        .select()
+        .single();
 
 
-    if (!user) return [];
+    if(investmentError){
+
+        console.error(
+            investmentError
+        );
+
+        alert(
+            "Impossible d'enregistrer l'investissement."
+        );
+
+        return;
+    }
 
 
-    const phone =
-        getUserPhone(user);
+    /* -----------------------------------------
+       Mise à jour du solde
+    ----------------------------------------- */
 
+    const {
+        error:balanceError
+    } = await supabaseClient
+        .from("profiles")
+        .update({
 
-    return getInvestments()
-        .filter(item => {
+            balance:
+                newBalance,
 
-            return (
-                item.userId === user.id ||
-                item.userPhone === phone
-            );
-
-        });
-
-}
-
-
-/* =========================================================
-   GAINS
-   ========================================================= */
-
-function calculateTotalGains() {
-
-    const investments =
-        getMyInvestments();
-
-
-    return investments.reduce(
-        (total, item) => {
-
-            return total +
+            total_invested:
                 Number(
-                    item.gain || 0
-                );
+                    currentProfile.total_invested || 0
+                ) + amount,
 
-        },
-        0
-    );
+            updated_at:
+                new Date().toISOString()
 
-}
-
-
-/* =========================================================
-   DÉPÔTS
-   ========================================================= */
-
-function getDeposits() {
-    return getJSON("deposits", []);
-}
-
-
-function saveDeposits(deposits) {
-    saveJSON("deposits", deposits);
-}
-
-
-/* =========================================================
-   CRÉER DÉPÔT
-   ========================================================= */
-
-function createDeposit(
-    amount,
-    method = "Non précisé"
-) {
-
-    const user =
-        getCurrentUser();
-
-
-    if (!user) {
-
-        return {
-            success: false,
-            message:
-                "Vous devez être connecté."
-        };
-
-    }
-
-
-    amount =
-        Number(amount);
-
-
-    if (!amount || amount <= 0) {
-
-        return {
-            success: false,
-            message:
-                "Montant de dépôt invalide."
-        };
-
-    }
-
-
-    const deposits =
-        getDeposits();
-
-
-    const deposit = {
-
-        id:
-            "DEP-" +
-            Date.now() +
-            "-" +
-            Math.floor(
-                Math.random() * 10000
-            ),
-
-        userId:
-            user.id || "",
-
-        userName:
-            getUserName(user),
-
-        userPhone:
-            getUserPhone(user),
-
-        amount,
-
-        method,
-
-        date:
-            today(),
-
-        status:
-            "pending",
-
-        createdAt:
-            nowISO()
-
-    };
-
-
-    deposits.push(
-        deposit
-    );
-
-    saveDeposits(
-        deposits
-    );
-
-
-    addNotification(
-        user.id,
-        "Votre demande de dépôt est en attente de validation.",
-        "info"
-    );
-
-
-    return {
-        success: true,
-        deposit
-    };
-
-}
-
-
-/* =========================================================
-   VALIDER DÉPÔT
-   ========================================================= */
-
-function approveDeposit(depositId) {
-
-    const deposits =
-        getDeposits();
-
-
-    const index =
-        deposits.findIndex(
-            item =>
-            item.id === depositId
+        })
+        .eq(
+            "id",
+            currentUser.id
         );
 
 
-    if (index === -1) {
+    if(balanceError){
 
-        return {
-            success: false,
-            message:
-                "Dépôt introuvable."
-        };
+        console.error(
+            balanceError
+        );
 
+        alert(
+            "L'investissement a été créé mais la mise à jour du solde a échoué. Contactez l'administration."
+        );
+
+        return;
     }
 
 
-    const deposit =
-        deposits[index];
+    /* -----------------------------------------
+       Historique
+    ----------------------------------------- */
 
+    await supabaseClient
+        .from("transactions")
+        .insert({
 
-    if (
-        deposit.status !==
-        "pending"
-    ) {
+            user_id:
+                currentUser.id,
 
-        return {
-            success: false,
-            message:
-                "Cette opération a déjà été traitée."
-        };
+            type:
+                "investment",
 
-    }
+            amount:
+                amount,
 
+            description:
+                "Investissement " + pack,
 
-    const users =
-        getUsers();
-
-
-    const userIndex =
-        users.findIndex(user => {
-
-            return (
-                user.id === deposit.userId ||
-                getUserPhone(user) ===
-                deposit.userPhone
-            );
+            reference_id:
+                investment.id
 
         });
 
 
-    if (userIndex === -1) {
+    /* -----------------------------------------
+       Notification
+    ----------------------------------------- */
 
-        return {
-            success: false,
-            message:
-                "Utilisateur introuvable."
-        };
+    await createNotification(
 
-    }
+        "Investissement confirmé",
+
+        "Votre investissement "
+        + pack
+        + " de "
+        + formatFCFA(amount)
+        + " a été enregistré.",
+
+        "investment"
+
+    );
 
 
-    users[userIndex].balance =
+    currentProfile.balance =
+        newBalance;
+
+
+    currentProfile.total_invested =
         Number(
-            users[userIndex].balance || 0
-        ) +
-        Number(
-            deposit.amount || 0
-        );
+            currentProfile.total_invested || 0
+        ) + amount;
 
 
-    deposit.status =
-        "approved";
+    displayBalance();
 
-    deposit.approvedAt =
-        nowISO();
+    updateDashboard();
 
 
-    saveUsers(users);
-
-    saveDeposits(
-        deposits
-    );
-
-
-    addNotification(
-        users[userIndex].id,
-        "Votre dépôt de " +
-        formatFCFA(
-            deposit.amount
-        ) +
-        " a été validé.",
-        "success"
-    );
-
-
-    return {
-        success: true,
-        message:
-            "Dépôt validé."
-    };
-
-}
-
-
-/* =========================================================
-   REFUSER DÉPÔT
-   ========================================================= */
-
-function rejectDeposit(depositId) {
-
-    const deposits =
-        getDeposits();
-
-
-    const index =
-        deposits.findIndex(
-            item =>
-            item.id === depositId
-        );
-
-
-    if (index === -1) {
-
-        return {
-            success: false,
-            message:
-                "Dépôt introuvable."
-        };
-
-    }
-
-
-    deposits[index].status =
-        "rejected";
-
-
-    deposits[index].rejectedAt =
-        nowISO();
-
-
-    saveDeposits(
-        deposits
-    );
-
-
-    addNotification(
-        deposits[index].userId,
-        "Votre demande de dépôt a été refusée.",
-        "error"
-    );
-
-
-    return {
-        success: true,
-        message:
-            "Dépôt refusé."
-    };
-
-}
-
-
-/* =========================================================
-   RETRAITS
-   ========================================================= */
-
-function getWithdrawals() {
-    return getJSON(
-        "withdrawals",
-        []
-    );
-}
-
-
-function saveWithdrawals(withdrawals) {
-    saveJSON(
-        "withdrawals",
-        withdrawals
+    alert(
+        "Investissement enregistré avec succès."
     );
 }
 
 
 /* =========================================================
-   CRÉER RETRAIT
-   ========================================================= */
+   DASHBOARD
+========================================================= */
 
-function createWithdrawal(
-    amount,
-    method = "Non précisé"
-) {
+async function updateDashboard(){
 
-    const user =
-        getCurrentUser();
+    if(!currentUser){
 
-
-    if (!user) {
-
-        return {
-            success: false,
-            message:
-                "Vous devez être connecté."
-        };
-
+        return;
     }
 
 
-    amount =
-        Number(amount);
+    if(!currentProfile){
 
-
-    if (!amount || amount <= 0) {
-
-        return {
-            success: false,
-            message:
-                "Montant invalide."
-        };
-
+        await loadProfile();
     }
 
 
-    const balance =
-        Number(
-            user.balance || 0
-        );
+    displayBalance();
 
 
-    if (amount > balance) {
-
-        return {
-            success: false,
-            message:
-                "Solde insuffisant."
-        };
-
-    }
-
-
-    const withdrawals =
-        getWithdrawals();
-
-
-    const withdrawal = {
-
-        id:
-            "RET-" +
-            Date.now() +
-            "-" +
-            Math.floor(
-                Math.random() * 10000
-            ),
-
-        userId:
-            user.id || "",
-
-        userName:
-            getUserName(user),
-
-        userPhone:
-            getUserPhone(user),
-
-        amount,
-
-        method,
-
-        date:
-            today(),
-
-        status:
-            "pending",
-
-        createdAt:
-            nowISO()
-
-    };
-
-
-    withdrawals.push(
-        withdrawal
-    );
-
-    saveWithdrawals(
-        withdrawals
-    );
-
-
-    addNotification(
-        user.id,
-        "Votre demande de retrait est en attente de validation.",
-        "info"
-    );
-
-
-    return {
-        success: true,
-        withdrawal
-    };
-
-}
-
-
-/* =========================================================
-   VALIDER RETRAIT
-   ========================================================= */
-
-function approveWithdrawal(
-    withdrawalId
-) {
-
-    const withdrawals =
-        getWithdrawals();
-
-
-    const index =
-        withdrawals.findIndex(
-            item =>
-            item.id === withdrawalId
-        );
-
-
-    if (index === -1) {
-
-        return {
-            success: false,
-            message:
-                "Retrait introuvable."
-        };
-
-    }
-
-
-    const withdrawal =
-        withdrawals[index];
-
-
-    if (
-        withdrawal.status !==
-        "pending"
-    ) {
-
-        return {
-            success: false,
-            message:
-                "Cette opération a déjà été traitée."
-        };
-
-    }
-
-
-    const users =
-        getUsers();
-
-
-    const userIndex =
-        users.findIndex(user => {
-
-            return (
-                user.id ===
-                withdrawal.userId ||
-
-                getUserPhone(user) ===
-                withdrawal.userPhone
-            );
-
-        });
-
-
-    if (userIndex === -1) {
-
-        return {
-            success: false,
-            message:
-                "Utilisateur introuvable."
-        };
-
-    }
-
-
-    const user =
-        users[userIndex];
-
-
-    const balance =
-        Number(
-            user.balance || 0
-        );
-
-
-    if (
-        balance <
-        Number(
-            withdrawal.amount || 0
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("investments")
+        .select(
+            "amount,daily_gain,status"
         )
-    ) {
-
-        return {
-            success: false,
-            message:
-                "Le solde de l'utilisateur est insuffisant."
-        };
-
-    }
-
-
-    user.balance =
-        balance -
-        Number(
-            withdrawal.amount || 0
+        .eq(
+            "user_id",
+            currentUser.id
         );
 
 
-    withdrawal.status =
-        "approved";
+    if(error){
+
+        console.error(error);
+
+        return;
+    }
 
 
-    withdrawal.approvedAt =
-        nowISO();
+    let totalInvested = 0;
+
+    let dailyGain = 0;
+
+    let activeCount = 0;
 
 
-    saveUsers(users);
+    (data || []).forEach(
+        function(item){
 
-    saveWithdrawals(
-        withdrawals
+            if(
+                item.status === "active"
+            ){
+
+                totalInvested +=
+                    Number(
+                        item.amount || 0
+                    );
+
+                dailyGain +=
+                    Number(
+                        item.daily_gain || 0
+                    );
+
+                activeCount++;
+
+            }
+
+        }
     );
 
 
-    addNotification(
-        user.id,
-        "Votre retrait de " +
-        formatFCFA(
-            withdrawal.amount
-        ) +
-        " a été validé.",
-        "success"
-    );
+    const totalElement =
+        document.getElementById(
+            "totalInvested"
+        );
 
 
-    return {
-        success: true,
-        message:
-            "Retrait validé."
-    };
+    const dailyElement =
+        document.getElementById(
+            "dailyGain"
+        );
 
+
+    const activeElement =
+        document.getElementById(
+            "activeInvestments"
+        );
+
+
+    if(totalElement){
+
+        totalElement.textContent =
+            formatFCFA(
+                totalInvested
+            );
+    }
+
+
+    if(dailyElement){
+
+        dailyElement.textContent =
+            formatFCFA(
+                dailyGain
+            );
+    }
+
+
+    if(activeElement){
+
+        activeElement.textContent =
+            activeCount;
+    }
 }
 
 
 /* =========================================================
-   REFUSER RETRAIT
-   ========================================================= */
+   DEPOT
+========================================================= */
 
-function rejectWithdrawal(
-    withdrawalId
-) {
+function openDeposit(){
 
-    const withdrawals =
-        getWithdrawals();
-
-
-    const index =
-        withdrawals.findIndex(
-            item =>
-            item.id === withdrawalId
+    const modal =
+        document.getElementById(
+            "depositModal"
         );
 
 
-    if (index === -1) {
+    if(modal){
 
-        return {
-            success: false,
-            message:
-                "Retrait introuvable."
-        };
+        modal.classList.add(
+            "show"
+        );
+    }
+}
 
+
+function closeDeposit(){
+
+    const modal =
+        document.getElementById(
+            "depositModal"
+        );
+
+
+    if(modal){
+
+        modal.classList.remove(
+            "show"
+        );
+    }
+}
+
+
+async function confirmDeposit(){
+
+    if(!currentUser){
+
+        return;
     }
 
 
-    withdrawals[index].status =
-        "rejected";
+    const amount =
+        Number(
+            document.getElementById(
+                "depositAmount"
+            )?.value
+        );
 
 
-    withdrawals[index].rejectedAt =
-        nowISO();
+    const method =
+        document.getElementById(
+            "depositMethod"
+        )?.value;
 
 
-    saveWithdrawals(
-        withdrawals
+    if(!amount || amount <= 0){
+
+        alert(
+            "Veuillez entrer un montant valide."
+        );
+
+        return;
+    }
+
+
+    if(!method){
+
+        alert(
+            "Veuillez choisir un moyen de paiement."
+        );
+
+        return;
+    }
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("deposits")
+        .insert({
+
+            user_id:
+                currentUser.id,
+
+            amount:
+                amount,
+
+            method:
+                method,
+
+            status:
+                "pending"
+
+        });
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Impossible d'enregistrer le dépôt."
+        );
+
+        return;
+    }
+
+
+    await createNotification(
+
+        "Dépôt enregistré",
+
+        "Votre demande de dépôt de "
+        + formatFCFA(amount)
+        + " est en attente de validation.",
+
+        "deposit"
+
     );
 
 
-    addNotification(
-        withdrawals[index].userId,
-        "Votre demande de retrait a été refusée.",
-        "error"
+    document.getElementById(
+        "depositAmount"
+    ).value = "";
+
+
+    document.getElementById(
+        "depositMethod"
+    ).value = "";
+
+
+    closeDeposit();
+
+
+    alert(
+        "Votre demande de dépôt a été enregistrée."
     );
 
 
-    return {
-        success: true,
-        message:
-            "Retrait refusé."
-    };
+    loadTransactions();
+}
 
+
+/* =========================================================
+   RETRAIT
+========================================================= */
+
+function openWithdraw(){
+
+    const modal =
+        document.getElementById(
+            "withdrawModal"
+        );
+
+
+    if(modal){
+
+        modal.classList.add(
+            "show"
+        );
+    }
+}
+
+
+function closeWithdraw(){
+
+    const modal =
+        document.getElementById(
+            "withdrawModal"
+        );
+
+
+    if(modal){
+
+        modal.classList.remove(
+            "show"
+        );
+    }
+}
+
+
+async function confirmWithdraw(){
+
+    if(!currentUser){
+
+        return;
+    }
+
+
+    if(!currentProfile){
+
+        await loadProfile();
+    }
+
+
+    const amount =
+        Number(
+            document.getElementById(
+                "withdrawAmount"
+            )?.value
+        );
+
+
+    const destination =
+        document.getElementById(
+            "withdrawPhone"
+        )?.value.trim();
+
+
+    const balance =
+        Number(
+            currentProfile?.balance || 0
+        );
+
+
+    if(!amount || amount <= 0){
+
+        alert(
+            "Veuillez entrer un montant valide."
+        );
+
+        return;
+    }
+
+
+    if(amount > balance){
+
+        alert(
+            "Votre solde disponible est insuffisant."
+        );
+
+        return;
+    }
+
+
+    if(!destination){
+
+        alert(
+            "Veuillez entrer le numéro de réception."
+        );
+
+        return;
+    }
+
+
+    /* Frais de retrait : 25 % */
+
+    const fee =
+        amount * 0.25;
+
+
+    const netAmount =
+        amount - fee;
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("withdrawals")
+        .insert({
+
+            user_id:
+                currentUser.id,
+
+            amount:
+                amount,
+
+            fee:
+                fee,
+
+            net_amount:
+                netAmount,
+
+            destination:
+                destination,
+
+            status:
+                "pending"
+
+        });
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Impossible d'enregistrer la demande de retrait."
+        );
+
+        return;
+    }
+
+
+    await createNotification(
+
+        "Retrait demandé",
+
+        "Votre demande de retrait de "
+        + formatFCFA(amount)
+        + " a été enregistrée.",
+
+        "withdrawal"
+
+    );
+
+
+    document.getElementById(
+        "withdrawAmount"
+    ).value = "";
+
+
+    document.getElementById(
+        "withdrawPhone"
+    ).value = "";
+
+
+    closeWithdraw();
+
+
+    alert(
+        "Votre demande de retrait a été enregistrée."
+    );
+
+
+    loadTransactions();
+}
+
+
+/* =========================================================
+   HISTORIQUE
+========================================================= */
+
+async function loadTransactions(){
+
+    if(!currentUser){
+
+        return;
+    }
+
+
+    const container =
+        document.getElementById(
+            "transactionTable"
+        );
+
+
+    if(!container){
+
+        return;
+    }
+
+
+    const {
+        data:deposits
+    } = await supabaseClient
+        .from("deposits")
+        .select("*")
+        .eq(
+            "user_id",
+            currentUser.id
+        );
+
+
+    const {
+        data:withdrawals
+    } = await supabaseClient
+        .from("withdrawals")
+        .select("*")
+        .eq(
+            "user_id",
+            currentUser.id
+        );
+
+
+    const transactions = [];
+
+
+    (deposits || []).forEach(
+        function(item){
+
+            transactions.push({
+
+                type:
+                    "📥 Dépôt",
+
+                amount:
+                    item.amount,
+
+                details:
+                    item.method,
+
+                date:
+                    item.created_at,
+
+                status:
+                    item.status
+
+            });
+
+        }
+    );
+
+
+    (withdrawals || []).forEach(
+        function(item){
+
+            transactions.push({
+
+                type:
+                    "📤 Retrait",
+
+                amount:
+                    item.amount,
+
+                details:
+                    item.destination,
+
+                date:
+                    item.created_at,
+
+                status:
+                    item.status
+
+            });
+
+        }
+    );
+
+
+    transactions.sort(
+        function(a,b){
+
+            return new Date(b.date)
+                - new Date(a.date);
+
+        }
+    );
+
+
+    if(transactions.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📋
+                </div>
+
+                Aucun historique disponible.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Type</th>
+
+                    <th>Montant</th>
+
+                    <th>Détails</th>
+
+                    <th>Date</th>
+
+                    <th>Statut</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    transactions.forEach(
+        function(item){
+
+            html += `
+
+                <tr>
+
+                    <td>
+                        ${escapeHtml(
+                            item.type
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatFCFA(
+                            item.amount
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            item.details || "—"
+                        )}
+                    </td>
+
+                    <td>
+                        ${new Date(
+                            item.date
+                        ).toLocaleString(
+                            "fr-FR"
+                        )}
+                    </td>
+
+                    <td>
+
+                        <span class="badge orange">
+
+                            ${escapeHtml(
+                                item.status
+                            )}
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    container.innerHTML =
+        html;
 }
 
 
 /* =========================================================
    NOTIFICATIONS
-   ========================================================= */
+========================================================= */
 
-function getNotifications() {
-
-    return getJSON(
-        "notifications",
-        []
-    );
-
-}
-
-
-function saveNotifications(
-    notifications
-) {
-
-    saveJSON(
-        "notifications",
-        notifications
-    );
-
-}
-
-
-function addNotification(
-    userId,
+async function createNotification(
+    title,
     message,
     type = "info"
-) {
+){
 
-    if (!userId) return;
+    if(!currentUser){
 
-
-    const notifications =
-        getNotifications();
-
-
-    notifications.push({
-
-        id:
-            "NOTIF-" +
-            Date.now() +
-            "-" +
-            Math.floor(
-                Math.random() * 10000
-            ),
-
-        userId,
-
-        message,
-
-        type,
-
-        read: false,
-
-        date:
-            nowISO()
-
-    });
+        return;
+    }
 
 
-    saveNotifications(
-        notifications
-    );
+    const {
+        error
+    } = await supabaseClient
+        .from("notifications")
+        .insert({
 
+            user_id:
+                currentUser.id,
+
+            title:
+                title,
+
+            message:
+                message,
+
+            type:
+                type,
+
+            is_read:
+                false
+
+        });
+
+
+    if(error){
+
+        console.error(
+            "Notification error:",
+            error
+        );
+    }
 }
 
 
-/* =========================================================
-   MES NOTIFICATIONS
-   ========================================================= */
+async function loadNotifications(){
 
-function getMyNotifications() {
+    if(!currentUser){
 
-    const user =
-        getCurrentUser();
+        return;
+    }
 
 
-    if (!user) return [];
-
-
-    return getNotifications()
-        .filter(
-            item =>
-            item.userId === user.id
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("notifications")
+        .select("*")
+        .eq(
+            "user_id",
+            currentUser.id
         )
-        .reverse();
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
 
+
+    if(error){
+
+        console.error(error);
+
+        return;
+    }
+
+
+    const list =
+        document.getElementById(
+            "notificationList"
+        );
+
+
+    const count =
+        document.getElementById(
+            "notificationCount"
+        );
+
+
+    if(!list){
+
+        return;
+    }
+
+
+    if(!data || data.length === 0){
+
+        list.innerHTML = `
+
+            <div class="no-notification">
+
+                🔔<br><br>
+
+                Aucune notification.
+
+            </div>
+
+        `;
+
+
+        if(count){
+
+            count.style.display =
+                "none";
+        }
+
+        return;
+    }
+
+
+    const unread =
+        data.filter(
+            item => !item.is_read
+        ).length;
+
+
+    if(count){
+
+        if(unread > 0){
+
+            count.textContent =
+                unread > 99
+                    ? "99+"
+                    : unread;
+
+            count.style.display =
+                "flex";
+
+        }else{
+
+            count.style.display =
+                "none";
+
+        }
+    }
+
+
+    let html = "";
+
+
+    data.forEach(
+        function(item){
+
+            html += `
+
+                <div
+                    class="notification-item
+                    ${item.is_read ? "" : "unread"}"
+                    onclick="readNotification('${item.id}')">
+
+                    <strong>
+                        ${escapeHtml(
+                            item.title
+                        )}
+                    </strong>
+
+                    <div>
+                        ${escapeHtml(
+                            item.message
+                        )}
+                    </div>
+
+                    <small>
+                        ${new Date(
+                            item.created_at
+                        ).toLocaleString(
+                            "fr-FR"
+                        )}
+                    </small>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    list.innerHTML =
+        html;
 }
 
 
-/* =========================================================
-   ASSISTANCE / TICKETS
-   ========================================================= */
+async function readNotification(id){
 
-function getSupportTickets() {
+    if(!currentUser){
 
-    return getJSON(
-        "supportTickets",
-        []
-    );
-
-}
-
-
-function saveSupportTickets(
-    tickets
-) {
-
-    saveJSON(
-        "supportTickets",
-        tickets
-    );
-
-}
-
-
-/* =========================================================
-   CRÉER UN TICKET
-   ========================================================= */
-
-function createSupportTicket(
-    subject,
-    message
-) {
-
-    const user =
-        getCurrentUser();
-
-
-    if (!user) {
-
-        return {
-            success: false,
-            message:
-                "Vous devez être connecté."
-        };
-
+        return;
     }
 
 
-    subject =
-        String(
-            subject || ""
-        ).trim();
-
-
-    message =
-        String(
-            message || ""
-        ).trim();
-
-
-    if (!subject) {
-
-        return {
-            success: false,
-            message:
-                "Veuillez indiquer l'objet de votre demande."
-        };
-
-    }
-
-
-    if (!message) {
-
-        return {
-            success: false,
-            message:
-                "Veuillez écrire votre message."
-        };
-
-    }
-
-
-    if (subject.length > 100) {
-
-        return {
-            success: false,
-            message:
-                "L'objet est trop long."
-        };
-
-    }
-
-
-    if (message.length > 2000) {
-
-        return {
-            success: false,
-            message:
-                "Le message ne doit pas dépasser 2000 caractères."
-        };
-
-    }
-
-
-    const tickets =
-        getSupportTickets();
-
-
-    const ticketNumber =
-        "HI-" +
-        new Date()
-            .getFullYear() +
-        "-" +
-        String(
-            tickets.length + 1
-        ).padStart(5, "0");
-
-
-    const ticket = {
-
-        id:
-            "TICKET-" +
-            Date.now() +
-            "-" +
-            Math.floor(
-                Math.random() * 10000
-            ),
-
-        ticketNumber,
-
-        userId:
-            user.id || "",
-
-        userName:
-            getUserName(user),
-
-        userPhone:
-            getUserPhone(user),
-
-        subject,
-
-        message,
-
-        reply: "",
-
-        status:
-            "pending",
-
-        createdAt:
-            nowISO(),
-
-        updatedAt:
-            nowISO(),
-
-        date:
-            today()
-
-    };
-
-
-    tickets.push(
-        ticket
-    );
-
-
-    saveSupportTickets(
-        tickets
-    );
-
-
-    addNotification(
-        user.id,
-        "Votre demande d'assistance " +
-        ticketNumber +
-        " a été créée.",
-        "info"
-    );
-
-
-    return {
-        success: true,
-        ticket
-    };
-
-}
-
-
-/* =========================================================
-   MES TICKETS
-   ========================================================= */
-
-function getMySupportTickets() {
-
-    const user =
-        getCurrentUser();
-
-
-    if (!user) return [];
-
-
-    return getSupportTickets()
-        .filter(ticket => {
-
-            return (
-                ticket.userId ===
-                user.id ||
-
-                ticket.userPhone ===
-                getUserPhone(user)
-            );
-
+    await supabaseClient
+        .from("notifications")
+        .update({
+            is_read:true
         })
-        .sort(
-            (a, b) =>
-                new Date(
-                    b.updatedAt ||
-                    b.createdAt
-                ) -
-                new Date(
-                    a.updatedAt ||
-                    a.createdAt
-                )
-        );
-
-}
-
-
-/* =========================================================
-   ADMIN : RÉCUPÉRER TOUS LES TICKETS
-   ========================================================= */
-
-function getAllSupportTickets() {
-
-    return getSupportTickets()
-        .sort(
-            (a, b) =>
-                new Date(
-                    b.updatedAt ||
-                    b.createdAt
-                ) -
-                new Date(
-                    a.updatedAt ||
-                    a.createdAt
-                )
-        );
-
-}
-
-
-/* =========================================================
-   ADMIN : CHANGER LE STATUT
-   ========================================================= */
-
-function updateSupportTicketStatus(
-    ticketId,
-    status
-) {
-
-    const allowed = [
-        "pending",
-        "in_progress",
-        "answered",
-        "closed"
-    ];
-
-
-    if (!allowed.includes(status)) {
-
-        return {
-            success: false,
-            message:
-                "Statut invalide."
-        };
-
-    }
-
-
-    const tickets =
-        getSupportTickets();
-
-
-    const ticket =
-        tickets.find(
-            item =>
-            item.id === ticketId
+        .eq(
+            "id",
+            id
+        )
+        .eq(
+            "user_id",
+            currentUser.id
         );
 
 
-    if (!ticket) {
-
-        return {
-            success: false,
-            message:
-                "Ticket introuvable."
-        };
-
-    }
-
-
-    ticket.status =
-        status;
-
-
-    ticket.updatedAt =
-        nowISO();
-
-
-    saveSupportTickets(
-        tickets
-    );
-
-
-    return {
-        success: true,
-        ticket
-    };
-
+    loadNotifications();
 }
 
 
-/* =========================================================
-   ADMIN : RÉPONDRE
-   ========================================================= */
+async function clearNotifications(){
 
-function replyToSupportTicket(
-    ticketId,
-    reply
-) {
+    if(!currentUser){
 
-    reply =
-        String(
-            reply || ""
-        ).trim();
-
-
-    if (!reply) {
-
-        return {
-            success: false,
-            message:
-                "La réponse ne peut pas être vide."
-        };
-
+        return;
     }
 
 
-    if (reply.length > 3000) {
-
-        return {
-            success: false,
-            message:
-                "La réponse est trop longue."
-        };
-
-    }
-
-
-    const tickets =
-        getSupportTickets();
-
-
-    const ticket =
-        tickets.find(
-            item =>
-            item.id === ticketId
+    await supabaseClient
+        .from("notifications")
+        .update({
+            is_read:true
+        })
+        .eq(
+            "user_id",
+            currentUser.id
         );
 
 
-    if (!ticket) {
+    loadNotifications();
+}
 
-        return {
-            success: false,
-            message:
-                "Ticket introuvable."
-        };
 
+function toggleNotifications(){
+
+    const panel =
+        document.getElementById(
+            "notificationPanel"
+        );
+
+
+    if(panel){
+
+        panel.classList.toggle(
+            "open"
+        );
+    }
+}
+
+
+/* =========================================================
+   DECONNEXION
+========================================================= */
+
+async function logout(){
+
+    if(supabaseClient){
+
+        await supabaseClient.auth.signOut();
     }
 
 
-    ticket.reply =
-        reply;
+    currentUser = null;
+
+    currentProfile = null;
 
 
-    ticket.status =
-        "answered";
-
-
-    ticket.updatedAt =
-        nowISO();
-
-
-    ticket.repliedAt =
-        nowISO();
-
-
-    saveSupportTickets(
-        tickets
-    );
-
-
-    addNotification(
-        ticket.userId,
-        "L'administration a répondu à votre demande " +
-        ticket.ticketNumber +
-        ".",
-        "success"
-    );
-
-
-    return {
-        success: true,
-        ticket
-    };
-
+    window.location.href =
+        "login.html";
 }
 
 
 /* =========================================================
-   FERMER UN TICKET
-   ========================================================= */
+   INITIALISATION DASHBOARD
+========================================================= */
 
-function closeSupportTicket(
-    ticketId
-) {
+async function initializeDashboard(){
 
-    return updateSupportTicketStatus(
-        ticketId,
-        "closed"
-    );
+    const ready =
+        loadSupabase();
 
+
+    if(!ready){
+
+        return;
+    }
+
+
+    const user =
+        await getCurrentUser();
+
+
+    if(!user){
+
+        window.location.href =
+            "login.html";
+
+        return;
+    }
+
+
+    await loadProfile();
+
+
+    displayUserProfile();
+
+    displayBalance();
+
+    await updateDashboard();
+
+    await loadInvestments();
+
+    await loadTransactions();
+
+    await loadNotifications();
 }
 
 
 /* =========================================================
-   EXPORT GLOBAL
-   ========================================================= */
+   DEMARRAGE
+========================================================= */
 
-window.HousingInvestment = {
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
 
-    /* Utilisateurs */
+        initializeDashboard();
 
-    getUsers,
-    saveUsers,
-
-    getCurrentUser,
-    saveCurrentUser,
-
-    registerUser,
-    loginUser,
-    logoutUser,
-
-    updateUser,
-    findUserByPhone,
-
-    /* Packs */
-
-    PACKS,
-
-    /* Investissements */
-
-    getInvestments,
-    saveInvestments,
-
-    createInvestment,
-    getMyInvestments,
-
-    calculateInvestmentProgress,
-    updateInvestmentProgress,
-
-    calculateTotalGains,
-
-    /* Dépôts */
-
-    getDeposits,
-    saveDeposits,
-
-    createDeposit,
-    approveDeposit,
-    rejectDeposit,
-
-    /* Retraits */
-
-    getWithdrawals,
-    saveWithdrawals,
-
-    createWithdrawal,
-    approveWithdrawal,
-    rejectWithdrawal,
-
-    /* Notifications */
-
-    getNotifications,
-    saveNotifications,
-
-    addNotification,
-    getMyNotifications,
-
-    /* Assistance */
-
-    getSupportTickets,
-    saveSupportTickets,
-
-    createSupportTicket,
-    getMySupportTickets,
-
-    getAllSupportTickets,
-
-    updateSupportTicketStatus,
-
-    replyToSupportTicket,
-
-    closeSupportTicket,
-
-    /* Outils */
-
-    formatFCFA
-
-};
+    }
+);
 
 
 /* =========================================================
-   INITIALISATION
-   ========================================================= */
+   ACTUALISATION
+========================================================= */
 
-updateInvestmentProgress();
+setInterval(
+    async function(){
+
+        if(!currentUser){
+
+            return;
+        }
 
 
-console.log(
-    "===================================="
-);
+        await loadProfile();
 
-console.log(
-    "Housing Investment"
-);
+        displayUserProfile();
 
-console.log(
-    "Script chargé correctement."
-);
+        displayBalance();
 
-console.log(
-    "Utilisateurs :",
-    getUsers().length
-);
+        await updateDashboard();
 
-console.log(
-    "Investissements :",
-    getInvestments().length
-);
+        await loadNotifications();
 
-console.log(
-    "Dépôts :",
-    getDeposits().length
-);
-
-console.log(
-    "Retraits :",
-    getWithdrawals().length
-);
-
-console.log(
-    "Tickets assistance :",
-    getSupportTickets().length
-);
-
-console.log(
-    "===================================="
+    },
+    10000
 );
