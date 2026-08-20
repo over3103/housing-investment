@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Connexion — Housing Investment</title>
+<title>Connexion - Housing Investment</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
@@ -16,358 +18,257 @@
 body{
     min-height:100vh;
     font-family:Arial,Helvetica,sans-serif;
-    background:
-        linear-gradient(rgba(5,25,55,.78),rgba(5,25,55,.88)),
-        url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85")
-        center/cover fixed;
-
+    background:linear-gradient(135deg,#061b3a,#0b5ed7);
     display:flex;
     align-items:center;
     justify-content:center;
     padding:20px;
-    color:#172033;
 }
 
-.login-container{
+.container{
     width:100%;
-    max-width:430px;
+    max-width:420px;
 }
 
 .logo{
     text-align:center;
     color:white;
-    font-size:25px;
-    font-weight:800;
     margin-bottom:20px;
+}
+
+.logo h1{
+    font-size:28px;
+    margin-bottom:6px;
 }
 
 .logo span{
     color:#38bdf8;
 }
 
-.login-card{
-    background:rgba(255,255,255,.98);
-    border-radius:22px;
-    padding:32px 28px;
-    box-shadow:0 20px 50px rgba(0,0,0,.25);
+.logo p{
+    font-size:13px;
+    opacity:.85;
 }
 
-.login-header{
+.card{
+    background:white;
+    border-radius:20px;
+    padding:30px 25px;
+    box-shadow:0 15px 45px rgba(0,0,0,.25);
+}
+
+.card h2{
     text-align:center;
+    color:#172033;
+    margin-bottom:7px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#748094;
+    font-size:13px;
     margin-bottom:25px;
 }
 
-.login-icon{
-    width:65px;
-    height:65px;
-    margin:0 auto 15px;
-    border-radius:50%;
-    background:#e9f2ff;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:30px;
-}
-
-.login-header h1{
-    font-size:27px;
-    margin-bottom:7px;
-}
-
-.login-header p{
-    color:#697586;
-    font-size:14px;
-}
-
-.form-group{
+.group{
     margin-bottom:17px;
 }
 
-.form-group label{
+label{
     display:block;
-    margin-bottom:7px;
+    color:#273449;
     font-size:13px;
     font-weight:bold;
-}
-
-.input-wrapper{
-    position:relative;
+    margin-bottom:7px;
 }
 
 input{
     width:100%;
-    height:50px;
-
+    height:48px;
     border:1px solid #d8dee8;
     border-radius:10px;
-
-    padding:0 14px;
-
-    font-size:15px;
+    padding:0 45px 0 13px;
     outline:none;
-
-    background:#fff;
+    font-size:14px;
 }
 
 input:focus{
     border-color:#0b5ed7;
-
-    box-shadow:
-        0 0 0 3px rgba(11,94,215,.1);
+    box-shadow:0 0 0 3px rgba(11,94,215,.10);
 }
 
-.phone-input{
-    display:flex;
+.password-box{
+    position:relative;
 }
 
-.phone-prefix{
-    height:50px;
-
-    padding:0 12px;
-
-    display:flex;
-    align-items:center;
-
-    background:#eef2f7;
-
-    border:1px solid #d8dee8;
-    border-right:none;
-
-    border-radius:10px 0 0 10px;
-
-    font-weight:bold;
-    font-size:14px;
-}
-
-.phone-input input{
-    border-radius:0 10px 10px 0;
-}
-
-.password-input{
-    padding-right:50px;
-}
-
-.toggle-password{
+.eye{
     position:absolute;
-
-    right:10px;
+    right:12px;
     top:50%;
-
     transform:translateY(-50%);
-
-    border:none;
-    background:transparent;
-
+    border:0;
+    background:none;
     cursor:pointer;
-
-    font-size:19px;
-    padding:5px;
+    font-size:18px;
 }
 
-.login-options{
+.options{
     display:flex;
     justify-content:flex-end;
-
     margin-top:-5px;
     margin-bottom:20px;
 }
 
-.forgot-password{
+.forgot{
     color:#0b5ed7;
-
-    font-size:13px;
+    text-decoration:none;
+    font-size:12px;
     font-weight:bold;
-
-    cursor:pointer;
 }
 
-.forgot-password:hover{
+.forgot:hover{
     text-decoration:underline;
 }
 
-.login-button{
+.btn{
     width:100%;
-    height:51px;
-
-    border:none;
+    height:50px;
+    border:0;
     border-radius:10px;
-
     background:#0b5ed7;
     color:white;
-
     font-size:15px;
     font-weight:bold;
-
     cursor:pointer;
-
-    transition:.2s;
 }
 
-.login-button:hover{
-    background:#084da8;
-    transform:translateY(-1px);
+.btn:hover{
+    background:#084db4;
+}
+
+.btn:disabled{
+    opacity:.65;
+    cursor:not-allowed;
 }
 
 .message{
     display:none;
-
     padding:11px;
-
     border-radius:9px;
-
     margin-bottom:15px;
-
     text-align:center;
-
-    font-size:13px;
-    font-weight:bold;
+    font-size:12px;
+    line-height:1.5;
 }
 
-.message.error{
+.message.show{
     display:block;
-
-    background:#ffe9e9;
-    color:#b42318;
 }
 
-.message.success{
-    display:block;
-
-    background:#e8f8ef;
-    color:#18794e;
+.error{
+    background:#fde8e8;
+    color:#c62828;
 }
 
-.register-link{
+.success{
+    background:#e7f7ee;
+    color:#198754;
+}
+
+.login{
     text-align:center;
-
     margin-top:22px;
-    padding-top:20px;
-
-    border-top:1px solid #edf0f4;
-
-    font-size:14px;
-    color:#697586;
+    font-size:13px;
+    color:#6d7888;
 }
 
-.register-link a{
+.login a{
     color:#0b5ed7;
     font-weight:bold;
+    text-decoration:none;
 }
 
-.back-home{
+.back{
     display:block;
-
     text-align:center;
-
+    margin-top:18px;
     color:white;
-
-    margin-top:17px;
-
-    font-size:13px;
+    text-decoration:none;
+    font-size:12px;
 }
 
-.back-home:hover{
-    color:#38bdf8;
-}
+@media(max-width:450px){
 
-@media(max-width:480px){
-
-    .login-card{
-        padding:27px 20px;
+    .card{
+        padding:25px 18px;
     }
 
-    .login-header h1{
+    .logo h1{
         font-size:24px;
     }
-
 }
 </style>
 </head>
 
-
 <body>
 
-
-<div class="login-container">
-
+<div class="container">
 
     <div class="logo">
-        🏠 Housing <span>Investment</span>
+
+        <h1>
+            🏠 Housing <span>Investment</span>
+        </h1>
+
+        <p>
+            Investissez dans votre avenir
+        </p>
+
     </div>
 
 
-    <div class="login-card">
+    <div class="card">
+
+        <h2>Connexion</h2>
+
+        <p class="subtitle">
+            Accédez à votre espace personnel
+        </p>
 
 
-        <div class="login-header">
-
-            <div class="login-icon">
-                🔐
-            </div>
-
-            <h1>
-                Bienvenue
-            </h1>
-
-            <p>
-                Connectez-vous à votre espace personnel
-            </p>
-
-        </div>
-
-
-        <div
-            id="message"
-            class="message">
-        </div>
+        <div id="message" class="message"></div>
 
 
         <form id="loginForm">
 
+            <div class="group">
 
-            <!-- TELEPHONE -->
-
-            <div class="form-group">
-
-                <label for="phone">
-                    Numéro de téléphone
+                <label for="email">
+                    Adresse e-mail
                 </label>
 
-                <div class="phone-input">
-
-                    <div class="phone-prefix">
-                        +225
-                    </div>
-
-                    <input
-                        type="tel"
-                        id="phone"
-                        placeholder="07 00 00 00 00"
-                        autocomplete="tel"
-                        required
-                    >
-
-                </div>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="exemple@email.com"
+                    autocomplete="email"
+                    required
+                >
 
             </div>
 
 
-            <!-- MOT DE PASSE -->
-
-            <div class="form-group">
+            <div class="group">
 
                 <label for="password">
                     Mot de passe
                 </label>
 
-                <div class="input-wrapper">
+                <div class="password-box">
 
                     <input
                         type="password"
                         id="password"
-                        class="password-input"
                         placeholder="Votre mot de passe"
                         autocomplete="current-password"
                         required
@@ -375,9 +276,8 @@ input:focus{
 
                     <button
                         type="button"
-                        class="toggle-password"
-                        id="togglePassword"
-                        aria-label="Afficher le mot de passe">
+                        class="eye"
+                        onclick="togglePassword()">
 
                         👁️
 
@@ -388,13 +288,11 @@ input:focus{
             </div>
 
 
-            <!-- MOT DE PASSE OUBLIE -->
-
-            <div class="login-options">
+            <div class="options">
 
                 <a
                     href="forgot-password.html"
-                    class="forgot-password">
+                    class="forgot">
 
                     Mot de passe oublié ?
 
@@ -403,23 +301,19 @@ input:focus{
             </div>
 
 
-            <!-- CONNEXION -->
-
             <button
                 type="submit"
-                class="login-button">
+                id="loginButton"
+                class="btn">
 
                 Se connecter
 
             </button>
 
-
         </form>
 
 
-        <!-- CREATION COMPTE -->
-
-        <div class="register-link">
+        <div class="login">
 
             Vous n'avez pas encore de compte ?
 
@@ -429,75 +323,31 @@ input:focus{
 
         </div>
 
-
     </div>
 
 
-    <!-- RETOUR ACCUEIL -->
-
-    <a
-        href="index.html"
-        class="back-home">
-
+    <a href="index.html" class="back">
         ← Retour à l'accueil
-
     </a>
-
 
 </div>
 
 
 <script>
 
+const SUPABASE_URL =
+    "https://scnuphudlhqiadyavknt.supabase.co";
 
-/* =================================
-   AFFICHER / MASQUER MOT DE PASSE
-================================= */
-
-const passwordInput =
-    document.getElementById("password");
-
-const togglePassword =
-    document.getElementById("togglePassword");
+const SUPABASE_KEY =
+    "sb_publishable_SQ6iUFoLHRsPMYE41Z8XtQ_pgaF3O5L";
 
 
-togglePassword.addEventListener(
-    "click",
-    function(){
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
-        if(passwordInput.type === "password"){
-
-            passwordInput.type = "text";
-
-            togglePassword.textContent = "🙈";
-
-            togglePassword.setAttribute(
-                "aria-label",
-                "Masquer le mot de passe"
-            );
-
-        }
-
-        else{
-
-            passwordInput.type = "password";
-
-            togglePassword.textContent = "👁️";
-
-            togglePassword.setAttribute(
-                "aria-label",
-                "Afficher le mot de passe"
-            );
-
-        }
-
-    }
-);
-
-
-/* =================================
-   MESSAGE
-================================= */
 
 function showMessage(text,type){
 
@@ -507,147 +357,98 @@ function showMessage(text,type){
     message.textContent = text;
 
     message.className =
-        "message " + type;
-
+        "message show " + type;
 }
 
 
-/* =================================
-   CONNEXION
-================================= */
+function togglePassword(){
 
-const loginForm =
-    document.getElementById("loginForm");
+    const password =
+        document.getElementById("password");
 
+    const button =
+        document.querySelector(".eye");
 
-loginForm.addEventListener(
-    "submit",
-    function(event){
+    if(password.type === "password"){
 
-        event.preventDefault();
+        password.type = "text";
+        button.textContent = "🙈";
 
+    }else{
 
-        const phone =
-            document
-            .getElementById("phone")
-            .value
-            .trim();
+        password.type = "password";
+        button.textContent = "👁️";
 
-
-        const password =
-            document
-            .getElementById("password")
-            .value;
+    }
+}
 
 
-        if(!phone || !password){
+/* CONNEXION */
 
-            showMessage(
-                "Veuillez remplir tous les champs.",
-                "error"
-            );
+document
+.getElementById("loginForm")
+.addEventListener("submit",async function(event){
 
-            return;
+    event.preventDefault();
+
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const password =
+        document
+        .getElementById("password")
+        .value;
+
+    const button =
+        document.getElementById("loginButton");
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Connexion...";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email:email,
+
+            password:password
+
+        });
+
+
+        if(error){
+
+            throw error;
+
         }
 
 
-        /* Récupération des comptes */
-
-        let users = [];
-
-
-        try{
-
-            users =
-                JSON.parse(
-                    localStorage.getItem("users")
-                ) || [];
-
-        }
-
-        catch(error){
-
-            users = [];
-
-        }
-
-
-        const cleanPhone =
-            phone.replace(/\s+/g,"");
-
-
-        /* Recherche du compte */
-
-        const user =
-            users.find(function(u){
-
-                const savedPhone =
-                    String(
-                        u.phone ||
-                        u.telephone ||
-                        ""
-                    )
-                    .replace(/\s+/g,"");
-
-
-                return (
-
-                    savedPhone === cleanPhone ||
-
-                    savedPhone ===
-                    "+225" + cleanPhone ||
-
-                    savedPhone.replace(
-                        "+225",
-                        ""
-                    ) === cleanPhone
-
-                );
-
-            });
-
-
-        if(!user){
-
-            showMessage(
-                "Aucun compte ne correspond à ce numéro.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        /* Vérification mot de passe */
-
-        const savedPassword =
-            user.password ||
-            user.motDePasse ||
-            "";
-
-
-        if(savedPassword !== password){
-
-            showMessage(
-                "Mot de passe incorrect.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        /* Utilisateur connecté */
-
-        localStorage.setItem(
-            "currentUser",
-            JSON.stringify(user)
-        );
-
+        /*
+         * Connexion réussie.
+         * Supabase conserve la session.
+         */
 
         localStorage.setItem(
             "loggedIn",
             "true"
+        );
+
+
+        localStorage.setItem(
+            "supabaseUser",
+            JSON.stringify(data.user)
         );
 
 
@@ -662,10 +463,45 @@ loginForm.addEventListener(
             window.location.href =
                 "dashboard.html";
 
-        },700);
+        },800);
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        let message =
+            "E-mail ou mot de passe incorrect.";
+
+
+        if(
+            error.message &&
+            error.message
+            .toLowerCase()
+            .includes("email not confirmed")
+        ){
+
+            message =
+                "Veuillez confirmer votre adresse e-mail avant de vous connecter.";
+
+        }
+
+
+        showMessage(
+            message,
+            "error"
+        );
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "Se connecter";
 
     }
-);
+
+});
 
 </script>
 
