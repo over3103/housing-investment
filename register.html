@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -18,148 +20,279 @@
 body{
     min-height:100vh;
     font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(135deg,#061b3a,#0b5ed7);
+    background:
+        linear-gradient(
+            135deg,
+            #061b3a,
+            #0b5ed7
+        );
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     padding:20px;
 }
 
 .container{
     width:100%;
-    max-width:440px;
+    max-width:470px;
 }
 
 .logo{
     text-align:center;
-    color:white;
+    color:#fff;
     margin-bottom:20px;
 }
 
 .logo h1{
-    font-size:28px;
-    margin-bottom:6px;
+    font-size:29px;
+    margin-bottom:7px;
 }
 
-.logo span{
+.logo h1 span{
     color:#38bdf8;
 }
 
 .logo p{
     font-size:13px;
-    opacity:.85;
+    opacity:.9;
 }
 
 .card{
-    background:white;
-    border-radius:20px;
-    padding:28px 25px;
-    box-shadow:0 15px 45px rgba(0,0,0,.25);
+    background:#fff;
+    border-radius:22px;
+    padding:30px 26px;
+    box-shadow:
+        0 20px 55px rgba(0,0,0,.28);
 }
 
 .card h2{
     text-align:center;
     color:#172033;
-    margin-bottom:7px;
+    font-size:23px;
+    margin-bottom:8px;
 }
 
 .subtitle{
     text-align:center;
-    color:#748094;
+    color:#718096;
     font-size:13px;
-    margin-bottom:23px;
+    line-height:1.6;
+    margin-bottom:25px;
 }
 
 .group{
-    margin-bottom:15px;
+    margin-bottom:17px;
 }
 
 label{
     display:block;
+    color:#263449;
     font-size:13px;
-    font-weight:bold;
-    color:#273449;
+    font-weight:700;
     margin-bottom:7px;
+}
+
+.required{
+    color:#e53935;
 }
 
 input{
     width:100%;
-    height:47px;
-    border:1px solid #d8dee8;
-    border-radius:10px;
-    padding:0 13px;
-    outline:none;
+    height:49px;
+
+    border:1px solid #d7dee8;
+    border-radius:11px;
+
+    padding:0 14px;
+
     font-size:14px;
+    outline:none;
+
+    transition:.2s;
 }
 
 input:focus{
     border-color:#0b5ed7;
-    box-shadow:0 0 0 3px rgba(11,94,215,.10);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(11,94,215,.10);
 }
 
-.phone-box{
-    position:relative;
+.phone-wrapper{
+    display:flex;
+    width:100%;
 }
 
-.prefix{
-    position:absolute;
-    left:1px;
-    top:1px;
-    width:58px;
-    height:45px;
-    background:#f0f4f9;
-    border-radius:9px 0 0 9px;
+.phone-prefix{
+    width:65px;
+    height:49px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:13px;
+
+    background:#f1f5f9;
+
+    border:1px solid #d7dee8;
+    border-right:none;
+
+    border-radius:11px 0 0 11px;
+
     font-weight:bold;
-    color:#26364c;
+    color:#263449;
 }
 
-.phone{
-    padding-left:70px;
+.phone-wrapper input{
+    border-radius:0 11px 11px 0;
 }
 
-.password-box{
+.password-wrapper{
     position:relative;
 }
 
-.password-box input{
-    padding-right:45px;
+.password-wrapper input{
+    padding-right:48px;
 }
 
-.eye{
+.toggle-password{
     position:absolute;
-    right:12px;
+
+    right:10px;
     top:50%;
+
     transform:translateY(-50%);
-    border:0;
+
+    border:none;
     background:none;
+
     cursor:pointer;
+
     font-size:18px;
 }
 
 .help{
-    color:#748094;
     font-size:11px;
+    color:#7b8798;
+    margin-top:6px;
+    line-height:1.5;
+}
+
+.password-strength{
+    height:5px;
+    width:100%;
+
+    background:#edf0f4;
+
+    border-radius:10px;
+
+    margin-top:8px;
+
+    overflow:hidden;
+}
+
+.password-strength-bar{
+    height:100%;
+    width:0;
+
+    transition:.25s;
+}
+
+.invitation-box{
+    background:#f7faff;
+
+    border:1px solid #e1e9f5;
+
+    border-radius:12px;
+
+    padding:13px;
+
     margin-top:5px;
 }
 
-.invitation{
-    color:#748094;
-    font-size:11px;
-    font-weight:normal;
+.checkbox{
+    display:flex;
+    align-items:flex-start;
+
+    gap:9px;
+
+    margin-top:16px;
+
+    font-size:12px;
+    color:#5f6b7a;
+
+    line-height:1.5;
+}
+
+.checkbox input{
+    width:16px;
+    height:16px;
+
+    margin-top:2px;
+}
+
+.checkbox a{
+    color:#0b5ed7;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.btn{
+    width:100%;
+    height:52px;
+
+    border:none;
+    border-radius:11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0b5ed7,
+            #084db4
+        );
+
+    color:#fff;
+
+    font-size:15px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    margin-top:19px;
+
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(11,94,215,.25);
+}
+
+.btn:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+    transform:none;
 }
 
 .message{
     display:none;
-    padding:11px;
-    border-radius:9px;
-    margin-bottom:15px;
-    text-align:center;
+
+    padding:13px;
+
+    border-radius:10px;
+
+    margin-bottom:17px;
+
     font-size:12px;
-    line-height:1.5;
+
+    line-height:1.6;
+
+    text-align:center;
 }
 
 .message.show{
@@ -172,79 +305,84 @@ input:focus{
 }
 
 .success{
-    background:#e7f7ee;
+    background:#e8f7ee;
     color:#198754;
 }
 
-.warning{
-    background:#fff4dc;
-    color:#9a6500;
-}
-
-.btn{
-    width:100%;
-    height:50px;
-    border:0;
-    border-radius:10px;
-    background:#0b5ed7;
-    color:white;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.btn:hover{
-    background:#084db4;
-}
-
-.btn:disabled{
-    opacity:.65;
-    cursor:not-allowed;
-}
-
-.login{
+.login-link{
     text-align:center;
+
     margin-top:20px;
+
+    color:#687588;
+
     font-size:13px;
-    color:#6d7888;
 }
 
-.login a{
+.login-link a{
     color:#0b5ed7;
+
     font-weight:bold;
+
     text-decoration:none;
 }
 
-.back{
+.home{
     display:block;
+
     text-align:center;
-    margin-top:18px;
-    color:white;
+
+    color:#fff;
+
     text-decoration:none;
+
     font-size:12px;
+
+    margin-top:18px;
 }
 
-@media(max-width:450px){
+.security{
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:6px;
+
+    color:#748094;
+
+    font-size:11px;
+
+    margin-top:17px;
+}
+
+@media(max-width:480px){
 
     .card{
         padding:25px 18px;
     }
 
     .logo h1{
-        font-size:24px;
+        font-size:25px;
     }
+
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
+    <!-- LOGO -->
+
     <div class="logo">
 
         <h1>
-            🏠 Housing <span>Investment</span>
+            🏠 Housing
+            <span>Investment</span>
         </h1>
 
         <p>
@@ -254,16 +392,22 @@ input:focus{
     </div>
 
 
+    <!-- CARD -->
+
     <div class="card">
 
         <h2>
-            Créer un compte
+            Créer votre compte
         </h2>
 
         <p class="subtitle">
             Rejoignez Housing Investment
+            et commencez votre parcours
+            d'investissement.
         </p>
 
+
+        <!-- MESSAGE -->
 
         <div
             id="message"
@@ -271,21 +415,30 @@ input:focus{
         </div>
 
 
-        <form id="registerForm">
+        <!-- FORMULAIRE -->
+
+        <form
+            id="registerForm"
+            autocomplete="off">
+
 
             <!-- NOM -->
 
             <div class="group">
 
                 <label for="fullName">
+
                     Nom complet
+                    <span class="required">*</span>
+
                 </label>
 
                 <input
                     type="text"
                     id="fullName"
-                    placeholder="Votre nom complet"
+                    placeholder="Exemple : Koffi Jean"
                     autocomplete="name"
+                    maxlength="100"
                     required
                 >
 
@@ -297,29 +450,39 @@ input:focus{
             <div class="group">
 
                 <label for="phone">
+
                     Numéro de téléphone
+                    <span class="required">*</span>
+
                 </label>
 
-                <div class="phone-box">
 
-                    <span class="prefix">
+                <div class="phone-wrapper">
+
+                    <div class="phone-prefix">
+
                         +225
-                    </span>
+
+                    </div>
+
 
                     <input
                         type="tel"
                         id="phone"
-                        class="phone"
                         placeholder="07 00 00 00 00"
-                        maxlength="10"
                         autocomplete="tel"
+                        maxlength="14"
                         required
                     >
 
                 </div>
 
+
                 <div class="help">
-                    Entrez les 10 chiffres de votre numéro.
+
+                    Votre numéro sera utilisé comme
+                    identifiant principal de votre compte.
+
                 </div>
 
             </div>
@@ -330,43 +493,71 @@ input:focus{
             <div class="group">
 
                 <label for="email">
+
                     Adresse e-mail
+
+                    <span
+                        style="
+                        font-weight:normal;
+                        color:#8a94a3;
+                        ">
+                        (facultatif)
+                    </span>
+
                 </label>
+
 
                 <input
                     type="email"
                     id="email"
                     placeholder="exemple@email.com"
                     autocomplete="email"
-                    required
                 >
+
+
+                <div class="help">
+
+                    Recommandé pour récupérer votre compte
+                    et recevoir des notifications importantes.
+
+                </div>
 
             </div>
 
 
-            <!-- PASSWORD -->
+            <!-- MOT DE PASSE -->
 
             <div class="group">
 
                 <label for="password">
+
                     Mot de passe
+                    <span class="required">*</span>
+
                 </label>
 
-                <div class="password-box">
+
+                <div class="password-wrapper">
 
                     <input
                         type="password"
                         id="password"
                         placeholder="Minimum 8 caractères"
                         minlength="8"
+                        maxlength="72"
                         autocomplete="new-password"
                         required
                     >
 
+
                     <button
                         type="button"
-                        class="eye"
-                        onclick="togglePassword('password',this)">
+                        class="toggle-password"
+                        onclick="
+                        togglePassword(
+                        'password',
+                        this
+                        )">
 
                         👁️
 
@@ -374,36 +565,61 @@ input:focus{
 
                 </div>
 
-                <div class="help">
-                    Utilisez au moins 8 caractères.
+
+                <div class="password-strength">
+
+                    <div
+                        id="strengthBar"
+                        class="password-strength-bar">
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="strengthText"
+                    class="help">
+
+                    Minimum 8 caractères.
+
                 </div>
 
             </div>
 
 
-            <!-- CONFIRM PASSWORD -->
+            <!-- CONFIRMATION -->
 
             <div class="group">
 
                 <label for="confirmPassword">
+
                     Confirmer le mot de passe
+                    <span class="required">*</span>
+
                 </label>
 
-                <div class="password-box">
+
+                <div class="password-wrapper">
 
                     <input
                         type="password"
                         id="confirmPassword"
                         placeholder="Répétez votre mot de passe"
                         minlength="8"
+                        maxlength="72"
                         autocomplete="new-password"
                         required
                     >
 
+
                     <button
                         type="button"
-                        class="eye"
-                        onclick="togglePassword('confirmPassword',this)">
+                        class="toggle-password"
+                        onclick="
+                        togglePassword(
+                        'confirmPassword',
+                        this
+                        )">
 
                         👁️
 
@@ -414,28 +630,63 @@ input:focus{
             </div>
 
 
-            <!-- INVITATION -->
+            <!-- CODE INVITATION -->
 
             <div class="group">
 
-                <label for="invitationCode">
+                <div class="invitation-box">
 
-                    Code d'invitation
-                    <span class="invitation">
-                        (facultatif)
-                    </span>
+                    <label for="invitation">
 
-                </label>
+                        Code d'invitation
 
-                <input
-                    type="text"
-                    id="invitationCode"
-                    placeholder="Code d'invitation"
-                    autocomplete="off"
-                >
+                        <span
+                            style="
+                            font-weight:normal;
+                            color:#8a94a3;
+                            ">
+                            (facultatif)
+                        </span>
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="invitation"
+                        placeholder="Entrez un code si vous en avez un"
+                        maxlength="30"
+                        autocomplete="off"
+                    >
+
+                </div>
 
             </div>
 
+
+            <!-- CONDITIONS -->
+
+            <label class="checkbox">
+
+                <input
+                    type="checkbox"
+                    id="terms"
+                    required
+                >
+
+
+                <span>
+
+                    J'accepte les conditions d'utilisation
+                    et la politique de confidentialité
+                    de Housing Investment.
+
+                </span>
+
+            </label>
+
+
+            <!-- BOUTON -->
 
             <button
                 type="submit"
@@ -449,28 +700,48 @@ input:focus{
         </form>
 
 
-        <div class="login">
+        <!-- CONNEXION -->
+
+        <div class="login-link">
 
             Vous avez déjà un compte ?
 
             <a href="login.html">
+
                 Se connecter
+
             </a>
+
+        </div>
+
+
+        <!-- SECURITE -->
+
+        <div class="security">
+
+            🔒
+
+            <span>
+                Vos informations sont protégées
+            </span>
 
         </div>
 
     </div>
 
 
+    <!-- ACCUEIL -->
+
     <a
         href="index.html"
-        class="back">
+        class="home">
 
         ← Retour à l'accueil
 
     </a>
 
 </div>
+
 
 
 <script>
@@ -494,13 +765,33 @@ const supabaseClient =
 
 
 /* =====================================================
-   AFFICHER MESSAGE
+   ELEMENTS
 ===================================================== */
 
-function showMessage(text,type){
+const form =
+    document.getElementById(
+        "registerForm"
+    );
 
-    const message =
-        document.getElementById("message");
+const message =
+    document.getElementById(
+        "message"
+    );
+
+const button =
+    document.getElementById(
+        "registerButton"
+    );
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+    text,
+    type
+){
 
     message.textContent =
         text;
@@ -512,26 +803,36 @@ function showMessage(text,type){
 
 
 /* =====================================================
-   MOT DE PASSE
+   AFFICHER / MASQUER MOT DE PASSE
 ===================================================== */
 
-function togglePassword(id,button){
+function togglePassword(
+    id,
+    button
+){
 
     const input =
         document.getElementById(id);
 
 
-    if(input.type === "password"){
+    if(
+        input.type ===
+        "password"
+    ){
 
-        input.type = "text";
+        input.type =
+            "text";
 
-        button.textContent = "🙈";
+        button.textContent =
+            "🙈";
 
     }else{
 
-        input.type = "password";
+        input.type =
+            "password";
 
-        button.textContent = "👁️";
+        button.textContent =
+            "👁️";
 
     }
 
@@ -539,322 +840,700 @@ function togglePassword(id,button){
 
 
 /* =====================================================
-   TELEPHONE
+   NORMALISER LE TELEPHONE IVOIRIEN
+===================================================== */
+
+function normalizePhone(
+    value
+){
+
+    let phone =
+        value
+        .replace(/\D/g,"");
+
+
+    /*
+     * Si l'utilisateur écrit :
+     *
+     * 0700000000
+     *
+     * on transforme en :
+     *
+     * +2250700000000
+     */
+
+    if(
+        phone.startsWith("225")
+    ){
+
+        phone =
+            phone.substring(3);
+
+    }
+
+
+    /*
+     * Nous acceptons uniquement
+     * les 10 chiffres ivoiriens.
+     */
+
+    if(
+        phone.length !== 10
+    ){
+
+        return null;
+
+    }
+
+
+    return "+225" + phone;
+
+}
+
+
+/* =====================================================
+   VALIDATION DU NOM
+===================================================== */
+
+function validateName(
+    name
+){
+
+    const clean =
+        name.trim();
+
+
+    if(
+        clean.length < 3
+    ){
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   FORCE DU MOT DE PASSE
+===================================================== */
+
+function updatePasswordStrength(){
+
+    const password =
+        document.getElementById(
+            "password"
+        ).value;
+
+
+    const bar =
+        document.getElementById(
+            "strengthBar"
+        );
+
+
+    const text =
+        document.getElementById(
+            "strengthText"
+        );
+
+
+    let score = 0;
+
+
+    if(
+        password.length >= 8
+    ){
+
+        score++;
+
+    }
+
+
+    if(
+        password.length >= 12
+    ){
+
+        score++;
+
+    }
+
+
+    if(
+        /[A-Z]/.test(password)
+    ){
+
+        score++;
+
+    }
+
+
+    if(
+        /[0-9]/.test(password)
+    ){
+
+        score++;
+
+    }
+
+
+    if(
+        /[^A-Za-z0-9]/.test(password)
+    ){
+
+        score++;
+
+    }
+
+
+    if(
+        password.length === 0
+    ){
+
+        bar.style.width =
+            "0%";
+
+        text.textContent =
+            "Minimum 8 caractères.";
+
+        return;
+
+    }
+
+
+    if(score <= 2){
+
+        bar.style.width =
+            "35%";
+
+        text.textContent =
+            "Mot de passe faible.";
+
+    }
+    else if(score <= 4){
+
+        bar.style.width =
+            "70%";
+
+        text.textContent =
+            "Mot de passe moyen.";
+
+    }
+    else{
+
+        bar.style.width =
+            "100%";
+
+        text.textContent =
+            "Mot de passe fort.";
+
+    }
+
+}
+
+
+/* =====================================================
+   EVENEMENT MOT DE PASSE
+===================================================== */
+
+document
+.getElementById("password")
+.addEventListener(
+    "input",
+    updatePasswordStrength
+);
+
+
+/* =====================================================
+   FORMAT TELEPHONE
 ===================================================== */
 
 document
 .getElementById("phone")
-.addEventListener("input",function(){
+.addEventListener(
+    "input",
+    function(){
 
-    this.value =
-        this.value
-        .replace(/\D/g,"")
-        .slice(0,10);
+        let value =
+            this.value.replace(
+                /\D/g,
+                ""
+            );
 
-});
+
+        if(
+            value.length > 10
+        ){
+
+            value =
+                value.substring(
+                    0,
+                    10
+                );
+
+        }
+
+
+        /*
+         * Format visuel :
+         *
+         * 07 00 00 00 00
+         */
+
+        let formatted = "";
+
+
+        for(
+            let i = 0;
+            i < value.length;
+            i++
+        ){
+
+            if(
+                i > 0 &&
+                i % 2 === 0
+            ){
+
+                formatted += " ";
+
+            }
+
+            formatted +=
+                value[i];
+
+        }
+
+
+        this.value =
+            formatted;
+
+    }
+);
 
 
 /* =====================================================
    INSCRIPTION
 ===================================================== */
 
-document
-.getElementById("registerForm")
-.addEventListener("submit",async function(event){
+form.addEventListener(
+    "submit",
+    async function(event){
 
-    event.preventDefault();
+        event.preventDefault();
 
 
-    const button =
-        document.getElementById(
-            "registerButton"
-        );
+        message.className =
+            "message";
 
 
-    const fullName =
-        document
-        .getElementById("fullName")
-        .value.trim();
+        const fullName =
+            document
+            .getElementById(
+                "fullName"
+            )
+            .value
+            .trim();
 
 
-    const phone =
-        document
-        .getElementById("phone")
-        .value
-        .replace(/\D/g,"");
+        const phoneInput =
+            document
+            .getElementById(
+                "phone"
+            )
+            .value;
 
 
-    const email =
-        document
-        .getElementById("email")
-        .value
-        .trim()
-        .toLowerCase();
+        const email =
+            document
+            .getElementById(
+                "email"
+            )
+            .value
+            .trim()
+            .toLowerCase();
 
 
-    const password =
-        document
-        .getElementById("password")
-        .value;
+        const password =
+            document
+            .getElementById(
+                "password"
+            )
+            .value;
 
 
-    const confirmPassword =
-        document
-        .getElementById("confirmPassword")
-        .value;
+        const confirmPassword =
+            document
+            .getElementById(
+                "confirmPassword"
+            )
+            .value;
 
 
-    const invitationCode =
-        document
-        .getElementById("invitationCode")
-        .value.trim();
+        const invitation =
+            document
+            .getElementById(
+                "invitation"
+            )
+            .value
+            .trim();
 
 
-    /* ================= VALIDATIONS ================= */
+        const terms =
+            document
+            .getElementById(
+                "terms"
+            )
+            .checked;
 
-    if(fullName.length < 2){
 
-        showMessage(
-            "Veuillez entrer votre nom complet.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(phone.length !== 10){
-
-        showMessage(
-            "Le numéro ivoirien doit contenir 10 chiffres.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(!email){
-
-        showMessage(
-            "Veuillez entrer une adresse e-mail valide.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(password.length < 8){
-
-        showMessage(
-            "Le mot de passe doit contenir au moins 8 caractères.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(password !== confirmPassword){
-
-        showMessage(
-            "Les deux mots de passe ne correspondent pas.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    /* ================= CHARGEMENT ================= */
-
-    button.disabled = true;
-
-    button.textContent =
-        "Création du compte...";
-
-
-    try{
-
-        /*
-         * Supabase crée le compte sécurisé.
-         * Le trigger créé précédemment
-         * créera automatiquement le profil.
-         */
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth.signUp({
-
-            email:email,
-
-            password:password,
-
-            options:{
-
-                data:{
-
-                    full_name:fullName,
-
-                    phone:"+225" + phone,
-
-                    invitation_code:
-                        invitationCode || null
-
-                }
-
-            }
-
-        });
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
-        /*
-         * Avec la confirmation e-mail activée,
-         * Supabase demande à l'utilisateur
-         * de confirmer son adresse.
-         */
+        /* =========================================
+           VALIDATIONS
+        ========================================= */
 
         if(
-            data.user &&
-            !data.session
+            !validateName(
+                fullName
+            )
         ){
 
             showMessage(
-                "Compte créé avec succès ! Vérifiez votre e-mail pour confirmer votre adresse avant de vous connecter.",
-                "success"
+                "Veuillez entrer votre nom complet.",
+                "error"
             );
-
-
-            document
-            .getElementById("registerForm")
-            .reset();
-
-
-            button.disabled = false;
-
-            button.textContent =
-                "Créer mon compte";
-
 
             return;
 
         }
 
 
-        /*
-         * Si la confirmation e-mail n'est pas
-         * nécessaire, l'utilisateur peut être
-         * connecté immédiatement.
-         */
-
-        if(data.session){
-
-            localStorage.setItem(
-                "loggedIn",
-                "true"
+        const phone =
+            normalizePhone(
+                phoneInput
             );
 
 
-            localStorage.setItem(
-                "supabaseUser",
-                JSON.stringify(
-                    data.user
-                )
-            );
-
+        if(!phone){
 
             showMessage(
-                "Compte créé avec succès. Redirection...",
+                "Veuillez entrer un numéro ivoirien valide de 10 chiffres.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if(
+            email &&
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            .test(email)
+        ){
+
+            showMessage(
+                "Veuillez entrer une adresse e-mail valide.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if(
+            password.length < 8
+        ){
+
+            showMessage(
+                "Votre mot de passe doit contenir au moins 8 caractères.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if(
+            password !==
+            confirmPassword
+        ){
+
+            showMessage(
+                "Les deux mots de passe ne correspondent pas.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if(!terms){
+
+            showMessage(
+                "Veuillez accepter les conditions d'utilisation.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /* =========================================
+           VERROUILLAGE
+        ========================================= */
+
+        button.disabled =
+            true;
+
+        button.textContent =
+            "Création du compte...";
+
+
+        try{
+
+
+            /*
+             * ------------------------------------------------
+             * COMPATIBILITÉ AVEC SUPABASE EMAIL AUTH
+             * ------------------------------------------------
+             *
+             * Pour l'instant, notre moteur d'authentification
+             * reste Supabase Email Auth.
+             *
+             * Si l'utilisateur fournit un e-mail,
+             * nous utilisons cet e-mail.
+             *
+             * Le téléphone est enregistré dans profiles
+             * comme identifiant principal de l'application.
+             *
+             * ------------------------------------------------
+             */
+
+            if(!email){
+
+                showMessage(
+                    "Pour sécuriser votre compte et permettre la récupération du mot de passe, veuillez renseigner une adresse e-mail.",
+                    "error"
+                );
+
+
+                button.disabled =
+                    false;
+
+                button.textContent =
+                    "Créer mon compte";
+
+
+                return;
+
+            }
+
+
+            /*
+             * Création du compte Supabase
+             */
+
+            const {
+                data,
+                error
+            } =
+            await supabaseClient.auth
+            .signUp({
+
+                email:email,
+
+                password:password,
+
+                options:{
+                    data:{
+                        full_name:
+                            fullName,
+
+                        phone:
+                            phone,
+
+                        invitation_code:
+                            invitation || null
+                    }
+                }
+
+            });
+
+
+            if(error){
+
+                throw error;
+
+            }
+
+
+            /*
+             * Si Supabase a créé l'utilisateur,
+             * nous enregistrons/complétons son profil.
+             */
+
+            if(data.user){
+
+                const {
+                    error:
+                    profileError
+                } =
+                await supabaseClient
+                .from("profiles")
+                .upsert({
+
+                    id:
+                        data.user.id,
+
+                    full_name:
+                        fullName,
+
+                    phone:
+                        phone,
+
+                    email:
+                        email,
+
+                    invitation_code:
+                        invitation || null
+
+                },{
+                    onConflict:"id"
+
+                });
+
+
+                if(profileError){
+
+                    console.warn(
+                        "Profil non enregistré :",
+                        profileError
+                    );
+
+                }
+
+            }
+
+
+            /*
+             * ------------------------------------------------
+             * MESSAGE FINAL
+             * ------------------------------------------------
+             */
+
+            showMessage(
+                "Compte créé avec succès. Vérifiez votre adresse e-mail afin d'activer votre compte.",
                 "success"
             );
 
 
-            setTimeout(function(){
+            form.reset();
 
-                window.location.href =
-                    "dashboard.html";
+            updatePasswordStrength();
 
-            },1000);
+
+            /*
+             * Redirection après quelques secondes.
+             */
+
+            setTimeout(
+                function(){
+
+                    window.location.href =
+                        "login.html";
+
+                },
+                3500
+            );
+
 
         }
+        catch(error){
 
-    }catch(error){
-
-        console.error(
-            "Erreur inscription :",
-            error
-        );
-
-
-        let message =
-            "Impossible de créer le compte.";
+            console.error(
+                "Erreur inscription :",
+                error
+            );
 
 
-        if(
-            error.message &&
-            error.message.toLowerCase()
-            .includes("already registered")
-        ){
+            let text =
+                "Impossible de créer le compte pour le moment.";
 
-            message =
-                "Cette adresse e-mail est déjà utilisée.";
+
+            const errorText =
+                (
+                    error.message ||
+                    ""
+                ).toLowerCase();
+
+
+            if(
+                errorText.includes(
+                    "already registered"
+                ) ||
+                errorText.includes(
+                    "already exists"
+                )
+            ){
+
+                text =
+                    "Cette adresse e-mail est déjà utilisée.";
+
+            }
+            else if(
+                errorText.includes(
+                    "password"
+                )
+            ){
+
+                text =
+                    "Le mot de passe n'est pas suffisamment sécurisé.";
+
+            }
+            else if(
+                errorText.includes(
+                    "email"
+                )
+            ){
+
+                text =
+                    "Vérifiez votre adresse e-mail.";
+
+            }
+            else if(
+                errorText.includes(
+                    "rate"
+                )
+            ){
+
+                text =
+                    "Trop de tentatives. Veuillez patienter quelques minutes.";
+
+            }
+
+
+            showMessage(
+                text,
+                "error"
+            );
+
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "Créer mon compte";
 
         }
-
-
-        if(
-            error.message &&
-            error.message.toLowerCase()
-            .includes("password")
-        ){
-
-            message =
-                "Le mot de passe n'est pas suffisamment sécurisé.";
-
-        }
-
-
-        if(
-            error.message &&
-            error.message.toLowerCase()
-            .includes("email")
-        ){
-
-            message =
-                "Veuillez vérifier votre adresse e-mail.";
-
-        }
-
-
-        showMessage(
-            message,
-            "error"
-        );
-
-
-        button.disabled = false;
-
-        button.textContent =
-            "Créer mon compte";
 
     }
-
-});
+);
 
 </script>
 
