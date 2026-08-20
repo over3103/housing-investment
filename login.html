@@ -19,14 +19,13 @@ body{
     min-height:100vh;
     font-family:Arial,Helvetica,sans-serif;
     background:
-        linear-gradient(rgba(4,18,43,.88),rgba(4,18,43,.94)),
+        linear-gradient(rgba(5,20,45,.88),rgba(5,20,45,.94)),
         url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85")
         center/cover no-repeat;
     display:flex;
     align-items:center;
     justify-content:center;
     padding:20px;
-    color:#172033;
 }
 
 .container{
@@ -37,7 +36,7 @@ body{
 .logo{
     text-align:center;
     color:white;
-    font-size:28px;
+    font-size:27px;
     font-weight:800;
     margin-bottom:20px;
 }
@@ -47,13 +46,13 @@ body{
 }
 
 .card{
-    background:rgba(255,255,255,.98);
+    background:#fff;
     border-radius:22px;
     padding:30px;
     box-shadow:0 25px 60px rgba(0,0,0,.30);
 }
 
-.card h1{
+h1{
     text-align:center;
     color:#081c3c;
     font-size:25px;
@@ -66,86 +65,6 @@ body{
     font-size:13px;
     line-height:1.6;
     margin-bottom:25px;
-}
-
-.form-group{
-    margin-bottom:16px;
-}
-
-label{
-    display:block;
-    font-size:12px;
-    font-weight:700;
-    color:#27364d;
-    margin-bottom:7px;
-}
-
-.input-wrap{
-    position:relative;
-}
-
-input{
-    width:100%;
-    height:50px;
-    border:1px solid #d8dee8;
-    border-radius:10px;
-    padding:0 14px;
-    font-size:14px;
-    outline:none;
-    transition:.2s;
-}
-
-input:focus{
-    border-color:#0b5ed7;
-    box-shadow:0 0 0 3px rgba(11,94,215,.10);
-}
-
-.password-toggle{
-    position:absolute;
-    right:10px;
-    top:50%;
-    transform:translateY(-50%);
-    border:none;
-    background:none;
-    cursor:pointer;
-    font-size:18px;
-}
-
-.forgot{
-    text-align:right;
-    margin-top:-5px;
-    margin-bottom:18px;
-}
-
-.forgot a{
-    color:#0b5ed7;
-    text-decoration:none;
-    font-size:12px;
-    font-weight:700;
-}
-
-.login-btn{
-    width:100%;
-    height:50px;
-    border:none;
-    border-radius:10px;
-    background:linear-gradient(135deg,#0b5ed7,#073b8f);
-    color:white;
-    font-size:14px;
-    font-weight:800;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.login-btn:hover{
-    transform:translateY(-1px);
-    box-shadow:0 8px 20px rgba(11,94,215,.25);
-}
-
-.login-btn:disabled{
-    opacity:.65;
-    cursor:not-allowed;
-    transform:none;
 }
 
 .message{
@@ -173,44 +92,108 @@ input:focus{
     border:1px solid #c8edd5;
 }
 
-.register{
-    text-align:center;
-    margin-top:22px;
-    font-size:13px;
-    color:#697586;
+.group{
+    margin-bottom:16px;
 }
 
+label{
+    display:block;
+    color:#27364d;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+input{
+    width:100%;
+    height:50px;
+    border:1px solid #d8dee8;
+    border-radius:10px;
+    padding:0 14px;
+    font-size:14px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#0b5ed7;
+    box-shadow:0 0 0 3px rgba(11,94,215,.10);
+}
+
+.password-box{
+    position:relative;
+}
+
+.password-box input{
+    padding-right:50px;
+}
+
+.password-btn{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.forgot{
+    text-align:right;
+    margin:-4px 0 18px;
+}
+
+.forgot a,
 .register a{
     color:#0b5ed7;
-    font-weight:800;
     text-decoration:none;
+    font-weight:bold;
+}
+
+.forgot a{
+    font-size:12px;
+}
+
+.login-btn{
+    width:100%;
+    height:50px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#0b5ed7,#073b8f);
+    color:white;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.login-btn:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+}
+
+.register{
+    text-align:center;
+    color:#697586;
+    font-size:13px;
+    margin-top:22px;
 }
 
 .security{
     text-align:center;
-    margin-top:20px;
-    font-size:10px;
     color:#8a95a5;
+    font-size:10px;
+    margin-top:20px;
 }
 
 .back{
     display:block;
     text-align:center;
-    margin-top:18px;
     color:#697586;
-    text-decoration:none;
     font-size:12px;
-}
-
-.back:hover{
-    color:#0b5ed7;
+    text-decoration:none;
+    margin-top:18px;
 }
 
 @media(max-width:500px){
-
-    body{
-        padding:14px;
-    }
 
     .card{
         padding:24px 18px;
@@ -218,10 +201,6 @@ input:focus{
 
     .logo{
         font-size:23px;
-    }
-
-    .card h1{
-        font-size:22px;
     }
 }
 </style>
@@ -237,44 +216,43 @@ input:focus{
 
     <div class="card">
 
-        <h1>Bienvenue</h1>
+        <h1>Connexion</h1>
 
         <p class="subtitle">
-            Connectez-vous à votre espace personnel
-            Housing Investment.
+            Accédez à votre espace personnel.
         </p>
 
         <div id="message" class="message"></div>
 
         <form id="loginForm">
 
-            <div class="form-group">
+            <div class="group">
 
                 <label for="email">
                     Adresse e-mail
                 </label>
 
                 <input
-                    type="email"
                     id="email"
+                    type="email"
                     autocomplete="email"
-                    placeholder="exemple@email.com"
+                    placeholder="Votre adresse e-mail"
                     required
                 >
 
             </div>
 
-            <div class="form-group">
+            <div class="group">
 
                 <label for="password">
                     Mot de passe
                 </label>
 
-                <div class="input-wrap">
+                <div class="password-box">
 
                     <input
-                        type="password"
                         id="password"
+                        type="password"
                         autocomplete="current-password"
                         placeholder="Votre mot de passe"
                         required
@@ -282,9 +260,8 @@ input:focus{
 
                     <button
                         type="button"
-                        class="password-toggle"
-                        onclick="togglePassword()"
-                        aria-label="Afficher le mot de passe">
+                        class="password-btn"
+                        id="passwordBtn">
 
                         👁️
 
@@ -315,7 +292,7 @@ input:focus{
 
         <div class="register">
 
-            Vous n'avez pas encore de compte ?
+            Pas encore de compte ?
 
             <a href="register.html">
                 Créer un compte
@@ -324,7 +301,7 @@ input:focus{
         </div>
 
         <div class="security">
-            🔒 Connexion sécurisée par Supabase
+            🔒 Authentification sécurisée
         </div>
 
         <a href="index.html" class="back">
@@ -335,11 +312,12 @@ input:focus{
 
 </div>
 
+
 <script>
 
-/* =========================================================
-   CONFIGURATION SUPABASE
-========================================================= */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
     "https://scnuphudlhqiadyavknt.supabase.co";
@@ -355,9 +333,9 @@ const supabaseClient =
     );
 
 
-/* =========================================================
+/* =====================================================
    ÉLÉMENTS
-========================================================= */
+===================================================== */
 
 const form =
     document.getElementById("loginForm");
@@ -371,76 +349,66 @@ const passwordInput =
 const loginButton =
     document.getElementById("loginButton");
 
-const messageBox =
+const message =
     document.getElementById("message");
 
+const passwordBtn =
+    document.getElementById("passwordBtn");
 
-/* =========================================================
+
+/* =====================================================
    MESSAGE
-========================================================= */
+===================================================== */
 
-function showMessage(text,type="error"){
+function showMessage(text,type){
 
-    messageBox.textContent = text;
+    message.textContent = text;
 
-    messageBox.className =
-        "message show " + type;
+    message.className =
+        "message show " +
+        (type || "error");
 
 }
 
+function clearMessage(){
 
-function hideMessage(){
+    message.textContent = "";
 
-    messageBox.textContent = "";
-
-    messageBox.className =
+    message.className =
         "message";
 
 }
 
 
-/* =========================================================
-   AFFICHER / CACHER MOT DE PASSE
-========================================================= */
+/* =====================================================
+   MOT DE PASSE
+===================================================== */
 
-function togglePassword(){
+passwordBtn.addEventListener(
+    "click",
+    function(){
 
-    const button =
-        document.querySelector(".password-toggle");
+        if(passwordInput.type === "password"){
 
-    if(passwordInput.type === "password"){
+            passwordInput.type = "text";
 
-        passwordInput.type = "text";
+            passwordBtn.textContent = "🙈";
 
-        button.textContent = "🙈";
+        }else{
 
-    }else{
+            passwordInput.type = "password";
 
-        passwordInput.type = "password";
+            passwordBtn.textContent = "👁️";
 
-        button.textContent = "👁️";
+        }
 
     }
-
-}
-
-
-/* =========================================================
-   NORMALISATION EMAIL
-========================================================= */
-
-function normalizeEmail(email){
-
-    return String(email || "")
-        .trim()
-        .toLowerCase();
-
-}
+);
 
 
-/* =========================================================
+/* =====================================================
    CONNEXION
-========================================================= */
+===================================================== */
 
 form.addEventListener(
     "submit",
@@ -448,32 +416,21 @@ form.addEventListener(
 
         event.preventDefault();
 
-        hideMessage();
+        clearMessage();
 
         const email =
-            normalizeEmail(
-                emailInput.value
-            );
+            emailInput.value
+            .trim()
+            .toLowerCase();
 
         const password =
             passwordInput.value;
 
 
-        if(!email){
+        if(!email || !password){
 
             showMessage(
-                "Veuillez entrer votre adresse e-mail."
-            );
-
-            return;
-
-        }
-
-
-        if(!password){
-
-            showMessage(
-                "Veuillez entrer votre mot de passe."
+                "Veuillez remplir tous les champs."
             );
 
             return;
@@ -484,24 +441,14 @@ form.addEventListener(
         loginButton.disabled = true;
 
         loginButton.textContent =
-            "Connexion en cours...";
+            "Connexion...";
 
 
         try{
 
-            /*
-             * Nettoyage de l'ancienne session locale.
-             * La vraie authentification est désormais
-             * gérée par Supabase.
-             */
-
-            localStorage.removeItem(
-                "currentUser"
-            );
-
-
-            const result =
-                await supabaseClient.auth.signInWithPassword({
+            const response =
+                await supabaseClient.auth
+                .signInWithPassword({
 
                     email:email,
 
@@ -510,64 +457,44 @@ form.addEventListener(
                 });
 
 
-            if(result.error){
+            if(response.error){
 
-                throw result.error;
+                throw response.error;
 
             }
 
 
-            const user =
-                result.data.user;
-
-
-            if(!user){
+            if(!response.data || !response.data.user){
 
                 throw new Error(
-                    "Utilisateur introuvable après connexion."
+                    "La connexion n'a pas pu être établie."
                 );
 
             }
 
 
             /*
-             * Nous conservons également certaines
-             * informations locales pour assurer la
-             * compatibilité avec les anciennes parties
-             * du site pendant la transition.
+             * La session Supabase est maintenant
+             * réellement créée.
+             *
+             * Nous ne faisons PAS de contrôle
+             * localStorage ici.
              */
 
-            let profile = null;
+            localStorage.setItem(
+                "loggedIn",
+                "true"
+            );
 
 
-            try{
+            /*
+             * On conserve seulement les informations
+             * minimales nécessaires à la compatibilité
+             * avec les anciennes fonctions du site.
+             */
 
-                const profileResult =
-                    await supabaseClient
-                    .from("profiles")
-                    .select("*")
-                    .eq("id",user.id)
-                    .maybeSingle();
-
-
-                if(
-                    !profileResult.error &&
-                    profileResult.data
-                ){
-
-                    profile =
-                        profileResult.data;
-
-                }
-
-            }catch(profileError){
-
-                console.warn(
-                    "Profil non récupéré :",
-                    profileError
-                );
-
-            }
+            const user =
+                response.data.user;
 
 
             const currentUser = {
@@ -579,34 +506,21 @@ form.addEventListener(
                 email:user.email || email,
 
                 name:
-                    profile?.name ||
-                    profile?.full_name ||
-                    profile?.fullname ||
-                    profile?.nom ||
                     user.user_metadata?.name ||
                     user.user_metadata?.full_name ||
                     "Utilisateur",
 
                 fullName:
-                    profile?.full_name ||
-                    profile?.name ||
                     user.user_metadata?.full_name ||
                     user.user_metadata?.name ||
                     "Utilisateur",
 
                 phone:
-                    profile?.phone ||
-                    profile?.telephone ||
                     user.user_metadata?.phone ||
                     user.user_metadata?.telephone ||
                     "",
 
-                balance:
-                    Number(
-                        profile?.balance ??
-                        profile?.solde ??
-                        0
-                    )
+                balance:0
 
             };
 
@@ -617,12 +531,6 @@ form.addEventListener(
             );
 
 
-            localStorage.setItem(
-                "loggedIn",
-                "true"
-            );
-
-
             showMessage(
                 "Connexion réussie. Ouverture de votre espace...",
                 "success"
@@ -630,15 +538,17 @@ form.addEventListener(
 
 
             /*
-             * Petite pause afin que le message de
-             * réussite soit visible.
+             * IMPORTANT :
+             * Une seule redirection.
+             * Aucun setInterval.
+             * Aucun contrôle automatique de session
+             * sur cette page.
              */
 
             setTimeout(function(){
 
-                window.location.replace(
-                    "dashboard.html"
-                );
+                window.location.href =
+                    "dashboard.html";
 
             },700);
 
@@ -646,47 +556,38 @@ form.addEventListener(
         }catch(error){
 
             console.error(
-                "Erreur connexion Supabase :",
+                "Erreur Supabase :",
                 error
             );
 
 
             let text =
-                "Impossible de vous connecter.";
+                "Impossible de se connecter.";
 
 
-            const errorMessage =
+            const errorText =
                 String(
                     error?.message || ""
                 ).toLowerCase();
 
 
             if(
-                errorMessage.includes(
+                errorText.includes(
                     "invalid login credentials"
                 )
             ){
 
                 text =
-                    "E-mail ou mot de passe incorrect.";
+                    "Adresse e-mail ou mot de passe incorrect.";
 
             }else if(
-                errorMessage.includes(
+                errorText.includes(
                     "email not confirmed"
                 )
             ){
 
                 text =
-                    "Votre adresse e-mail doit encore être confirmée dans Supabase.";
-
-            }else if(
-                errorMessage.includes(
-                    "too many requests"
-                )
-            ){
-
-                text =
-                    "Trop de tentatives. Veuillez patienter quelques instants.";
+                    "Votre adresse e-mail n'est pas encore confirmée.";
 
             }else if(
                 error?.message
@@ -698,7 +599,7 @@ form.addEventListener(
             }
 
 
-            showMessage(text);
+            showMessage(text,"error");
 
             loginButton.disabled = false;
 
@@ -709,95 +610,6 @@ form.addEventListener(
 
     }
 );
-
-
-/* =========================================================
-   VÉRIFICATION SESSION EXISTANTE
-========================================================= */
-
-async function checkExistingSession(){
-
-    try{
-
-        const result =
-            await supabaseClient.auth.getSession();
-
-
-        if(result.error){
-
-            console.warn(
-                "Impossible de vérifier la session :",
-                result.error
-            );
-
-            return;
-
-        }
-
-
-        const session =
-            result.data.session;
-
-
-        if(session?.user){
-
-            /*
-             * Si l'utilisateur est déjà connecté,
-             * inutile de lui demander de se reconnecter.
-             */
-
-            window.location.replace(
-                "dashboard.html"
-            );
-
-        }
-
-    }catch(error){
-
-        console.warn(
-            "Erreur vérification session :",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   ÉCOUTE DES CHANGEMENTS D'AUTHENTIFICATION
-========================================================= */
-
-supabaseClient.auth.onAuthStateChange(
-    function(event,session){
-
-        if(
-            event === "SIGNED_IN" &&
-            session?.user
-        ){
-
-            /*
-             * La redirection principale est déjà
-             * effectuée après signInWithPassword().
-             * Cette surveillance garantit néanmoins
-             * que la session Supabase est bien active.
-             */
-
-            console.log(
-                "Session Supabase active."
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   INITIALISATION
-========================================================= */
-
-checkExistingSession();
 
 </script>
 
