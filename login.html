@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071b3a">
 
 <title>Connexion - Housing Investment</title>
 
@@ -18,7 +19,8 @@
 body{
     min-height:100vh;
     font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(135deg,#061b3a,#0b5ed7);
+    background:
+        linear-gradient(135deg,#061b3a,#0b5ed7);
     display:flex;
     align-items:center;
     justify-content:center;
@@ -27,138 +29,59 @@ body{
 
 .container{
     width:100%;
-    max-width:420px;
+    max-width:470px;
 }
 
-.logo{
+.brand{
     text-align:center;
-    color:white;
+    color:#fff;
     margin-bottom:20px;
 }
 
-.logo h1{
-    font-size:28px;
-    margin-bottom:6px;
+.brand h1{
+    font-size:29px;
+    margin-bottom:7px;
 }
 
-.logo span{
+.brand h1 span{
     color:#38bdf8;
 }
 
-.logo p{
+.brand p{
     font-size:13px;
-    opacity:.85;
+    opacity:.9;
 }
 
 .card{
-    background:white;
-    border-radius:20px;
-    padding:30px 25px;
-    box-shadow:0 15px 45px rgba(0,0,0,.25);
+    background:#fff;
+    border-radius:22px;
+    padding:30px 26px;
+    box-shadow:0 20px 55px rgba(0,0,0,.28);
 }
 
 .card h2{
     text-align:center;
     color:#172033;
-    margin-bottom:7px;
+    font-size:23px;
+    margin-bottom:8px;
 }
 
 .subtitle{
     text-align:center;
-    color:#748094;
+    color:#718096;
     font-size:13px;
-    margin-bottom:25px;
-}
-
-.group{
-    margin-bottom:17px;
-}
-
-label{
-    display:block;
-    color:#273449;
-    font-size:13px;
-    font-weight:bold;
-    margin-bottom:7px;
-}
-
-input{
-    width:100%;
-    height:48px;
-    border:1px solid #d8dee8;
-    border-radius:10px;
-    padding:0 45px 0 13px;
-    outline:none;
-    font-size:14px;
-}
-
-input:focus{
-    border-color:#0b5ed7;
-    box-shadow:0 0 0 3px rgba(11,94,215,.10);
-}
-
-.password-box{
-    position:relative;
-}
-
-.eye{
-    position:absolute;
-    right:12px;
-    top:50%;
-    transform:translateY(-50%);
-    border:0;
-    background:none;
-    cursor:pointer;
-    font-size:18px;
-}
-
-.options{
-    display:flex;
-    justify-content:flex-end;
-    margin-top:-5px;
-    margin-bottom:20px;
-}
-
-.forgot{
-    color:#0b5ed7;
-    text-decoration:none;
-    font-size:12px;
-    font-weight:bold;
-}
-
-.forgot:hover{
-    text-decoration:underline;
-}
-
-.btn{
-    width:100%;
-    height:50px;
-    border:0;
-    border-radius:10px;
-    background:#0b5ed7;
-    color:white;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.btn:hover{
-    background:#084db4;
-}
-
-.btn:disabled{
-    opacity:.65;
-    cursor:not-allowed;
+    line-height:1.6;
+    margin-bottom:24px;
 }
 
 .message{
     display:none;
-    padding:11px;
-    border-radius:9px;
-    margin-bottom:15px;
-    text-align:center;
+    padding:13px;
+    border-radius:10px;
+    margin-bottom:17px;
     font-size:12px;
-    line-height:1.5;
+    line-height:1.6;
+    text-align:center;
 }
 
 .message.show{
@@ -171,39 +94,188 @@ input:focus{
 }
 
 .success{
-    background:#e7f7ee;
+    background:#e8f7ee;
     color:#198754;
 }
 
-.login{
-    text-align:center;
-    margin-top:22px;
-    font-size:13px;
-    color:#6d7888;
+.group{
+    margin-bottom:17px;
 }
 
-.login a{
+label{
+    display:block;
+    color:#263449;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+input{
+    width:100%;
+    height:50px;
+    border:1px solid #d7dee8;
+    border-radius:11px;
+    padding:0 14px;
+    font-size:14px;
+    outline:none;
+    transition:.2s;
+}
+
+input:focus{
+    border-color:#0b5ed7;
+    box-shadow:0 0 0 3px rgba(11,94,215,.10);
+}
+
+.phone-wrapper{
+    display:flex;
+}
+
+.prefix{
+    width:66px;
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f1f5f9;
+    border:1px solid #d7dee8;
+    border-right:none;
+    border-radius:11px 0 0 11px;
+    font-weight:bold;
+    color:#263449;
+}
+
+.phone-wrapper input{
+    border-radius:0 11px 11px 0;
+}
+
+.password-wrapper{
+    position:relative;
+}
+
+.password-wrapper input{
+    padding-right:48px;
+}
+
+.toggle{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.remember-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-top:4px;
+}
+
+.remember{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#667085;
+    font-size:12px;
+    font-weight:normal;
+}
+
+.remember input{
+    width:16px;
+    height:16px;
+}
+
+.forgot{
+    color:#0b5ed7;
+    text-decoration:none;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.btn{
+    width:100%;
+    height:52px;
+    border:none;
+    border-radius:11px;
+    background:linear-gradient(135deg,#0b5ed7,#084db4);
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:20px;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+    box-shadow:0 8px 20px rgba(11,94,215,.25);
+}
+
+.btn:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+    transform:none;
+}
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#9aa5b4;
+    font-size:11px;
+    margin:23px 0;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:#e5e9ef;
+}
+
+.register{
+    text-align:center;
+    color:#687588;
+    font-size:13px;
+}
+
+.register a{
     color:#0b5ed7;
     font-weight:bold;
     text-decoration:none;
 }
 
-.back{
-    display:block;
-    text-align:center;
-    margin-top:18px;
-    color:white;
-    text-decoration:none;
-    font-size:12px;
+.security{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:6px;
+    color:#748094;
+    font-size:11px;
+    margin-top:17px;
 }
 
-@media(max-width:450px){
+.home{
+    display:block;
+    text-align:center;
+    color:#fff;
+    text-decoration:none;
+    font-size:12px;
+    margin-top:18px;
+}
+
+@media(max-width:480px){
     .card{
         padding:25px 18px;
     }
 
-    .logo h1{
-        font-size:24px;
+    .brand h1{
+        font-size:25px;
     }
 }
 </style>
@@ -213,7 +285,7 @@ input:focus{
 
 <div class="container">
 
-    <div class="logo">
+    <div class="brand">
         <h1>
             🏠 Housing <span>Investment</span>
         </h1>
@@ -223,45 +295,84 @@ input:focus{
         </p>
     </div>
 
-
     <div class="card">
 
-        <h2>Connexion</h2>
+        <h2>Bienvenue</h2>
 
         <p class="subtitle">
-            Accédez à votre espace personnel
+            Connectez-vous à votre espace personnel
         </p>
-
 
         <div id="message" class="message"></div>
 
+        <form id="loginForm" autocomplete="on">
 
-        <form id="loginForm">
-
+            <!-- IDENTIFIANT -->
             <div class="group">
 
-                <label for="email">
-                    Adresse e-mail
+                <label for="identifier">
+                    Téléphone ou adresse e-mail
                 </label>
+
+                <div id="phoneArea" class="phone-wrapper">
+
+                    <div class="prefix">
+                        +225
+                    </div>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="07 00 00 00 00"
+                        autocomplete="tel"
+                    >
+
+                </div>
 
                 <input
                     type="email"
                     id="email"
                     placeholder="exemple@email.com"
                     autocomplete="email"
-                    required
+                    style="display:none;"
+                >
+
+                <input
+                    type="hidden"
+                    id="identifier"
                 >
 
             </div>
 
+            <!-- CHANGER TYPE -->
+            <div style="margin-top:-8px;margin-bottom:17px;text-align:right;">
 
+                <button
+                    type="button"
+                    id="switchIdentifier"
+                    style="
+                    border:none;
+                    background:none;
+                    color:#0b5ed7;
+                    font-size:11px;
+                    font-weight:bold;
+                    cursor:pointer;
+                    ">
+
+                    Utiliser une adresse e-mail
+
+                </button>
+
+            </div>
+
+            <!-- MOT DE PASSE -->
             <div class="group">
 
                 <label for="password">
                     Mot de passe
                 </label>
 
-                <div class="password-box">
+                <div class="password-wrapper">
 
                     <input
                         type="password"
@@ -273,8 +384,8 @@ input:focus{
 
                     <button
                         type="button"
-                        class="eye"
-                        onclick="togglePassword()">
+                        class="toggle"
+                        id="togglePassword">
 
                         👁️
 
@@ -284,11 +395,22 @@ input:focus{
 
             </div>
 
+            <!-- OPTIONS -->
+            <div class="remember-row">
 
-            <div class="options">
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        id="remember"
+                    >
+
+                    Se souvenir de moi
+
+                </label>
 
                 <a
-                    href="forgot-password.html"
+                    href="reset-password.html"
                     class="forgot">
 
                     Mot de passe oublié ?
@@ -297,7 +419,7 @@ input:focus{
 
             </div>
 
-
+            <!-- CONNEXION -->
             <button
                 type="submit"
                 id="loginButton"
@@ -309,8 +431,11 @@ input:focus{
 
         </form>
 
+        <div class="divider">
+            OU
+        </div>
 
-        <div class="login">
+        <div class="register">
 
             Vous n'avez pas encore de compte ?
 
@@ -320,17 +445,31 @@ input:focus{
 
         </div>
 
+        <div class="security">
+            🔒
+            <span>
+                Connexion sécurisée par Supabase
+            </span>
+        </div>
+
     </div>
 
+    <a
+        href="index.html"
+        class="home">
 
-    <a href="index.html" class="back">
         ← Retour à l'accueil
+
     </a>
 
 </div>
 
 
 <script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
     "https://scnuphudlhqiadyavknt.supabase.co";
@@ -346,10 +485,46 @@ const supabaseClient =
     );
 
 
-function showMessage(text,type){
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
-    const message =
-        document.getElementById("message");
+const form =
+    document.getElementById("loginForm");
+
+const message =
+    document.getElementById("message");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const phoneArea =
+    document.getElementById("phoneArea");
+
+const phoneInput =
+    document.getElementById("phone");
+
+const emailInput =
+    document.getElementById("email");
+
+const switchButton =
+    document.getElementById("switchIdentifier");
+
+const passwordInput =
+    document.getElementById("password");
+
+const togglePassword =
+    document.getElementById("togglePassword");
+
+
+let usingEmail = false;
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(text,type){
 
     message.textContent = text;
 
@@ -358,231 +533,532 @@ function showMessage(text,type){
 }
 
 
-function togglePassword(){
+/* =====================================================
+   NORMALISER TELEPHONE
+===================================================== */
 
-    const password =
-        document.getElementById("password");
+function normalizePhone(value){
 
-    const button =
-        document.querySelector(".eye");
+    let phone =
+        value.replace(/\D/g,"");
 
-    if(password.type === "password"){
-
-        password.type = "text";
-        button.textContent = "🙈";
-
-    }else{
-
-        password.type = "password";
-        button.textContent = "👁️";
-
+    if(phone.startsWith("225")){
+        phone = phone.substring(3);
     }
+
+    if(phone.length !== 10){
+        return null;
+    }
+
+    return "+225" + phone;
 }
 
 
-document
-.getElementById("loginForm")
-.addEventListener("submit",async function(event){
+/* =====================================================
+   FORMAT TELEPHONE
+===================================================== */
 
-    event.preventDefault();
+phoneInput.addEventListener(
+    "input",
+    function(){
 
-    const email =
-        document
-        .getElementById("email")
-        .value
-        .trim()
-        .toLowerCase();
+        let value =
+            this.value.replace(/\D/g,"");
 
-    const password =
-        document
-        .getElementById("password")
-        .value;
+        if(value.length > 10){
+            value = value.substring(0,10);
+        }
 
-    const button =
-        document.getElementById("loginButton");
+        let formatted = "";
+
+        for(let i=0;i<value.length;i++){
+
+            if(i > 0 && i % 2 === 0){
+                formatted += " ";
+            }
+
+            formatted += value[i];
+        }
+
+        this.value = formatted;
+    }
+);
 
 
-    button.disabled = true;
-    button.textContent = "Connexion...";
+/* =====================================================
+   CHANGER TELEPHONE / EMAIL
+===================================================== */
 
+switchButton.addEventListener(
+    "click",
+    function(){
+
+        usingEmail =
+            !usingEmail;
+
+        if(usingEmail){
+
+            phoneArea.style.display =
+                "none";
+
+            emailInput.style.display =
+                "block";
+
+            emailInput.focus();
+
+            switchButton.textContent =
+                "Utiliser mon numéro de téléphone";
+
+        }else{
+
+            phoneArea.style.display =
+                "flex";
+
+            emailInput.style.display =
+                "none";
+
+            phoneInput.focus();
+
+            switchButton.textContent =
+                "Utiliser une adresse e-mail";
+        }
+
+    }
+);
+
+
+/* =====================================================
+   AFFICHER MOT DE PASSE
+===================================================== */
+
+togglePassword.addEventListener(
+    "click",
+    function(){
+
+        if(passwordInput.type === "password"){
+
+            passwordInput.type =
+                "text";
+
+            togglePassword.textContent =
+                "🙈";
+
+        }else{
+
+            passwordInput.type =
+                "password";
+
+            togglePassword.textContent =
+                "👁️";
+        }
+    }
+);
+
+
+/* =====================================================
+   REDIRECTION SECURISEE
+===================================================== */
+
+async function redirectAfterLogin(){
 
     try{
-
-        /* ==========================
-           CONNEXION SUPABASE
-        ========================== */
 
         const {
             data,
             error
         } =
-        await supabaseClient.auth.signInWithPassword({
-
-            email: email,
-
-            password: password
-
-        });
-
+        await supabaseClient
+        .auth
+        .getSession();
 
         if(error){
             throw error;
         }
 
-
-        if(!data.user){
-
-            throw new Error(
-                "Utilisateur introuvable."
-            );
-
-        }
-
-
-        /* ==========================
-           RÉCUPÉRATION DU PROFIL
-        ========================== */
-
-        const {
-            data: profile,
-            error: profileError
-        } =
-        await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id", data.user.id)
-        .single();
-
-
-        if(profileError){
-
-            console.error(
-                "Erreur profil :",
-                profileError
-            );
-
-        }
-
-
-        /*
-         * Compatibilité avec notre ancien
-         * dashboard.html.
-         */
-
-        const currentUser = {
-
-            id: data.user.id,
-
-            email: data.user.email,
-
-            full_name:
-                profile?.full_name ||
-                data.user.user_metadata?.full_name ||
-                "",
-
-            name:
-                profile?.full_name ||
-                data.user.user_metadata?.full_name ||
-                "",
-
-            phone:
-                profile?.phone ||
-                data.user.user_metadata?.phone ||
-                "",
-
-            invitation_code:
-                profile?.invitation_code ||
-                data.user.user_metadata?.invitation_code ||
-                "",
-
-            balance:
-                profile?.balance ?? 0,
-
-            created_at:
-                profile?.created_at ||
-                data.user.created_at
-
-        };
-
-
-        /* ==========================
-           COMPATIBILITÉ ANCIEN SITE
-        ========================== */
-
-        localStorage.setItem(
-            "currentUser",
-            JSON.stringify(currentUser)
-        );
-
-        localStorage.setItem(
-            "supabaseUser",
-            JSON.stringify(data.user)
-        );
-
-        localStorage.setItem(
-            "loggedIn",
-            "true"
-        );
-
-
-        showMessage(
-            "Connexion réussie. Ouverture de votre espace...",
-            "success"
-        );
-
-
-        /* ==========================
-           REDIRECTION
-        ========================== */
-
-        setTimeout(function(){
+        if(
+            data.session &&
+            data.session.user
+        ){
 
             window.location.replace(
                 "dashboard.html"
             );
 
-        },700);
-
+            return true;
+        }
 
     }catch(error){
 
         console.error(
-            "Erreur de connexion :",
+            "Erreur session :",
             error
         );
+    }
+
+    return false;
+}
 
 
-        let message =
-            "E-mail ou mot de passe incorrect.";
+/* =====================================================
+   CONNEXION
+===================================================== */
+
+form.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+        message.className =
+            "message";
+
+        let email = "";
 
 
-        if(
-            error.message &&
-            error.message
-            .toLowerCase()
-            .includes("email not confirmed")
-        ){
+        /* =============================================
+           IDENTIFIANT TELEPHONE
+        ============================================= */
 
-            message =
-                "Veuillez confirmer votre adresse e-mail avant de vous connecter.";
+        if(!usingEmail){
 
+            const phone =
+                normalizePhone(
+                    phoneInput.value
+                );
+
+            if(!phone){
+
+                showMessage(
+                    "Veuillez entrer un numéro ivoirien valide de 10 chiffres.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            /*
+             * IMPORTANT
+             *
+             * Supabase Email Auth nécessite actuellement
+             * un e-mail pour la connexion.
+             *
+             * Le numéro est donc recherché dans profiles.
+             */
+
+            const {
+                data:profile,
+                error:profileError
+            } =
+            await supabaseClient
+            .from("profiles")
+            .select("email")
+            .eq("phone",phone)
+            .maybeSingle();
+
+
+            if(profileError){
+
+                console.error(
+                    profileError
+                );
+
+                showMessage(
+                    "Impossible de retrouver ce numéro pour le moment.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if(
+                !profile ||
+                !profile.email
+            ){
+
+                showMessage(
+                    "Aucun compte associé à ce numéro. Vérifiez le numéro ou créez un compte.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            email =
+                profile.email;
+
+        }else{
+
+            email =
+                emailInput.value
+                .trim()
+                .toLowerCase();
+
+
+            if(
+                !email ||
+                !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+                .test(email)
+            ){
+
+                showMessage(
+                    "Veuillez entrer une adresse e-mail valide.",
+                    "error"
+                );
+
+                return;
+            }
         }
 
 
-        showMessage(
-            message,
-            "error"
-        );
+        const password =
+            passwordInput.value;
 
 
-        button.disabled = false;
+        if(!password){
 
-        button.textContent =
-            "Se connecter";
+            showMessage(
+                "Veuillez entrer votre mot de passe.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        /* =============================================
+           DESACTIVER LE BOUTON
+        ============================================= */
+
+        loginButton.disabled =
+            true;
+
+        loginButton.textContent =
+            "Connexion en cours...";
+
+
+        try{
+
+            const {
+                data,
+                error
+            } =
+            await supabaseClient
+            .auth
+            .signInWithPassword({
+
+                email:email,
+
+                password:password
+
+            });
+
+
+            if(error){
+                throw error;
+            }
+
+
+            if(
+                !data ||
+                !data.session
+            ){
+
+                throw new Error(
+                    "Session non créée."
+                );
+            }
+
+
+            /*
+             * Mémorisation facultative
+             */
+
+            if(
+                document
+                .getElementById("remember")
+                .checked
+            ){
+
+                localStorage.setItem(
+                    "housing_remember_login",
+                    "true"
+                );
+
+            }else{
+
+                localStorage.removeItem(
+                    "housing_remember_login"
+                );
+            }
+
+
+            showMessage(
+                "Connexion réussie. Ouverture de votre espace...",
+                "success"
+            );
+
+
+            setTimeout(
+                function(){
+
+                    window.location.replace(
+                        "dashboard.html"
+                    );
+
+                },
+                600
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Erreur connexion :",
+                error
+            );
+
+
+            const errorText =
+                (
+                    error.message ||
+                    ""
+                ).toLowerCase();
+
+
+            let text =
+                "Impossible de vous connecter.";
+
+
+            if(
+                errorText.includes(
+                    "invalid login credentials"
+                )
+            ){
+
+                text =
+                    "Numéro/e-mail ou mot de passe incorrect.";
+
+            }
+            else if(
+                errorText.includes(
+                    "email not confirmed"
+                )
+            ){
+
+                text =
+                    "Veuillez d'abord confirmer votre adresse e-mail.";
+
+            }
+            else if(
+                errorText.includes(
+                    "too many"
+                ) ||
+                errorText.includes(
+                    "rate"
+                )
+            ){
+
+                text =
+                    "Trop de tentatives. Veuillez patienter avant de réessayer.";
+
+            }
+            else if(
+                errorText.includes(
+                    "network"
+                )
+            ){
+
+                text =
+                    "Problème de connexion Internet. Vérifiez votre connexion.";
+
+            }
+
+
+            showMessage(
+                text,
+                "error"
+            );
+
+
+            loginButton.disabled =
+                false;
+
+            loginButton.textContent =
+                "Se connecter";
+        }
 
     }
+);
 
-});
+
+/* =====================================================
+   VERIFICATION D'UNE SESSION EXISTANTE
+===================================================== */
+
+(async function(){
+
+    try{
+
+        const {
+            data
+        } =
+        await supabaseClient
+        .auth
+        .getSession();
+
+
+        /*
+         * Nous ne redirigeons pas automatiquement ici.
+         *
+         * Cela évite qu'un utilisateur qui souhaite
+         * simplement ouvrir la page de connexion soit
+         * bloqué par une ancienne session.
+         */
+
+        if(
+            data.session &&
+            data.session.user
+        ){
+
+            console.log(
+                "Session existante détectée."
+            );
+        }
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+    }
+
+})();
+
+
+/* =====================================================
+   SURVEILLER L'AUTHENTIFICATION
+===================================================== */
+
+supabaseClient
+.auth
+.onAuthStateChange(
+    function(event,session){
+
+        if(
+            event ===
+            "SIGNED_OUT"
+        ){
+
+            console.log(
+                "Utilisateur déconnecté."
+            );
+        }
+
+    }
+);
 
 </script>
 
