@@ -19,8 +19,6 @@ body{
     color:#172033;
 }
 
-/* ================= HEADER ================= */
-
 header{
     height:70px;
     background:#081c3c;
@@ -50,8 +48,6 @@ header{
     gap:10px;
 }
 
-/* ================= NOTIFICATION ================= */
-
 .notification{
     position:relative;
 }
@@ -65,10 +61,6 @@ header{
     color:white;
     font-size:20px;
     cursor:pointer;
-}
-
-.notification-btn:hover{
-    background:rgba(255,255,255,.18);
 }
 
 .notification-count{
@@ -116,10 +108,6 @@ header{
     align-items:center;
 }
 
-.notification-header strong{
-    font-size:15px;
-}
-
 .clear-notifications{
     border:none;
     background:none;
@@ -155,8 +143,6 @@ header{
     font-size:13px;
 }
 
-/* ================= USER ================= */
-
 .user-menu{
     display:flex;
     align-items:center;
@@ -186,8 +172,6 @@ header{
     font-size:12px;
     font-weight:bold;
 }
-
-/* ================= LAYOUT ================= */
 
 .layout{
     display:flex;
@@ -220,8 +204,6 @@ header{
     color:white;
 }
 
-/* ================= MAIN ================= */
-
 .main{
     flex:1;
     padding:25px;
@@ -249,8 +231,6 @@ header{
     color:#697586;
     font-size:13px;
 }
-
-/* ================= CARDS ================= */
 
 .balance-card{
     background:linear-gradient(135deg,#0b5ed7,#073b8f);
@@ -329,8 +309,6 @@ header{
     font-size:12px;
 }
 
-/* ================= PACKS ================= */
-
 .section-title{
     margin:25px 0 15px;
     font-size:21px;
@@ -395,12 +373,6 @@ header{
     cursor:pointer;
 }
 
-.invest-btn:hover{
-    background:#084da8;
-}
-
-/* ================= TABLES ================= */
-
 .card{
     background:white;
     border:1px solid #e5eaf0;
@@ -457,7 +429,10 @@ td{
     color:#b56b00;
 }
 
-/* ================= EMPTY ================= */
+.red{
+    background:#fde7e9;
+    color:#dc3545;
+}
 
 .empty{
     text-align:center;
@@ -469,8 +444,6 @@ td{
     font-size:38px;
     margin-bottom:10px;
 }
-
-/* ================= MODAL ================= */
 
 .modal{
     position:fixed;
@@ -510,6 +483,19 @@ td{
     outline:none;
 }
 
+.fee-box{
+    background:#f4f7fb;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:15px;
+    font-size:12px;
+    line-height:1.8;
+}
+
+.fee-box strong{
+    color:#0b5ed7;
+}
+
 .modal-actions{
     display:flex;
     gap:8px;
@@ -533,25 +519,13 @@ td{
     color:white;
 }
 
-/* ================= MOBILE ================= */
-
 @media(max-width:1100px){
-
     .packs{
         grid-template-columns:repeat(2,1fr);
     }
-
 }
 
 @media(max-width:800px){
-
-    header{
-        padding:0 12px;
-    }
-
-    .user-menu span{
-        display:none;
-    }
 
     .layout{
         display:block;
@@ -578,7 +552,6 @@ td{
     .stats{
         grid-template-columns:1fr 1fr;
     }
-
 }
 
 @media(max-width:550px){
@@ -614,7 +587,6 @@ td{
     .balance{
         font-size:28px;
     }
-
 }
 </style>
 </head>
@@ -623,140 +595,104 @@ td{
 
 <header>
 
-    <div class="logo">
-        🏠 Housing <span>Investment</span>
-    </div>
+<div class="logo">
+🏠 Housing <span>Investment</span>
+</div>
 
-    <div class="header-actions">
+<div class="header-actions">
 
-        <div class="notification">
+<div class="notification">
 
-            <button
-                class="notification-btn"
-                onclick="toggleNotifications()">
+<button
+class="notification-btn"
+onclick="toggleNotifications()">🔔</button>
 
-                🔔
+<div
+id="notificationCount"
+class="notification-count">0</div>
 
-            </button>
+<div
+id="notificationPanel"
+class="notification-panel">
 
-            <div
-                id="notificationCount"
-                class="notification-count">
+<div class="notification-header">
 
-                0
+<strong>Notifications</strong>
 
-            </div>
+<button
+class="clear-notifications"
+onclick="clearNotifications()">
+Tout lire
+</button>
 
+</div>
 
-            <div
-                id="notificationPanel"
-                class="notification-panel">
+<div id="notificationList"></div>
 
-                <div class="notification-header">
+</div>
 
-                    <strong>
-                        Notifications
-                    </strong>
+</div>
 
-                    <button
-                        class="clear-notifications"
-                        onclick="clearNotifications()">
+<div class="user-menu">
 
-                        Tout lire
+<div id="avatar" class="user-avatar">U</div>
 
-                    </button>
+<span id="userName">
+Utilisateur
+</span>
 
-                </div>
+</div>
 
-                <div id="notificationList">
-                </div>
+<button
+class="logout"
+onclick="logout()">
+Déconnexion
+</button>
 
-            </div>
-
-        </div>
-
-
-        <div class="user-menu">
-
-            <div
-                id="avatar"
-                class="user-avatar">
-
-                U
-
-            </div>
-
-            <span id="userName">
-                Utilisateur
-            </span>
-
-        </div>
-
-        <button
-            class="logout"
-            onclick="logout()">
-
-            Déconnexion
-
-        </button>
-
-    </div>
+</div>
 
 </header>
 
 
 <div class="layout">
 
-
 <aside class="sidebar">
 
-    <button
-        class="menu active"
-        onclick="showPage('home',this)">
+<button
+class="menu active"
+onclick="showPage('home',this)">
+🏠 Accueil
+</button>
 
-        🏠 Accueil
+<button
+class="menu"
+onclick="showPage('packs',this)">
+💰 Investir
+</button>
 
-    </button>
+<button
+class="menu"
+onclick="showPage('investments',this)">
+📊 Mes investissements
+</button>
 
-    <button
-        class="menu"
-        onclick="showPage('packs',this)">
+<button
+class="menu"
+onclick="showPage('transactions',this)">
+📋 Historique
+</button>
 
-        💰 Investir
+<button
+class="menu"
+onclick="showPage('profile',this)">
+👤 Mon profil
+</button>
 
-    </button>
-
-    <button
-        class="menu"
-        onclick="showPage('investments',this)">
-
-        📊 Mes investissements
-
-    </button>
-
-    <button
-        class="menu"
-        onclick="showPage('transactions',this)">
-
-        📋 Historique
-
-    </button>
-
-    <button
-        class="menu"
-        onclick="showPage('profile',this)">
-
-        👤 Mon profil
-
-    </button>
-
-    <button
-        class="menu"
-        onclick="window.location.href='contact.html'">
-
-        🎧 Assistance
-
-    </button>
+<button
+class="menu"
+onclick="window.location.href='contact.html'">
+🎧 Assistance
+</button>
 
 </aside>
 
@@ -764,606 +700,318 @@ td{
 <main class="main">
 
 
-<!-- ================= HOME ================= -->
+<section id="home" class="page active">
 
-<section
-    id="home"
-    class="page active">
+<div class="title">
 
-    <div class="title">
+<h1>
+Bonjour <span id="welcomeName">!</span> 👋
+</h1>
 
-        <h1>
-            Bonjour <span id="welcomeName">!</span> 👋
-        </h1>
+<p>
+Bienvenue dans votre espace Housing Investment.
+</p>
 
-        <p>
-            Bienvenue dans votre espace Housing Investment.
-        </p>
+</div>
 
-    </div>
 
+<div class="balance-card">
 
-    <div class="balance-card">
+<div class="balance-label">
+SOLDE DISPONIBLE
+</div>
 
-        <div class="balance-label">
-            SOLDE DISPONIBLE
-        </div>
+<div id="balance" class="balance">
+0 FCFA
+</div>
 
-        <div
-            id="balance"
-            class="balance">
+<div class="balance-actions">
 
-            0 FCFA
+<button
+class="deposit-btn"
+onclick="openDeposit()">
+📥 Déposer
+</button>
 
-        </div>
+<button
+class="withdraw-btn"
+onclick="openWithdraw()">
+📤 Retirer
+</button>
 
-        <div class="balance-actions">
+</div>
 
-            <button
-                class="deposit-btn"
-                onclick="openDeposit()">
+</div>
 
-                📥 Déposer
 
-            </button>
+<div class="stats">
 
-            <button
-                class="withdraw-btn"
-                onclick="openWithdraw()">
+<div class="stat">
 
-                📤 Retirer
+<div class="stat-icon">💰</div>
 
-            </button>
+<strong id="totalInvested">
+0 FCFA
+</strong>
 
-        </div>
+<span>Total investi</span>
 
-    </div>
+</div>
 
+<div class="stat">
 
-    <div class="stats">
+<div class="stat-icon">📈</div>
 
-        <div class="stat">
+<strong id="dailyGain">
+0 FCFA
+</strong>
 
-            <div class="stat-icon">
-                💰
-            </div>
+<span>Gain quotidien</span>
 
-            <strong id="totalInvested">
-                0 FCFA
-            </strong>
+</div>
 
-            <span>
-                Total investi
-            </span>
+<div class="stat">
 
-        </div>
+<div class="stat-icon">📦</div>
 
+<strong id="activeInvestments">
+0
+</strong>
 
-        <div class="stat">
+<span>Investissements actifs</span>
 
-            <div class="stat-icon">
-                📈
-            </div>
+</div>
 
-            <strong id="dailyGain">
-                0 FCFA
-            </strong>
+</div>
 
-            <span>
-                Gain quotidien
-            </span>
 
-        </div>
+<h2 class="section-title">
+🚀 Nos opportunités
+</h2>
 
 
-        <div class="stat">
+<div class="packs">
 
-            <div class="stat-icon">
-                📦
-            </div>
+<script>
+const packsData = [
+["Pack Starter",3000,800,"https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=900&q=80"],
+["Pack Familial",10000,3000,"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80"],
+["Pack Confort",20000,6000,"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80"],
+["Pack Premium",45000,14000,"https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"],
+["Pack Prestige",100000,30000,"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"],
+["Pack Premium Plus",200000,65000,"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80"],
+["Pack Elite",400000,140000,"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"],
+["Pack Luxe",800000,290000,"https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80"]
+];
 
-            <strong id="activeInvestments">
-                0
-            </strong>
+document.write(
+packsData.map(function(p){
 
-            <span>
-                Investissements actifs
-            </span>
+return `
+<div class="pack">
 
-        </div>
+<img
+class="pack-image"
+src="${p[3]}"
+alt="${p[0]}">
 
-    </div>
+<div class="pack-content">
 
+<h3>${p[0]}</h3>
 
-    <h2 class="section-title">
-        🚀 Nos opportunités
-    </h2>
+<div class="pack-price">
+${p[1].toLocaleString("fr-FR")} FCFA
+</div>
 
+<div class="pack-info">
 
-    <div class="packs">
+Gain quotidien :
+<strong>${p[2].toLocaleString("fr-FR")} FCFA</strong><br>
 
-        <div class="pack">
+Durée :
+<strong>180 jours</strong><br>
 
-            <img
-                class="pack-image"
-                src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=900&q=80"
-                alt="Petite maison moderne">
+Total :
+<strong>${(p[2]*180).toLocaleString("fr-FR")} FCFA</strong>
 
-            <div class="pack-content">
+</div>
 
-                <h3>
-                    Pack Starter
-                </h3>
+<button
+class="invest-btn"
+onclick="invest('${p[0]}',${p[1]},${p[2]})">
+Investir
+</button>
 
-                <div class="pack-price">
-                    3 000 FCFA
-                </div>
+</div>
+</div>
+`;
 
-                <div class="pack-info">
+}).join("")
+);
+</script>
 
-                    Gain quotidien :
-                    <strong>800 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong><br>
-
-                    Total :
-                    <strong>144 000 FCFA</strong>
-
-                </div>
-
-                <button
-                    class="invest-btn"
-                    onclick="invest('Pack Starter',3000,800)">
-
-                    Investir
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="pack">
-
-            <img
-                class="pack-image"
-                src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80"
-                alt="Maison familiale">
-
-            <div class="pack-content">
-
-                <h3>
-                    Pack Familial
-                </h3>
-
-                <div class="pack-price">
-                    10 000 FCFA
-                </div>
-
-                <div class="pack-info">
-
-                    Gain quotidien :
-                    <strong>3 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong><br>
-
-                    Total :
-                    <strong>540 000 FCFA</strong>
-
-                </div>
-
-                <button
-                    class="invest-btn"
-                    onclick="invest('Pack Familial',10000,3000)">
-
-                    Investir
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="pack">
-
-            <img
-                class="pack-image"
-                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80"
-                alt="Maison moderne">
-
-            <div class="pack-content">
-
-                <h3>
-                    Pack Confort
-                </h3>
-
-                <div class="pack-price">
-                    20 000 FCFA
-                </div>
-
-                <div class="pack-info">
-
-                    Gain quotidien :
-                    <strong>6 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong><br>
-
-                    Total :
-                    <strong>1 080 000 FCFA</strong>
-
-                </div>
-
-                <button
-                    class="invest-btn"
-                    onclick="invest('Pack Confort',20000,6000)">
-
-                    Investir
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="pack">
-
-            <img
-                class="pack-image"
-                src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80"
-                alt="Villa moderne">
-
-            <div class="pack-content">
-
-                <h3>
-                    Pack Premium
-                </h3>
-
-                <div class="pack-price">
-                    45 000 FCFA
-                </div>
-
-                <div class="pack-info">
-
-                    Gain quotidien :
-                    <strong>14 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong><br>
-
-                    Total :
-                    <strong>2 520 000 FCFA</strong>
-
-                </div>
-
-                <button
-                    class="invest-btn"
-                    onclick="invest('Pack Premium',45000,14000)">
-
-                    Investir
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="pack">
-
-            <img
-                class="pack-image"
-                src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
-                alt="Grande villa">
-
-            <div class="pack-content">
-
-                <h3>
-                    Pack Prestige
-                </h3>
-
-                <div class="pack-price">
-                    100 000 FCFA
-                </div>
-
-                <div class="pack-info">
-
-                    Gain quotidien :
-                    <strong>30 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong><br>
-
-                    Total :
-                    <strong>5 400 000 FCFA</strong>
-
-                </div>
-
-                <button
-                    class="invest-btn"
-                    onclick="invest('Pack Prestige',100000,30000)">
-
-                    Investir
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="pack">
-
-            <img
-                class="pack-image"
-                src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80"
-                alt="Villa premium">
-
-            <div class="pack-content">
-
-                <h3>
-                    Pack Premium Plus
-                </h3>
-
-                <div class="pack-price">
-                    200 000 FCFA
-                </div>
-
-                <div class="pack-info">
-
-                    Gain quotidien :
-                    <strong>65 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong><br>
-
-                    Total :
-                    <strong>11 700 000 FCFA</strong>
-
-                </div>
-
-                <button
-                    class="invest-btn"
-                    onclick="invest('Pack Premium Plus',200000,65000)">
-
-                    Investir
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="pack">
-
-            <img
-                class="pack-image"
-                src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80"
-                alt="Résidence haut de gamme">
-
-            <div class="pack-content">
-
-                <h3>
-                    Pack Elite
-                </h3>
-
-                <div class="pack-price">
-                    400 000 FCFA
-                </div>
-
-                <div class="pack-info">
-
-                    Gain quotidien :
-                    <strong>140 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong><br>
-
-                    Total :
-                    <strong>25 200 000 FCFA</strong>
-
-                </div>
-
-                <button
-                    class="invest-btn"
-                    onclick="invest('Pack Elite',400000,140000)">
-
-                    Investir
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="pack">
-
-            <img
-                class="pack-image"
-                src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80"
-                alt="Villa de luxe avec piscine">
-
-            <div class="pack-content">
-
-                <h3>
-                    Pack Luxe
-                </h3>
-
-                <div class="pack-price">
-                    800 000 FCFA
-                </div>
-
-                <div class="pack-info">
-
-                    Gain quotidien :
-                    <strong>290 000 FCFA</strong><br>
-
-                    Durée :
-                    <strong>180 jours</strong><br>
-
-                    Total :
-                    <strong>52 200 000 FCFA</strong>
-
-                </div>
-
-                <button
-                    class="invest-btn"
-                    onclick="invest('Pack Luxe',800000,290000)">
-
-                    Investir
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
 
 
-<!-- ================= PACKS ================= -->
+<section id="packs" class="page">
 
-<section
-    id="packs"
-    class="page">
+<div class="title">
 
-    <div class="title">
+<h1>💰 Investir</h1>
 
-        <h1>
-            💰 Investir
-        </h1>
+<p>
+Choisissez l'opportunité qui vous convient.
+</p>
 
-        <p>
-            Choisissez l'opportunité qui vous convient.
-        </p>
+</div>
 
-    </div>
+<div class="packs">
 
-    <div id="packsPage"></div>
+<script>
+document.write(
+packsData.map(function(p){
 
-</section>
+return `
+<div class="pack">
 
+<img
+class="pack-image"
+src="${p[3]}"
+alt="${p[0]}">
 
-<!-- ================= INVESTMENTS ================= -->
+<div class="pack-content">
 
-<section
-    id="investments"
-    class="page">
+<h3>${p[0]}</h3>
 
-    <div class="title">
+<div class="pack-price">
+${p[1].toLocaleString("fr-FR")} FCFA
+</div>
 
-        <h1>
-            📊 Mes investissements
-        </h1>
+<div class="pack-info">
+Gain quotidien :
+<strong>${p[2].toLocaleString("fr-FR")} FCFA</strong><br>
+Durée :
+<strong>180 jours</strong><br>
+Total :
+<strong>${(p[2]*180).toLocaleString("fr-FR")} FCFA</strong>
+</div>
 
-        <p>
-            Retrouvez ici vos investissements actifs.
-        </p>
+<button
+class="invest-btn"
+onclick="invest('${p[0]}',${p[1]},${p[2]})">
+Investir
+</button>
 
-    </div>
+</div>
+</div>
+`;
 
-    <div class="card">
+}).join("")
+);
+</script>
 
-        <div
-            id="investmentTable"
-            class="table-container">
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= TRANSACTIONS ================= -->
-
-<section
-    id="transactions"
-    class="page">
-
-    <div class="title">
-
-        <h1>
-            📋 Historique
-        </h1>
-
-        <p>
-            Vos dépôts et retraits.
-        </p>
-
-    </div>
-
-    <div class="card">
-
-        <div
-            id="transactionTable"
-            class="table-container">
-        </div>
-
-    </div>
+</div>
 
 </section>
 
 
-<!-- ================= PROFILE ================= -->
+<section id="investments" class="page">
 
-<section
-    id="profile"
-    class="page">
+<div class="title">
 
-    <div class="title">
+<h1>📊 Mes investissements</h1>
 
-        <h1>
-            👤 Mon profil
-        </h1>
+<p>
+Retrouvez ici vos investissements actifs.
+</p>
 
-        <p>
-            Informations de votre compte.
-        </p>
+</div>
 
-    </div>
+<div class="card">
 
-    <div class="card">
+<div
+id="investmentTable"
+class="table-container">
+</div>
 
-        <h2>
-            Informations personnelles
-        </h2>
+</div>
 
-        <p style="margin:10px 0;font-size:14px;">
-            <strong>Nom :</strong>
-            <span id="profileName">—</span>
-        </p>
+</section>
 
-        <p style="margin:10px 0;font-size:14px;">
-            <strong>Téléphone :</strong>
-            <span id="profilePhone">—</span>
-        </p>
 
-        <p style="margin:10px 0;font-size:14px;">
-            <strong>Statut :</strong>
-            <span class="badge green">
-                Compte actif
-            </span>
-        </p>
+<section id="transactions" class="page">
 
-        <button
-            class="invest-btn"
-            style="max-width:250px;"
-            onclick="window.location.href='contact.html'">
+<div class="title">
 
-            🎧 Contacter l'assistance
+<h1>📋 Historique</h1>
 
-        </button>
+<p>
+Vos dépôts et retraits.
+</p>
 
-    </div>
+</div>
+
+<div class="card">
+
+<div
+id="transactionTable"
+class="table-container">
+</div>
+
+</div>
+
+</section>
+
+
+<section id="profile" class="page">
+
+<div class="title">
+
+<h1>👤 Mon profil</h1>
+
+<p>
+Informations de votre compte.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+Informations personnelles
+</h2>
+
+<p style="margin:10px 0;font-size:14px;">
+<strong>Nom :</strong>
+<span id="profileName">—</span>
+</p>
+
+<p style="margin:10px 0;font-size:14px;">
+<strong>Téléphone :</strong>
+<span id="profilePhone">—</span>
+</p>
+
+<p style="margin:10px 0;font-size:14px;">
+<strong>Statut :</strong>
+
+<span class="badge green">
+Compte actif
+</span>
+
+</p>
+
+<button
+class="invest-btn"
+style="max-width:250px;"
+onclick="window.location.href='contact.html'">
+
+🎧 Contacter l'assistance
+
+</button>
+
+</div>
 
 </section>
 
@@ -1373,117 +1021,129 @@ td{
 </div>
 
 
-<!-- ================= DEPOSIT MODAL ================= -->
+<!-- ================= DEPOT ================= -->
 
-<div
-    id="depositModal"
-    class="modal">
+<div id="depositModal" class="modal">
 
-    <div class="modal-box">
+<div class="modal-box">
 
-        <h2>
-            📥 Effectuer un dépôt
-        </h2>
+<h2>
+📥 Effectuer un dépôt
+</h2>
 
-        <input
-            type="number"
-            id="depositAmount"
-            placeholder="Montant en FCFA"
-            min="1">
+<input
+type="number"
+id="depositAmount"
+placeholder="Montant en FCFA"
+min="1"
+oninput="calculateDeposit()">
 
-        <select id="depositMethod">
+<select id="depositMethod">
 
-            <option value="">
-                Choisir le moyen de paiement
-            </option>
+<option value="">
+Choisir le moyen de paiement
+</option>
 
-            <option>
-                Mobile Money
-            </option>
+<option>Mobile Money</option>
+<option>Orange Money</option>
+<option>MTN Money</option>
+<option>Wave</option>
 
-            <option>
-                Orange Money
-            </option>
+</select>
 
-            <option>
-                MTN Money
-            </option>
 
-            <option>
-                Wave
-            </option>
+<div class="fee-box">
 
-        </select>
+Montant demandé :
+<strong id="depositGross">0 FCFA</strong>
+<br>
 
-        <div class="modal-actions">
+Frais de dépôt (1 %) :
+<strong id="depositFee">0 FCFA</strong>
+<br>
 
-            <button
-                class="cancel"
-                onclick="closeDeposit()">
-
-                Annuler
-
-            </button>
-
-            <button
-                class="confirm"
-                onclick="confirmDeposit()">
-
-                Confirmer
-
-            </button>
-
-        </div>
-
-    </div>
+Montant net crédité après validation :
+<strong id="depositNet">0 FCFA</strong>
 
 </div>
 
 
-<!-- ================= WITHDRAW MODAL ================= -->
+<div class="modal-actions">
 
-<div
-    id="withdrawModal"
-    class="modal">
+<button
+class="cancel"
+onclick="closeDeposit()">
+Annuler
+</button>
 
-    <div class="modal-box">
+<button
+class="confirm"
+onclick="confirmDeposit()">
+Confirmer
+</button>
 
-        <h2>
-            📤 Demander un retrait
-        </h2>
+</div>
 
-        <input
-            type="number"
-            id="withdrawAmount"
-            placeholder="Montant en FCFA"
-            min="1">
+</div>
 
-        <input
-            type="tel"
-            id="withdrawPhone"
-            placeholder="Numéro de réception">
+</div>
 
-        <div class="modal-actions">
 
-            <button
-                class="cancel"
-                onclick="closeWithdraw()">
+<!-- ================= RETRAIT ================= -->
 
-                Annuler
+<div id="withdrawModal" class="modal">
 
-            </button>
+<div class="modal-box">
 
-            <button
-                class="confirm"
-                onclick="confirmWithdraw()">
+<h2>
+📤 Demander un retrait
+</h2>
 
-                Demander
+<input
+type="number"
+id="withdrawAmount"
+placeholder="Montant à retirer"
+min="1"
+oninput="calculateWithdraw()">
 
-            </button>
+<input
+type="tel"
+id="withdrawPhone"
+placeholder="Numéro de réception">
 
-        </div>
+<div class="fee-box">
 
-    </div>
+Montant du retrait :
+<strong id="withdrawGross">0 FCFA</strong>
+<br>
+
+Frais de retrait (25 %) :
+<strong id="withdrawFee">0 FCFA</strong>
+<br>
+
+Montant reçu :
+<strong id="withdrawNet">0 FCFA</strong>
+
+</div>
+
+
+<div class="modal-actions">
+
+<button
+class="cancel"
+onclick="closeWithdraw()">
+Annuler
+</button>
+
+<button
+class="confirm"
+onclick="confirmWithdraw()">
+Demander
+</button>
+
+</div>
+
+</div>
 
 </div>
 
@@ -1491,92 +1151,108 @@ td{
 <script>
 
 /* =====================================================
-   DONNÉES UTILISATEUR
+   UTILITAIRES
 ===================================================== */
 
 let currentUser = null;
 
+const DEPOSIT_FEE_RATE = 0.01;
+const WITHDRAW_FEE_RATE = 0.25;
 
 function getArray(key){
 
-    try{
+try{
+return JSON.parse(localStorage.getItem(key)) || [];
+}catch(e){
+return [];
+}
 
-        return JSON.parse(
-            localStorage.getItem(key)
-        ) || [];
+}
 
-    }catch(error){
+function saveArray(key,value){
 
-        return [];
+localStorage.setItem(
+key,
+JSON.stringify(value)
+);
 
-    }
+}
+
+function money(value){
+
+return Number(value || 0)
+.toLocaleString("fr-FR")
++ " FCFA";
+
+}
+
+function cleanPhone(phone){
+
+return String(phone || "")
+.replace(/\s+/g,"")
+.replace(/^\+225/,"");
+
+}
+
+function escapeHtml(value){
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
+/* =====================================================
+   UTILISATEUR
+===================================================== */
+
 function loadCurrentUser(){
 
-    try{
+try{
 
-        currentUser =
-            JSON.parse(
-                localStorage.getItem("currentUser")
-            );
+currentUser =
+JSON.parse(
+localStorage.getItem("currentUser")
+);
 
-    }catch(error){
+}catch(e){
 
-        currentUser = null;
+currentUser = null;
 
-    }
+}
 
+if(!currentUser){
 
-    if(!currentUser){
+window.location.href="login.html";
+return;
 
-        window.location.href =
-            "login.html";
+}
 
-        return;
+const name =
+currentUser.name ||
+currentUser.fullName ||
+currentUser.nom ||
+"Utilisateur";
 
-    }
+const phone =
+currentUser.phone ||
+currentUser.telephone ||
+"—";
 
+document.getElementById("userName").textContent=name;
 
-    const name =
-        currentUser.name ||
-        currentUser.fullName ||
-        currentUser.nom ||
-        "Utilisateur";
+document.getElementById("welcomeName").textContent=name;
 
+document.getElementById("profileName").textContent=name;
 
-    const phone =
-        currentUser.phone ||
-        currentUser.telephone ||
-        "—";
+document.getElementById("profilePhone").textContent=phone;
 
-
-    document.getElementById(
-        "userName"
-    ).textContent = name;
-
-
-    document.getElementById(
-        "welcomeName"
-    ).textContent = name;
-
-
-    document.getElementById(
-        "profileName"
-    ).textContent = name;
-
-
-    document.getElementById(
-        "profilePhone"
-    ).textContent = phone;
-
-
-    document.getElementById(
-        "avatar"
-    ).textContent =
-        name.charAt(0).toUpperCase();
+document.getElementById("avatar").textContent=
+name.charAt(0).toUpperCase();
 
 }
 
@@ -1587,48 +1263,33 @@ function loadCurrentUser(){
 
 function showPage(pageId,button){
 
-    document
-    .querySelectorAll(".page")
-    .forEach(function(page){
+document.querySelectorAll(".page")
+.forEach(function(page){
+page.classList.remove("active");
+});
 
-        page.classList.remove("active");
+document.querySelectorAll(".menu")
+.forEach(function(btn){
+btn.classList.remove("active");
+});
 
-    });
+const page=document.getElementById(pageId);
 
+if(page){
+page.classList.add("active");
+}
 
-    document
-    .querySelectorAll(".menu")
-    .forEach(function(btn){
+if(button){
+button.classList.add("active");
+}
 
-        btn.classList.remove("active");
+if(pageId==="investments"){
+displayInvestments();
+}
 
-    });
-
-
-    const page =
-        document.getElementById(pageId);
-
-    if(page){
-
-        page.classList.add("active");
-
-    }
-
-
-    if(button){
-
-        button.classList.add("active");
-
-    }
-
-
-    if(pageId === "investments"){
-        displayInvestments();
-    }
-
-    if(pageId === "transactions"){
-        displayTransactions();
-    }
+if(pageId==="transactions"){
+displayTransactions();
+}
 
 }
 
@@ -1639,211 +1300,148 @@ function showPage(pageId,button){
 
 function getNotifications(){
 
-    return getArray(
-        "userNotifications"
-    );
+return getArray("userNotifications");
 
 }
-
 
 function saveNotifications(list){
 
-    localStorage.setItem(
-        "userNotifications",
-        JSON.stringify(list)
-    );
+saveArray("userNotifications",list);
 
 }
-
 
 function addNotification(title,text){
 
-    const list =
-        getNotifications();
+const list=getNotifications();
 
+list.push({
 
-    list.push({
+id:Date.now(),
 
-        id:Date.now(),
+title:title,
 
-        title:title,
+text:text,
 
-        text:text,
+date:new Date().toLocaleString("fr-FR"),
 
-        date:new Date().toLocaleString(
-            "fr-FR"
-        ),
+read:false
 
-        read:false
+});
 
-    });
+saveNotifications(list);
 
-
-    saveNotifications(list);
-
-    updateNotifications();
+updateNotifications();
 
 }
-
 
 function updateNotifications(){
 
-    const list =
-        getNotifications();
+const list=getNotifications();
 
+const unread=list.filter(function(item){
+return !item.read;
+}).length;
 
-    const unread =
-        list.filter(function(item){
+const count=document.getElementById(
+"notificationCount"
+);
 
-            return !item.read;
+if(unread){
 
-        }).length;
+count.textContent=unread>99?"99+":unread;
+count.style.display="flex";
 
+}else{
 
-    const count =
-        document.getElementById(
-            "notificationCount"
-        );
-
-
-    if(unread > 0){
-
-        count.textContent =
-            unread > 99 ? "99+" : unread;
-
-        count.style.display =
-            "flex";
-
-    }else{
-
-        count.style.display =
-            "none";
-
-    }
-
-
-    const container =
-        document.getElementById(
-            "notificationList"
-        );
-
-
-    if(list.length === 0){
-
-        container.innerHTML = `
-
-            <div class="no-notification">
-
-                🔔<br><br>
-
-                Aucune notification.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    let html = "";
-
-
-    [...list]
-    .reverse()
-    .forEach(function(item){
-
-        html += `
-
-            <div class="notification-item
-                ${item.read ? "" : "unread"}"
-                onclick="readNotification(${item.id})">
-
-                <strong>
-                    ${escapeHtml(item.title)}
-                </strong>
-
-                <div>
-                    ${escapeHtml(item.text)}
-                </div>
-
-                <small>
-                    ${escapeHtml(item.date)}
-                </small>
-
-            </div>
-
-        `;
-
-    });
-
-
-    container.innerHTML =
-        html;
+count.style.display="none";
 
 }
 
+const container=document.getElementById(
+"notificationList"
+);
+
+if(!list.length){
+
+container.innerHTML=`
+<div class="no-notification">
+🔔<br><br>
+Aucune notification.
+</div>
+`;
+
+return;
+
+}
+
+container.innerHTML=[...list]
+.reverse()
+.map(function(item){
+
+return `
+<div
+class="notification-item ${item.read?"":"unread"}"
+onclick="readNotification(${item.id})">
+
+<strong>
+${escapeHtml(item.title)}
+</strong>
+
+<div>
+${escapeHtml(item.text)}
+</div>
+
+<small>
+${escapeHtml(item.date)}
+</small>
+
+</div>
+`;
+
+})
+.join("");
+
+}
 
 function toggleNotifications(){
 
-    const panel =
-        document.getElementById(
-            "notificationPanel"
-        );
-
-
-    panel.classList.toggle(
-        "open"
-    );
+document.getElementById(
+"notificationPanel"
+).classList.toggle("open");
 
 }
-
 
 function readNotification(id){
 
-    const list =
-        getNotifications();
+const list=getNotifications();
 
+const item=list.find(function(x){
+return String(x.id)===String(id);
+});
 
-    const item =
-        list.find(function(notification){
+if(item){
 
-            return String(notification.id)
-                === String(id);
+item.read=true;
 
-        });
+saveNotifications(list);
 
-
-    if(item){
-
-        item.read = true;
-
-        saveNotifications(list);
-
-        updateNotifications();
-
-    }
+updateNotifications();
 
 }
 
+}
 
 function clearNotifications(){
 
-    const list =
-        getNotifications();
+const list=getNotifications();
 
+list.forEach(function(item){
+item.read=true;
+});
 
-    list.forEach(function(item){
+saveNotifications(list);
 
-        item.read = true;
-
-    });
-
-
-    saveNotifications(list);
-
-    updateNotifications();
+updateNotifications();
 
 }
 
@@ -1854,177 +1452,123 @@ function clearNotifications(){
 
 function invest(pack,amount,daily){
 
-    if(!currentUser){
+const balance=Number(
+currentUser.balance ||
+currentUser.solde ||
+0
+);
 
-        return;
+if(balance<amount){
 
-    }
+alert(
+"Votre solde est insuffisant. Veuillez effectuer un dépôt."
+);
 
+openDeposit();
 
-    const balance =
-        Number(
-            currentUser.balance ||
-            currentUser.solde ||
-            0
-        );
+return;
 
+}
 
-    if(balance < amount){
+if(!confirm(
+"Confirmer votre investissement de "
++money(amount)
++" dans "+pack+" ?"
+)){
 
-        alert(
-            "Votre solde est insuffisant. Veuillez effectuer un dépôt."
-        );
+return;
 
-        openDeposit();
+}
 
-        return;
+const users=getArray("users");
 
-    }
+const phone=cleanPhone(
+currentUser.phone ||
+currentUser.telephone
+);
 
+const index=users.findIndex(function(user){
 
-    if(
-        !confirm(
-            "Confirmer votre investissement de "
-            + amount.toLocaleString("fr-FR")
-            + " FCFA dans "
-            + pack
-            + " ?"
-        )
-    ){
+return cleanPhone(
+user.phone ||
+user.telephone
+)===phone;
 
-        return;
+});
 
-    }
+if(index!==-1){
 
+const newBalance=
+Number(
+users[index].balance ||
+users[index].solde ||
+0
+)-amount;
 
-    const users =
-        getArray("users");
+users[index].balance=newBalance;
 
+currentUser.balance=newBalance;
 
-    const phone =
-        String(
-            currentUser.phone ||
-            currentUser.telephone ||
-            ""
-        ).replace(/\s+/g,"");
+saveArray("users",users);
 
+}else{
 
-    const userIndex =
-        users.findIndex(function(user){
+currentUser.balance=balance-amount;
 
-            const savedPhone =
-                String(
-                    user.phone ||
-                    user.telephone ||
-                    ""
-                ).replace(/\s+/g,"");
+}
 
+localStorage.setItem(
+"currentUser",
+JSON.stringify(currentUser)
+);
 
-            return (
-                savedPhone === phone ||
-                savedPhone.replace(
-                    "+225",
-                    ""
-                ) === phone.replace(
-                    "+225",
-                    ""
-                )
-            );
+const investments=getArray("investments");
 
-        });
+investments.push({
 
+id:Date.now(),
 
-    if(userIndex !== -1){
+name:
+currentUser.name ||
+currentUser.fullName ||
+"Utilisateur",
 
-        const oldBalance =
-            Number(
-                users[userIndex].balance ||
-                users[userIndex].solde ||
-                0
-            );
+phone:
+currentUser.phone ||
+currentUser.telephone ||
+"",
 
+pack:pack,
 
-        users[userIndex].balance =
-            oldBalance - amount;
+amount:amount,
 
+daily:daily,
 
-        currentUser.balance =
-            oldBalance - amount;
+duration:180,
 
+total:daily*180,
 
-        localStorage.setItem(
-            "users",
-            JSON.stringify(users)
-        );
+date:new Date().toLocaleString("fr-FR"),
 
-        localStorage.setItem(
-            "currentUser",
-            JSON.stringify(currentUser)
-        );
+status:"Actif"
 
-    }
+});
 
+saveArray("investments",investments);
 
-    const investments =
-        getArray("investments");
+addNotification(
+"Investissement confirmé",
+"Votre investissement "+pack+
+" de "+money(amount)+" a été enregistré."
+);
 
+updateDashboard();
 
-    investments.push({
+displayInvestments();
 
-        id:Date.now(),
-
-        name:
-            currentUser.name ||
-            currentUser.fullName ||
-            currentUser.nom ||
-            "Utilisateur",
-
-        phone:
-            currentUser.phone ||
-            currentUser.telephone ||
-            "",
-
-        pack:pack,
-
-        amount:amount,
-
-        daily:daily,
-
-        duration:180,
-
-        total:daily * 180,
-
-        date:new Date().toLocaleString(
-            "fr-FR"
-        ),
-
-        status:"Actif"
-
-    });
-
-
-    localStorage.setItem(
-        "investments",
-        JSON.stringify(investments)
-    );
-
-
-    addNotification(
-        "Investissement confirmé",
-        "Votre investissement "
-        + pack
-        + " de "
-        + amount.toLocaleString("fr-FR")
-        + " FCFA a été enregistré."
-    );
-
-
-    updateDashboard();
-
-
-    alert(
-        "Investissement enregistré avec succès."
-    );
+alert(
+"Investissement enregistré avec succès."
+);
 
 }
 
@@ -2035,95 +1579,52 @@ function invest(pack,amount,daily){
 
 function updateDashboard(){
 
-    if(!currentUser){
+if(!currentUser)return;
 
-        return;
+const balance=Number(
+currentUser.balance ||
+currentUser.solde ||
+0
+);
 
-    }
+document.getElementById("balance").textContent=
+money(balance);
 
+const investments=getArray("investments");
 
-    const balance =
-        Number(
-            currentUser.balance ||
-            currentUser.solde ||
-            0
-        );
+const phone=cleanPhone(
+currentUser.phone ||
+currentUser.telephone
+);
 
+const mine=investments.filter(function(item){
 
-    document.getElementById(
-        "balance"
-    ).textContent =
-        balance.toLocaleString(
-            "fr-FR"
-        ) + " FCFA";
+return cleanPhone(item.phone)===phone;
 
+});
 
-    const investments =
-        getArray("investments");
+let total=0;
+let daily=0;
 
+mine.forEach(function(item){
 
-    const phone =
-        String(
-            currentUser.phone ||
-            currentUser.telephone ||
-            ""
-        ).replace(/\s+/g,"");
+total+=Number(item.amount||0);
 
+daily+=Number(item.daily||0);
 
-    const myInvestments =
-        investments.filter(function(item){
+});
 
-            const itemPhone =
-                String(
-                    item.phone ||
-                    ""
-                ).replace(/\s+/g,"");
+document.getElementById(
+"totalInvested"
+).textContent=money(total);
 
+document.getElementById(
+"dailyGain"
+).textContent=money(daily);
 
-            return (
-                itemPhone === phone ||
-                itemPhone.replace("+225","")
-                === phone.replace("+225","")
-            );
-
-        });
-
-
-    let totalInvested = 0;
-    let dailyGain = 0;
-
-
-    myInvestments.forEach(function(item){
-
-        totalInvested +=
-            Number(item.amount || 0);
-
-        dailyGain +=
-            Number(item.daily || 0);
-
-    });
-
-
-    document.getElementById(
-        "totalInvested"
-    ).textContent =
-        totalInvested.toLocaleString(
-            "fr-FR"
-        ) + " FCFA";
-
-
-    document.getElementById(
-        "dailyGain"
-    ).textContent =
-        dailyGain.toLocaleString(
-            "fr-FR"
-        ) + " FCFA";
-
-
-    document.getElementById(
-        "activeInvestments"
-    ).textContent =
-        myInvestments.length;
+document.getElementById(
+"activeInvestments"
+).textContent=mine.length;
 
 }
 
@@ -2134,412 +1635,424 @@ function updateDashboard(){
 
 function displayInvestments(){
 
-    const container =
-        document.getElementById(
-            "investmentTable"
-        );
+const container=document.getElementById(
+"investmentTable"
+);
 
+const investments=getArray("investments");
 
-    const investments =
-        getArray("investments");
+const phone=cleanPhone(
+currentUser.phone ||
+currentUser.telephone
+);
 
+const mine=investments.filter(function(item){
 
-    const phone =
-        String(
-            currentUser.phone ||
-            currentUser.telephone ||
-            ""
-        ).replace(/\s+/g,"");
+return cleanPhone(item.phone)===phone;
 
+});
 
-    const mine =
-        investments.filter(function(item){
+if(!mine.length){
 
-            const itemPhone =
-                String(
-                    item.phone ||
-                    ""
-                ).replace(/\s+/g,"");
+container.innerHTML=`
+<div class="empty">
+<div class="empty-icon">📊</div>
+Aucun investissement actif.
+</div>
+`;
 
+return;
 
-            return (
-                itemPhone === phone ||
-                itemPhone.replace("+225","")
-                === phone.replace("+225","")
-            );
+}
 
-        });
+container.innerHTML=`
 
+<table>
 
-    if(mine.length === 0){
+<thead>
 
-        container.innerHTML = `
+<tr>
+<th>Pack</th>
+<th>Montant</th>
+<th>Gain/jour</th>
+<th>Durée</th>
+<th>Total</th>
+<th>Statut</th>
+</tr>
 
-            <div class="empty">
+</thead>
 
-                <div class="empty-icon">
-                    📊
-                </div>
+<tbody>
 
-                Aucun investissement actif.
+${mine.map(function(item){
 
-            </div>
+return `
+<tr>
 
-        `;
+<td>${escapeHtml(item.pack)}</td>
 
-        return;
+<td>${money(item.amount)}</td>
 
-    }
+<td>${money(item.daily)}</td>
 
+<td>${item.duration||180} jours</td>
 
-    let html = `
+<td>${money(item.total)}</td>
 
-        <table>
+<td>
+<span class="badge green">
+${escapeHtml(item.status||"Actif")}
+</span>
+</td>
 
-            <thead>
+</tr>
+`;
 
-                <tr>
-                    <th>Pack</th>
-                    <th>Montant</th>
-                    <th>Gain/jour</th>
-                    <th>Durée</th>
-                    <th>Total</th>
-                    <th>Statut</th>
-                </tr>
+}).join("")}
 
-            </thead>
+</tbody>
 
-            <tbody>
-    `;
-
-
-    mine.forEach(function(item){
-
-        html += `
-
-            <tr>
-
-                <td>
-                    ${escapeHtml(
-                        item.pack || "—"
-                    )}
-                </td>
-
-                <td>
-                    ${Number(
-                        item.amount || 0
-                    ).toLocaleString("fr-FR")}
-                    FCFA
-                </td>
-
-                <td>
-                    ${Number(
-                        item.daily || 0
-                    ).toLocaleString("fr-FR")}
-                    FCFA
-                </td>
-
-                <td>
-                    ${item.duration || 180} jours
-                </td>
-
-                <td>
-                    ${Number(
-                        item.total || 0
-                    ).toLocaleString("fr-FR")}
-                    FCFA
-                </td>
-
-                <td>
-                    <span class="badge green">
-                        Actif
-                    </span>
-                </td>
-
-            </tr>
-
-        `;
-
-    });
-
-
-    html += `
-            </tbody>
-        </table>
-    `;
-
-
-    container.innerHTML =
-        html;
+</table>
+`;
 
 }
 
 
 /* =====================================================
-   DEPOTS
+   DEPOT — FRAIS 1 %
 ===================================================== */
+
+function calculateDeposit(){
+
+const amount=Number(
+document.getElementById("depositAmount").value
+)||0;
+
+const fee=Math.round(
+amount*DEPOSIT_FEE_RATE
+);
+
+const net=amount-fee;
+
+document.getElementById(
+"depositGross"
+).textContent=money(amount);
+
+document.getElementById(
+"depositFee"
+).textContent=money(fee);
+
+document.getElementById(
+"depositNet"
+).textContent=money(
+net>0?net:0
+);
+
+}
 
 function openDeposit(){
 
-    document
-    .getElementById("depositModal")
-    .classList.add("show");
+document.getElementById(
+"depositModal"
+).classList.add("show");
+
+calculateDeposit();
 
 }
-
 
 function closeDeposit(){
 
-    document
-    .getElementById("depositModal")
-    .classList.remove("show");
+document.getElementById(
+"depositModal"
+).classList.remove("show");
+
+}
+
+function confirmDeposit(){
+
+const amount=Number(
+document.getElementById(
+"depositAmount"
+).value
+);
+
+const method=document.getElementById(
+"depositMethod"
+).value;
+
+if(!amount || amount<=0){
+
+alert(
+"Veuillez entrer un montant valide."
+);
+
+return;
+
+}
+
+if(!method){
+
+alert(
+"Veuillez choisir un moyen de paiement."
+);
+
+return;
 
 }
 
 
-function confirmDeposit(){
+/*
+   CALCUL OFFICIEL DU FRAIS DE 1 %
+*/
 
-    const amount =
-        Number(
-            document.getElementById(
-                "depositAmount"
-            ).value
-        );
+const fee=Math.round(
+amount*DEPOSIT_FEE_RATE
+);
 
-
-    const method =
-        document.getElementById(
-            "depositMethod"
-        ).value;
+const net=amount-fee;
 
 
-    if(!amount || amount <= 0){
+const deposits=getArray("deposits");
 
-        alert(
-            "Veuillez entrer un montant valide."
-        );
+deposits.push({
 
-        return;
+id:Date.now(),
 
-    }
+name:
+currentUser.name ||
+currentUser.fullName ||
+currentUser.nom ||
+"Utilisateur",
 
+phone:
+currentUser.phone ||
+currentUser.telephone ||
+"",
 
-    if(!method){
+amount:amount,
 
-        alert(
-            "Veuillez choisir un moyen de paiement."
-        );
+grossAmount:amount,
 
-        return;
+feeRate:1,
 
-    }
+fee:fee,
 
+netAmount:net,
 
-    const deposits =
-        getArray("deposits");
+method:method,
 
+date:new Date().toLocaleString("fr-FR"),
 
-    deposits.push({
+status:"En attente"
 
-        id:Date.now(),
+});
 
-        name:
-            currentUser.name ||
-            currentUser.fullName ||
-            "Utilisateur",
-
-        phone:
-            currentUser.phone ||
-            currentUser.telephone ||
-            "",
-
-        amount:amount,
-
-        method:method,
-
-        date:new Date().toLocaleString(
-            "fr-FR"
-        ),
-
-        status:"En attente"
-
-    });
+saveArray("deposits",deposits);
 
 
-    localStorage.setItem(
-        "deposits",
-        JSON.stringify(deposits)
-    );
+addNotification(
+"Dépôt enregistré",
+"Votre dépôt de "+money(amount)+
+" est en attente de validation. "+
+"Frais : "+money(fee)+
+". Montant net : "+money(net)+"."
+);
 
 
-    addNotification(
-        "Dépôt enregistré",
-        "Votre demande de dépôt de "
-        + amount.toLocaleString("fr-FR")
-        + " FCFA est en attente de validation."
-    );
+document.getElementById(
+"depositAmount"
+).value="";
 
+document.getElementById(
+"depositMethod"
+).value="";
 
-    document.getElementById(
-        "depositAmount"
-    ).value = "";
+calculateDeposit();
 
+closeDeposit();
 
-    document.getElementById(
-        "depositMethod"
-    ).value = "";
+displayTransactions();
 
-
-    closeDeposit();
-
-
-    alert(
-        "Votre demande de dépôt a été enregistrée."
-    );
+alert(
+"Demande enregistrée.\n\n"+
+"Montant : "+money(amount)+"\n"+
+"Frais 1 % : "+money(fee)+"\n"+
+"Montant net : "+money(net)+"\n\n"+
+"Votre dépôt est maintenant en attente de validation."
+);
 
 }
 
 
 /* =====================================================
-   RETRAITS
+   RETRAIT — FRAIS 25 %
 ===================================================== */
+
+function calculateWithdraw(){
+
+const amount=Number(
+document.getElementById("withdrawAmount").value
+)||0;
+
+const fee=Math.round(
+amount*WITHDRAW_FEE_RATE
+);
+
+const net=amount-fee;
+
+document.getElementById(
+"withdrawGross"
+).textContent=money(amount);
+
+document.getElementById(
+"withdrawFee"
+).textContent=money(fee);
+
+document.getElementById(
+"withdrawNet"
+).textContent=money(
+net>0?net:0
+);
+
+}
 
 function openWithdraw(){
 
-    document
-    .getElementById("withdrawModal")
-    .classList.add("show");
+document.getElementById(
+"withdrawModal"
+).classList.add("show");
+
+calculateWithdraw();
 
 }
-
 
 function closeWithdraw(){
 
-    document
-    .getElementById("withdrawModal")
-    .classList.remove("show");
+document.getElementById(
+"withdrawModal"
+).classList.remove("show");
 
 }
 
-
 function confirmWithdraw(){
 
-    const amount =
-        Number(
-            document.getElementById(
-                "withdrawAmount"
-            ).value
-        );
+const amount=Number(
+document.getElementById(
+"withdrawAmount"
+).value
+);
 
+const destination=document.getElementById(
+"withdrawPhone"
+).value.trim();
 
-    const phone =
-        document.getElementById(
-            "withdrawPhone"
-        ).value.trim();
+const balance=Number(
+currentUser.balance ||
+currentUser.solde ||
+0
+);
 
+if(!amount || amount<=0){
 
-    if(!amount || amount <= 0){
+alert(
+"Veuillez entrer un montant valide."
+);
 
-        alert(
-            "Veuillez entrer un montant valide."
-        );
+return;
 
-        return;
+}
 
-    }
+if(amount>balance){
 
+alert(
+"Votre solde disponible est insuffisant."
+);
 
-    const balance =
-        Number(
-            currentUser.balance ||
-            currentUser.solde ||
-            0
-        );
+return;
 
+}
 
-    if(amount > balance){
+if(!destination){
 
-        alert(
-            "Votre solde disponible est insuffisant."
-        );
+alert(
+"Veuillez entrer le numéro de réception."
+);
 
-        return;
+return;
 
-    }
+}
 
+const fee=Math.round(
+amount*WITHDRAW_FEE_RATE
+);
 
-    if(!phone){
+const net=amount-fee;
 
-        alert(
-            "Veuillez entrer le numéro de réception."
-        );
+const withdrawals=getArray(
+"withdrawals"
+);
 
-        return;
+withdrawals.push({
 
-    }
+id:Date.now(),
 
+name:
+currentUser.name ||
+currentUser.fullName ||
+"Utilisateur",
 
-    const withdrawals =
-        getArray("withdrawals");
+phone:
+currentUser.phone ||
+currentUser.telephone ||
+"",
 
+amount:amount,
 
-    withdrawals.push({
+grossAmount:amount,
 
-        id:Date.now(),
+feeRate:25,
 
-        name:
-            currentUser.name ||
-            currentUser.fullName ||
-            "Utilisateur",
+fee:fee,
 
-        phone:
-            currentUser.phone ||
-            currentUser.telephone ||
-            "",
+netAmount:net,
 
-        amount:amount,
+destination:destination,
 
-        destination:phone,
+date:new Date().toLocaleString("fr-FR"),
 
-        date:new Date().toLocaleString(
-            "fr-FR"
-        ),
+status:"En attente"
 
-        status:"En attente"
+});
 
-    });
+saveArray(
+"withdrawals",
+withdrawals
+);
 
+addNotification(
+"Retrait demandé",
+"Retrait de "+money(amount)+
+" enregistré. Frais : "+money(fee)+
+". Montant reçu : "+money(net)+"."
+);
 
-    localStorage.setItem(
-        "withdrawals",
-        JSON.stringify(withdrawals)
-    );
+document.getElementById(
+"withdrawAmount"
+).value="";
 
+document.getElementById(
+"withdrawPhone"
+).value="";
 
-    addNotification(
-        "Retrait demandé",
-        "Votre demande de retrait de "
-        + amount.toLocaleString("fr-FR")
-        + " FCFA a été enregistrée."
-    );
+calculateWithdraw();
 
+closeWithdraw();
 
-    document.getElementById(
-        "withdrawAmount"
-    ).value = "";
+displayTransactions();
 
-
-    document.getElementById(
-        "withdrawPhone"
-    ).value = "";
-
-
-    closeWithdraw();
-
-
-    alert(
-        "Votre demande de retrait a été enregistrée."
-    );
+alert(
+"Demande de retrait enregistrée."
+);
 
 }
 
@@ -2550,229 +2063,181 @@ function confirmWithdraw(){
 
 function displayTransactions(){
 
-    const deposits =
-        getArray("deposits");
+const deposits=getArray("deposits");
 
-    const withdrawals =
-        getArray("withdrawals");
+const withdrawals=getArray("withdrawals");
 
+const phone=cleanPhone(
+currentUser.phone ||
+currentUser.telephone
+);
 
-    const phone =
-        String(
-            currentUser.phone ||
-            currentUser.telephone ||
-            ""
-        ).replace(/\s+/g,"");
+const transactions=[];
 
+deposits.forEach(function(item){
 
-    const transactions = [];
+if(cleanPhone(item.phone)===phone){
 
+transactions.push({
 
-    deposits.forEach(function(item){
+type:"Dépôt",
 
-        const itemPhone =
-            String(
-                item.phone || ""
-            ).replace(/\s+/g,"");
+amount:item.amount,
 
+fee:item.fee||0,
 
-        if(
-            itemPhone.replace("+225","")
-            === phone.replace("+225","")
-        ){
+net:item.netAmount||(
+Number(item.amount||0)-Number(item.fee||0)
+),
 
-            transactions.push({
+details:item.method||"—",
 
-                type:"Dépôt",
+date:item.date,
 
-                amount:item.amount,
+status:item.status||"En attente"
 
-                method:item.method || "—",
+});
 
-                date:item.date,
+}
 
-                status:item.status
+});
 
-            });
+withdrawals.forEach(function(item){
 
-        }
+if(cleanPhone(item.phone)===phone){
 
-    });
+transactions.push({
 
+type:"Retrait",
 
-    withdrawals.forEach(function(item){
+amount:item.amount,
 
-        const itemPhone =
-            String(
-                item.phone || ""
-            ).replace(/\s+/g,"");
+fee:item.fee||0,
 
+net:item.netAmount||(
+Number(item.amount||0)-Number(item.fee||0)
+),
 
-        if(
-            itemPhone.replace("+225","")
-            === phone.replace("+225","")
-        ){
+details:item.destination||"—",
 
-            transactions.push({
+date:item.date,
 
-                type:"Retrait",
+status:item.status||"En attente"
 
-                amount:item.amount,
+});
 
-                method:item.destination || "—",
+}
 
-                date:item.date,
+});
 
-                status:item.status
+const container=document.getElementById(
+"transactionTable"
+);
 
-            });
+if(!transactions.length){
 
-        }
+container.innerHTML=`
+<div class="empty">
+<div class="empty-icon">📋</div>
+Aucun historique disponible.
+</div>
+`;
 
-    });
+return;
 
+}
 
-    const container =
-        document.getElementById(
-            "transactionTable"
-        );
+container.innerHTML=`
 
+<table>
 
-    if(transactions.length === 0){
+<thead>
 
-        container.innerHTML = `
+<tr>
+<th>Type</th>
+<th>Montant</th>
+<th>Frais</th>
+<th>Net</th>
+<th>Détails</th>
+<th>Date</th>
+<th>Statut</th>
+</tr>
 
-            <div class="empty">
+</thead>
 
-                <div class="empty-icon">
-                    📋
-                </div>
+<tbody>
 
-                Aucun historique disponible.
+${transactions
+.slice()
+.reverse()
+.map(function(item){
 
-            </div>
+return `
 
-        `;
+<tr>
 
-        return;
+<td>
+${item.type==="Dépôt"?"📥 Dépôt":"📤 Retrait"}
+</td>
 
-    }
+<td>
+${money(item.amount)}
+</td>
 
+<td>
+${money(item.fee)}
+</td>
 
-    let html = `
+<td>
+<strong>${money(item.net)}</strong>
+</td>
 
-        <table>
+<td>
+${escapeHtml(item.details)}
+</td>
 
-            <thead>
+<td>
+${escapeHtml(item.date)}
+</td>
 
-                <tr>
-                    <th>Type</th>
-                    <th>Montant</th>
-                    <th>Détails</th>
-                    <th>Date</th>
-                    <th>Statut</th>
-                </tr>
+<td>
 
-            </thead>
+<span class="badge orange">
+${escapeHtml(item.status)}
+</span>
 
-            <tbody>
-    `;
+</td>
 
+</tr>
 
-    transactions
-    .slice()
-    .reverse()
-    .forEach(function(item){
+`;
 
-        html += `
+}).join("")}
 
-            <tr>
+</tbody>
 
-                <td>
-                    ${item.type === "Dépôt"
-                        ? "📥 Dépôt"
-                        : "📤 Retrait"}
-                </td>
+</table>
 
-                <td>
-                    ${Number(
-                        item.amount || 0
-                    ).toLocaleString("fr-FR")}
-                    FCFA
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        item.method || "—"
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        item.date || "—"
-                    )}
-                </td>
-
-                <td>
-                    <span class="badge orange">
-                        ${escapeHtml(
-                            item.status ||
-                            "En attente"
-                        )}
-                    </span>
-                </td>
-
-            </tr>
-
-        `;
-
-    });
-
-
-    html += `
-            </tbody>
-        </table>
-    `;
-
-
-    container.innerHTML =
-        html;
+`;
 
 }
 
 
 /* =====================================================
-   DÉCONNEXION
+   DECONNEXION
 ===================================================== */
 
 function logout(){
 
-    localStorage.removeItem(
-        "currentUser"
-    );
+localStorage.removeItem(
+"currentUser"
+);
 
-    localStorage.removeItem(
-        "loggedIn"
-    );
+localStorage.removeItem(
+"loggedIn"
+);
 
-    window.location.href =
-        "login.html";
-
-}
-
-
-/* =====================================================
-   PROTECTION HTML
-===================================================== */
-
-function escapeHtml(value){
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+window.location.href="login.html";
 
 }
 
@@ -2791,14 +2256,13 @@ displayTransactions();
 
 updateNotifications();
 
-
-/* Actualisation périodique */
-
 setInterval(function(){
 
-    updateDashboard();
+updateDashboard();
 
-    updateNotifications();
+updateNotifications();
+
+displayTransactions();
 
 },5000);
 
